@@ -1,0 +1,41 @@
+header {
+    background-color: var(--header-footer) !important;
+    width: 100% !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    overflow: visible !important;
+}
+.header {
+    max-width: 1263px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-inline: auto !important;
+    padding: 14.5px 60px 14.5px 80px !important;
+}
+.header > .titleside {
+    display: flex !important;
+    align-items: center !important;
+    pointer-events: none !important;
+}
+.header > .titleside > img {
+    width: 150px !important;
+    height: 30px !important;
+}
+.header > nav {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 13px !important;
+}
+.header > nav > a {
+    padding: 13px !important;
+    color: var(--color-secondary) !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    text-decoration: none;
+    text-transform: capitalize !important;
+    line-height: normal !important;
+    cursor: pointer !important;
+}

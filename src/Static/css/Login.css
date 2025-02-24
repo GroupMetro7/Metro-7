@@ -1,0 +1,102 @@
+body.loginpage {
+    background-image: url("../assets/bg 2.png") !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-position: center center !important;
+}
+/* .PCMOD-body {
+  padding: 13px 0 0;
+} */
+main {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: auto !important;
+}
+.loginpage > .PCMOD-body {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.loginpage .loginsection {
+    width: 100% !important;
+    height: 469px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.loginpage .loginsection > .form {
+    background-color: var(--container-red) !important;
+    width: 360px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 53px !important;
+    padding: 23px 53px 53px !important;
+    border-radius: 10px !important;
+}
+.loginpage .loginsection > .form > span {
+    display: flex !important;
+    color: var(--input-white) !important;
+    font-size: 33px !important;
+    font-weight: 700 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: capitalize !important;
+}
+.loginpage .loginsection > .form > form {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 43px !important;
+}
+.loginpage .loginsection > .form > form > .inputside {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-self: stretch !important;
+    gap: 13px !important;
+}
+.loginpage .loginsection > .form > form > .inputside > .inputs {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+.loginpage .loginsection > .form > form > .inputside > .inputs > span {
+    width: 100% !important;
+    color: var(--color-white) !important;
+    font-size: 15px !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+    line-height: normal !important;
+}
+.loginpage .loginsection > .form > form > .inputside > .inputs > input {
+    background-color: var(--input-white) !important;
+    width: 100% !important;
+    height: 37px !important;
+    display: flex !important;
+    font-size: 13px !important;
+    padding-inline: 7.5px !important;
+}
+.loginpage .loginsection > .form > form > button {
+    background-color: var(--color-white) !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 7.5px 0 !important;
+    color: var(--color-primary) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: capitalize !important;
+    cursor: pointer !important;
+}

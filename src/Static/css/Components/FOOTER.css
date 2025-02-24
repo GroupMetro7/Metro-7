@@ -1,0 +1,135 @@
+footer {
+    background-color: var(--header-footer) !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 63px !important;
+    padding: 43px 0 !important;
+}
+footer > .logoside {
+    pointer-events: none !important;
+}
+footer > .logoside > img {
+    width: 160px !important;
+    height: 163px !important;
+}
+footer > .contactside {
+    width: 200px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 18px !important;
+    pointer-events: none !important;
+}
+footer > .contactside > .upper {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 13px !important;
+}
+footer > .contactside > .upper > .logos {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 23px !important;
+}
+footer > .contactside > .upper > .logos > img {
+    width: 33px !important;
+    height: 33px !important;
+}
+footer > .contactside > .upper > .contact {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 3px !important;
+}
+footer > .contactside > .upper > .contact > div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+}
+footer > .contactside > .upper > .contact > div > img {
+    width: 15px !important;
+    height: 15px !important;
+}
+footer > .contactside > .upper > .contact > div > span {
+    width: 100% !important;
+    color: var(--input-white) !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+}
+footer > .contactside > button {
+    background: none !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 7.5px 0 !important;
+    border-color: var(--color-secondary) !important;
+    border-style: solid !important;
+    border-width: 3px !important;
+    color: var(--color-secondary) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+footer > .navside {
+    width: 111px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+footer > .navside > a,
+footer > .privacytermsside > a {
+    color: var(--color-white) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-transform: capitalize !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+footer > .privacytermsside {
+    width: 186px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+}
+footer > .privacytermsside > .receivenewsemail {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+footer > .privacytermsside > .receivenewsemail > .email {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 2px !important;
+}
+footer > .privacytermsside > .receivenewsemail > .email > span {
+    color: var(--color-white) !important;
+    font-size: 15px !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+    line-height: normal !important;
+}
+footer > .privacytermsside > .receivenewsemail > .email > input {
+    background-color: var(--input-white) !important;
+    width: 100% !important;
+    height: 37px !important;
+    font-size: 13px !important;
+    padding-inline: 7.5px !important;
+}
+footer > .privacytermsside > .receivenewsemail > span {
+    width: 100% !important;
+    color: var(--input-white) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: normal !important;
+}

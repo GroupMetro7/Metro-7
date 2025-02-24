@@ -1,0 +1,61 @@
+main {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: auto !important;
+}
+.locationpage > .PCMOD-body {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.locationpage .locationsection {
+    width: 100% !important;
+    height: 469px !important;
+    gap: 23px;
+    display: flex;
+    padding: 23px 53px 53px;
+    align-items: center;
+    flex-direction: column;
+}
+.locationpage .locationsection > span {
+    display: flex !important;
+    font-size: 33px !important;
+    font-weight: 700 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: capitalize !important;
+}
+.locationpage .locationsection > .container {
+    background-color: var(--color-white) !important;
+    width: 1000px;
+    height: 312px;
+    display: flex;
+    padding: 23px;
+    align-items: center;
+    border-radius: 10px;
+    gap: 43px;
+}
+.locationpage .locationsection > .container > .text {
+    gap: 23px;
+    width: 511px;
+    display: flex;
+    flex-direction: column;
+}
+.locationpage .locationsection > .container > .text > span {
+    width: 100% !important;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration: none;
+}
+.locationpage .locationsection > .container > img {
+    width: 400px;
+    height: 266px;
+    /* Temporary */ border: white solid 5px; 
+    border-radius: 10px;
+}
