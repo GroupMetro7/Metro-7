@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import '../Static/css/Login.css'
 import Header from '../Components/header'
 import Footer from '../Components/footer'
@@ -9,7 +10,7 @@ function LoginPage() {
         return () => {
             document.body.classList.remove("loginpage");
         };
-        }, []);
+    }, []);
 
     return(
         <>
@@ -32,7 +33,10 @@ function LoginPage() {
                                 <input type="password"/>
                             </div>
                         </div>
-                        <button>LOGIN</button>
+                        <div class="buttonside">
+                            <button>LOGIN</button>
+                            <Link to='/register'>CREATE ACCOUNT</Link>
+                        </div>
                     </form>
                 </div>
             </div>

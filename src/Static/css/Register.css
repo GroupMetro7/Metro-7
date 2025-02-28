@@ -1,4 +1,4 @@
-body.loginpage {
+body.registerpage {
     background-image: url("../assets/bg 2.png") !important;
     background-size: cover !important;
     background-attachment: fixed !important;
@@ -14,7 +14,7 @@ main {
     flex-direction: column !important;
     overflow: auto !important;
 }
-.loginpage > .PCMOD-body {
+.registerpage > .PCMOD-body {
     width: 100% !important;
     height: 100% !important;
     display: flex !important;
@@ -22,17 +22,18 @@ main {
     justify-content: center !important;
     align-items: center !important;
 }
-.loginpage .loginsection {
+.registerpage .registersection {
     width: 100% !important;
-    height: 469px !important;
+    min-height: 469px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
     padding: 23px 53px !important;
 }
-.loginpage .loginsection > .form {
+.registerpage .registersection > .form {
     background-color: var(--container-red) !important;
+    /* width: 360px !important; */
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -40,7 +41,7 @@ main {
     padding: 23px 53px 53px !important;
     border-radius: 10px !important;
 }
-.loginpage .loginsection > .form > span {
+.registerpage .registersection > .form > span {
     display: flex !important;
     color: var(--input-white) !important;
     font-size: 33px !important;
@@ -49,7 +50,7 @@ main {
     text-decoration: none !important;
     text-transform: capitalize !important;
 }
-.loginpage .loginsection > .form > form {
+.registerpage .registersection > .form > form {
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
@@ -57,22 +58,32 @@ main {
     align-items: center !important;
     gap: 43px !important;
 }
-.loginpage .loginsection > .form > form > .inputside,
-.loginpage .loginsection > .form > form > .buttonside {
+.registerpage .registersection > .form > form > .inputside {
     width: 100% !important;
     display: flex !important;
-    flex-direction: column !important;   
+    flex-direction: column !important;  
 }
-.loginpage .loginsection > .form > form > .inputside {
+.registerpage .registersection > .form > form > .inputside {
+    gap: 23px !important;
+}
+.registerpage .registersection > .form > form > .inputside > .inputboxside {
+    width: 100% !important;
     gap: 13px !important;
+    display: flex;
+    flex-direction: column;
 }
-.loginpage .loginsection > .form > form > .inputside > .inputs {
+.registerpage .registersection > .form > form > .inputside > .inputboxside > .twoinputbox {
+    width: 100% !important;
+    display: flex !important;
+    gap: 23px;
+}
+.registerpage .registersection > .form > form > .inputside > .inputboxside > .twoinputbox > .inputs {
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 2px !important;
 }
-.loginpage .loginsection > .form > form > .inputside > .inputs > span {
+.registerpage .registersection > .form > form > .inputside > .inputboxside > .twoinputbox > .inputs > span {
     width: 100% !important;
     color: var(--color-white) !important;
     font-size: 15px !important;
@@ -81,7 +92,7 @@ main {
     line-height: normal !important;
     text-transform: capitalize !important;
 }
-.loginpage .loginsection > .form > form > .inputside > .inputs > input {
+.registerpage .registersection > .form > form > .inputside > .inputboxside > .twoinputbox > .inputs > input {
     background-color: var(--input-white) !important;
     width: 254px !important;
     height: 37px !important;
@@ -89,10 +100,7 @@ main {
     font-size: 13px !important;
     padding-inline: 7.5px !important;
 }
-.loginpage .loginsection > .form > form > .buttonside {
-    gap: 23px !important;
-}
-.loginpage .loginsection > .form > form > .buttonside > button {
+.registerpage .registersection > .form > form > button {
     background-color: var(--color-white) !important;
     width: 254px !important;
     display: flex !important;
@@ -106,12 +114,35 @@ main {
     text-transform: capitalize !important;
     cursor: pointer !important;
 }
-.loginpage .loginsection > .form > form > .buttonside > a {
-    color: var(--color-white) !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    text-decoration: none;
-    text-transform: capitalize !important;
-    line-height: normal !important;
-    cursor: pointer !important;
+   
+
+/* .bodytermsandcondition {
+    gap: 13px;
+    display: flex;
 }
+   
+.bodyinput9 {
+    appearance: none !important;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    position: relative;
+    align-self: stretch;
+    align-items: flex-start;
+    border-radius: 5px;
+    background-color: rgba(217, 217, 217, 1);
+}
+.body-text8 {
+    color: rgba(217, 217, 217, 1);
+    height: auto;
+    flex-grow: 1;
+    font-size: 15px;
+    font-style: italic;
+    text-align: left;
+    font-family: Poppins;
+    font-weight: 400;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+} */
+   

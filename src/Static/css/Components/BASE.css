@@ -17,9 +17,10 @@ body {
   -webkit-user-select: none !important;
   font-family: Poppins !important;
   /* font-family: Arial, Helvetica, sans-serif !important; */
-  /* overflow: hidden; */
+  overflow: overlay !important;
 }
 input, 
+textarea,
 button,
 select {
   border-radius: 5px !important;
