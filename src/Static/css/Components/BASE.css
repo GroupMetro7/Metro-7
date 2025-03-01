@@ -27,6 +27,10 @@ select {
   border: none !important;
   outline: none !important;
 }
+hr {
+  flex-grow: 1 !important;
+  border: .8px solid #000000 !important;
+}
 ::-webkit-scrollbar {
   width: unset;
 }

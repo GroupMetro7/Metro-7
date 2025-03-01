@@ -15,24 +15,21 @@ function Footer() {
                 <img src={M7LOGO}/>
             </div>
             <div className="contactside">
-                <div className="upper">
-                    <div className="logos">
-                        <img src={FBLOGO}/>
-                        <img src={XLOGO}/>
-                        <img src={IGLOGO}/>
+                <div className="logos">
+                    <img src={FBLOGO}/>
+                    <img src={XLOGO}/>
+                    <img src={IGLOGO}/>
+                </div>
+                <div className="contact">
+                    <div>
+                        <img src={PHONELOGO}/>
+                        <span>+63 9952332528</span>
                     </div>
-                    <div className="contact">
-                        <div>
-                            <img src={PHONELOGO}/>
-                            <span>+63 9952332528</span>
-                        </div>
-                        <div className="landingpageadd">
-                            <img src={LOCLOGO}/>
-                            <span>Metrowalk, Pasig City</span>
-                        </div>
+                    <div className="landingpageadd">
+                        <img src={LOCLOGO}/>
+                        <span>Metrowalk, Pasig City</span>
                     </div>
                 </div>
-                <button>Pre-order now</button>
             </div>
             <div className="navside">
                 <a href=''>HOME</a>

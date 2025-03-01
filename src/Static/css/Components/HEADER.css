@@ -38,4 +38,9 @@ header {
     text-transform: capitalize !important;
     line-height: normal !important;
     cursor: pointer !important;
+    transition: .33s !important;
+}
+.header > nav > a:hover {
+    background-color: var(--color-secondary) !important;
+    color: var(--color-primary) !important;
 }

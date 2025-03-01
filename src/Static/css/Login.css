@@ -24,7 +24,7 @@ main {
 }
 .loginpage .loginsection {
     width: 100% !important;
-    height: 469px !important;
+    min-height: 469px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -70,7 +70,7 @@ main {
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 3px !important;
 }
 .loginpage .loginsection > .form > form > .inputside > .inputs > span {
     width: 100% !important;
@@ -85,8 +85,7 @@ main {
     background-color: var(--input-white) !important;
     width: 254px !important;
     height: 37px !important;
-    display: flex !important;
-    font-size: 13px !important;
+    font-size: 15px !important;
     padding-inline: 7.5px !important;
 }
 .loginpage .loginsection > .form > form > .buttonside {
@@ -97,14 +96,19 @@ main {
     width: 254px !important;
     display: flex !important;
     justify-content: center !important;
-    padding: 7.5px 0 !important;
+    padding: 5px 0 !important;
     color: var(--color-primary) !important;
-    font-size: 15px !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     line-height: normal !important;
     text-decoration: none !important;
     text-transform: capitalize !important;
     cursor: pointer !important;
+    transition: .33s !important;
+}
+.loginpage .loginsection > .form > form > .buttonside > button:hover { 
+    background-color: var(--color-secondary) !important;
+    color: var(--color-primary) !important;
 }
 .loginpage .loginsection > .form > form > .buttonside > a {
     color: var(--color-white) !important;
@@ -114,4 +118,7 @@ main {
     text-transform: capitalize !important;
     line-height: normal !important;
     cursor: pointer !important;
+}
+.loginpage .loginsection > .form > form > .buttonside > a:hover { 
+    text-decoration: underline !important;
 }

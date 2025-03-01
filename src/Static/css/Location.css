@@ -15,7 +15,7 @@ main {
 }
 .locationpage .locationsection {
     width: 100% !important;
-    height: 469px !important;
+    min-height: 469px !important;
     gap: 23px;
     display: flex;
     padding: 23px 53px 53px;
@@ -28,7 +28,7 @@ main {
     font-weight: 700 !important;
     line-height: normal !important;
     text-decoration: none !important;
-    text-transform: capitalize !important;
+    text-transform: uppercase !important;
 }
 .locationpage .locationsection > .container {
     background-color: var(--color-white) !important;

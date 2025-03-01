@@ -1,0 +1,174 @@
+main {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: auto !important;
+}
+.profilepage .PCMOD-body {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.profilepage .profilesection {
+    width: 100% !important;
+    min-height: 469px !important;
+    gap: 23px;
+    display: flex;
+    padding: 23px 53px 53px;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column;
+}
+.profilepage .profilesection > span {
+    display: flex !important;
+    font-size: 33px !important;
+    font-weight: 700 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+}
+.profilepage .profilesection > .container {
+    gap: 23px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.profilepage .profilesection > .container > div {
+    background-color: var(--color-white) !important;
+    width: 1000px !important;
+    display: flex;
+    padding: 23px !important;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+.profilepage .profilesection > .container > .myprofile {
+    display: flex;
+    gap: 33px;
+}
+.profilepage .profilesection > .container > .myprofile > .bodyresform2 {
+    background-color: white;
+    width: 125px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+}
+.profilepage .profilesection > .container > .myprofile > .details {
+    gap: 3px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+}
+.profilepage .profilesection > .container > .myprofile > .details > span {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration: none;
+}
+.profilepage .profilesection > .container > .myprofile > .details > span.name {
+    font-size: 23px;
+    font-weight: 600;
+    text-transform: capitalize !important;
+}
+.profilepage .profilesection > .container > .myprofile > .details > span.loyalty {
+    text-transform: capitalize !important;
+}
+.profilepage .profilesection > .container > .myprofile > .buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.profilepage .profilesection > .container > .myprofile > .buttons > button {
+    background-color: var(--color-secondary) !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 10px 23px !important;
+    color: var(--color-primary) !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+}
+.profilepage .profilesection > .container > .orderhistory {
+    gap: 23px;
+    flex-direction: column;
+}
+.profilepage .profilesection > .container > .orderhistory > span {
+    justify-content: center;
+    display: flex !important;
+    font-size: 23px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb {
+    flex-grow: 1;
+    gap: 13px;
+    display: flex;
+    flex-direction: column;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .head,
+.profilepage .profilesection > .container > .orderhistory > .tb > .tbrow > .tbrow-2 {
+    flex-grow: 1;
+    gap: 13px;
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .head {
+    padding: 0 13px;
+    max-height: 27px;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .head > .col,
+.profilepage .profilesection > .container > .orderhistory > .tb > .tbrow > .tbrow-2 > .col {
+    min-width: 132.57px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration: none;
+    text-align: center !important;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > div > .col > span {
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .head > .col {
+    font-weight: 600;
+    text-transform: uppercase !important;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .tbrow {
+    display: flex;
+    flex-direction: column;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .tbrow > .tbrow-2 {
+    padding: 0 13px;
+    max-height: 54px;
+}
+.profilepage .profilesection > .container > .orderhistory > .tb > .tbrow > .tbrow-2 > .col.status {
+    display: flex;
+    padding: 5px 0;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.col.status.pending {
+    background-color: #b43434;
+    color: var(--color-white) !important;
+}
+.col.status.paid {
+    background-color: #5fb91a;
+    color: var(--color-white) !important;
+}

@@ -41,7 +41,7 @@ main {
     font-weight: 500 !important;
     line-height: normal !important;
 }
-.landingpage .preordersection button {
+.landingpage .preordersection > button {
     background: none !important;
     width: 247px !important;
     display: flex !important;
@@ -54,6 +54,12 @@ main {
     font-weight: 600 !important;
     line-height: normal !important;
     text-decoration: none !important;
+    text-transform: uppercase !important;
+    transition: .33s !important;
+}
+.landingpage .preordersection > button:hover {
+    background-color: var(--color-secondary) !important;
+    color: var(--color-primary) !important;
 }
 .landingpage .aboutsection {
     width: 100% !important;
