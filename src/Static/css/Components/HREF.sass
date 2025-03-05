@@ -1,0 +1,16 @@
+@import 'VARIABLES.sass'
+
+footer nav:has(> a),
+section:has(> a),
+aside:has(> a) 
+
+    > a
+        color: $color-white !important
+        font-size: 15px !important
+        font-weight: 700 !important
+        text-transform: capitalize !important
+        line-height: normal !important
+        text-decoration: none !important
+
+        &:hover  
+            text-decoration: underline !important

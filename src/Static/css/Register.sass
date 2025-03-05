@@ -1,0 +1,106 @@
+@import './Components/VARIABLES.sass'
+
+body.registerpage
+    background-image: url("../assets/bg 2.png") !important
+    background-size: cover !important
+    background-attachment: fixed !important
+    background-position: center !important
+
+    main.PCMOD-body 
+        width: 100% !important
+        display: flex !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+
+        .registersection 
+            width: 100% !important
+            min-height: 469px !important
+            padding: 23px 53px !important
+            align-items: center !important
+            flex-direction: column !important
+
+            article 
+                background-color: $container-red !important
+                width: 637px !important
+                display: flex !important
+                flex-direction: column !important
+                align-items: center !important
+                gap: 33px !important
+                padding: 23px 53px 53px !important
+                border-radius: 10px !important
+
+                > h1
+                    color: $input-white !important
+
+                > form
+                    width: 100% !important
+                    flex-direction: column !important
+                    justify-content: center !important
+                    align-items: center !important
+                    gap: 43px !important
+
+                    > .inputside
+                        width: 100% !important
+                        flex-direction: column !important
+                        gap: 23px !important
+
+                        .inputboxside 
+                            width: 100% !important
+                            gap: 13px !important
+                            flex-direction: column
+
+                            .twoinputbox 
+                                width: 100% !important
+                                gap: 23px
+
+                    > input[type="submit"] 
+                        background-color: $color-white !important
+                        width: 254px !important
+                        display: flex !important
+                        justify-content: center !important
+                        padding: 5px 0 !important
+                        color: $color-primary !important
+                        font-size: 18px !important
+                        font-weight: 600 !important
+                        line-height: normal !important
+                        text-decoration: none !important
+                        text-transform: capitalize !important
+                        cursor: pointer !important
+                        transition: .33s !important
+
+                        &:hover
+                            background-color: $color-secondary !important
+                            color: $color-primary !important
+
+/* .bodytermsandcondition {
+    gap: 13px;
+    width: 531px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .bodyinput9 {
+    width: 23px;
+    height: 23px;
+    display: flex;
+    position: relative;
+    align-self: stretch;
+    align-items: flex-start;
+    border-radius: 5px;
+    background-color: rgba(217, 217, 217, 1);
+  }
+  .body-text8 {
+    color: rgba(217, 217, 217, 1);
+    height: auto;
+    flex-grow: 1;
+    font-size: 15px;
+    font-style: italic;
+    text-align: left;
+    font-family: Poppins;
+    font-weight: 400;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  } */

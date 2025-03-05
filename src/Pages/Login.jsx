@@ -1,49 +1,32 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import '../Static/css/Login.css'
-import Header from '../Components/header'
-import Footer from '../Components/footer'
+import React from 'react'
+import '../Static/css/Login.sass'
+import { Header, Footer, Body_useClass, Title, Inputbox, SubmitButton, Href } from '../Components/$exporter_components'
 
-function LoginPage() {
-    useEffect(() => {
-        document.body.classList.add("loginpage");
-        return () => {
-            document.body.classList.remove("loginpage");
-        };
-    }, []);
+export default function LoginPage() {
+    Title("Metro 7 | Login");
+    Body_useClass("loginpage");
 
     return(
         <>
-        <title>Metro 7</title>
-        <header>
-            <Header/>
-        </header>
+        <Header/>
         <main class="PCMOD-body">
-            <div class="loginsection">
-                <div class="form">
-                    <span>LOGIN</span>
+            <section class="loginsection">
+                <article>
+                    <h1>LOGIN</h1>
                     <form>
-                        <div class="inputside">
-                            <div class="inputs">
-                                <span>Email Address:</span>
-                                <input type="text"/>
-                            </div>
-                            <div class="inputs">
-                                <span>Password:</span>
-                                <input type="password"/>
-                            </div>
-                        </div>
-                        <div class="buttonside">
-                            <button>LOGIN</button>
-                            <Link to='/register'>CREATE ACCOUNT</Link>
-                        </div>
+                        <section class="inputside">
+                            <Inputbox label="Email" type="email" colIn/>
+                            <Inputbox label="Password" type="password" colIn/>
+                        </section>
+                        <section class="buttonside">
+                            <SubmitButton label="LOGIN"/>
+                            <Href label="CREATE ACCOUNT" navigatation="/register"/>
+                        </section>
                     </form>
-                </div>
-            </div>
+                </article>
+            </section>
             <Footer/>
         </main>
         </>
     )
 }
-
-export default LoginPage

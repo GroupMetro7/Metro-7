@@ -1,24 +1,24 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import '../Static/css/Components/HEADER.css'
-import M7LOGO from '../Static/assets/img/TEXT LOGO.png'
+import '../Static/css/Components/HEADER.sass'
+import { Href } from './$exporter_components'
+import { TEXTLOGO } from '../Static/assets/$exporter_assets'
 
-function Header() {
+export default function Header() {
     return(
         <>
-        <div class="header">
-                <div class="titleside">
-                    <img src={M7LOGO} />
-                </div>
-                <nav>
-                    <Link to='/'>HOME</Link>
-                    <Link to='/location'>LOCATION</Link>
-                    <a href=''>MENU</a>
-                    <Link to='/login'>LOGIN</Link>
-                </nav>
-        </div>
+        <header>
+            <section>
+                    <aside class="titleside">
+                        <img src={ TEXTLOGO } />
+                    </aside>
+                    <nav>
+                        <Href label="HOME" navigatation="/"/>
+                        <Href label="LOCATION" navigatation="/location"/>
+                        <Href label="MENU"/>
+                        <Href label="LOGIN" navigatation="/login"/>
+                    </nav>
+            </section>
+        </header>
         </>
     )
 }
-
-export default Header;

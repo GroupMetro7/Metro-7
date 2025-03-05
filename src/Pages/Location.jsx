@@ -1,41 +1,31 @@
-import React, { useEffect } from 'react'
-import '../Static/css/Location.css'
-import Header from '../Components/header'
-import Footer from '../Components/footer'
+import React from 'react'
+import '../Static/css/Location.sass'
+import { Header, Footer, Body_useClass, Title } from '../Components/$exporter_components'
 
-function LocationPage() {
-    useEffect(() => {
-        document.body.classList.add("locationpage");
-        return () => {
-            document.body.classList.remove("locationpage");
-        };
-        }, []);
+export default function LocationPage() {
+    Title("Metro 7 | Location");
+    Body_useClass("locationpage");
 
     return(
         <>
-        <title>Metro 7</title>
-        <header>
-            <Header/>
-        </header>
+        <Header/>
         <main class="PCMOD-body">
-            <div class="locationsection">
-                <span>OUR LOCATION</span>
-                <div class="container">
-                    <div class="text">
-                        <span>
+            <section class="locationsection">
+                <h1>OUR LOCATION</h1>
+                <section>
+                    <article>
+                        <h2>
                             Metrowalk Commercial Complex Meralco Ave., Pasig, Metro
                             Manila
-                        </span>
-                        <span>+63 9952332528</span>
-                        <span>Businessemail@email.com</span>
-                    </div>
+                        </h2>
+                        <h2>+63 9952332528</h2>
+                        <h2>Businessemail@email.com</h2>
+                    </article>
                     <img src="" alt="image73463"/>
-                </div>
-            </div>
+                </section>
+            </section>
             <Footer/>
         </main>
         </>
     )
 }
-
-export default LocationPage

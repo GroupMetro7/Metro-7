@@ -1,58 +1,32 @@
-import React, { useEffect } from 'react'
-import '../Static/css/Register.css'
-import Header from '../Components/header'
-import Footer from '../Components/footer'
+import React from 'react'
+import '../Static/css/Register.sass'
+import { Header, Footer, Body_useClass, Title, Inputbox, SubmitButton } from '../Components/$exporter_components'
 
-function RegisterPage() {
-    useEffect(() => {
-        document.body.classList.add("registerpage");
-        return () => {
-            document.body.classList.remove("registerpage");
-        };
-    }, []);
+export default function RegisterPage() {
+    Title("Metro 7 | Register");
+    Body_useClass("registerpage");
 
     return (
         <>
-        <title>Metro 7</title>
-        <header>
-            <Header/>
-        </header>
+        <Header/>
         <main class="PCMOD-body">
-            <div class="registersection">
-                <div class="form">
-                    <span>REGISTER</span>
+            <section class="registersection">
+                <article>
+                    <h1>REGISTER</h1>
                     <form>
-                        <div class="inputside">
+                        <section class="inputside">
                             <div class="inputboxside">
                                 <div class="twoinputbox">
-                                    <div class="inputs">
-                                        <span>First Name:</span>
-                                        <input type="text"/>
-                                    </div>
-                                    <div class="inputs">
-                                        <span>Last Name:</span>
-                                        <input type="text"/>
-                                    </div>
+                                    <Inputbox label="First Name" type="text" colIn/>
+                                    <Inputbox label="Last Name" type="text" colIn/>
                                 </div>
                                 <div class="twoinputbox">
-                                    <div class="inputs">
-                                        <span>Email:</span>
-                                        <input type="text"/>
-                                    </div>
-                                    <div class="inputs">
-                                        <span>Contact Number:</span>
-                                        <input type="text"/>
-                                    </div>
+                                    <Inputbox label="Email" type="email" colIn/>
+                                    <Inputbox label="Contact Number" type="number" colIn/>
                                 </div>
                                 <div class="twoinputbox">
-                                    <div class="inputs">
-                                        <span>Password:</span>
-                                        <input type="password"/>
-                                    </div>
-                                    <div class="inputs">
-                                        <span>Confirm Password:</span>
-                                        <input type="password"/>
-                                    </div>
+                                    <Inputbox label="Password" type="password" colIn/>
+                                    <Inputbox label="Confirm Password" type="password" colIn/>
                                 </div>
                             </div>
                             {/* <div class="bodytermsandcondition">
@@ -61,15 +35,13 @@ function RegisterPage() {
                                     You agree to our Terms and Privacy Policy upon registration.
                                 </span>
                             </div> */}
-                        </div>
-                        <button>SUBMIT</button>
+                        </section>
+                        <SubmitButton label="SUBMIT"/>
                     </form>
-                </div>
-            </div>
+                </article>
+            </section>
             <Footer/>
         </main>
         </>
-    );
-};
-
-export default RegisterPage;
+    )
+}

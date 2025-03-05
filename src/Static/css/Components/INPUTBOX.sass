@@ -1,0 +1,32 @@
+@import 'VARIABLES.sass'
+
+section:has(> label, > input) 
+    flex-grow: 1 !important
+    gap: 23px !important
+
+    > label 
+        font-size: 23px !important
+        font-style: italic !important
+        font-weight: 400 !important
+        line-height: normal !important
+        text-transform: capitalize !important
+    
+    > input[type="text"], > input[type="password"], > input[type="email"], > input[type="number"] 
+        background-color: $input-white !important
+        height: 37px !important
+        display: flex !important
+        flex-grow: 1 !important
+        font-size: 15px !important
+        padding-inline: 7.5px !important
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button 
+            -webkit-appearance: none
+        
+    &.col-in 
+        flex-direction: column !important
+        gap: 3px !important
+
+        > label 
+            color: $input-white !important
+            font-size: 15px !important

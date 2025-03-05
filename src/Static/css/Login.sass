@@ -1,0 +1,73 @@
+@import './Components/VARIABLES.sass'
+
+body.loginpage 
+    background-image: url("../assets/bg 2.png") !important
+    background-size: cover !important
+    background-attachment: fixed !important
+    background-position: center !important
+
+    main.PCMOD-body 
+        width: 100% !important
+        display: flex !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+
+        .loginsection
+            width: 100% !important
+            min-height: 469px !important
+            padding: 23px 53px !important
+            align-items: center !important
+            flex-direction: column !important
+
+            article
+                background-color: $container-red !important
+                width: 360px !important
+                flex-direction: column !important
+                align-items: center !important
+                gap: 33px !important
+                padding: 23px 53px 53px !important
+                border-radius: 10px !important
+
+                > h1
+                    color: $input-white !important
+
+                > form
+                    width: 100% !important
+                    flex-direction: column !important
+                    justify-content: center !important
+                    align-items: center !important
+                    gap: 43px !important
+
+                    > section
+                        width: 100% !important
+                        flex-direction: column !important   
+
+                    > .inputside
+                        gap: 13px !important
+
+                    > .buttonside
+                        gap: 23px !important
+
+                        > input[type="submit"] 
+                            background-color: $color-white !important
+                            // width: 254px !important
+                            display: flex !important
+                            justify-content: center !important
+                            padding: 5px 0 !important
+                            color: $color-primary !important
+                            font-size: 18px !important
+                            font-weight: 600 !important
+                            line-height: normal !important
+                            text-decoration: none !important
+                            text-transform: capitalize !important
+                            transition: .33s !important
+
+                            &:hover
+                                background-color: $color-secondary !important
+                                color: $color-primary !important
+
+/* .PCMOD-body 
+    padding: 13px 0 0
+ */
