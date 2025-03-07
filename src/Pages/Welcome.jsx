@@ -1,11 +1,11 @@
 import React from 'react'
 import '../Static/css/Welcome.sass'
-import { Header, Footer, Body_useClass, Title, Button } from '../Components/$exporter_components'
+import { Title, Body_useClass, Header, Footer, Button } from '../Components/components_exporter'
 import { LOGO } from '../Static/assets/$exporter_assets'
 
 export default function WelcomePage() {
-    Title("Metro 7");
-    Body_useClass("landingpage");
+    Title("Metro 7")
+    Body_useClass("landingpage")
 
     return(
         <>
@@ -13,7 +13,7 @@ export default function WelcomePage() {
         <main class="PCMOD-body">
             <section class="preordersection">
                 <h1>Want to order in advance before<br/>you arrive?</h1>
-                <Button label={"PRE-ORDER NOW"} navigatation={"/login"}/>
+                <Button name="PRE-ORDER NOW" navigatation="/login" redirect/>
             </section>
             <section class="aboutsection">
                 <aside>

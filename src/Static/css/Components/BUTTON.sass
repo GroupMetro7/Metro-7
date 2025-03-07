@@ -1,0 +1,29 @@
+@import 'VARIABLES.sass'
+
+main section:has(> button, > input[type="submit"]),
+main aside:has(> button, > input[type="submit"]),
+main form:has(> button, > input[type="submit"]),
+main div:has(> button, > input[type="submit"])
+
+    > button, > input[type="submit"], > label:has(> input[type="file"])
+        background-color: $color-secondary !important
+        width: 254px !important
+        justify-content: center !important
+        padding: 5px 0 !important
+        color: $color-primary !important
+        font-size: 18px !important
+        font-weight: 600 !important
+        text-transform: capitalize !important
+
+        &:hover
+            background-color: $color-primary !important
+            color: $color-white !important
+            transition: .33s !important
+
+        &.formBtn
+            background-color: $color-white !important
+            color: $color-primary !important
+
+            &:hover
+                background-color: $color-secondary !important
+                color: $color-primary !important

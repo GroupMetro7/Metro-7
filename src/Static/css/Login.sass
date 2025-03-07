@@ -21,7 +21,7 @@ body.loginpage
             align-items: center !important
             flex-direction: column !important
 
-            article
+            > article
                 background-color: $container-red !important
                 width: 360px !important
                 flex-direction: column !important
@@ -29,6 +29,7 @@ body.loginpage
                 gap: 33px !important
                 padding: 23px 53px 53px !important
                 border-radius: 10px !important
+                backdrop-filter: blur(13px) !important
 
                 > h1
                     color: $input-white !important
@@ -50,23 +51,6 @@ body.loginpage
                     > .buttonside
                         gap: 23px !important
 
-                        > input[type="submit"] 
-                            background-color: $color-white !important
-                            // width: 254px !important
-                            display: flex !important
-                            justify-content: center !important
-                            padding: 5px 0 !important
-                            color: $color-primary !important
-                            font-size: 18px !important
-                            font-weight: 600 !important
-                            line-height: normal !important
-                            text-decoration: none !important
-                            text-transform: capitalize !important
-                            transition: .33s !important
-
-                            &:hover
-                                background-color: $color-secondary !important
-                                color: $color-primary !important
 
 /* .PCMOD-body 
     padding: 13px 0 0

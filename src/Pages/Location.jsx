@@ -1,10 +1,10 @@
 import React from 'react'
 import '../Static/css/Location.sass'
-import { Header, Footer, Body_useClass, Title } from '../Components/$exporter_components'
+import { Title, Body_useClass, Header, Footer } from '../Components/components_exporter'
 
 export default function LocationPage() {
-    Title("Metro 7 | Location");
-    Body_useClass("locationpage");
+    Title("Metro 7 | Location")
+    Body_useClass("locationpage")
 
     return(
         <>
@@ -21,7 +21,7 @@ export default function LocationPage() {
                         <h2>+63 9952332528</h2>
                         <h2>Businessemail@email.com</h2>
                     </article>
-                    <img src="" alt="image73463"/>
+                    <img src=""/>
                 </section>
             </section>
             <Footer/>

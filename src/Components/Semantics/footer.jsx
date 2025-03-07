@@ -1,7 +1,7 @@
 import React from 'react'
-import '../Static/css/Components/FOOTER.sass'
-import { Inputbox, Href } from './$exporter_components'
-import { LOGO, FBLOGO, XLOGO, IGLOGO, PHONELOGO, LOCLOGO } from '../Static/assets/$exporter_assets'
+import '../../Static/css/Components/FOOTER.sass'
+import { Inputbox, Href } from '../components_exporter'
+import { LOGO, FBLOGO, XLOGO, IGLOGO, PHONELOGO, LOCLOGO } from '../../Static/assets/$exporter_assets'
 
 export default function Footer() {
     return(
@@ -28,15 +28,15 @@ export default function Footer() {
                 </section>
             </aside>
             <nav>
-                <Href label="HOME" navigatation="/"/>
-                <Href label="LOCATION" navigatation="/location"/>
-                <Href label="MENU"/>
-                <Href label="LOGIN" navigatation="/login"/>
+                <Href name="HOME" navigatation="/"/>
+                <Href name="LOCATION" navigatation="/location"/>
+                <Href name="MENU" navigatation="/menu"/>
+                <Href name="LOGIN" navigatation="/login"/>
             </nav>
             <aside class="privacytermsside">
-                <Href label="PRIVACY & TERMS"/>
+                <Href name="PRIVACY & TERMS"/>
                 <section>
-                    <Inputbox label="Email" type="email" colIn/>
+                    <Inputbox name="Email" type="email" formIn/>
                     <span>Receive news from us!</span>
                 </section>
             </aside>

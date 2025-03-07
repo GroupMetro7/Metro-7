@@ -5,7 +5,7 @@ import './Static/css/Components/BOOTSTRAP.css'
 import App from './router.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+    <StrictMode>
+        <App/>
+    </StrictMode>
 )

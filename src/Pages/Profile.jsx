@@ -1,12 +1,12 @@
 import React from 'react'
 import '../Static/css/Profile.sass'
-import { Header, Footer, Body_useClass, Title, Button } from '../Components/$exporter_components'
+import { Title, Body_useClass, Header, Footer, Modal, Button } from '../Components/components_exporter'
 
 export default function ProfilePage() {
-    Title("Profile");
-    Body_useClass("profilepage");
+    Title("Profile")
+    Body_useClass("profilepage")
 
-    return(
+    return (
         <>
         <Header/>
         <main class="PCMOD-body">
@@ -14,7 +14,7 @@ export default function ProfilePage() {
                 <h1>MY PROFILE</h1>
                 <div class="container">
                     <div class="myprofile">
-                        <img/>
+                        <img />
                         <article>
                             <h2 class="name">micheal lance kester li</h2>
                             <h3>kesterli1998@gmail.com</h3>
@@ -22,7 +22,7 @@ export default function ProfilePage() {
                             <h3 class="loyalty">silver</h3>
                         </article>
                         <div class="buttons">
-                            <button>EDIT PROFILE</button>
+                            <Button name="EDIT PROFILE" modalname="#exampleModal" openmodal />
                         </div>
                     </div>
                     <div class="orderhistory">
@@ -49,7 +49,7 @@ export default function ProfilePage() {
                             <div class="tbrow">
                                 <div class="tbrow-2">
                                     <div class="col">
-                                        <Button label="VIEW"/>
+                                        <Button name="VIEW" />
                                     </div>
                                     <div class="col">
                                         <h3>234567</h3>
@@ -72,7 +72,7 @@ export default function ProfilePage() {
                             <div class="tbrow">
                                 <div class="tbrow-2">
                                     <div class="col">
-                                        <Button label="VIEW"/>
+                                        <Button name="VIEW" />
                                     </div>
                                     <div class="col">
                                         <h3>181818</h3>
@@ -95,7 +95,7 @@ export default function ProfilePage() {
                             <div class="tbrow">
                                 <div class="tbrow-2">
                                     <div class="col">
-                                        <Button label="VIEW"/>
+                                        <Button name="VIEW" />
                                     </div>
                                     <div class="col">
                                         <h3>176923</h3>
@@ -119,7 +119,8 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </section>
-            <Footer />
+            <Modal Editprofile/>
+            <Footer/>
         </main>
         </>
     )

@@ -21,7 +21,7 @@ body.registerpage
             align-items: center !important
             flex-direction: column !important
 
-            article 
+            > article 
                 background-color: $container-red !important
                 width: 637px !important
                 display: flex !important
@@ -30,6 +30,7 @@ body.registerpage
                 gap: 33px !important
                 padding: 23px 53px 53px !important
                 border-radius: 10px !important
+                backdrop-filter: blur(13px) !important
 
                 > h1
                     color: $input-white !important
@@ -46,33 +47,12 @@ body.registerpage
                         flex-direction: column !important
                         gap: 23px !important
 
-                        .inputboxside 
+                        > .inputboxside 
                             width: 100% !important
-                            gap: 13px !important
-                            flex-direction: column
+                            flex-wrap: wrap !important
+                            row-gap: 13px !important
+                            column-gap: 23px !important
 
-                            .twoinputbox 
-                                width: 100% !important
-                                gap: 23px
-
-                    > input[type="submit"] 
-                        background-color: $color-white !important
-                        width: 254px !important
-                        display: flex !important
-                        justify-content: center !important
-                        padding: 5px 0 !important
-                        color: $color-primary !important
-                        font-size: 18px !important
-                        font-weight: 600 !important
-                        line-height: normal !important
-                        text-decoration: none !important
-                        text-transform: capitalize !important
-                        cursor: pointer !important
-                        transition: .33s !important
-
-                        &:hover
-                            background-color: $color-secondary !important
-                            color: $color-primary !important
 
 /* .bodytermsandcondition {
     gap: 13px;

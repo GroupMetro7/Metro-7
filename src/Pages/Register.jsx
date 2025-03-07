@@ -1,12 +1,12 @@
 import React from 'react'
 import '../Static/css/Register.sass'
-import { Header, Footer, Body_useClass, Title, Inputbox, SubmitButton } from '../Components/$exporter_components'
+import { Title, Body_useClass, Header, Footer, Inputbox, SubmitButton } from '../Components/components_exporter'
 
 export default function RegisterPage() {
-    Title("Metro 7 | Register");
-    Body_useClass("registerpage");
+    Title("Metro 7 | Register")
+    Body_useClass("registerpage")
 
-    return (
+    return(
         <>
         <Header/>
         <main class="PCMOD-body">
@@ -16,18 +16,12 @@ export default function RegisterPage() {
                     <form>
                         <section class="inputside">
                             <div class="inputboxside">
-                                <div class="twoinputbox">
-                                    <Inputbox label="First Name" type="text" colIn/>
-                                    <Inputbox label="Last Name" type="text" colIn/>
-                                </div>
-                                <div class="twoinputbox">
-                                    <Inputbox label="Email" type="email" colIn/>
-                                    <Inputbox label="Contact Number" type="number" colIn/>
-                                </div>
-                                <div class="twoinputbox">
-                                    <Inputbox label="Password" type="password" colIn/>
-                                    <Inputbox label="Confirm Password" type="password" colIn/>
-                                </div>
+                                    <Inputbox name="First Name" type="text" formIn/>
+                                    <Inputbox name="Last Name" type="text" formIn/>
+                                    <Inputbox name="Email" type="email" formIn/>
+                                    <Inputbox name="Contact Number" type="number" formIn/>
+                                    <Inputbox name="Password" type="password" formIn/>
+                                    <Inputbox name="Confirm Password" type="password" formIn/>
                             </div>
                             {/* <div class="bodytermsandcondition">
                                 <input type="checkbox"/>
@@ -36,7 +30,7 @@ export default function RegisterPage() {
                                 </span>
                             </div> */}
                         </section>
-                        <SubmitButton label="SUBMIT"/>
+                        <SubmitButton name="SUBMIT" formBtn/>
                     </form>
                 </article>
             </section>
