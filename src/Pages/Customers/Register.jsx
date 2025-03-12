@@ -1,6 +1,6 @@
 import React from 'react'
-import '../Static/css/Register.sass'
-import { Title, Body_useClass, Header, Footer, Inputbox, SubmitButton } from '../Components/components_exporter'
+import '../../Static/css/Register.sass'
+import { Title, Body_useClass, Header, Footer, Inputbox, SubmitButton } from '../../Components/components_exporter'
 
 export default function RegisterPage() {
     Title("Metro 7 | Register")

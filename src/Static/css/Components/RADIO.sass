@@ -1,6 +1,6 @@
 @import 'VARIABLES.sass'
 
-main label:has(> input[type="radio"], div > h3) 
+main label:has(input[type="radio"]):has(div > h3) 
     flex-grow: 1 !important
     align-items: center !important
     cursor: pointer !important
@@ -15,7 +15,7 @@ main label:has(> input[type="radio"], div > h3)
     
     > div 
         width: 100% !important
-        padding: 10px 13px !important
+        padding: 5px 13px !important
         border-radius: 5px !important
         background-color: $color-white !important
         justify-content: center !important

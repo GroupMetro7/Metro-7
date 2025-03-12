@@ -1,6 +1,6 @@
 import React from 'react'
-import '../Static/css/Profile.sass'
-import { Title, Body_useClass, Header, Footer, Modal, Button } from '../Components/components_exporter'
+import '../../Static/css/Profile.sass'
+import { Title, Body_useClass, Header, Footer, Modal, Button } from '../../Components/components_exporter'
 
 export default function ProfilePage() {
     Title("Profile")
@@ -22,7 +22,7 @@ export default function ProfilePage() {
                             <h3 class="loyalty">silver</h3>
                         </article>
                         <div class="buttons">
-                            <Button name="EDIT PROFILE" modalname="#exampleModal" openmodal />
+                            <Button name="EDIT PROFILE" openmodal />
                         </div>
                     </div>
                     <div class="orderhistory">
@@ -119,7 +119,7 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </section>
-            <Modal Editprofile/>
+            <Modal Deletecustomer/>
             <Footer/>
         </main>
         </>

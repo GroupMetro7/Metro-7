@@ -1,6 +1,6 @@
 import React from 'react'
-import '../Static/css/Location.sass'
-import { Title, Body_useClass, Header, Footer } from '../Components/components_exporter'
+import '../../Static/css/Location.sass'
+import { Title, Body_useClass, Header, Footer } from '../../Components/components_exporter'
 
 export default function LocationPage() {
     Title("Metro 7 | Location")

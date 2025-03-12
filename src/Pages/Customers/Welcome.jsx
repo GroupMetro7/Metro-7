@@ -1,7 +1,7 @@
 import React from 'react'
-import '../Static/css/Welcome.sass'
-import { Title, Body_useClass, Header, Footer, Button } from '../Components/components_exporter'
-import { LOGO } from '../Static/assets/$exporter_assets'
+import '../../Static/css/Welcome.sass'
+import { Title, Body_useClass, Header, Footer, Button } from '../../Components/components_exporter'
+import { LOGO } from '../../Static/public_exporter'
 
 export default function WelcomePage() {
     Title("Metro 7")

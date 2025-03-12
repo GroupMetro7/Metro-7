@@ -1,11 +1,11 @@
 @import 'VARIABLES.sass'
 
-main label:has(> h2, > input[type="text"], > input[type="password"], > input[type="email"], > input[type="number"], > input[type="search"]) 
+main label:has(h3):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"]) 
     width: 254px
     gap: 3px !important
     align-items: center !important
 
-    > h2 
+    > h3 
         font-style: italic !important
         font-weight: 400 !important
         text-transform: capitalize !important
@@ -26,6 +26,6 @@ main label:has(> h2, > input[type="text"], > input[type="password"], > input[typ
         flex-direction: column !important
         align-items: stretch !important
 
-        > h2 
+        > h3 
             color: $input-white !important
             font-size: 15px !important

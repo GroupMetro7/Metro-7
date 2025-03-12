@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Static/css/Components/FOOTER.sass'
 import { Inputbox, Href } from '../components_exporter'
-import { LOGO, FBLOGO, XLOGO, IGLOGO, PHONELOGO, LOCLOGO } from '../../Static/assets/$exporter_assets'
+import { LOGO, FBLOGO, XLOGO, IGLOGO, PHONELOGO, LOCLOGO } from '../../Static/public_exporter'
 
 export default function Footer() {
     return(

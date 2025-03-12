@@ -1,22 +1,19 @@
 import React from 'react'
 import '../../Static/css/Components/MODAL_FORM.sass'
-import { Button, Inputbox, InsertfileButton, SubmitButton } from '../components_exporter'
+import { Button, Inputbox, SubmitButton } from '../components_exporter'
 
-export default function ModalEditprofile() {
+export default function ModalAddemployee() {
     return(
         <>
         <article class="modal-content">
-            <h1>EDIT PROFILE</h1>
-            <form>
-                <div class="pictureside">
-                    <img src="" />
-                    <InsertfileButton name="EDIT PICTURE" />
-                </div>
+            <h1>ADD EMPLOYEE</h1>
+            <form class="adchform">
                 <section class="inputboxside">
                     <Inputbox name="First Name" type="text" formIn />
                     <Inputbox name="Last Name" type="text" formIn />
-                    <Inputbox name="Email" type="email" formIn />
-                    <Inputbox name="Contact Number" type="number" formIn />
+                    <Inputbox name="Email" type="text" formIn />
+                    <Inputbox name="Role" type="text" formIn />
+                    <Inputbox name="Schedule" type="text" formIn />
                 </section>
                 <section class="buttonside">
                     <Button name="CANCEL" closemodal formBtn />

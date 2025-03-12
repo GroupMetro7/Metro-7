@@ -1,6 +1,6 @@
 import React from 'react'
-import '../Static/css/Menu.sass'
-import { Title, Body_useClass, Header, Footer, Inputbox, Radio } from '../Components/components_exporter'
+import '../../Static/css/Menu.sass'
+import { Title, Body_useClass, Header, Footer, Inputbox, Radio } from '../../Components/components_exporter'
 
 export default function LocationPage() {
     Title("Metro 7 | Menu")
