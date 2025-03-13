@@ -7,6 +7,7 @@ export { default as IGLOGO } from '/img/FOOTER IG LOGO.png'
 export { default as PHONELOGO } from '/img/FOOTER PHONE LOGO.png'
 export { default as LOCLOGO } from '/img/FOOTER LOC LOGO.png'
 
+export { default as LOGOUTLOGO } from '/sidebars/LOGOUT LOGO.png'
 export { default as DASHBOARDLOGO } from '/sidebars/DASHBOARD LOGO.png'
 export { default as ORDERLISTLOGO } from '/sidebars/ORDERLIST LOGO.png'
 export { default as PROFILELOGO } from '/sidebars/PROFILE LOGO.png'
@@ -16,3 +17,5 @@ export { default as EMPLOYEELOGO } from '/sidebars/EMPLOYEE LOGO.png'
 export { default as CUSTOMERLOGO } from '/sidebars/CUSTOMER LOGO.png'
 
 export { default as EDITLOGO } from '/table/EDIT LOGO.png'
+export { default as VIEWLOGO } from '/table/VIEW LOGO.png'
+export { default as DELETELOGO } from '/table/DELETE LOGO.png'

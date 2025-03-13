@@ -96,7 +96,7 @@ export default function ServiceProfilePage() {
                     </div>
                 </div>
             </div>
-            <Modal ViewOrder/>
+            <Modal Editprofile/>
             
         </main>
         </>
