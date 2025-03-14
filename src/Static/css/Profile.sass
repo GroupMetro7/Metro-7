@@ -1,0 +1,139 @@
+@use './Components/VARIABLES' as vars;
+
+body.profilepage
+
+    main.PCMOD-body
+        width: 100% !important
+        display: flex !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+
+        > .profilesection
+            width: 100% !important
+            min-height: 469px !important
+            gap: 23px
+            padding: 23px 53px 53px
+            align-items: center !important
+            justify-content: center !important
+            flex-direction: column
+
+            > .container
+                gap: 23px
+                align-items: center
+                flex-direction: column
+
+                > div
+                    background-color: vars.$color-white !important
+                    width: 1000px !important
+                    padding: 23px !important
+                    border-radius: 10px
+
+                > .myprofile
+                    gap: 33px
+
+                    > img
+                        background-color: white
+                        width: 125px
+                        aspect-ratio: 1
+                        border-radius: 100px
+
+                    > article
+                        gap: 3px
+                        flex-grow: 1
+                        flex-direction: column
+                        justify-content: center
+
+                        > h2.name
+                            text-transform: capitalize !important
+
+                        > h3.loyalty
+                            text-transform: uppercase !important
+
+                    > .buttons
+                        width: 166px !important
+                        align-items: center
+                        justify-content: center
+
+                        > button
+                            padding: 10px 23px !important
+
+                > .orderhistory
+                    gap: 23px
+                    flex-direction: column
+
+                    > h2
+                        justify-content: center
+                        text-transform: uppercase !important
+
+                    > .tb
+                        gap: 13px
+                        flex-direction: column
+
+                        > .head
+                            max-height: 27px
+
+                            > .col
+
+                                > h3
+                                    font-weight: 600 !important
+                                    text-transform: uppercase !important
+
+                        > .tbrow
+                            flex-direction: column
+
+                            > .tbrow-2
+                                max-height: 54px
+
+                                > .col
+
+                                    > button
+                                        background-color: vars.$color-secondary !important
+                                        width: 254px !important
+                                        display: flex !important
+                                        justify-content: center !important
+                                        padding: 5px 0 !important
+                                        color: vars.$color-primary !important
+                                        font-size: 18px !important
+                                        font-weight: 600 !important
+                                        line-height: normal !important
+                                        text-decoration: none !important
+                                        text-transform: capitalize !important
+                                        cursor: pointer !important
+                                        transition: .33s !important
+
+                                        &:hover
+                                            background-color: vars.$color-primary !important
+                                            color: vars.$color-white !important
+
+                                > .col.status
+                                    border-radius: 5px !important
+                                    padding: 5px 0
+
+                                    &.pending
+                                        background-color: #b43434
+                                        color: vars.$color-white !important
+
+                                    &.paid
+                                        background-color: #5fb91a
+                                        color: vars.$color-white !important
+
+                        > .head,
+                        > .tbrow > .tbrow-2
+                            gap: 13px
+                            justify-content: space-between !important
+                            align-items: center !important
+                            padding: 0 13px
+
+                        > .head > .col,
+                        > .tbrow > .tbrow-2 > .col
+                            min-width: 132.57px
+                            flex-grow: 1
+                            justify-content: center
+                            text-align: center !important
+
+                            > h3
+                                text-overflow: ellipsis !important
+                                white-space: nowrap
+                                overflow: hidden

@@ -1,0 +1,26 @@
+@use 'VARIABLES' as vars;
+
+main section label:has(> input[type="file"]),
+main aside label:has(> input[type="file"]),
+main form label:has(> input[type="file"]),
+main div label:has(> input[type="file"])
+
+    width: 254px !important
+    padding: 5px 0;
+    border-radius: 5px;
+    justify-content: center;
+    background-color: rgba(232, 232, 232, 1);
+    cursor: pointer !important
+
+    &:hover
+        background-color: vars.$color-secondary !important
+        color: vars.$color-primary !important
+        transition: .33s !important
+
+    > input[type="file"]
+        display: none !important
+        cursor: pointer !important
+
+    > h3
+        font-weight: 600 !important
+        text-transform: capitalize !important
