@@ -1,0 +1,147 @@
+@use './Components/VARIABLES' as vars;
+
+body.orderlistpage
+
+    main.PCMOD-body
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+        flex-grow: 1 !important
+        padding: 0px 0px 0px vars.$sidebar-size
+
+        > .orderlistsection
+            width: 1185.67px !important
+            gap: 23px !important
+            padding: 23px 53px 53px !important
+            align-items: center !important
+            justify-content: center !important
+            flex-direction: column !important
+            justify-self: center !important
+
+            > div
+                background-color: vars.$color-white !important
+                padding: 23px !important
+                border-radius: 10px
+
+            > .searchbar
+                background-color: vars.$color-white !important
+                width: 100% !important
+                gap: 23px !important
+                padding: 23px !important
+                border-radius: 10px !important
+                justify-content: center !important
+
+                > label
+                    width: 100% !important
+                    gap: 23px !important
+
+                    > h3
+                        font-weight: 600 !important
+
+            > .orderlist
+                width: 100% !important
+                gap: 33px
+                flex-direction: column
+
+                > h2
+                    justify-content: center
+                    text-transform: uppercase !important
+
+                > .tb
+                    gap: 13px
+                    flex-direction: column
+
+                    > .head
+                        max-height: 27px
+
+                        > .col
+
+                            > h3
+                                font-weight: 600 !important
+                                text-transform: uppercase !important
+
+                    > .tbrow
+                        flex-direction: column
+
+                        > .tbrow-2
+                            max-height: 54px
+
+                            > .col.status
+                                border-radius: 5px !important
+                                padding: 5px 0
+
+                                > h3
+                                    font-weight: 600 !important
+
+                                &.notstarted
+                                    background-color: #C3C3C3
+
+                                &.preparing
+                                    background-color: #F0AD3A
+
+                                &.prepared
+                                    background-color: #F0EA3A
+
+                                &.done
+                                    background-color: #5FBA1A
+
+                    > .head,
+                    > .tbrow > .tbrow-2
+                        gap: 13px
+                        justify-content: space-between !important
+                        align-items: center !important
+                        padding: 0 13px
+
+                    > .head > .col,
+                    > .tbrow > .tbrow-2 > .col
+                        min-width: 124px
+                        max-height: inherit
+                        flex-grow: 1
+                        justify-content: center
+                        text-align: center !important
+
+                        > h3
+                            display: -webkit-box !important;
+                            overflow: hidden !important;
+                            text-overflow: ellipsis !important;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+
+                    > .head > div.col-btn,
+                    > .tbrow > .tbrow-2 > div.col-btn
+                        width: 58px !important
+
+                    > .tbrow > .tbrow-2 > div.col-btn
+
+                        > button
+                            align-items: center;
+                            justify-content: center
+
+                            > img
+                                width: 27px !important;
+                                aspect-ratio: 1 !important;
+                                transition: filter 0.3s ease
+
+
+                            &:hover
+
+                                > img
+                                    filter: invert(1) !important
+
+
+                > .pgntn
+                    gap: 13px;
+                    height: 37px;
+                    align-items: center;
+                    justify-content: center;
+
+                    > button
+
+                        &.pagination
+                            width: auto !important
+                            padding: 5px 23px !important
+                            text-transform: uppercase !important
+
+                    > button:not(.pagination)
+                        max-width: 58px !important

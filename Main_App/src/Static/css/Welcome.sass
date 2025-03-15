@@ -1,0 +1,65 @@
+@use './Components/VARIABLES' as vars;
+
+body.landingpage
+    background-image: url("../assets/bg.png") !important
+    background-size: cover !important
+    background-attachment: fixed !important
+    background-position: center !important
+
+    main.PCMOD-body
+        width: 100% !important
+        display: flex !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+
+        > .preordersection
+            background-color: vars.$container-red !important
+            flex-direction: column !important
+            justify-content: center !important
+            margin-top: 244px !important
+            padding: 40px 150px !important
+            backdrop-filter: blur(13px) !important
+
+            > h1
+                flex-grow: 1 !important
+                color:  vars.$color-secondary !important
+                font-weight: 500 !important
+                text-transform: initial !important
+
+            > button
+                background: none !important
+                align-self: flex-end !important
+                padding: 7.5px 0 !important
+                border: 3px solid  vars.$color-secondary !important
+                color: vars.$color-secondary !important
+
+                &:hover
+                    background-color: vars.$color-secondary !important
+                    color:  vars.$color-primary !important
+
+        > .aboutsection
+
+            > aside
+                background-color:  vars.$color-primary !important
+                padding: 50px 100px !important
+                pointer-events: none !important
+
+                > img
+                    width: 255px !important
+                    height: 260px !important
+
+            > article
+                background-color:  vars.$color-secondary !important
+                flex-direction: column !important
+                gap: 23px !important
+                padding: 53px 75px 0 !important
+                color:  vars.$color-primary !important
+
+                > h2, p
+                    width: 100% !important
+
+/* .PCMOD-body
+    padding: 13px 0 0
+ */

@@ -1,0 +1,42 @@
+@use './Components/VARIABLES' as vars;
+
+body.locationpage
+
+    main.PCMOD-body
+        width: 100% !important
+        display: flex !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+
+        > .locationsection
+            width: 100% !important
+            min-height: 469px !important
+            gap: 23px
+            padding: 23px 53px 53px
+            align-items: center
+            flex-direction: column
+
+            > section
+                background-color: vars.$color-white !important
+                width: 1000px
+                height: 312px
+                padding: 23px
+                align-items: center
+                border-radius: 10px
+                gap: 43px
+
+                > article
+                    gap: 23px !important
+                    width: 511px !important
+                    flex-direction: column !important
+
+                    > h2
+                        font-weight: 500 !important
+
+                > img
+                    width: 400px
+                    height: 266px
+                    border: white solid 5px
+                    border-radius: 10px

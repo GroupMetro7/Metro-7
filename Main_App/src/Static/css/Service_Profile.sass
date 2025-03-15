@@ -1,0 +1,274 @@
+@use './Components/VARIABLES' as vars;
+
+body.servicedashboardpage
+
+    main.PCMOD-body
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        overflow: auto !important
+        flex-grow: 1 !important
+        padding: 0px 0px 0px vars.$sidebar-size
+
+        > .profilesection
+            width: 1185.67px !important
+            gap: 23px !important
+            padding: 23px 53px 53px !important
+            justify-content: center !important
+            justify-self: center !important
+
+            > .leftside
+                gap: 23px
+                width: 625px !important
+                flex-direction: column
+
+                > .myprofile
+                    gap: 13px
+                    flex-direction: column
+
+                    > div
+                        background-color: vars.$color-white !important
+                        width: 100% !important
+                        padding: 23px !important
+                        border-radius: 10px
+                        gap: 33px
+
+                        > img
+                            background-color: white
+                            width: 125px
+                            aspect-ratio: 1
+                            border-radius: 100%
+
+                        > article
+                            gap: 3px
+                            flex-grow: 1
+                            flex-direction: column
+                            justify-content: center
+
+                            > h2.name
+                                text-transform: capitalize !important
+
+                            > h3.loyalty
+                                text-transform: uppercase !important
+
+                        > .buttons
+                            width: 166px !important
+                            align-items: center
+                            justify-content: center
+
+                            > button
+                                padding: 10px 23px !important
+
+                > .statistics
+                    background-color: vars.$color-white !important
+                    width: 100% !important
+                    padding: 23px !important
+                    border-radius: 10px
+                    gap: 23px
+                    flex-direction: column
+
+                    > h2
+                        justify-content: center !important
+                        text-transform: uppercase !important
+
+                    > .graph
+                        height: 419px
+                        border-radius: 5px
+                        background-color: rgba(255, 255, 255, 1)
+
+                    > .report
+                        gap: 23px
+                        flex-direction: column
+
+                        > .daterange
+                            border-radius: 5px !important
+                            background-color: #d9d9d9
+                            justify-content: space-between !important
+
+                            > div
+                                align-items: center
+                                padding: 0px 13.08px
+                                align-content: center !important
+                                justify-content: center !important
+
+                                > h2
+                                    font-size: 15px !important
+
+                            > button
+                                width: 58px !important
+                                padding: 5px 13.08px !important
+                                justify-content: center
+                                align-items: center !important
+
+
+                        > article
+                            width: 100% !important
+                            gap: 13px
+                            flex-direction: column
+
+                            > h2,
+                            > div > h2
+                                font-size: 18px !important
+
+                            > div
+                                width: 100%
+                                justify-content: space-between
+
+
+
+
+            > .rightside
+                flex-grow: 1
+                flex-direction: column
+
+                > .attendancesection
+                    gap: 13px
+                    padding: 23px 23px
+                    border-radius: 10px
+                    flex-direction: column
+                    background-color: vars.$color-white
+
+                    > div
+                        width: 100%
+                        align-items: center
+
+                    > div:has(> hr)
+                        flex-direction: column
+
+                        hr
+                            width: 100% !important
+
+                    > .time
+                        gap: 7.5px
+
+
+                        > h2
+                            text-align: center !important
+                            text-transform: uppercase !important
+
+                    > .attendance
+                        gap: 13px
+
+                        > button
+                            width: auto !important
+                            flex-grow: 1 !important
+
+
+                        > label
+                            width: 100% !important
+                            gap: 23px !important
+
+                            > h3
+                                font-weight: 500 !important
+
+                    > .diningoption
+                        gap: 13px
+
+                        > .filters
+                            width: 100% !important
+                            gap: 23px !important
+
+                            > label
+                                width: 100% !important
+                                gap: 23px !important
+
+                                > input[type="radio"]:checked+div
+                                    background-color: vars.$color-primary !important
+                                    color: vars.$color-white !important
+
+                                > div
+                                    background-color: vars.$color-secondary !important
+
+                                    &:hover
+                                        background-color: vars.$color-primary !important
+                                        color: vars.$color-white !important
+
+                                > h3
+                                    font-weight: 600 !important
+
+                    > .totalitem
+                        gap: 23px
+                        flex-direction: column
+
+                        > h3
+                            width: 100% !important
+                            font-weight: 600 !important
+
+                        > .itemlist
+                            width: 100%
+                            gap: 13px
+                            flex-direction: column
+
+                            > .item
+                                gap: 13px
+
+                                > img
+                                    width: 100px
+                                    aspect-ratio: 1
+                                    background-color: rgba(255, 255, 255, 1)
+
+                                > article
+                                    gap: 13px
+                                    flex-grow: 1
+                                    flex-direction: column
+                                    justify-content: center
+
+                                    > h3
+                                        font-weight: 600 !important
+
+                                    > div
+                                        width: 100% !important
+                                        gap: 3px !important
+                                        justify-content: space-between !important
+                                        align-items: center !important
+
+                                        > .quantity
+                                            border-radius: 5px !important
+                                            background-color: #d9d9d9
+
+                                            > div
+                                                align-items: center
+                                                padding: 0px 13.08px
+                                                align-content: center !important
+                                                justify-content: center !important
+
+                                                > h2
+                                                    font-size: 15px !important
+
+                                            > button
+                                                width: auto !important
+                                                aspect-ratio: 1 !important
+                                                padding: 5px 13.08px !important
+                                                justify-content: center
+                                                align-items: center !important
+
+                    > .paymentsummary
+                        gap: 23px
+
+                        > article
+                            gap: 13px
+                            align-self: stretch
+                            flex-direction: column
+
+                            > h2,
+                            > div > h2
+                                font-size: 18px !important
+
+                            > div
+                                width: 100%
+                                justify-content: space-between
+
+                        > button
+                            width: 100% !important
+
+
+
+
+
+
+
+
+
+
+
+

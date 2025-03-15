@@ -1,0 +1,72 @@
+@use 'VARIABLES' as vars;
+
+.modal:has(article > form)
+
+    article
+        background-color: vars.$container-red !important
+        width: auto !important
+        display: flex !important
+        flex-direction: column !important
+        align-items: center !important
+        gap: 33px !important
+        padding: 23px 53px 33px !important
+        border-radius: 10px !important
+        backdrop-filter: blur(13px) !important
+
+        > h1
+            color: vars.$input-white !important
+
+        > form
+            width: 531px !important
+            flex-direction: column !important
+            justify-content: center !important
+            align-items: center !important
+            gap: 43px !important
+
+            > .pictureside
+                gap: 43px
+                align-items: center
+
+                > img
+                    background-color: white
+                    width: 73px
+                    aspect-ratio: 1
+                    border-radius: 100px
+
+                > label
+                    width: 146px !important
+
+            > .inputboxside
+                width: 100% !important
+                flex-wrap: wrap !important
+                row-gap: 13px !important
+                column-gap: 23px !important
+
+            > .textside
+                flex-direction: column !important
+                gap: 23px
+
+                > .inputboxside
+                    width: 100% !important
+                    flex-wrap: wrap !important
+                    row-gap: 13px !important
+                    column-gap: 23px !important
+
+                > .orderlistside
+                    width: 100% !important
+                    gap: 23px
+                    flex-direction: column !important
+
+                    > label
+                        width: 100% !important
+
+                        div
+                            width: 100% !important
+                            justify-content: space-between !important
+
+            > .buttonside
+                max-width: 531px !important
+                gap: 23px
+
+            &.adchform
+                width: 808px !important

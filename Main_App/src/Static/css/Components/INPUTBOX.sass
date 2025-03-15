@@ -1,0 +1,31 @@
+@use 'VARIABLES' as vars;
+
+main label:has(> h2, > input[type="text"], > input[type="password"], > input[type="email"], > input[type="number"], > input[type="search"])
+    width: 254px
+    gap: 3px !important
+    align-items: center !important
+
+    > h2
+        font-style: italic !important
+        font-weight: 400 !important
+        text-transform: capitalize !important
+
+    > input[type="text"], > input[type="password"], > input[type="email"], > input[type="number"], > input[type="search"]
+        background-color: vars.$input-white !important
+        height: 37px !important
+        display: flex !important
+        flex-grow: 1 !important
+        font-size: 15px !important
+        padding-inline: 7.5px !important
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button
+            -webkit-appearance: none
+
+    &.formIn
+        flex-direction: column !important
+        align-items: stretch !important
+
+        > h2
+            color: vars.$input-white !important
+            font-size: 15px !important

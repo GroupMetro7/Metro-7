@@ -1,0 +1,39 @@
+@use 'VARIABLES' as vars;
+
+aside.sidebar
+    height: 100% !important
+    width: vars.$sidebar-size !important
+    position: fixed !important
+    background-color: black !important
+    top: 0 !important
+
+    > section
+        gap: 83px !important
+        height: 100% !important
+        padding: 33px 14.5px !important
+        align-items: center !important
+        flex-direction: column !important
+
+        > .titleside
+            align-items: center !important
+            pointer-events: none !important
+
+            img
+                width: 50px !important
+                height: 31px !important
+
+        > nav
+            gap: 33px !important
+            flex-direction: column !important
+
+            > a
+                width: 43px !important
+                aspect-ratio: 1 !important
+                background-color: #f1c85f !important
+                border-radius: 100% !important
+                padding: 10px !important
+
+                > img
+                    width: 23px !important
+                    aspect-ratio: 1 !important
+                    pointer-events: none !important

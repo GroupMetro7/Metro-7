@@ -1,0 +1,29 @@
+@use 'VARIABLES' as vars;
+
+main label:has(> input[type="radio"], div > h3)
+    flex-grow: 1 !important
+    align-items: center !important
+    cursor: pointer !important
+
+    > input[type="radio"]
+        display: none !important
+
+    > input[type="radio"]:checked+div
+        background-color: vars.$color-primary !important
+        color: vars.$color-white !important
+        transition: .33s !important
+
+    > div
+        width: 100% !important
+        padding: 10px 13px !important
+        border-radius: 5px !important
+        background-color: vars.$color-white !important
+        justify-content: center !important
+
+        &:hover
+            background-color: vars.$color-secondary !important
+            color: #461220 !important
+            transition: .33s !important
+
+        > h3
+            font-weight: 600 !important
