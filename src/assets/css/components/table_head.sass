@@ -1,0 +1,31 @@
+@use '../Variables.sass' as v
+
+.tb
+    width: 100%
+    gap: 13px
+    flex-direction: column
+    overflow-x: auto
+
+    > .thr
+        max-height: 27px
+        gap: 13px
+        padding: 0px 13px
+        justify-content: space-between !important
+        align-items: center !important
+
+        > .th 
+            width: 100%
+            justify-content: center
+            text-align: center !important
+
+            &:not(.thbtn)
+                min-width: 132.57px !important
+
+            > h3
+                text-transform: uppercase !important
+
+            &.thbtn
+                width: auto !important
+
+                > div
+                    width: 53px !important

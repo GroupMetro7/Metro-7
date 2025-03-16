@@ -1,46 +1,44 @@
 import React from 'react'
-import '../../Static/css/Components/FOOTER.sass'
-import { Inputbox, Href } from '../components_exporter'
-import { LOGO, FBLOGO, XLOGO, IGLOGO, PHONELOGO, LOCLOGO } from '../../Static/public_exporter'
+import '../../assets/css/components/footer.sass'
+import { Inputbox, Href } from '../../exporter/component_exporter'
+import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../exporter/public_exporter'
 
 export default function Footer() {
     return(
-        <>
         <footer>
-            <aside class="logoside">
-                <img src={ LOGO }/>
-            </aside>
-            <aside class="contactside">
-                <section class="logos">
-                    <img src={ FBLOGO }/>
-                    <img src={ XLOGO }/>
-                    <img src={ IGLOGO }/>
-                </section>
-                <section class="contact">
+            <div className='logoside'>
+                <img src={ Logo }/>
+            </div>
+            <div className='contactside'>
+                <div className='logos'>
+                    <img src={ FBLogo }/>
+                    <img src={ XLogo }/>
+                    <img src={ IGLogo }/>
+                </div>
+                <div className='contact'>
                     <figure>
-                        <img src={ PHONELOGO }/>
+                        <img src={ PhoneLogo }/>
                         <figurecaption>+63 9952332528</figurecaption>
                     </figure>
                     <figure>
-                        <img src={ LOCLOGO }/>
+                        <img src={ LocationLogo }/>
                         <figurecaption>Metrowalk, Pasig City</figurecaption>
                     </figure>
-                </section>
-            </aside>
+                </div>
+            </div>
             <nav>
-                <Href name="HOME" navigatation="/"/>
-                <Href name="LOCATION" navigatation="/location"/>
-                <Href name="MENU" navigatation="/menu"/>
-                <Href name="LOGIN" navigatation="/login"/>
+                <Href Title='HOME' Redirect='/' HrefWhite/>
+                <Href Title='LOCATION' Redirect='/location' HrefWhite/>
+                <Href Title='MENU' Redirect='/menu' HrefWhite/>
+                <Href Title='LOGIN' Redirect='/login' HrefWhite/>
             </nav>
-            <aside class="privacytermsside">
-                <Href name="PRIVACY & TERMS"/>
-                <section>
-                    <Inputbox name="Email" type="email" formIn/>
-                    <span>Receive news from us!</span>
-                </section>
-            </aside>
+            <div className='privacytermsside'>
+                <Href Title='PRIVACY & TERMS' HrefWhite/>
+                <div>
+                    <Inputbox Title='Email' Type='email' InCol InWhite/>
+                    <p>Receive news from us!</p>
+                </div>
+            </div>
         </footer>
-        </>
     )
 }

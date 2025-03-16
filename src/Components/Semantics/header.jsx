@@ -1,24 +1,22 @@
 import React from 'react'
-import '../../Static/css/Components/HEADER.sass'
-import { Href } from '../components_exporter'
-import { TEXTLOGO } from '../../Static/public_exporter'
+import '../../assets/css/components/header.sass'
+import { Href } from '../../exporter/component_exporter'
+import { TextLogo } from '../../exporter/public_exporter'
 
 export default function Header() {
     return(
-        <>
         <header>
-            <section>
-                <aside class="titleside">
-                    <img src={ TEXTLOGO } />
-                </aside>
+            <div>
+                <div className='titleside'>
+                    <img src={ TextLogo } />
+                </div>
                 <nav>
-                    <Href name="HOME" navigatation="/"/>
-                    <Href name="LOCATION" navigatation="/location"/>
-                    <Href name="MENU" navigatation="/menu"/>
-                    <Href name="LOGIN" navigatation="/login"/>
+                    <Href Title='HOME' Redirect='/'/>
+                    <Href Title='LOCATION' Redirect='/location'/>
+                    <Href Title='MENU' Redirect='/'/>
+                    <Href Title='LOGIN' Redirect='/login'/>
                 </nav>
-            </section>
+            </div>
         </header>
-        </>
     )
 }

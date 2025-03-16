@@ -1,0 +1,38 @@
+@import '../Variables.sass'
+
+button, 
+input[type="submit"], 
+label.btnfile:has(input[type="file"]):has(h3),
+label.btnradio:has(input[type="radio"]):has(h3)
+    background-color: $color-secondary !important
+    width: 254px
+    height: 47px
+    color: $color-primary !important
+    text-transform: capitalize !important
+    cursor: pointer !important
+    border-radius: 5px
+    justify-content: center !important
+    align-items: center
+
+    &:hover
+        background-color: $color-primary !important
+        color: $color-white !important
+        transition: .33s !important
+
+    > input[type="file"], > input[type="radio"]
+        display: none !important
+
+    &.btnwhite
+        background-color: $color-white !important
+        color: $color-primary !important
+
+        &:hover
+            background-color: $color-secondary !important
+            color: $color-primary !important
+
+label.btnradio:has(input[type="radio"]:checked),
+label.btnradio:has(input[type="radio"]:checked):hover,
+label.btnradio.btnwhite:has(input[type="radio"]:checked),
+label.btnradio.btnwhite:has(input[type="radio"]:checked):hover
+    background-color: $color-primary !important
+    color: $color-white !important  

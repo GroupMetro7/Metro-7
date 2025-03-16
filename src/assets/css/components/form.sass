@@ -1,0 +1,33 @@
+@import '../Variables.sass'
+
+div.form
+    background-color: $container-red !important
+    flex-direction: column !important
+    align-items: center !important
+    gap: 33px !important
+    padding: 23px 53px 43px !important
+    border-radius: 10px !important
+    backdrop-filter: blur(13px) !important
+    justify-self: center !important
+
+    > h1
+        color: $input-white !important
+
+    > form
+        min-width: 254px !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        gap: 43px !important
+
+        > div.group.wrap
+            column-gap: 23px !important
+            row-gap: 13px !important
+
+        label.inputbox
+
+            > h4
+                font-size: 15px !important
+
+        input[type="submit"]
+            height: 37px
