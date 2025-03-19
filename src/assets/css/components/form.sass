@@ -9,9 +9,11 @@ div.form
     border-radius: 10px !important
     backdrop-filter: blur(13px) !important
     justify-self: center !important
+    display: flex !important
 
     > h1
         color: $input-white !important
+        justify-content: center !important
 
     > form
         min-width: 254px !important
@@ -20,14 +22,31 @@ div.form
         align-items: center !important
         gap: 43px !important
 
-        > div.group.wrap
+        div.group
+
+            &.buttonside
+                width: 100%
+                gap: 23px !important
+                justify-content: center
+
+        div.group.wrap
             column-gap: 23px !important
             row-gap: 13px !important
 
-        label.inputbox
+        &.formtwolayers
+            width: 531px !important
+
+        &.formthreelayers
+            width: 808px !important
+
+        label.inputbox, label.selectionbox
 
             > h4
                 font-size: 15px !important
 
-        input[type="submit"]
+        
+
+        button, input[type="submit"]
             height: 37px
+            
+    

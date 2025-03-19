@@ -9,5 +9,20 @@ div.box
     align-items: center
     justify-content: center
 
+    > .title
+        width: 100% !important
+        align-items: center !important
+
+        > .left, > .right
+            flex: 1
+
+            > button
+                height: 37px
+                width: auto !important
+                padding: 5px 23px !important
+
+        > .right
+            justify-content: flex-end
+
     &.boxcol
         flex-direction: column

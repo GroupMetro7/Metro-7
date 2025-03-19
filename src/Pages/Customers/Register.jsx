@@ -3,15 +3,17 @@ import '../../assets/css/pages/customers/Register.sass'
 import { Title, Body_addclass, Header, Footer, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../exporter/component_exporter'
 
 export default function LoginPage() {
-    Title('Metro 7 | Login')
+    Title('Metro 7 | Register')
     Body_addclass('Register-PAGE')
+
+    const user = "Micheal Lance Kester Li"
 
     return(
         <>
         <Header />
         <Main>
             <Section Class='register'>
-                <Form Title='REGISTER'>
+                <Form Title='REGISTER' FormTwolayers>
                     <Group Class='inputside' Wrap>
                         <Inputbox Title='First Name' Type='text' InCol InWhite />
                         <Inputbox Title='Last Name' Type='text' InCol InWhite />

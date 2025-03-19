@@ -5,15 +5,11 @@ div.group
     align-items: center
     align-self: stretch
 
-    > button, 
-    > input[type="submit"], 
-    > label.btnfile:has(input[type="file"]):has(h3),
-    > label.btnradio:has(input[type="radio"]):has(h3),
-    > div
-        flex-grow: 1
-
     &.col
         flex-direction: column
 
     &.wrap
         flex-wrap: wrap
+
+    &:has( > aside.sidebar )
+        gap: unset

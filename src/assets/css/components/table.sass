@@ -1,5 +1,6 @@
 @use '../Variables.sass' as v
 
+
 .tb
     width: 100%
     gap: 13px
@@ -7,6 +8,8 @@
     overflow-x: auto
 
     > .thr
+        min-width: 100%
+        width: max-content
         max-height: 27px
         gap: 13px
         padding: 0px 13px
@@ -17,6 +20,7 @@
             width: 100%
             justify-content: center
             text-align: center !important
+            flex-grow: 1
 
             &:not(.thbtn)
                 min-width: 132.57px !important
@@ -26,12 +30,15 @@
 
             &.thbtn
                 width: auto !important
+                gap: 13px
 
                 > div
                     width: 53px !important
 
     > .tdr 
+        width: 100%
         flex-direction: column
+        gap: 13px
 
         > div 
             max-height: 54px
@@ -50,8 +57,10 @@
 
                 > h4
                     text-overflow: ellipsis !important
-                    white-space: nowrap
-                    overflow: hidden
+                    overflow: hidden !important
+                    display: -webkit-box !important
+                    -webkit-line-clamp: 2 !important
+                    -webkit-box-orient: vertical !important
 
                 &.tdbtn
                     width: auto !important
@@ -74,8 +83,6 @@
                             > img 
                                 filter: invert(1) !important
 
-        
-
-
-
+div.box:has( >.tb )
+    gap: 33px
 

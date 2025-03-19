@@ -1,0 +1,23 @@
+@use '../Variables.sass' as v
+
+div.kpi
+    background-color: v.$color-white
+    min-width: 100px !important
+    gap: 7.5px
+    padding: 13px
+    width: 100%
+    flex-grow: 1
+    border-radius: 10px
+    flex-direction: column
+        
+    > h4
+        font-weight: 700 !important
+
+    > p
+
+        &.add
+            color: #5fb91a !important
+
+div > div:has( > div.kpi )
+    flex-grow: 1
+            

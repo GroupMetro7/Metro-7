@@ -6,6 +6,8 @@ export default function LoginPage() {
     Title('Metro 7 | Login')
     Body_addclass('Login-PAGE')
 
+    const user = "Micheal Lance Kester Li"
+
     return(
         <>
         <Header />

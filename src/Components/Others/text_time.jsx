@@ -7,8 +7,7 @@ export default function TimeText() {
         const updateClock = () => {
             setTime(new Date().toLocaleTimeString());
         };
-        updateClock();
-        const interval = setInterval(updateClock, 1);
+        setInterval(updateClock, 1);
     }, []);
 
     return time

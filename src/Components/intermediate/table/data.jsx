@@ -6,17 +6,17 @@ import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporte
 export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
     return(
         <div className='tdr'>
-            { DataRows.map(( DataRow, key ) => (<>
-            <div>
-                { DataRow.map(( DataCell, index ) => (
-                <div className={`td ${ index === 4 ? `status ${ DataCell.toLowerCase() }` : undefined }`} key={index}>
+            { DataRows.map(( DataRow, RowIndex ) => (<>
+            <div> {/* You can modify this from div to form */}
+                { DataRow.map(( DataCell, CellIndex ) => (
+                <div className='td' key={ RowIndex+1 }>
                     <h4>{ DataCell }</h4>
                 </div>
                 ))}
                 <div className='td tdbtn'>
-                    { ViewBtn ? <Button Icon={ ViewLogo } /> : undefined }
-                    { EditBtn ? <Button Icon={ EditLogo } /> : undefined }
-                    { Deletebtn ? <Button Icon={ DeleteLogo } /> : undefined }
+                    { ViewBtn ? <Button Icon={ ViewLogo } Key={ RowIndex+1 } /> : undefined }
+                    { EditBtn ? <Button Icon={ EditLogo } Key={ RowIndex+1 } OpenModal="EditModal" /> : undefined }
+                    { Deletebtn ? <Button Icon={ DeleteLogo } Key={ RowIndex+1 } OpenModal="DeleteModal" /> : undefined }
                 </div>
             </div>
             <hr />

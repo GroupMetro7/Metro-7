@@ -1,10 +1,12 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Profile.sass'
-import { Title, Body_addclass, Header, Footer, Main, Section, Box, Button, Table } from '../../exporter/component_exporter'
+import { Title, Body_addclass, Header, Footer, Main, Section, Box, Button, Table, Modal, Form, Group, Inputbox, SubmitButton } from '../../exporter/component_exporter'
 
 export default function LocationPage() {
     Title('Metro 7')
     Body_addclass('Profile-PAGE')
+
+    const user = "Micheal Lance Kester Li"
 
     const tbhead = ['ORDER NO.', 'ORDER DATE', 'OPTIONS', 'AMOUNT', 'STATUS']
     const tbrows = [
@@ -21,13 +23,13 @@ export default function LocationPage() {
                 <Box>
                     <img />
                     <article>
-                        <h2>micheal lance kester li</h2>
+                        <h2>{ user }</h2>
                         <h4>kesterli1998@gmail.com</h4>
                         <h4>09774956316</h4>
                         <h4>SILVER</h4>
                     </article>
                     <div className='buttons'>
-                        <Button Title='EDIT PROFILE' openmodal />
+                        <Button Title='EDIT PROFILE' OpenModal="EditProfile" />
                     </div>
                 </Box>
                 <Box Title='Order History' Class='orderhistory' BoxCol>
@@ -36,6 +38,20 @@ export default function LocationPage() {
             </Section>
         </Main>
         <Footer />
+        <Modal Modal="EditProfile">
+            <Form Title="Edit Profile" FormTwolayers>
+                <Group Class='inputside' Wrap>
+                    <Inputbox Title='First Name' Type='text' Value="" InCol InWhite />
+                    <Inputbox Title='Last Name' Type='text' Value="" InCol InWhite />
+                    <Inputbox Title='Email' Type='email' Value="" InCol InWhite />
+                    <Inputbox Title='Contact Number' Type='number' Value="" InCol InWhite />
+                </Group>
+                <Group Class='buttonside'>
+                    <Button Title="CANCEL" CloseModal BtnWhite />
+                    <SubmitButton Title='SUBMIT' BtnWhite />
+                </Group>
+            </Form>
+        </Modal>
         </>
     )
 }

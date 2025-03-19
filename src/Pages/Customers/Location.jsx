@@ -6,6 +6,8 @@ export default function LocationPage() {
     Title('Metro 7 | Location')
     Body_addclass('Location-PAGE')
 
+    const user = "Micheal Lance Kester Li"
+
     return(
         <>
         <Header />

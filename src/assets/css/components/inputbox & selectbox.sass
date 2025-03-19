@@ -1,6 +1,7 @@
 @use '../Variables.sass' as v
 
-label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"]) 
+label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]),
+label.selectionbox:has(h4):has(select)
     gap: 13px !important
     width: 254px
     align-items: center !important
@@ -10,21 +11,37 @@ label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[typ
         font-weight: 400 !important
         text-transform: capitalize !important
     
-    > input
+    > input, > select
         background-color: v.$input-white !important
+        width: 100% !important
+        max-height: 42.5px !important
         font-size: 15px !important
         padding: 10px 7.5px !important
+
+    > input
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button 
             -webkit-appearance: none
+
+    > input[type="date"]
+
+        &::-webkit-calendar-picker-indicator
+            margin-left: 90px
+    
+    > input[type="time"]
+
+        &::-webkit-calendar-picker-indicator
+            margin-left: 143px
         
-    &.incol
+    &.incol,
+    &.sltcol
         gap: 4.3px !important
         flex-direction: column !important
         align-items: stretch !important
 
-    &.inwhite
+    &.inwhite,
+    &.sltwhite
 
         > h4
             color: v.$input-white !important
