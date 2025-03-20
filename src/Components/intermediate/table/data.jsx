@@ -14,7 +14,7 @@ export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
                 </div>
                 ))}
                 <div className='td tdbtn'>
-                    { ViewBtn ? <Button Icon={ ViewLogo } Key={ RowIndex+1 } /> : undefined }
+                    { ViewBtn ? <Button Icon={ ViewLogo } Key={ RowIndex+1 } OpenModal="ViewModal" /> : undefined }
                     { EditBtn ? <Button Icon={ EditLogo } Key={ RowIndex+1 } OpenModal="EditModal" /> : undefined }
                     { Deletebtn ? <Button Icon={ DeleteLogo } Key={ RowIndex+1 } OpenModal="DeleteModal" /> : undefined }
                 </div>

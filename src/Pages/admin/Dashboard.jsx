@@ -1,10 +1,10 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Section, Box, KPI, DateText, TimeText, Table } from '../../exporter/component_exporter'
+import { Title, Body_addclass, SideBar, Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
 
 export default function DashboardPage() {
     Title('Dashboard')
-    Body_addclass('Dashboard-PAGE')
+    Body_addclass('Dashboard-Admin-PAGE')
 
     const user = 'Micheal Lance Kester Li'
 
@@ -18,6 +18,7 @@ export default function DashboardPage() {
     ]
 
     return(
+        <>
         <Group>
             <SideBar AdminMode />
             <Main>
@@ -42,5 +43,20 @@ export default function DashboardPage() {
                 </Box>
             </Main>
         </Group>
+        <Modal Modal="ViewModal">
+            <Form Title="VIEW ORDER" FormThreelayers>
+                <Group Class='outputfetch' Wrap>
+                    <Outputfetch Title="Order No." Value="25569" OutCol OutWhite />
+                    <Outputfetch Title="Order Date" Value="2025-02-24 | 02:27:25" OutCol OutWhite />
+                    <Outputfetch Title="Cashier Name" Value="Micheal Lance Kester Li" OutCol OutWhite />
+                    <Outputfetch Title="Options" Value="TAKE-OUT" OutCol OutWhite />
+                    <Outputfetch Title="Amount" Value="₱559.00" OutCol OutWhite />
+                </Group>
+                <Group Class='buttonside'>
+                    <Button Title="CLOSE" CloseModal BtnWhite />
+                </Group>
+            </Form>
+        </Modal>
+        </>
     )
 }

@@ -21,9 +21,12 @@ export { default as Box } from '../components/sectioning/box'
 export { default as Group } from '../components/sectioning/group'
 export { default as Form } from '../components/sectioning/form'
 
+export { default as Outputfetch } from '../components/intermediate/output_fetch'
 export { default as Table } from '../components/intermediate/table/table'
 export { default as Pagination } from '../components/intermediate/pagination'
 export { default as ItemMenu } from '../components/intermediate/item_menu'
+export { default as CheckedItem } from '../components/intermediate/checked_item'
+export { default as PrepOrder } from '../components/intermediate/prep_order'
 export { default as KPI } from '../components/intermediate/kpi'
 export { default as Modal } from '../components/intermediate/modal'
 

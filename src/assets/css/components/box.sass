@@ -1,20 +1,19 @@
-@import '../Variables.sass'
+@use '../Variables.sass' as v
 
 div.box
     width: 100%
-    background-color: $color-white
+    background-color: v.$color-white
     gap: 23px
     padding: 23px
     border-radius: 10px
     align-items: center
-    justify-content: center
 
     > .title
         width: 100% !important
         align-items: center !important
 
         > .left, > .right
-            flex: 1
+            flex-grow: 1
 
             > button
                 height: 37px

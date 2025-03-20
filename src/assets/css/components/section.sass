@@ -4,4 +4,18 @@ main section
     gap: 13px
     align-items: center
     flex-direction: column
-    flex-grow: 1
+    width: 100%
+
+    > .title
+        width: 100% !important
+        align-items: center !important
+
+        > .left, > .right
+            flex: 1
+
+            > button
+                width: auto !important
+                padding: 5px 23px !important
+
+        > .right
+            justify-content: flex-end

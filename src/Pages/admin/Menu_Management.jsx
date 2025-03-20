@@ -2,20 +2,17 @@ import React from 'react'
 import '../../assets/css/pages/admin/Management.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
 
-export default function EmployeeManagementPage() {
-    Title('Inventory Management')
+export default function MenuManagementPage() {
+    Title('Menu List Management')
     Body_addclass('Management-PAGE')
 
     const user = 'Micheal Lance Kester Li'
 
-    const roleoptions = ['SERVICE', 'CASHIER', 'COOK']
-    const scheduleoptions = [<>WEEKDAYS <br/> 09:00-05:00</>]
-    const tbhead = ['EMP. NO.', 'EMP. NAME', 'EMAIL', 'ROLE', 'SCHEDULE', 'LAST LOGGED']
+    const tbhead = ['MENU NO.', 'NAME', 'CATEGORY', 'AMOUNT']
     const tbrows = [
-        [<>36548</>, <>Micheal Lance Kester Li</>, <>kesterli1998 @gmail.com</>, roleoptions[0], scheduleoptions[0], <>2025-02-24 <br/> 02:27:25</>],
-        [<>18585</>, <>Dylan Clive Espino</>, <>dylanyak @gmail.com</>, <>CASHIER</>, scheduleoptions[0], <>2025-02-24 <br/> 02:27:25</>],
-        [<>69696</>, <>Mark Anthony Amper</>, <>marklagingabsent @gmail.com</>, <>SERVICE</>, scheduleoptions[0], <>2025-02-24 <br/> 02:27:25</>],
-        [<>69698</>, <>Mark Anthony Amper</>, <>marklagingabsent @gmail.com</>, <>SERVICE</>, scheduleoptions[0], <>2025-02-24 <br/> 02:27:25</>],
+        [<>36548</>, <>Burger</>, <>MEAL</>, 158.00.toFixed(2)],
+        [<>18585</>, <>Fries</>, <>MEAL</>, 89.00.toFixed(2)],
+        [<>69696</>, <>Bacardi</>, <>BEVERANGE</>, 358.00.toFixed(2)],
     ]
 
     return(
@@ -27,20 +24,18 @@ export default function EmployeeManagementPage() {
                     <Inputbox Title="Search" Type="search" />
                     <Selectionbox Title="Filter" />
                 </Box>
-                <Box Title="EMPLOYEES" UpperRight={ <Button Title="+" OpenModal="AddModal"/> } BoxCol>
+                <Box Title="MENU" UpperRight={ <Button Title="+" OpenModal="AddModal"/> } BoxCol>
                     <Table HeadRows={ tbhead } DataRows={ tbrows } Paginate={ 5 } EditBtn Deletebtn />
                 </Box>
             </Main>
         </Group>
         <Modal Modal="AddModal">
-            <Form Title="ADD EMPLOYEE" FormThreelayers>
+            <Form Title="ADD MENU" FormThreelayers>
                 <Group Class='inputside' Wrap>
                     <Inputbox Title='No.' Type='number' InCol InWhite />
-                    <Inputbox Title='First Name' Type='text' InCol InWhite />
-                    <Inputbox Title='Last Name' Type='text' InCol InWhite />
-                    <Inputbox Title='Email' Type='email' InCol InWhite />
-                    <Selectionbox Title='Role' Options={ roleoptions } SltCol SltWhite />
-                    <Selectionbox Title='Schedule' Options={ scheduleoptions } SltCol SltWhite />
+                    <Inputbox Title='Name' Type='text' InCol InWhite />
+                    <Inputbox Title='Category' Type='text' InCol InWhite />
+                    <Inputbox Title='Amount' Type='number' InCol InWhite />
                 </Group>
                 <Group Class='buttonside'>
                     <Button Title="CANCEL" CloseModal BtnWhite />
@@ -49,14 +44,12 @@ export default function EmployeeManagementPage() {
             </Form>
         </Modal>
         <Modal Modal="EditModal">
-            <Form Title="EDIT EMPLOYEE" FormThreelayers>
+            <Form Title="EDIT MENU" FormThreelayers>
                 <Group Class='inputside' Wrap>
                     <Inputbox Title='No.' Type='number' InCol InWhite />
-                    <Inputbox Title='First Name' Type='text' InCol InWhite />
-                    <Inputbox Title='Last Name' Type='text' InCol InWhite />
-                    <Inputbox Title='Email' Type='email' InCol InWhite />
-                    <Selectionbox Title='Role' Options={ roleoptions } SltCol SltWhite />
-                    <Selectionbox Title='Schedule' Options={ scheduleoptions } SltCol SltWhite />
+                    <Inputbox Title='Name' Type='text' InCol InWhite />
+                    <Inputbox Title='Category' Type='text' InCol InWhite />
+                    <Inputbox Title='Amount' Type='number' InCol InWhite />
                 </Group>
                 <Group Class='buttonside'>
                     <Button Title="CANCEL" CloseModal BtnWhite />
@@ -71,8 +64,6 @@ export default function EmployeeManagementPage() {
                     <Outputfetch Title="First Name" Value="Micheal Lance Kester" OutCol OutWhite />
                     <Outputfetch Title="Last Name" Value="Li" OutCol OutWhite />
                     <Outputfetch Title="Email" Value="kesterli1998@gmail.com" OutCol OutWhite />
-                    <Outputfetch Title="Role" Value={ roleoptions[1] } OutCol OutWhite />
-                    <Outputfetch Title="Schedule" Value={ scheduleoptions[0] } OutCol OutWhite />
                 </Group>
                 <Group Class='buttonside'>
                     <Button Title="CANCEL" CloseModal BtnWhite />

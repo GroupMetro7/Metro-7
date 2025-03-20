@@ -2,18 +2,16 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../assets/css/components/button.sass'
 
-export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, OpenModal, CloseModal, BtnWhite }) {
+export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, Onclick, OpenModal, CloseModal, BtnWhite }) {
     const navigate = useNavigate();
+
     return(
         <button type='button' 
             className={ `${ BtnWhite ? 'btnwhite' : undefined } ${ Class }` }
-            onClick={() => {
-                if ( Redirect ) {
-                    navigate(`${ Redirect }`);
-                }
-                if ( Pagination ) {
-                    handlePageChange( Pagination );
-                }
+            onClick={(e) => {
+                if ( Onclick ) Onclick(e);
+                if ( Redirect ) navigate(`${Redirect}`);
+                if ( Pagination ) handlePageChange(Pagination);
             }}
             data-bs-target={ OpenModal ? (`#${ OpenModal }`) : undefined } 
             data-bs-toggle={ OpenModal ? 'modal' : undefined } 

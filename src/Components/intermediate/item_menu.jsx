@@ -10,7 +10,7 @@ export default function ItemMenu({ Class, List }) {
                 <img src={ Menu[2] }/>
                 <article>
                     <h2>{ Menu[0] }</h2>
-                    <h3>{ Menu[1] }</h3>
+                    <h3>₱{ Menu[1] }</h3>
                 </article>
             </div>
         ))}

@@ -11,9 +11,9 @@ export default function SideBar({ ServiceMode, AdminMode }) {
                 <nav>
                     { ServiceMode ? 
                         <>
-                            <Href Icon={ DashboardLogo } Redirect="/servicedashboard"></Href>
+                            <Href Icon={ DashboardLogo } Redirect="/service"></Href>
                             <Href Icon={ OrderlistLogo } Redirect="/service/order_list"></Href>
-                            <Href Icon={ ProfileLogo } Redirect="/serviceprofile"></Href>
+                            <Href Icon={ ProfileLogo } Redirect="/service/profile"></Href>
                             <Href Icon={ LogoutLogo }></Href>
                         </>
                     : undefined
@@ -22,6 +22,7 @@ export default function SideBar({ ServiceMode, AdminMode }) {
                         <>
                             <Href Icon={ DashboardLogo } Redirect="/admin"/>
                             <Href Icon={ SalesLogo } Redirect=""/>
+                            <Href Icon={ OrderlistLogo } Redirect="/admin/menu_management"/>
                             <Href Icon={ InventoryLogo } Redirect="/admin/inventory_management"/>
                             <Href Icon={ EmployeeLogo } Redirect="/admin/employee_management"/>
                             <Href Icon={ CustomerLogo } Redirect="/admin/customer_management"/>

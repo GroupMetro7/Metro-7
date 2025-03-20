@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Management.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Selectionbox, Table, Button, Modal, Form, SubmitButton } from '../../exporter/component_exporter'
+import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Selectionbox, Table, Button, Modal, Form, SubmitButton, Outputfetch } from '../../exporter/component_exporter'
 
 export default function CustomerManagementPage() {
     Title('Inventory Management')
@@ -55,6 +55,22 @@ export default function CustomerManagementPage() {
                 <Group Class='buttonside'>
                     <Button Title="CANCEL" CloseModal BtnWhite />
                     <SubmitButton Title='SUBMIT' BtnWhite />
+                </Group>
+            </Form>
+        </Modal>
+        <Modal Modal="DeleteModal">
+            <Form Title="DELETE CUSTOMER" FormThreelayers>
+                <Group Class='outputfetch' Wrap>
+                    <Outputfetch Title="First Name" Value="Micheal Lance Kester" OutCol OutWhite />
+                    <Outputfetch Title="Last Name" Value="Li" OutCol OutWhite />
+                    <Outputfetch Title="Email" Value="kesterli1998@gmail.com" OutCol OutWhite />
+                    <Outputfetch Title="Contact Number" Value="09774956316" OutCol OutWhite />
+                    <Outputfetch Title="Loyalty" Value="SILVER" OutCol OutWhite />
+                    <Outputfetch Title="Balance" Value="₱0.00" OutCol OutWhite />
+                </Group>
+                <Group Class='buttonside'>
+                    <Button Title="CANCEL" CloseModal BtnWhite />
+                    <SubmitButton Title='DELETE' BtnWhite />
                 </Group>
             </Form>
         </Modal>

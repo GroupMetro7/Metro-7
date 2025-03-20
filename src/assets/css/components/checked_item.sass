@@ -1,0 +1,41 @@
+@use '../Variables.sass' as v
+
+div.checkeditem
+    gap: 13px
+
+    > img
+        width: 100px
+        aspect-ratio: 1
+        background-color: rgba(255, 255, 255, 1)
+
+    > article
+        gap: 13px
+        flex-grow: 1
+        flex-direction: column
+        justify-content: center
+
+        > h3
+            text-transform: uppercase !important
+            text-overflow: ellipsis !important
+            overflow: hidden !important
+            display: -webkit-box !important
+
+        > div
+            justify-content: space-between !important
+            align-items: center !important
+
+            > .quantity 
+                border-radius: 5px !important
+                background-color: v.$input-white
+                justify-content: space-between
+
+                > h3
+                    width: 47px
+                    align-items: center
+                    align-content: center !important
+                    justify-content: center !important
+
+                > button
+                    width: 37px !important
+                    height: 37px !important
+

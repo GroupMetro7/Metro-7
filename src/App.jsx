@@ -1,7 +1,7 @@
 // FOR TRIAL & ERROR PURPOSES ONLY
 
 import React from 'react'
-import { Title, Header, Footer, SideBar, DateText, Main, TimeText, Inputbox, Button, SubmitButton, InsertFileButton, Href, Radio, Section, Box, Group, Body_addclass, TBHead, TBData, Table, Form, ItemMenu, KPI, Modal, Selectionbox } from './exporter/component_exporter'
+import { Title, Header, Footer, SideBar, DateText, Main, TimeText, Inputbox, Button, SubmitButton, InsertFileButton, Href, Radio, Section, Box, Group, Body_addclass, TBHead, TBData, Table, Form, ItemMenu, KPI, Modal, Selectionbox, PrepOrder, CheckedItem } from './exporter/component_exporter'
 import './App.sass'
 import { M7Logo, DashboardLogo, SalesLogo, InventoryLogo, EmployeeLogo, CustomerLogo, LogoutLogo } from './exporter/public_exporter'
 
@@ -10,25 +10,70 @@ function App() {
   Title('Metro 7')
   Body_addclass('Trial-PAGE')
 
-  const tbhead = ['SKU NO.', 'ITEM NAME', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'LAST UPDATED']
-  const tbrows = [
-      [<>VEG-1989</>, <>Tomato</>, <>Vegetable</>, 99, <>₱25.00</>, <>₱2,475.00</>, 'AVAILABLE', <>2025-02-24 <br /> 02:27:25</>],
-      [<>OIL-1580</>, <>Olive Oil</>, <>Oil</>, 6, <>₱89.00</>, <>₱534.00</>, 'LOW STOCK', <>2025-02-24 <br /> 02:27:25</>],
-      [<>MEA-0008</>, <>Salmon</>, <>Meat</>, 24, <>₱58.00</>, <>₱1,392.00</>, 'AVAILABLE', <>2025-02-24 <br /> 02:27:25</>],
-      [<>SWE-0008</>, <>Sugar</>, <>Sweetener</>, 0, <>₱5.50</>, <>₱0.00</>, 'UNVAILABLE', <>2025-02-24 <br /> 02:27:25</>],
+  const user = "Micheal Lance Kester Li"
+
+  const orders = [
+      ['#25569', 'TAKE-OUT'],
+      ['#25569', 'TAKE-OUT'],
+      ['#25569', 'TAKE-OUT'],
+      ['#25569', 'TAKE-OUT']
+  ]
+  const orderlist = [
+    [<>Burger</>, 559.00.toFixed(2), {  },],
+    [<>Espresso</>, 358.00.toFixed(2), {  }],
+    [<>Carbonara</>, 1258.00.toFixed(2), {  }],
+    [<>Burger</>, 559.00.toFixed(2), {  }],
+    [<>Espresso</>, 358.00.toFixed(2), {  }],
+    [<>Carbonara</>, 1258.00.toFixed(2), {  }]
+  ]
+  const checkedorders = [
+    [<>Burger</>, 559.00.toFixed(2), {  }],
+    [<>Carbonara</>, 1258.00.toFixed(2), {  }],
   ]
 
   return (
     <>
       <Group>
         <SideBar AdminMode />
-        <Main>
-          <Selectionbox Options={["select", "water"]} />
-          <Inputbox/>
+        <Main Row>
+          <Group Class="leftside" Col>
+            <Section Title='My Profile' Class='myprofile'>
+                <Box Class="details">
+                    <img />
+                    <article>
+                        <h2>{ user }</h2>
+                        <h4>09774956316</h4>
+                    </article>
+                    <div className='buttons'>
+                        <Button Title='EDIT PROFILE' OpenModal="EditProfile" />
+                    </div>
+                </Box>
+                <Box Title="Sales Status" Class="statistic" BoxCol><img src="" /></Box>
+            </Section>
+          </Group>
+          <Box Class="rightside" BoxCol>
+            <Group Class="datetime" Col><h2><DateText /><br /><TimeText /></h2><hr/></Group>
+            <Group Class="diningopts">
+              <Button Title="TIME-IN" />
+              <Button Title="TIME-OUT" />
+            </Group>
+            <hr/>
+          </Box>
         </Main>
       </Group>
-      <Modal>
-        <Form Title="Add Customer"></Form>
+      <Modal Modal="EditProfile">
+          <Form Title="Edit Profile" FormTwolayers>
+              <Group Class='inputside' Wrap>
+                  <Inputbox Title='First Name' Type='text' Value="" InCol InWhite />
+                  <Inputbox Title='Last Name' Type='text' Value="" InCol InWhite />
+                  <Inputbox Title='Email' Type='email' Value="" InCol InWhite />
+                  <Inputbox Title='Contact Number' Type='number' Value="" InCol InWhite />
+              </Group>
+              <Group Class='buttonside'>
+                  <Button Title="CANCEL" CloseModal BtnWhite />
+                  <SubmitButton Title='SUBMIT' BtnWhite />
+              </Group>
+          </Form>
       </Modal>
     </>
   )

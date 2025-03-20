@@ -4,7 +4,7 @@ import { Title, Body_addclass, Header, Footer, Main, Section, Box, Button, Table
 
 export default function LocationPage() {
     Title('Metro 7')
-    Body_addclass('Profile-PAGE')
+    Body_addclass('Profile-Customer-PAGE')
 
     const user = "Micheal Lance Kester Li"
 

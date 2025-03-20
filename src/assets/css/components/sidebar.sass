@@ -1,7 +1,7 @@
-@import '../Variables.sass'
+@use '../Variables.sass' as v
 
 aside.sidebar 
-    width: $sidebar-size !important
+    width: v.$sidebar-size !important
     height: 100vh !important
     position: sticky !important
     background-color: black !important
@@ -9,9 +9,9 @@ aside.sidebar
     align-self: stretch
 
     > div
-        gap: 53px !important
+        gap: 37.5px !important
         height: 100% !important
-        padding: 33px 14.5px !important
+        padding: 27.5px 13px !important
         align-items: center !important
         flex-direction: column !important
 
@@ -20,7 +20,7 @@ aside.sidebar
             height: 31px !important
 
         > nav 
-            gap: 28px !important
+            gap: 23px !important
             flex-direction: column !important
 
             > a 

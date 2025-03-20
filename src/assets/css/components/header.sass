@@ -1,7 +1,7 @@
-@import '../Variables.sass'
+@use '../Variables.sass' as v
 
 header 
-    background-color: $header-footer !important
+    background-color: v.$header-footer !important
     width: 100% !important
     position: sticky !important
     top: 0 !important
@@ -34,6 +34,6 @@ header
                 transition: .33s !important
 
                 &:hover 
-                    background-color: $color-secondary !important
-                    color: $color-primary !important
+                    background-color: v.$color-secondary !important
+                    color: v.$color-primary !important
                     text-decoration: none !important
