@@ -1,0 +1,88 @@
+@use '../Variables.sass' as v
+
+
+.tb
+    width: 100%
+    gap: 13px
+    flex-direction: column
+    overflow-x: auto
+
+    > .thr
+        min-width: 100%
+        width: max-content
+        max-height: 27px
+        gap: 13px
+        padding: 0px 13px
+        justify-content: space-between !important
+        align-items: center !important
+
+        > .th
+            width: 100%
+            justify-content: center
+            text-align: center !important
+            flex-grow: 1
+
+            &:not(.thbtn)
+                min-width: 132.57px !important
+
+            > h3
+                text-transform: uppercase !important
+
+            &.thbtn
+                width: auto !important
+                gap: 13px
+
+                > div
+                    width: 53px !important
+
+    > .tdr
+        width: 100%
+        flex-direction: column
+        gap: 13px
+
+        > div
+            max-height: 54px
+            gap: 13px
+            justify-content: space-between !important
+            align-items: center !important
+            padding: 0 13px
+
+            > .td
+                width: 100%
+                justify-content: center
+                text-align: center !important
+
+                &:not(.tdbtn)
+                    min-width: 132.57px !important
+
+                > h4
+                    text-overflow: ellipsis !important
+                    overflow: hidden !important
+                    display: -webkit-box !important
+                    -webkit-line-clamp: 2 !important
+                    -webkit-box-orient: vertical !important
+
+                &.tdbtn
+                    width: auto !important
+                    gap: 13px
+
+                    > button
+                        height: v.$btn-size2 !important
+                        width: auto !important
+                        padding: 0px 13px
+
+                        > img
+                            width: 27px !important
+                            max-height: 27px !important;
+                            transition: filter 0.3s ease
+
+                        &:hover
+                            background-color: v.$color-primary !important
+                            color: v.$color-white !important
+
+                            > img
+                                filter: invert(1) !important
+
+div.box:has( >.tb )
+    gap: 33px
+

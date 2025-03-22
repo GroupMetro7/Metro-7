@@ -1,8 +1,0 @@
-export {default as LOGO} from './img/LOGO.png'
-export {default as TEXTLOGO} from './img/TEXT LOGO.png'
-export {default as M7LOGO} from './img/M7 LOGO.png'
-export {default as FBLOGO} from './img/FOOTER FB LOGO.png'
-export {default as XLOGO} from './img/FOOTER X LOGO.png'
-export {default as IGLOGO} from './img/FOOTER IG LOGO.png'
-export {default as PHONELOGO} from './img/FOOTER PHONE LOGO.png'
-export {default as LOCLOGO} from './img/FOOTER LOC LOGO.png'

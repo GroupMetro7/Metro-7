@@ -1,0 +1,26 @@
+@use '../Variables.sass' as v
+
+main.PCMOD-body
+    width: 100% !important
+    min-height: 469px !important
+    align-items: center !important
+    flex-direction: column !important
+
+    > div
+        width: 100% !important
+        max-width: max-content !important
+        flex-direction: column !important
+        gap: 23px !important
+        padding: 23px 53px 23px !important
+        justify-content: center !important
+        align-self: center !important
+
+div.group:has( > aside.sidebar ):has( > main.PCMOD-body )
+
+    main.PCMOD-body
+
+        > div
+            max-width: 1184px !important
+
+            &.row
+                flex-direction: row !important

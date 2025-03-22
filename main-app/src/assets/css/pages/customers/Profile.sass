@@ -1,0 +1,59 @@
+@use '../../Variables.sass' as v
+
+body.Profile-PAGE 
+
+    .myprofile
+
+        > div.box
+            width: 1000px !important
+            gap: 33px !important
+
+            > img
+                background-color: white !important
+                width: 125px !important
+                aspect-ratio: 1 !important
+                border-radius: 100% !important
+
+            > article
+                gap: 3px
+                flex-grow: 1
+                flex-direction: column
+
+                > h2
+                    text-transform: capitalize !important
+
+            > .buttons 
+                width: 166px !important
+                align-items: center
+                justify-content: center
+            
+    .orderhistory
+
+        > .tb
+
+            > .tdr 
+
+                > div 
+
+                    > .td
+
+                        &.status 
+                            height: 37px !important
+                            border-radius: 5px !important
+                            align-items: center
+
+                            &.pending 
+                                background-color: #b43434
+                                color: v.$color-white !important
+
+                            &.paid 
+                                background-color: #5fb91a
+                                color: v.$color-white !important
+    
+    .modal
+
+        > .modal-dialog
+
+            > div.form
+                gap: 23px !important
+

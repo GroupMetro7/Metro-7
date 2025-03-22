@@ -1,0 +1,15 @@
+@use '../Variables.sass' as v
+
+div.group
+    gap: 13px
+    align-self: stretch
+    padding: 0
+
+    &.col
+        flex-direction: column
+
+    &.wrap
+        flex-wrap: wrap
+
+    &:has( > aside.sidebar )
+        gap: unset

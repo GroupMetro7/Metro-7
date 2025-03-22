@@ -1,0 +1,58 @@
+@use '../Variables.sass' as v
+
+body.Landing-PAGE 
+    background-image: url('/background-image/BG.png') !important
+    background-size: cover !important
+    background-attachment: fixed !important
+    background-position: center !important
+
+    main.PCMOD-body
+
+        > div
+            max-width: unset !important
+            gap: unset !important
+            padding: unset !important
+
+            .pre-order
+                background-color: v.$container-red !important
+                margin-top: 240px !important
+                gap: unset !important
+                padding: 43px 130px !important
+                backdrop-filter: blur(13px) !important
+
+                > h1
+                    align-self: flex-start !important
+                    color: v.$color-secondary !important
+                    text-transform: inherit !important
+                    font-weight: 500 !important
+
+                > button
+                    background: none !important
+                    align-self: flex-end !important
+                    border: 3px solid  v.$color-secondary !important
+                    color: v.$color-secondary !important
+
+                    &:hover 
+                        background-color: v.$color-secondary !important
+                        color:  v.$color-primary !important
+
+            .about
+                gap: unset !important
+
+                > div:has( > img )
+                    background-color:  v.$color-primary !important
+                    padding: 50px 100px !important
+
+                    > img 
+                        pointer-events: none !important
+                        width: 260px !important
+                        aspect-ratio: 1 !important
+                    
+                > div.group:has( > p )
+                    background-color: v.$color-secondary !important
+                    align-self: stretch !important
+                    align-items: start !important
+                    gap: 23px !important
+                    padding: 53px 53px 0 !important
+                    color:  v.$color-primary !important
+                    

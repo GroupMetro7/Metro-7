@@ -1,0 +1,79 @@
+@use 'VARIABLES.sass' as v
+
+html, body
+    background-color: #C3B9B9 !important
+    width: 100% !important
+    height: 100% !important
+    margin: 0 !important
+    padding: 0 !important
+    user-select: none !important
+    -webkit-user-select: none !important
+    font-family: Poppins !important
+    overflow: overlay !important
+
+
+main div, header, header div, footer, footer div, main, section, aside, aside div, article, form, form div, label, nav,
+input, textarea, button, select, a, h1, h2, h3, h4, h5, p, figurecaption, hr, div.group, div.form
+    display: flex !important
+
+input, textarea, button, select
+    border-radius: 5px !important
+    border: none !important
+    outline: none !important
+
+hr
+    width: 100%
+    border: .8px solid #000000 !important
+
+h1
+    font-size: 33px !important
+    font-weight: 700 !important
+
+h2
+    font-size: 23px !important
+    font-weight: 600 !important
+
+a
+    font-size: 18px !important
+
+h3, button, input[type="submit"]
+    font-size: 18px !important
+    font-weight: 600 !important
+
+h4
+    font-size: 18px !important
+    font-weight: 500 !important
+
+h5
+    font-size: 15px !important
+    font-weight: 500 !important
+
+p, figurecaption
+    font-size: 15px !important
+    font-weight: 400 !important
+
+h1, h2
+    text-transform: uppercase !important
+
+h1, h2, h3, h4, h5, p, figure, figurecaption, a, button
+    line-height: normal !important
+    text-decoration: none !important
+
+h1, h2, h3, h4, h5, p, figure, figurecaption, a, hr
+    margin: 0 !important
+    padding: 0 !important
+
+img
+    pointer-events: none !important
+
+::-webkit-scrollbar
+    width: unset
+
+::-webkit-scrollbar-track
+    background: #f1f1f1
+
+::-webkit-scrollbar-thumb
+    background: #888
+
+    &:hover
+        background: #555

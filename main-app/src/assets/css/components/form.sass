@@ -1,0 +1,64 @@
+@use '../Variables.sass' as v
+
+div.form
+    background-color: v.$container-red !important
+    flex-direction: column !important
+    align-items: center !important
+    gap: 33px !important
+    padding: 23px 53px 43px !important
+    border-radius: 10px !important
+    backdrop-filter: blur(13px) !important
+    justify-self: center !important
+
+    > h1
+        color: v.$input-white !important
+        justify-content: center !important
+
+    > form
+        min-width: 254px !important
+        flex-direction: column !important
+        justify-content: center !important
+        align-items: center !important
+        gap: 43px !important
+
+        div.group
+
+            &.buttonside
+                width: 100%
+                gap: 23px !important
+                justify-content: center
+
+        div.group.col:has(label.outputfetch)
+            gap: 4.3px
+
+            > label.outputfetch
+                width: unset
+                gap: 3px !important
+
+            > div:has(label.outputfetch)
+                justify-content: space-between
+
+                > label.outputfetch
+                    width: unset
+
+        div.group.wrap
+            column-gap: 23px !important
+            row-gap: 13px !important
+
+        &.formtwolayers
+            width: 531px !important
+
+        &.formthreelayers
+            width: 808px !important
+
+        label.inputbox, label.selectionbox, label.outputfetch
+
+            > h4
+                font-size: 15px !important
+
+        
+
+        button, input[type="submit"]
+            height: 37px !important
+            
+    

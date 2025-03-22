@@ -1,0 +1,40 @@
+@use '../Variables.sass' as v
+
+label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]) 
+    gap: 13px !important
+    width: 254px
+    align-items: center !important
+
+    > h4 
+        font-style: italic !important
+        font-weight: 400 !important
+        text-transform: capitalize !important
+    
+    > input
+        background-color: v.$input-white !important
+        font-size: 15px !important
+        padding: 10px 7.5px !important
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button 
+            -webkit-appearance: none
+
+    > input[type="date"]
+
+        &::-webkit-calendar-picker-indicator
+            margin-left: 90px
+    
+    > input[type="time"]
+
+        &::-webkit-calendar-picker-indicator
+            margin-left: 143px
+        
+    &.incol
+        gap: 4.3px !important
+        flex-direction: column !important
+        align-items: stretch !important
+
+    &.inwhite
+
+        > h4
+            color: v.$input-white !important

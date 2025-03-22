@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Http\Controllers\api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\AddProductRequest;
+use App\Http\Requests\admin\UpdateProductRequest;
+use App\Models\StockManagement;
+use Illuminate\Http\Request;
+
+class StockManagementController extends Controller
+{
+    /**
+     * Display a listing of the inventory table.
+     */
+    public function index()
+    {
+      $products = StockManagement::paginate(10);
+      return response()->json($products);
+    }
+
+    // add product to the inventory table
+    public function AddProduct(AddProductRequest $request)
+    {
+      $validated = $request->validated();
+
+      $product = new StockManagement();
+      $product->SKU_NUMBER = $validated['SKU_NUMBER'];
+      $product->ITEM_NAME = $validated['ITEM_NAME'];
+      $product->CATEGORY = $validated['CATEGORY'];
+      $product->STOCK = $validated['STOCK'];
+      $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
+      $product->STOCK_VALUE = $validated['STOCK'] * $validated['COST_PER_UNIT'];
+      $product->save();
+
+      return response()->json(['message' => 'Product added successfully', 'product' => $product], 201);
+    }
+
+    // Modify products in the inventory table
+
+        /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'SKU_NUMBER' => 'sometimes|required|string|max:255',
+            'ITEM_NAME' => 'sometimes|required|string|max:255',
+            'CATEGORY' => 'sometimes|required|string|max:255',
+            'STOCK' => 'sometimes|required|integer',
+            'COST_PER_UNIT' => 'sometimes|required|numeric',
+        ]);
+
+        $product = StockManagement::findOrFail($id);
+
+        if (isset($validated['SKU_NUMBER'])) {
+            $product->SKU_NUMBER = $validated['SKU_NUMBER'];
+        }
+        if (isset($validated['ITEM_NAME'])) {
+            $product->ITEM_NAME = $validated['ITEM_NAME'];
+        }
+        if (isset($validated['CATEGORY'])) {
+            $product->CATEGORY = $validated['CATEGORY'];
+        }
+        if (isset($validated['STOCK'])) {
+            $product->STOCK = $validated['STOCK'];
+        }
+        if (isset($validated['COST_PER_UNIT'])) {
+            $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
+        }
+
+        // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
+        if (isset($validated['STOCK']) || isset($validated['COST_PER_UNIT'])) {
+            $product->STOCK_VALUE = $product->STOCK * $product->COST_PER_UNIT;
+        }
+
+        $product->save();
+
+        return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $product = StockManagement::findOrFail($id);
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully']);
+    }
+}

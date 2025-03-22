@@ -1,0 +1,97 @@
+@use '../../Variables.sass' as v
+
+body.Profile-Services-PAGE
+
+    .leftside
+        max-width: 625px !important
+        gap: 23px !important
+
+        .myprofile
+
+            > h1
+                align-self: start !important
+
+            > .details
+                gap: 33px !important
+
+                > img
+                    background-color: white !important
+                    width: 125px !important
+                    aspect-ratio: 1 !important
+                    border-radius: 100% !important
+
+                > article
+                    gap: 3px
+                    flex-grow: 1
+                    flex-direction: column
+
+                    > h2
+                        text-transform: capitalize !important
+
+                > .buttons 
+                    width: 166px !important
+                    align-items: center
+                    justify-content: center
+
+            > .statistic
+
+                > img
+                    background-color: white !important
+                    width: 100%
+                    height: 419px !important
+
+    .rightside
+        max-width: 430px !important
+        align-self: start !important
+
+        > .datetime
+            width: 100% !important
+            gap: 13px !important
+            align-items: center !important
+            text-align: center
+            flex-grow: unset
+
+            > h2
+                text-align: center !important
+
+        > .diningopts
+            gap: 23px
+            width: 100%
+
+            > button
+                max-width: 50% !important
+                height: 37px
+                flex-grow: 1 !important
+        
+        > label.inputbox
+            width: 100% !important
+
+            > input
+                flex-grow: 1 !important
+
+        > .totalitem
+            gap: 23px
+            flex-direction: column
+
+            > .itemlist
+                width: 100%
+                gap: 13px
+                flex-direction: column
+
+
+        > .paymentsum
+            gap: 23px
+            flex-grow: unset
+
+            > article
+                gap: 13px
+                flex-direction: column
+                flex-grow: 1
+
+                > div
+                    width: 100%
+                    justify-content: space-between
+
+            > button
+                width: 100% !important
+                height: 37px
