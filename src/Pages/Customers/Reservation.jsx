@@ -1,12 +1,11 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Reservation.sass'
+import { user } from '../../constant'
 import { Title, Body_addclass, Header, Footer, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../exporter/component_exporter'
 
-export default function LoginPage() {
+export default function ReservationPage() {
     Title('Metro 7 | Reservation')
     Body_addclass('Reservation-PAGE')
-
-    const user = "Micheal Lance Kester Li"
 
     return(
         <>
@@ -21,7 +20,7 @@ export default function LoginPage() {
                         </Group>
                         <hr />
                         <Group Class='inputside' Wrap>
-                            <Inputbox Title='Party Size' Type='number' Class="partysize" InCol InWhite />
+                            <Inputbox Title='Party Size' Type='number' Class='partysize' InCol InWhite />
                             <Inputbox Title='Date' Type='date' InCol InWhite />
                             <Inputbox Title='Time' Type='time' InCol InWhite />
                         </Group>

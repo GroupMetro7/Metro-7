@@ -5,23 +5,26 @@ import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporte
 
 export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
     return(
-        <div className='tdr'>
+        <>
             { DataRows.map(( DataRow, RowIndex ) => (<>
-            <div> {/* You can modify this from div to form */}
+            <form className='tdr'> {/* You can modify this from div to form */}
                 { DataRow.map(( DataCell, CellIndex ) => (
                 <div className='td' key={ RowIndex+1 }>
                     <h4>{ DataCell }</h4>
                 </div>
                 ))}
-                <div className='td tdbtn'>
-                    { ViewBtn ? <Button Icon={ ViewLogo } Key={ RowIndex+1 } OpenModal="ViewModal" /> : undefined }
-                    { EditBtn ? <Button Icon={ EditLogo } Key={ RowIndex+1 } OpenModal="EditModal" /> : undefined }
-                    { Deletebtn ? <Button Icon={ DeleteLogo } Key={ RowIndex+1 } OpenModal="DeleteModal" /> : undefined }
-                </div>
-            </div>
-            <hr />
+                { ViewBtn || EditBtn || Deletebtn ?
+                    <div className='td tdbtn'>
+                        {ViewBtn ? <Button Icon={ViewLogo} Key={RowIndex + 1} OpenModal='ViewModal' /> : undefined}
+                        {EditBtn ? <Button Icon={EditLogo} Key={RowIndex + 1} OpenModal='EditModal' /> : undefined}
+                        {Deletebtn ? <Button Icon={DeleteLogo} Key={RowIndex + 1} OpenModal='DeleteModal' /> : undefined}
+                    </div>
+                    :
+                    undefined
+                }
+            </form>
             </>))}
-        </div>
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]),
 label.selectionbox:has(h4):has(select)
@@ -13,27 +13,16 @@ label.selectionbox:has(h4):has(select)
     
     > input, > select
         background-color: v.$input-white !important
+        position: relative
         width: 100% !important
         max-height: 42.5px !important
         font-size: 15px !important
         padding: 10px 7.5px !important
 
-    > input
-
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button 
-            -webkit-appearance: none
-
-    > input[type="date"]
-
         &::-webkit-calendar-picker-indicator
-            margin-left: 90px
-    
-    > input[type="time"]
+            position: absolute
+            right: 13px
 
-        &::-webkit-calendar-picker-indicator
-            margin-left: 143px
-        
     &.incol,
     &.sltcol
         gap: 4.3px !important

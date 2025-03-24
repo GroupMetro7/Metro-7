@@ -1,4 +1,4 @@
-@use '../../Variables.sass' as v
+@use '../../constant.sass' as v
 
 body.Management-PAGE 
 
@@ -25,3 +25,12 @@ body.Management-PAGE
             &.red3
                 background-color: #761430
                 color: v.$color-white !important
+
+    div.box
+
+        > .tb
+
+            > .tdr
+
+                > .td:has(h4:contains("AVAILABLE"))
+                    background-color: green

@@ -1,16 +1,15 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Location.sass'
+import { user } from '../../constant'
 import { Title, Body_addclass, Header, Footer, Main, Section, Box } from '../../exporter/component_exporter'
 
 export default function LocationPage() {
     Title('Metro 7 | Location')
     Body_addclass('Location-PAGE')
 
-    const user = "Micheal Lance Kester Li"
-
     return(
         <>
-        <Header />
+        <Header AuthenticatedMode={ user } />
         <Main>
             <Section Title='Our Location' Class='location'>
                 <Box>

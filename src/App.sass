@@ -1,99 +1,83 @@
 // FOR TRIAL & ERROR PURPOSES ONLY
 
-@import './assets/css/Variables.sass'
+@import './assets/css/constant.sass'
 
 body.Trial-PAGE 
 
-    .leftside
-        max-width: 625px !important
-        gap: 23px !important
+    .search
 
-        .myprofile
-
-            > h1
-                align-self: start !important
-
-            > .details
-                gap: 33px !important
-
-                > img
-                    background-color: white !important
-                    width: 125px !important
-                    aspect-ratio: 1 !important
-                    border-radius: 100% !important
-
-                > article
-                    gap: 3px
-                    flex-grow: 1
-                    flex-direction: column
-
-                    > h2
-                        text-transform: capitalize !important
-
-                > .buttons 
-                    width: 166px !important
-                    align-items: center
-                    justify-content: center
-
-            > .statistic
-
-                > img
-                    background-color: white !important
-                    width: 100%
-                    height: 419px !important
-
-    .rightside
-        max-width: 430px !important
-        align-self: start !important
-
-        > .datetime
-            width: 100% !important
-            gap: 13px !important
-            align-items: center !important
-            text-align: center
-            flex-grow: unset
-
-            > h2
-                text-align: center !important
-
-        > .diningopts
-            gap: 23px
-            width: 100%
-
-            > button
-                max-width: 50% !important
-                height: 37px
-                flex-grow: 1 !important
-        
-        > label.inputbox
+        > label
             width: 100% !important
 
             > input
                 flex-grow: 1 !important
 
-        > .totalitem
-            gap: 23px
-            flex-direction: column
+    .salesrevenue
 
-            > .itemlist
-                width: 100%
-                gap: 13px
-                flex-direction: column
+        > .title
 
+            > .left
+                display: none !important
 
-        > .paymentsum
-            gap: 23px
-            flex-grow: unset
+        > div.group.upper
 
-            > article
-                gap: 13px
-                flex-direction: column
+            > div.group.kpis
+
+                > .kpi
+
+                    &.red1
+                        background-color: #461220
+                        color: $color-white !important
+
+                    &.red2
+                        background-color: #B53535
+                        color: $color-white !important
+
+                    &.red3
+                        background-color: #761430
+                        color: $color-white !important
+
+            > .datetime
+                max-width: 390px !important
+                align-self: stretch !important
+                justify-content: center !important
                 flex-grow: 1
 
-                > div
-                    width: 100%
-                    justify-content: space-between
+                > h2
+                    text-align: center !important
+        
+        > div.group.charts
 
-            > button
-                width: 100% !important
-                height: 37px
+            > .salesstatus
+                width: unset !important
+                flex-grow: 1 !important
+                align-self: stretch !important
+
+                > img
+                    width: 100% !important
+                    height: 344px !important
+                    background-color: white !important
+
+            > .topcategory
+                max-width: 390px !important
+                flex-grow: 1
+
+                > img
+                    width: 100% !important
+                    aspect-ratio: 1 !important
+                    background-color: white !important
+
+        > div.box
+
+            > .tb
+
+                > .thr, > .tdr
+
+                    > .th, > .td
+
+                        &:nth-child(1)
+                            max-width: 122px !important
+
+                            > h4
+                                font-weight: 600 !important
+                                

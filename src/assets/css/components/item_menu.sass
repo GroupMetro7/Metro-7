@@ -1,4 +1,4 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 div.item
     background-color: v.$color-white !important
@@ -27,4 +27,25 @@ div.item
             -webkit-line-clamp: 2 !important
             -webkit-box-orient: vertical !important
         
-    
+        > div
+            justify-content: space-between
+
+            > div
+                border-radius: 5px !important
+                background-color: v.$input-white
+                justify-content: space-between
+
+                > h3
+                    width: 37px
+                    align-items: center
+                    align-content: center !important
+                    justify-content: center !important
+
+                > button
+                    width: 37px !important
+
+            button
+                width: auto !important
+                padding: 5px 13px
+                height: 37px !important
+                

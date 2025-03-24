@@ -17,7 +17,11 @@ export default function Header({ AuthenticatedMode }) {
                             <Href Title='LOCATION' Redirect='/location' />
                             <Href Title='PRE-ORDER' Redirect='/menu' />
                             <Href Title='RESERVATION' Redirect='/reservation' />
-                            <Href Title={ AuthenticatedMode } Redirect='/login' />
+                            <Href Title={ AuthenticatedMode } DropDown />
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <Href Title='PROFILE' Redirect='/profile' / >
+                                <Href Title='LOGOUT' Redirect='' />
+                            </ul>
                         </>
                         :
                         <>

@@ -1,4 +1,4 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 main.PCMOD-body
     width: 100% !important
@@ -15,12 +15,12 @@ main.PCMOD-body
         justify-content: center !important
         align-self: center !important
 
+        &.row
+            flex-direction: row !important
+
 div.group:has( > aside.sidebar ):has( > main.PCMOD-body )
 
     main.PCMOD-body
 
         > div
             max-width: 1184px !important
-
-            &.row
-                flex-direction: row !important

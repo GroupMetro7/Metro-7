@@ -13,10 +13,10 @@ export default function CheckedItem({ Class, List, Quantity }) {
                     <h3>{ Menu[0] }</h3>
                     <div>
                         <h3>₱{ Menu[1] }</h3>
-                        <div className="quantity">
-                            <Button Title="&lt;"/>
+                        <div className='quantity'>
+                            <Button Title='-'/>
                             <h3>{ Quantity }</h3>
-                            <Button Title="&gt;"/>
+                            <Button Title='+'/>
                         </div>
                     </div>
                 </article>

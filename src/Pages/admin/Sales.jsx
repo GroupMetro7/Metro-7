@@ -1,19 +1,13 @@
-// FOR TRIAL & ERROR PURPOSES ONLY
-
 import React from 'react'
-import { user, revpermonthhead, revpermonthdata } from './constant'
-import { Title, Header, Footer, SideBar, DateText, Main, TimeText, Inputbox, Button, SubmitButton, InsertFileButton, Href, Radio, Section, Box, Group, Body_addclass, TBHead, TBData, Table, Form, ItemMenu, KPI, Modal, Selectionbox, PrepOrder, CheckedItem } from './exporter/component_exporter'
-import './App.sass'
-import { M7Logo, DashboardLogo, SalesLogo, InventoryLogo, EmployeeLogo, CustomerLogo, LogoutLogo } from './exporter/public_exporter'
+import '../../assets/css/pages/admin/Sales.sass'
+import { user, revpermonthhead, revpermonthdata } from '../../constant'
+import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
 
+export default function MenuManagementPage() {
+    Title('Revenue')
+    Body_addclass('Sales-PAGE')
 
-function App() {
-    Title('Metro 7')
-    Body_addclass('Trial-PAGE')
-
-
-
-    return (
+    return(
         <>
         <Group>
             <SideBar AdminMode />
@@ -22,7 +16,7 @@ function App() {
                     <Selectionbox Title='Period' />
                     <Inputbox Title='Date' Type='date' />
                 </Box>
-                <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE"/> }>
+                <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" /> }>
                     <Group Class='upper'>
                         <Group Class='kpis'>
                             <KPI Title='TOTAL SALES' Integer='₱230,631.00' Increase='₱8,271.00' Class='red1' />
@@ -30,7 +24,7 @@ function App() {
                             <KPI Title='TODAY' Integer='₱13,331.00' Decrease='₱31.00' Class='red3' />
                             <KPI Title='RATE' Integer='23.8%' Increase='1.4%' />
                         </Group>
-                        <Box Title={<><DateText /><br /><TimeText /></>} Class='datetime' />
+                        <Box Title={ <><DateText /><br /><TimeText /></> } Class='datetime' />
                     </Group>
                     <Group Class='charts'>
                         <Box Title='Sales Status' Class='salesstatus' BoxCol><img src='' /></Box>
@@ -42,11 +36,9 @@ function App() {
                     <Box Title="PRODUCT REVENUE PER MONTH" BoxCol>
                         <Table HeadRows={ revpermonthhead } DataRows={ revpermonthdata } />
                     </Box>
-                </Section>  
+                </Section>
             </Main>
         </Group>
         </>
     )
 }
-
-export default App

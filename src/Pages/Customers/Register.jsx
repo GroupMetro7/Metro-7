@@ -1,16 +1,15 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Register.sass'
+import { user } from '../../constant'
 import { Title, Body_addclass, Header, Footer, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../exporter/component_exporter'
 
-export default function LoginPage() {
+export default function RegisterPage() {
     Title('Metro 7 | Register')
     Body_addclass('Register-PAGE')
 
-    const user = "Micheal Lance Kester Li"
-
     return(
         <>
-        <Header />
+        <Header AuthenticatedMode={ user } />
         <Main>
             <Section Class='register'>
                 <Form Title='REGISTER' FormTwolayers>

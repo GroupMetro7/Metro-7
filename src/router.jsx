@@ -15,12 +15,13 @@ import OrderListPage from './pages/services/Order_List'
 import ServiceDashboardPage from './pages/services/Dashboard'
 import ServiceProfilePage from './pages/services/Profile'
 import MenuManagementPage from './pages/admin/Menu_Management'
+import SalesPage from './pages/admin/Sales'
 
 export default function App() {
     return (
         <Router>
             <Routes>
-                <Route path='/trial' element={<Trial />} />
+                {/* <Route path='/trial' element={<Trial />} /> */}
                 <Route path='/' element={<LandingPage />} />
                 <Route path='/location' element={<LocationPage />} />
                 <Route path='/profile' element={<CustomerProfilePage />} />
@@ -36,6 +37,7 @@ export default function App() {
                 <Route path='/service' element={<ServiceDashboardPage />} />
                 <Route path='/service/profile' element={<ServiceProfilePage />} />
                 <Route path='/admin/menu_management' element={<MenuManagementPage />} />
+                <Route path='/admin/sales' element={<SalesPage />} />
             </Routes>
         </Router>
     )

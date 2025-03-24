@@ -1,22 +1,21 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
+import { user } from '../constant'
 import { Title, Body_addclass, Header, Footer, Main, Section, Group, Button } from '../exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
 
-export default function LoginPage() {
-    Title('Metro 7 | Login')
+export default function LandingPage() {
+    Title('Metro 7')
     Body_addclass('Landing-PAGE')
 
-    const user = "Micheal Lance Kester Li"
-
-    return(
+    return (
         <>
         <Header AuthenticatedMode={ user } />
         <Main>
-            <Section Title={<>Want to order in advance before<br />you arrive?</>} Class="pre-order">
-                <Button Title="PRE-ORDER NOW" Redirect={ user ? "/reservation" : "/login" } BtnWhite />
+            <Section Title={ <>Want to order in advance before<br />you arrive?</> } Class='pre-order'>
+                <Button Title='PRE-ORDER NOW' Redirect={ user ? '/reservation' : '/login' } BtnWhite />
             </Section>
-            <Group Class="about">
+            <Group Class='about'>
                 <div>
                     <img src={ Logo } />
                 </div>

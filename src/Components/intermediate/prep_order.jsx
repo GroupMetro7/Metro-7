@@ -10,7 +10,7 @@ export default function PrepOrder({ Class, List }) {
             <div className={ `order ${ Class }` }>
                 <h4>{ Order[0] }</h4>
                 <h3>{ Order[1] }</h3>
-                <Button Title="VIEW" Key={ index } OpenModal="ViewModal" />
+                <Button Title='VIEW' Key={ index } OpenModal='ViewModal' />
             </div>
         ))}
         </>

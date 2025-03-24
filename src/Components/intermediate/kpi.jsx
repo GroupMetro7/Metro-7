@@ -8,7 +8,7 @@ export default function KPI({ Class, Title, Item, Integer, Increase, Decrease })
             <h3>{ Title }</h3>
             { Item ? <h4>{ Item }</h4> : undefined }
             { Integer ? <h4>{ Integer }</h4> : undefined }
-            { Increase ? <p className="add">+{ Increase }</p> : undefined }
+            { Increase ? <p className='add'>+{ Increase }</p> : undefined }
             { Decrease ? <p>-{ Decrease }</p> : undefined }
         </div>
     )
