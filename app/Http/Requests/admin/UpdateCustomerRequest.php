@@ -4,7 +4,7 @@ namespace App\Http\Requests\admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +21,14 @@ class UpdateProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $customerId = $this->route('id');
         return [
-          'ITEM_NAME' => 'required|string|max:55',
-          'CATEGORY' => 'required|string|max:15',
-          'STOCK' => 'required|integer',
-          'COST_PER_UNIT' => 'required|numeric',
+          'firstname' => 'required|string|max:255',
+          'lastname' => 'required|string|max:255',
+          'email' => 'required|email|unique:customers,email,' . $customerId,
+          'loyalty' => 'required|string|max:255',
+          'total_spent' => 'required|numeric',
+          'balance' => 'required|numeric',
         ];
     }
 }

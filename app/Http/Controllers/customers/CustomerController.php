@@ -3,64 +3,53 @@
 namespace App\Http\Controllers\customers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\AddCustomerRequest;
+use App\Http\Requests\admin\UpdateCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $customers = Customer::paginate(10);
+        return response()->json($customers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function AddCustomer(AddCustomerRequest $request){
+      $validated = $request->validated();
+
+      $new_Customer = new Customer();
+      $new_Customer->firstname = $validated['firstname'];
+      $new_Customer->lastname = $validated['lastname'];
+      $new_Customer->email = $validated['email'];
+      $new_Customer->loyalty = $validated['loyalty'];
+      $new_Customer->total_spent = $validated['total_spent'];
+      $new_Customer->balance = $validated['balance'];
+      $new_Customer->save();
+
+      return response()->json(['message' => 'Added New Customer', 'Customer' => $new_Customer], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function update(UpdateCustomerRequest $request, $id){
+      $validated = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
+      $customer = Customer::findOrFail($id);
+      $customer->firstname = $validated['firstname'];
+      $customer->lastname = $validated['lastname'];
+      $customer->email = $validated['email'];
+      $customer->loyalty = $validated['loyalty'];
+      $customer->total_spent = $validated['total_spent'];
+      $customer->balance = $validated['balance'];
+      $customer->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Customer $customer)
-    {
-        //
+      return response()->json(['message' => 'Customer Information Updated Successfully', 'Customer' => $customer]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Customer $customer)
+    public function destroy($id)
     {
-        //
-    }
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Customer $customer)
-    {
-        //
+        return response()->json(['message' => 'Customer removed successfully']);
     }
 }

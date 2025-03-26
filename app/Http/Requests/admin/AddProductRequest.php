@@ -22,7 +22,6 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'SKU_NUMBER' => 'required|string|max:20',
             'ITEM_NAME' => 'required|string|max:55',
             'CATEGORY' => 'required|string|max:15',
             'STOCK' => 'required|integer',

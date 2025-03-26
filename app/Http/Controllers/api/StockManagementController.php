@@ -25,7 +25,7 @@ class StockManagementController extends Controller
       $validated = $request->validated();
 
       $product = new StockManagement();
-      $product->SKU_NUMBER = $validated['SKU_NUMBER'];
+      $product->SKU_NUMBER = $this->generateSKUNumber();
       $product->ITEM_NAME = $validated['ITEM_NAME'];
       $product->CATEGORY = $validated['CATEGORY'];
       $product->STOCK = $validated['STOCK'];
@@ -36,11 +36,14 @@ class StockManagementController extends Controller
       return response()->json(['message' => 'Product added successfully', 'product' => $product], 201);
     }
 
-    // Modify products in the inventory table
+    private function generateSKUNumber()
+    {
+      $lastSKU = StockManagement::orderBy('id', 'desc')->first();
+      $lastSKU = $lastSKU ? intval(substr($lastSKU->SKU_NUMBER, -4)) : 0;
+      $newNumber = str_pad($lastSKU + 1, 4, '0', STR_PAD_LEFT);
+      return 'SKU' . '-' . $newNumber;
+    }
 
-        /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([

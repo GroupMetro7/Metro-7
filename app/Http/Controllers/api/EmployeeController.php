@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddEmployeeRequest;
+use App\Http\Requests\admin\UpdateEmployeeRequest;
 use App\Models\employee;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,22 @@ class EmployeeController extends Controller
       $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
 
       return 'EMP' . $newNumber;
+    }
+
+    public function update(UpdateEmployeeRequest $request, $id){
+      $validated = $request->validated();
+
+      $employee = employee::findOrFail($id);
+      $employee->name = $validated['name'];
+      $employee->email = $validated['email'];
+      $employee->username = $validated['username'];
+      $employee->role = $validated['role'];
+      $employee->schedule = $validated['schedule'];
+      $employee->time = $validated['time'];
+      $employee->phone = $validated['phone'];
+      $employee->save();
+
+      return response()->json(['message' => 'Employee updated successfully', 'Employee' => $employee]);
     }
 
     public function destroy($id)
