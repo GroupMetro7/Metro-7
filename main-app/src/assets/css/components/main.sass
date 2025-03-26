@@ -1,0 +1,25 @@
+@use '../constant.sass' as v
+
+main.PCMOD-body
+    width: 100% !important
+    min-height: 469px !important
+    flex-direction: column !important
+    align-items: center !important
+
+    > div
+        width: 100% !important
+        max-width: 1263px !important
+        flex-direction: column !important
+        justify-content: center !important
+        gap: 23px !important
+        padding: 23px 53px 23px !important
+
+        &.row
+            flex-direction: unset !important
+
+div.group:has( > main.PCMOD-body )
+
+    main.PCMOD-body
+
+        > div
+            max-width: 1184px !important
