@@ -25,7 +25,7 @@ export default function ServiceDashboardPage() {
             <Main Row>
                 <Group Class='leftside' Col>
                     <Section Title='PREPARING ORDER' Class='preporder' UpperRight={ <Button Title='VIEW ALL ORDERS' Redirect='/service/order_list' /> }>
-                        <Box Class='search'><Selectionbox Title='Filter' /></Box>
+                        {/* <Box Class='search'><Selectionbox Title='Filter' /></Box> */}
                         <Group Class='orders' Wrap>
                             <PrepOrder List={ orders } />
                         </Group>

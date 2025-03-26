@@ -1,15 +1,15 @@
 @use '../constant.sass' as v
 
 div.group
+    width: 100% !important
     gap: 13px
-    align-self: stretch
     padding: 0 !important
 
     &.col
-        flex-direction: column
+        flex-direction: column !important
 
     &.wrap
-        flex-wrap: wrap
+        flex-wrap: wrap !important
 
     &:has( > aside.sidebar )
-        gap: unset
+        gap: unset !important

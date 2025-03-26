@@ -3,14 +3,14 @@ import '../../../assets/css/components/table.sass'
 
 export default function TBHead({ HeadRows, ViewBtn, EditBtn, Deletebtn }) {
     return(
-        <div className='thr'>
+        <div className='th'>
             { HeadRows.map(( HeadRow ) => (
-                <div className='th'>
+                <div className='tc'>
                     <h3>{ HeadRow }</h3>
                 </div>
             ))}
             { ViewBtn || EditBtn || Deletebtn ?
-                <div className='th thbtn'>
+                <div className='tc tcbtn'>
                     { ViewBtn ? <div></div> : undefined }
                     { EditBtn ? <div></div> : undefined }
                     { Deletebtn ? <div></div> : undefined }

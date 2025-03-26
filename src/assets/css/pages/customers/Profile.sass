@@ -8,47 +8,49 @@ body.Profile-Customer-PAGE
             width: 1000px !important
             gap: 33px !important
 
-            > img
-                background-color: white !important
-                width: 125px !important
-                aspect-ratio: 1 !important
-                border-radius: 100% !important
+            &.profile
+                align-items: center !important
 
-            > article
-                gap: 3px
-                flex-grow: 1
-                flex-direction: column
+                > img
+                    background-color: white !important
+                    width: 125px !important
+                    aspect-ratio: 1 !important
+                    border-radius: 100% !important
 
-                > h2
-                    text-transform: capitalize !important
+                > article
+                    flex-grow: 1 !important
+                    flex-direction: column !important
+                    gap: 3px !important
 
-            > .buttons 
-                width: 166px !important
-                align-items: center
-                justify-content: center
+                    > h2
+                        text-transform: capitalize !important
+                    
+                > button
+                    width: unset !important
+                    padding: 0px 23px !important
             
-    .orderhistory
+            &.orderhistory
 
-        > .tb
+                > .tb
 
-            > .tdr 
+                    > .tdr 
 
-                > div 
+                        > div 
 
-                    > .td
+                            > .td
 
-                        &.status 
-                            height: 37px !important
-                            border-radius: 5px !important
-                            align-items: center
+                                &.status 
+                                    height: 37px !important
+                                    align-items: center !important
+                                    border-radius: 5px !important
 
-                            &.pending 
-                                background-color: #b43434
-                                color: v.$color-white !important
+                                    &.pending 
+                                        background-color: #b43434
+                                        color: v.$color-white !important
 
-                            &.paid 
-                                background-color: #5fb91a
-                                color: v.$color-white !important
+                                    &.paid 
+                                        background-color: #5fb91a
+                                        color: v.$color-white !important
     
     .modal
 

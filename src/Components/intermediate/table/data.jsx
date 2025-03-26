@@ -7,14 +7,14 @@ export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
     return(
         <>
             { DataRows.map(( DataRow, RowIndex ) => (<>
-            <form className='tdr'> {/* You can modify this from div to form */}
+            <form className='td'> {/* You can modify this from div to form */}
                 { DataRow.map(( DataCell, CellIndex ) => (
-                <div className='td' key={ RowIndex+1 }>
+                <div className='tc' key={ RowIndex+1 }>
                     <h4>{ DataCell }</h4>
                 </div>
                 ))}
                 { ViewBtn || EditBtn || Deletebtn ?
-                    <div className='td tdbtn'>
+                    <div className='tc tcbtn'>
                         {ViewBtn ? <Button Icon={ViewLogo} Key={RowIndex + 1} OpenModal='ViewModal' /> : undefined}
                         {EditBtn ? <Button Icon={EditLogo} Key={RowIndex + 1} OpenModal='EditModal' /> : undefined}
                         {Deletebtn ? <Button Icon={DeleteLogo} Key={RowIndex + 1} OpenModal='DeleteModal' /> : undefined}

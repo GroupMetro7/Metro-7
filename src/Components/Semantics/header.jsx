@@ -7,9 +7,7 @@ export default function Header({ AuthenticatedMode }) {
     return(
         <header>
             <div>
-                <div className='titleside'>
-                    <img src={ TextLogo } />
-                </div>
+                <img src={ TextLogo } />
                 <nav>
                     { AuthenticatedMode ?
                         <>

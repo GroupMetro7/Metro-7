@@ -24,7 +24,7 @@ export default function MenuPage() {
                                 <Inputbox Title='Search' Type='search' />
                                 <Selectionbox Title='Filter' />
                             </Box>
-                            <Group Wrap>
+                            <Group Class='items' Wrap>
                                 <ItemMenu List={ menulistdata } AuthenticatedMode={ user } />
                             </Group>
                         </Group>
@@ -32,19 +32,19 @@ export default function MenuPage() {
                 </Group>
                 <Box Class='rightside' BoxCol>
                     <Group Class='datetime' Col><h2><DateText /><br /><TimeText /></h2><hr /></Group>
-                    <Group Class='diningopts'>
+                    <Group Class='opts'>
                         <Radio Title='DINE-IN' RadioName='Options' />
                         <Radio Title='TAKE-OUT' RadioName='Options' />
                     </Group>
                     <hr />
-                    <Group Class='totalitem'>
+                    <Group Class='totalitem' Col>
                         <h3>ORDER SUMMARY</h3>
-                        <div className='itemlist'>
+                        <Group Class='itemlist' Col>
                             <CheckedItem List={ checkedorders } />
-                        </div>
+                        </Group>
                     </Group>
                     <hr />
-                    <Group Class='diningopts'>
+                    <Group Class='opts'>
                         <Radio Title='CASH' RadioName='Payment' />
                         <Radio Title='ONLINE' RadioName='Payment' />
                     </Group>

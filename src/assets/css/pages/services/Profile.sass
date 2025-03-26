@@ -6,13 +6,14 @@ body.Profile-Services-PAGE
         max-width: 625px !important
         gap: 23px !important
 
-        .myprofile
+        > .myprofile
 
             > h1
                 align-self: start !important
 
             > .details
-                gap: 33px !important
+                align-items: center !important
+                gap: 23px !important
 
                 > img
                     background-color: white !important
@@ -21,23 +22,22 @@ body.Profile-Services-PAGE
                     border-radius: 100% !important
 
                 > article
-                    gap: 3px
-                    flex-grow: 1
-                    flex-direction: column
+                    max-width: 250px !important
+                    flex-direction: column !important
+                    gap: 3px !important
 
                     > h2
                         text-transform: capitalize !important
-
-                > .buttons 
-                    width: 166px !important
-                    align-items: center
-                    justify-content: center
+                    
+                > button
+                    width: unset !important
+                    padding: 0px 23px !important
 
             > .statistic
 
                 > img
                     background-color: white !important
-                    width: 100%
+                    width: 100% !important
                     height: 419px !important
 
     .rightside
@@ -46,52 +46,17 @@ body.Profile-Services-PAGE
 
         > .datetime
             width: 100% !important
-            gap: 13px !important
             align-items: center !important
-            text-align: center
-            flex-grow: unset
+            gap: 13px !important
+            text-align: center !important
 
             > h2
                 text-align: center !important
 
-        > .diningopts
-            gap: 23px
-            width: 100%
-
-            > button
-                max-width: 50% !important
-                height: 37px
-                flex-grow: 1 !important
-        
-        > label.inputbox
+        > .attendance
             width: 100% !important
-
-            > input
-                flex-grow: 1 !important
-
-        > .totalitem
-            gap: 23px
-            flex-direction: column
-
-            > .itemlist
-                width: 100%
-                gap: 13px
-                flex-direction: column
-
-
-        > .paymentsum
-            gap: 23px
-            flex-grow: unset
-
-            > article
-                gap: 13px
-                flex-direction: column
-                flex-grow: 1
-
-                > div
-                    width: 100%
-                    justify-content: space-between
-
+            gap: 23px !important
+            
             > button
-                width: 100% !important
-                height: 37px
+                height: 37px !important
+        

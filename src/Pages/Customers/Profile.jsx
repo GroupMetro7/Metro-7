@@ -13,7 +13,7 @@ export default function CustomerProfilePage() {
         <Main>
 
             <Section Title='My Profile' Class='myprofile'>
-                <Box>
+                <Box Class='profile'>
                     <img />
                     <article>
                         <h2>{ user }</h2>
@@ -21,9 +21,7 @@ export default function CustomerProfilePage() {
                         <h4>09774956316</h4>
                         <h4>SILVER</h4>
                     </article>
-                    <div className='buttons'>
-                        <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
-                    </div>
+                    <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
                 </Box>
                 <Box Title='Order History' Class='orderhistory' BoxCol>
                     <Table HeadRows={ userrecorderstbhead } DataRows={ userrecorderstbdata } ViewBtn />

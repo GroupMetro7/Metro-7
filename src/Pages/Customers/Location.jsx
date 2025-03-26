@@ -11,7 +11,7 @@ export default function LocationPage() {
         <>
         <Header AuthenticatedMode={ user } />
         <Main>
-            <Section Title='Our Location' Class='location'>
+            <Section Title='OUR LOCATION' Class='location'>
                 <Box>
                     <article>
                         <h2>

@@ -1,72 +1,63 @@
 @use '../constant.sass' as v
 
 .tb
-    width: 100%
-    gap: 13px
-    flex-direction: column
-    overflow-x: auto
+    width: 100% !important
+    flex-direction: column !important
+    overflow-x: auto !important
+    gap: 13px!important
 
-    > .thr
-        min-width: 100%
-        max-height: 27px
-        gap: 13px
-        justify-content: space-between !important
+    > .th, > .td
+        width: 100% !important
         align-items: center !important
+        gap: 13px !important
 
-        > .th 
-            width: 100%
-            justify-content: center
+        > .tc
+            width: 100% !important
+            justify-content: center !important
             text-align: center !important
-            flex-grow: 1
 
-            &:not(.thbtn)
+            &:not(.tcbtn)
                 min-width: 122px !important
+                
+            &.tcbtn
+                width: unset !important
+                gap: 13px
+
+    > .th
+        height: 27px !important
+
+        > .tc
 
             > h3
                 text-transform: uppercase !important
 
-            &.thbtn
-                width: auto !important
-                gap: 13px
+            &.tcbtn
 
                 > div
                     width: 53px !important
 
-    > .tdr 
-        height: 54px
-        min-width: 100%
-        gap: 13px
-        justify-content: space-between !important
-        align-items: center !important
+    > .td
+        height: 54px !important
 
-        > .td
-            width: 100%
-            justify-content: center
-            text-align: center !important
-
-            &:not(.tdbtn)
-                min-width: 122px !important
+        > .tc
 
             > h4
-                text-overflow: ellipsis !important
-                overflow: hidden !important
                 display: -webkit-box !important
+                overflow: hidden !important
+                text-overflow: ellipsis !important
                 -webkit-line-clamp: 2 !important
                 -webkit-box-orient: vertical !important
 
-            &.tdbtn
-                width: auto !important
-                gap: 13px
+            &.tcbtn
 
                 > button
+                    width: unset !important
                     height: v.$elem-h-size-secondary !important
-                    width: auto !important
-                    padding: 0px 13px
+                    padding: 0px 13px !important
 
                     > img 
                         width: 27px !important
-                        max-height: 27px !important;
-                        transition: filter 0.3s ease
+                        transition: filter 0.3s ease !important
 
                     &:hover
                         background-color: v.$color-primary !important
@@ -77,4 +68,3 @@
 
 div.box:has( >.tb )
     gap: 33px
-

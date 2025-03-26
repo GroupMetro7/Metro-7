@@ -1,20 +1,12 @@
 @use '../constant.sass' as v
 
 div.pagination
-    gap: 13px
-    align-items: center
-    justify-content: center
     width: 100% !important
+    justify-content: center !important
+    gap: 13px !important
 
     > button
-        height: 37px
-
-        &.pagination
-            width: auto !important
-            padding: 5px 23px !important
-            text-transform: uppercase !important
-
-    > button:not(.pagination)
-        max-width: 58px !important
-
-
+        width: unset !important
+        height: v.$elem-h-size-secondary !important
+        padding: 0px 23px !important
+        text-transform: uppercase !important

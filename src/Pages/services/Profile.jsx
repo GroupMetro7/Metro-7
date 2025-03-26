@@ -20,16 +20,14 @@ export default function ServiceProfilePage() {
                                 <h2>{user}</h2>
                                 <h4>09774956316</h4>
                             </article>
-                            <div className='buttons'>
-                                <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
-                            </div>
+                            <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
                         </Box>
                         <Box Title='Statistics' Class='statistic' BoxCol><img src='' /></Box>
                     </Section>
                 </Group>
                 <Box Class='rightside' BoxCol>
                     <Group Class='datetime' Col><h2><DateText /><br /><TimeText /></h2><hr /></Group>
-                    <Group Class='diningopts'>
+                    <Group Class='attendance'>
                         <Button Title='TIME-IN' />
                         <Button Title='TIME-OUT' />
                     </Group>

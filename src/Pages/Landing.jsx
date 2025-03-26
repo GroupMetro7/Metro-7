@@ -19,7 +19,7 @@ export default function LandingPage() {
                 <div>
                     <img src={ Logo } />
                 </div>
-                <Group Col>
+                <Group Class='description' Col>
                     <h2>Our Story</h2>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and

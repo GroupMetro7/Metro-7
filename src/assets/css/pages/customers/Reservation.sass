@@ -3,41 +3,34 @@
 body.Reservation-PAGE 
     background-image: url('/background-image/BG2.png') !important
     background-size: cover !important
-    background-attachment: fixed !important
     background-position: center !important
+    background-attachment: fixed !important
 
     .register
 
         > div.form
-            gap: 13px
+            gap: 13px !important
 
             > form
 
-                > div.group
-                    gap: 13px !important
+                > div.group:has(div.group.inputside)
 
                     > hr
                         width: 100% !important
                         border: .8px solid v.$input-white !important
 
                     > div.group.infoside
-                        gap: 3px !important
                         align-items: flex-start !important
+                        gap: 3px !important
 
                         > h5
                             color: v.$input-white !important
                             text-transform: uppercase !important
 
                     > div.group.inputside
-
-                        > label.partysize
+                        
+                        > label:has(input[type="number"])
                             width: 100% !important
 
                 > div.group.buttonside
-                    max-width: 254px !important
-                    gap: 23px !important
-                    align-self: center !important
-
-                    > a
-                        font-size: 15px !important
-                        align-self: start !important
+                    width: 254px !important

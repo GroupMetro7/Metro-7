@@ -6,9 +6,7 @@ import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../expo
 export default function Footer() {
     return(
         <footer>
-            <div className='logoside'>
-                <img src={ Logo }/>
-            </div>
+            <img src={ Logo }/>
             <div className='contactside'>
                 <div className='logos'>
                     <img src={ FBLogo }/>

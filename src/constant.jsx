@@ -33,6 +33,7 @@ export const menulistdata = [
     [<>36548</>, <>Burger</>, <>MEAL</>, 559.00.toFixed(2)],
     [<>18585</>, <>Espresso</>, <>MEAL</>, 358.00.toFixed(2)],
     [<>69696</>, <>Carbonara</>, <>BEVERANGE</>, 1258.00.toFixed(2)],
+    [<>69696</>, <>Carbonara</>, <>BEVERANGE</>, 1258.00.toFixed(2)],
 ]
 
 // INVENTORY LIST
