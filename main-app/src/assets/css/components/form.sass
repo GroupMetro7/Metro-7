@@ -1,0 +1,57 @@
+@use '../constant.sass' as v
+
+div.form
+    background-color: v.$container-red !important
+    flex-direction: column !important
+    align-items: center !important
+    gap: 33px
+    padding: 23px 53px 43px !important
+    border-radius: 10px !important
+    backdrop-filter: blur(13px) !important
+
+    > h1
+        color: v.$input-white !important
+
+    > form
+        min-width: v.$elem-w-size-primary !important
+        flex-direction: column !important
+        align-items: center !important
+        gap: 43px
+
+        div.group
+
+            &.col:has(label.outputfetch)
+                gap: 4.3px !important
+
+                > label.outputfetch
+                    width: unset !important
+                    gap: 3px !important
+
+                > div:has(label.outputfetch)
+                    justify-content: space-between !important
+
+                    > label.outputfetch
+                        width: unset !important
+
+            &.wrap
+                gap: 13px 23px !important
+
+            &.buttonside
+                width: 100% !important
+                justify-content: center !important
+                gap: 23px !important
+
+        &.formtwolayers
+            width: 531px !important
+
+        &.formthreelayers
+            width: 808px !important
+
+        label.inputbox, label.selectionbox, label.outputfetch
+
+            > h4
+                font-size: 15px !important
+
+        button, input[type="submit"]
+            height: 37px !important
+            

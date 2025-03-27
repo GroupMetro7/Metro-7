@@ -1,0 +1,61 @@
+@use '../../constant.sass' as v
+
+body.Profile-Customer-PAGE
+
+    .myprofile
+
+        > div.box
+            width: 1000px !important
+            gap: 33px !important
+
+            &.profile
+                align-items: center !important
+
+                > img
+                    background-color: white !important
+                    width: 125px !important
+                    aspect-ratio: 1 !important
+                    border-radius: 100% !important
+
+                > article
+                    flex-grow: 1 !important
+                    flex-direction: column !important
+                    gap: 3px !important
+
+                    > h2
+                        text-transform: capitalize !important
+                    
+                > button
+                    width: unset !important
+                    padding: 0px 23px !important
+            
+            &.orderhistory
+
+                > .tb
+
+                    > .tdr 
+
+                        > div 
+
+                            > .td
+
+                                &.status 
+                                    height: 37px !important
+                                    align-items: center !important
+                                    border-radius: 5px !important
+
+                                    &.pending 
+                                        background-color: #b43434
+                                        color: v.$color-white !important
+
+                                    &.paid 
+                                        background-color: #5fb91a
+                                        color: v.$color-white !important
+    
+    .modal
+
+        > .modal-dialog
+
+            > div.form
+                gap: 23px !important
+

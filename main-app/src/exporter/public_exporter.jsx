@@ -1,0 +1,22 @@
+export { default as Logo } from '/brand_logo/LOGO.png'
+export { default as TextLogo } from '/brand_logo/TEXT LOGO.png'
+export { default as M7Logo } from '/brand_logo/M7 LOGO.png'
+
+export { default as FBLogo } from '/footer/FB LOGO.png'
+export { default as XLogo } from '/footer/X LOGO.png'
+export { default as IGLogo } from '/footer/IG LOGO.png'
+export { default as PhoneLogo } from '/footer/PHONE LOGO.png'
+export { default as LocationLogo } from '/footer/LOC LOGO.png'
+
+export { default as LogoutLogo } from '/sidebar/LOGOUT LOGO.png'
+export { default as DashboardLogo } from '/sidebar/DASHBOARD LOGO.png'
+export { default as OrderlistLogo } from '/sidebar/ORDERLIST LOGO.png'
+export { default as ProfileLogo } from '/sidebar/PROFILE LOGO.png'
+export { default as SalesLogo } from '/sidebar/SALES LOGO.png'
+export { default as InventoryLogo } from '/sidebar/INVENTORY LOGO.png'
+export { default as EmployeeLogo } from '/sidebar/EMPLOYEE LOGO.png'
+export { default as CustomerLogo } from '/sidebar/CUSTOMER LOGO.png'
+
+export { default as ViewLogo } from '/table/VIEW LOGO.png'
+export { default as EditLogo } from '/table/EDIT LOGO.png'
+export { default as DeleteLogo } from '/table/DELETE LOGO.png'
