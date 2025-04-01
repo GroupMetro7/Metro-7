@@ -1,0 +1,31 @@
+@use '../constant.sass' as v
+
+aside.sidebar 
+    background-color: v.$header-footer !important
+    width: v.$sidebar-size !important
+    height: 100vh !important
+    position: sticky !important
+    top: 0 !important
+
+    > div
+        height: 100% !important
+        flex-direction: column !important
+        align-items: center !important
+        gap: 37.5px !important
+        padding: 27.5px 13px !important
+
+        > img 
+            width: 50px !important
+
+        > nav 
+            flex-direction: column !important
+            gap: 23px !important
+
+            > a 
+                background-color: v.$color-secondary !important
+                width: 43px !important
+                padding: 10px !important
+                border-radius: 100% !important
+
+                > img 
+                    width: 23px !important

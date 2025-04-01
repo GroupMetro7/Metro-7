@@ -1,0 +1,95 @@
+@use '../../constant.sass' as v
+
+body.Dashboard-Service-PAGE 
+
+    .leftside
+        max-width: 665px !important
+        gap: 23px !important
+
+        .preporder
+
+            > .title
+
+                > .left
+                    display: none !important
+
+            > .search
+                gap: 33px !important
+
+                > label
+                    width: 100% !important
+
+        .menu
+
+            > h1
+                align-self: flex-start !important
+
+            > div.group
+                gap: 23px !important
+
+                > div.box
+                    gap: 33px !important
+
+                    > label
+                        width: 100% !important
+
+                        > input
+                            flex-grow: 1 !important
+
+                > div.group
+                    gap: 13px !important
+
+    .rightside
+        max-width: 390px !important
+        align-self: start !important
+
+        > .datetime
+            width: 100% !important
+            gap: 13px !important
+            align-items: center !important
+            text-align: center
+
+            > h2
+                text-align: center !important
+
+        > .diningopts
+            gap: 23px
+            width: 100%
+
+            > label.btnradio
+                max-width: 50% !important
+                height: 37px
+                flex-grow: 1 !important
+        
+        > label.inputbox
+            width: 100% !important
+
+            > input
+                flex-grow: 1 !important
+
+        > .totalitem
+            gap: 23px
+            flex-direction: column
+
+            > .itemlist
+                width: 100%
+                gap: 13px
+                flex-direction: column
+
+        > .paymentsum
+            gap: 23px
+
+            > article
+                gap: 13px
+                flex-direction: column
+                flex-grow: 1
+
+                > div
+                    width: 100%
+                    justify-content: space-between
+
+            > button
+                width: 100% !important
+                height: 37px
+
+    
