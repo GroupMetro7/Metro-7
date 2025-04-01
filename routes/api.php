@@ -4,6 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\api\EmployeeController;
 use App\Http\Controllers\customers\CustomerController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-
+Route::middleware('auth:sanctum')->put('/user', [AuthController::class, 'updateUser']);
 //Stock Management
 Route::get('/products', [StockManagementController::class, 'index']);
 Route::post('/products', [StockManagementController::class, 'AddProduct']);
@@ -34,3 +35,9 @@ Route::get('/customers', [CustomerController::class, 'index']);
 Route::post('/customers', [CustomerController::class, 'AddCustomer']);
 Route::put('/customers/{id}', [CustomerController::class, 'update']);
 Route::delete('/customers/{id}', [CustomerController::class, 'destroy']);
+
+// products operations
+Route::get('/menu', [ProductController::class, 'index']);
+Route::get('/adminmenu', [ProductController::class, 'adminindex']);
+Route::post('/menu', [ProductController::class, 'store']);
+Route::delete('/menu/{id}', [ProductController::class, 'destroy']);

@@ -1,11 +1,18 @@
 @use '../../constant.sass' as v
 
-body.Dashboard-Admin-PAGE 
-    
+body.Sales-PAGE 
+
+    .search
+
+        > label
+            width: 100% !important
+
     .salesrevenue
 
-        > h1
-            align-self: start !important
+        > .title
+
+            > .left
+                display: none !important
 
         > .upper
 
@@ -50,9 +57,17 @@ body.Dashboard-Admin-PAGE
                     width: 100% !important
                     aspect-ratio: 1 !important
 
-            > .demandforecast
+        > div.box
 
-                > img
-                    background-color: white !important
-                    width: 100% !important
-                    height: 133px !important
+            > .tb
+
+                > .thr, > .tdr
+
+                    > .th, > .td
+
+                        &:nth-child(1)
+                            max-width: 122px !important
+
+                            > h4
+                                font-weight: 600 !important
+                                

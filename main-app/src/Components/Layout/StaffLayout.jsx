@@ -11,9 +11,9 @@ export default function StaffLayout() {
       <div>
         <img src={M7Logo} />
         <nav>
-          <Href Icon={DashboardLogo} Redirect="/staff"></Href>
-          <Href Icon={OrderlistLogo} Redirect="/staff/OrderList"></Href>
-          <Href Icon={ProfileLogo} Redirect="/staff/profile"></Href>
+          <Href Icon={DashboardLogo} Redirect="/service"></Href>
+          <Href Icon={OrderlistLogo} Redirect="/service/OrderList"></Href>
+          <Href Icon={ProfileLogo} Redirect="/service/profile"></Href>
           <Href Icon={LogoutLogo}></Href>
         </nav>
       </div>

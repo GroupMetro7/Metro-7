@@ -1,4 +1,4 @@
-@use '../../Variables.sass' as v
+@use '../../constant.sass' as v
 
 body.Location-PAGE 
 
@@ -7,12 +7,12 @@ body.Location-PAGE
         > div.box
             width: 1000px !important
             height: 312px !important
-            gap: 43px !important
+            justify-content: space-between !important
 
             > article 
-                gap: 23px !important
                 width: 511px !important
                 flex-direction: column !important
+                gap: 23px !important
 
                 > h2
                     font-weight: 500 !important
@@ -21,5 +21,5 @@ body.Location-PAGE
             > img 
                 width: 400px !important
                 height: 266px !important
-                border: white solid 5px !important
                 border-radius: 10px !important
+                border: white solid 5px !important

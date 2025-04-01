@@ -1,39 +1,38 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 div.checkeditem
-    gap: 13px
+    gap: 13px !important
 
     > img
-        width: 100px
-        aspect-ratio: 1
-        background-color: rgba(255, 255, 255, 1)
+        background-color: rgba(255, 255, 255) !important
+        width: 100px !important
+        aspect-ratio: 1 !important
 
     > article
-        gap: 13px
-        flex-grow: 1
-        flex-direction: column
-        justify-content: center
+        width: 100% !important
+        flex-direction: column !important
+        justify-content: center !important
+        gap: 13px !important
 
         > h3
+            display: -webkit-box !important
+            overflow: hidden !important
             text-transform: uppercase !important
             text-overflow: ellipsis !important
-            overflow: hidden !important
-            display: -webkit-box !important
 
         > div
             justify-content: space-between !important
             align-items: center !important
 
             > .quantity 
+                background-color: v.$input-white !important
+                justify-content: space-between !important
                 border-radius: 5px !important
-                background-color: v.$input-white
-                justify-content: space-between
 
                 > h3
-                    width: 47px
-                    align-items: center
-                    align-content: center !important
+                    width: 37px !important
                     justify-content: center !important
+                    align-items: center !important
 
                 > button
                     width: 37px !important

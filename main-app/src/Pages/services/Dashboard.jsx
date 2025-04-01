@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/services/Dashboard.sass'
 import { Title, Body_addclass, SideBar, Main, Section, Form, Group, Inputbox, Button, Box, Selectionbox, PrepOrder, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, DateText, TimeText, InsertFileButton } from '../../exporter/component_exporter'
 import { Outlet } from 'react-router-dom'
+import axiosClient from '../../axiosClient'
 
 export default function StaffDashboard() {
     Title('Metro 7')
     Body_addclass('Dashboard-Service-PAGE')
 
-    const user = "Micheal Lance Kester Li"
+    const [menuProduct, setMenu] = useState([]);
+
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await axiosClient.get("/menu");
+          setMenu(response.data); // Populate menuProduct with the fetched data
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      };
+
+      fetchProducts();
+    }, []);
 
     const orders = [
         ['#25569', 'TAKE-OUT'],
@@ -15,14 +29,11 @@ export default function StaffDashboard() {
         ['#25569', 'TAKE-OUT'],
         ['#25569', 'TAKE-OUT']
     ]
-    const orderlist = [
-        [<>Burger</>, 559.00.toFixed(2), {},],
-        [<>Espresso</>, 358.00.toFixed(2), {}],
-        [<>Carbonara</>, 1258.00.toFixed(2), {}],
-        [<>Burger</>, 559.00.toFixed(2), {}],
-        [<>Espresso</>, 358.00.toFixed(2), {}],
-        [<>Carbonara</>, 1258.00.toFixed(2), {}]
-    ]
+
+    const orderlist = menuProduct.map(product => (
+      [product.product_name, product.price, product.image] // Include the image URL
+    ));
+
     const checkedorders = [
         [<>Burger</>, 559.00.toFixed(2), {}],
         [<>Carbonara</>, 1258.00.toFixed(2), {}],

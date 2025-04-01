@@ -22,7 +22,7 @@ export default function EmployeeManagementPage() {
     const [success, setSuccess] = useState(null);
 
     //table
-    const tbhead = ['EMP. NO.', 'EMP. NAME', 'EMAIL', 'USERNAME', 'ROLE', 'SCHEDULE', 'TIME', 'LAST LOGGED'];
+    const tbhead = ['EMP. NO.', 'EMP. NAME', 'EMAIL', 'USERNAME', 'ROLE', 'SCHEDULE', 'TIME', 'LAST LOGGED', 'ACTIONS'];
     const tbrows = Employees.map(employee => ({
         first: employee.employee_number,
         second: employee.name,

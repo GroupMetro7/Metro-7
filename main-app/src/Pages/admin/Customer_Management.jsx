@@ -21,7 +21,7 @@ export default function CustomerManagementPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentCustomerId, setCurrentCustomerId] = useState('');
 
-    const tbhead = ['No.#', 'First name', 'Last name', 'EMAIL', 'LOYALTY', 'Total spent', 'BALANCE', 'Last Updated']
+    const tbhead = ['No.#', 'First name', 'Last name', 'EMAIL', 'LOYALTY', 'Total spent', 'BALANCE', 'Last Updated', 'ACTIONS']
     const tbrows = Customers.map(customer => ({
       first: customer.id,
       second: customer.firstname,

@@ -1,41 +1,39 @@
-import React from 'react'
-import '../../../assets/css/components/table.sass'
-import { Button } from '../../../exporter/component_exporter'
-import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporter'
+import React from 'react';
+import '../../../assets/css/components/table.sass';
+import { Button } from '../../../exporter/component_exporter';
+import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporter';
 
 export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
-
     return (
-        <div className="tdr">
+        <>
             {DataRows.map((DataRow, RowIndex) => (
-                <div key={RowIndex} className="tr">
-                    <h4 className="td">{DataRow.first}</h4>
-                    <h4 className="td">{DataRow.second}</h4>
-                    <h4 className="td">{DataRow.third}</h4>
-                    <h4 className="td">{DataRow.fourth}</h4>
-                    <h4 className="td">{DataRow.fifth}</h4>
-                    <h4 className="td">{DataRow.sixth}</h4>
-                    <h4 className="td">{DataRow.seventh}</h4>
-                    <h4 className="td">{DataRow.lastUpdated}</h4>
-                    <div className="td tdbtn">
-                        {ViewBtn ? <Button Icon={ViewLogo} key={RowIndex + 1} /> : null}
-                        {EditBtn ? (
-                            <Button
-                                Icon={EditLogo}
-                                OpenModal="EditModal"
-                                Onclick={DataRow.edit}
-                            />
-                        ) : null}
-                        {Deletebtn ? (
-                            <Button
-                                Icon={DeleteLogo}
-                                OpenModal="DeleteModal"
-                                Onclick={DataRow.delete}
-                            />
-                        ) : null}
+                <div className="td" key={RowIndex}>
+                    {/* Dynamically render all properties of the row except actions */}
+                    {Object.keys(DataRow).map((key, CellIndex) => {
+                        if (key !== 'edit' && key !== 'delete' && key !== 'view') {
+                            return (
+                                <div className="tc" key={CellIndex}>
+                                    <h4>{DataRow[key]}</h4>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })}
+
+                    {/* Render action buttons if enabled */}
+                    <div className="tc tcbtn">
+                        {ViewBtn && DataRow.view && (
+                            <Button Icon={ViewLogo} Onclick={DataRow.view} />
+                        )}
+                        {EditBtn && DataRow.edit && (
+                            <Button Icon={EditLogo} OpenModal="EditModal" Onclick={DataRow.edit} />
+                        )}
+                        {Deletebtn && DataRow.delete && (
+                            <Button Icon={DeleteLogo} OpenModal="DeleteModal" Onclick={DataRow.delete} />
+                        )}
                     </div>
                 </div>
             ))}
-        </div>
+        </>
     );
 }

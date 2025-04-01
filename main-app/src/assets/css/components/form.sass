@@ -1,49 +1,45 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 div.form
     background-color: v.$container-red !important
     flex-direction: column !important
     align-items: center !important
-    gap: 33px !important
+    gap: 33px
     padding: 23px 53px 43px !important
     border-radius: 10px !important
     backdrop-filter: blur(13px) !important
-    justify-self: center !important
 
     > h1
         color: v.$input-white !important
-        justify-content: center !important
 
     > form
-        min-width: 254px !important
+        min-width: v.$elem-w-size-primary !important
         flex-direction: column !important
-        justify-content: center !important
         align-items: center !important
-        gap: 43px !important
+        gap: 43px
 
         div.group
 
-            &.buttonside
-                width: 100%
-                gap: 23px !important
-                justify-content: center
-
-        div.group.col:has(label.outputfetch)
-            gap: 4.3px
-
-            > label.outputfetch
-                width: unset
-                gap: 3px !important
-
-            > div:has(label.outputfetch)
-                justify-content: space-between
+            &.col:has(label.outputfetch)
+                gap: 4.3px !important
 
                 > label.outputfetch
-                    width: unset
+                    width: unset !important
+                    gap: 3px !important
 
-        div.group.wrap
-            column-gap: 23px !important
-            row-gap: 13px !important
+                > div:has(label.outputfetch)
+                    justify-content: space-between !important
+
+                    > label.outputfetch
+                        width: unset !important
+
+            &.wrap
+                gap: 13px 23px !important
+
+            &.buttonside
+                width: 100% !important
+                justify-content: center !important
+                gap: 23px !important
 
         &.formtwolayers
             width: 531px !important
@@ -56,9 +52,6 @@ div.form
             > h4
                 font-size: 15px !important
 
-        
-
         button, input[type="submit"]
             height: 37px !important
             
-    

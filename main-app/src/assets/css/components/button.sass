@@ -1,18 +1,18 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 button, 
 input[type="submit"], 
 label.btnfile:has(input[type="file"]):has(h3),
 label.btnradio:has(input[type="radio"]):has(h3)
     background-color: v.$color-secondary !important
-    width: 254px
-    height: 47px
+    width: v.$elem-w-size-primary
+    height: v.$elem-h-size-primary
+    justify-content: center !important
+    align-items: center !important
+    border-radius: 5px !important
     color: v.$color-primary !important
     text-transform: capitalize !important
     cursor: pointer !important
-    border-radius: 5px
-    justify-content: center !important
-    align-items: center
 
     &:hover
         background-color: v.$color-primary !important

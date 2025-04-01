@@ -1,130 +1,132 @@
-import { createBrowserRouter } from "react-router-dom";
-import GuestLayout from "./Components/Layout/GuestLayout";
-import LoginPage from "./Pages/Login";
-import RegisterPage from "./Pages/Customers/Register";
-import LocationPage from "./Pages/Customers/Location";
-import CustomerLayout from "./Components/Layout/CustomerLayout";
-import ProfilePage from "./Pages/Customers/Profile";
-import InventoryManagementPage from "./Pages/admin/Inventory_Management";
-import DashboardPage from "./Pages/admin/Dashboard";
-import LandingPage from "./Pages/Landing";
-import AdminLayout from "./Components/Layout/AdminLayout";
-import Inventory from "./Pages/admin/testInventory";
-import ReservationPage from "./Pages/Customers/Reservation";
-import MenuPage from "./Pages/Customers/Menu";
-import EmployeeManagementPage from "./Pages/admin/Employee_Management";
-import StaffDashboard from "./Pages/services/Dashboard";
-import StaffOrderList from "./Pages/services/Order_List";
-import StaffProfile from "./Pages/services/Profile";
-import StaffLayout from "./Components/Layout/StaffLayout";
-import CustomerManagementPage from "./Pages/admin/Customer_Management";
+import { createBrowserRouter } from 'react-router-dom'
+import GuestLayout from './components/Layout/GuestLayout'
+import LoginPage from './pages/Login'
+import RegisterPage from './pages/Customers/Register'
+import LocationPage from './pages/Customers/Location'
+import CustomerLayout from './components/Layout/CustomerLayout'
+import ProfilePage from './pages/Customers/Profile'
+import DashboardPage from './pages/admin/Dashboard'
+import LandingPage from './pages/Landing'
+import AdminLayout from './components/Layout/AdminLayout'
+import Inventory from './pages/admin/testInventory'
+import ReservationPage from './pages/Customers/Reservation'
+import EmployeeManagementPage from './pages/admin/Employee_Management'
+import StaffDashboard from './pages/services/Dashboard'
+import StaffProfile from './pages/services/Profile'
+import StaffLayout from './components/Layout/StaffLayout'
+import CustomerManagementPage from './pages/admin/Customer_Management'
+import MenuManagementPage from './pages/admin/Menu_Management'
+import SalesPage from './pages/admin/Sales'
+import StaffOrderList from './pages/services/Order_List'
+import InventoryManagementPage from './Pages/admin/Inventory_Management'
+import MenuPage from './Pages/Customers/Menu'
 
 const router = createBrowserRouter([
 
-  //Customers routing
+	//Customers routing
+	{
+		path: '/',
+		element: <CustomerLayout />,
+		children: [
+			{
+				path: '/',
+				element: <LandingPage />
+			},
+			{
+				path: 'profile',
+				element: <ProfilePage />
+			},
+			{
+				path: 'reservation',
+				element: <ReservationPage />
+			},
+		]
+	},
+
+	//customer guest routing
+	{
+		path: '',
+		element: <GuestLayout />,
+		children: [
+			{
+				path: 'welcome',
+				element: <LandingPage />
+			},
+			{
+				path: 'login',
+				element: <LoginPage />
+			},
+			{
+				path: 'register',
+				element: <RegisterPage />
+			},
+		]
+	},
+
+
+
+	{
+		path: '/location',
+		element: <LocationPage />
+	},
   {
-    path: '/',
-    element: <CustomerLayout/>,
-    children: [
-      {
-        path: '/',
-        element: <LandingPage />
-      },
-      {
-        path: 'profile',
-        element: <ProfilePage/>
-      },
-      {
-        path: 'reservation',
-        element: <ReservationPage />
-      },
-      {
-        path: 'menu',
-        element: <MenuPage />
-      },
-    ]
+    path: 'menu',
+    element: <MenuPage />
   },
 
-  //customer guest routing
-  {
-    path: '',
-    element: <GuestLayout />,
-    children: [
-      {
-        path: 'welcome',
-        element: <LandingPage />
-      },
-      {
-        path: 'login',
-        element: <LoginPage />
-      },
-      {
-        path: 'register',
-        element: <RegisterPage />
-      },
-      {
-        path: 'menu',
-        element: <MenuPage />
-      },
-    ]
-  },
+	//Staff routing
 
+	{
+		path: '/service',
+		element: <StaffLayout />,
+		children: [
+			{
+				path: '',
+				element: <StaffDashboard />
+			},
+			{
+				path: 'OrderList',
+				element: <StaffOrderList />
+			},
+			{
+				path: 'Profile',
+				element: <StaffProfile />
+			}
+		]
+	},
 
+	//Admin routing
 
-  {
-    path: '/location',
-    element: <LocationPage/>
-  },
-
-  //Staff routing
-
-  {
-    path: '/staff',
-    element: <StaffLayout/>,
-    children: [
-      {
-        path: '',
-        element: <StaffDashboard />
-      },
-      {
-        path: 'OrderList',
-        element: <StaffOrderList />
-      },
-      {
-        path: 'Profile',
-        element: <StaffProfile />
-      }
-    ]
-  },
-
-  //Admin routing
-
-  {
-    path: '/admin',
-    element: <AdminLayout />,
-    children: [
-      {
-        path: '',
-        element: <DashboardPage />
-      },
-      {
-        path: 'inventory_test',
-        element: <Inventory />
-      },
-      {
-        path: 'inventory_management',
-        element: <InventoryManagementPage />
-      },
-      {
-        path: 'Employee_management',
-        element: <EmployeeManagementPage />
-      },
-      {
-        path: 'customer_management',
-        element: <CustomerManagementPage />
-      }
-    ]
-  }
+	{
+		path: '/admin',
+		element: <AdminLayout />,
+		children: [
+			{
+				path: '',
+				element: <DashboardPage />
+			},
+			{
+				path: 'sales',
+				element: <SalesPage />
+			},
+			{
+				path: 'menu_management',
+				element: <MenuManagementPage />
+			},
+			{
+				path: 'inventory_management',
+				element: <InventoryManagementPage />
+			},
+			{
+				path: 'Employee_management',
+				element: <EmployeeManagementPage />
+			},
+			{
+				path: 'customer_management',
+				element: <CustomerManagementPage />
+			}
+		]
+	}
 ])
 
-export default router;
+export default router

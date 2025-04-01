@@ -30,8 +30,8 @@ export default function RegisterPage() {
         password_confirmation: passwordConfirmation,
       });
       localStorage.setItem("ACCESS_TOKEN", response.data.token);
-      window.location.reload();
       navigate("/");
+      window.location.reload();
     } catch (err) {
       setError(
         err.response.data.message || "Registration failed, please try again."
@@ -105,7 +105,6 @@ export default function RegisterPage() {
         </Section>
       </Main>
       <Footer />
-
     </>
   );
 }

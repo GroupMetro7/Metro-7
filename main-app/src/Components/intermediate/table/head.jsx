@@ -1,17 +1,14 @@
-import React from 'react';
-import '../../../assets/css/components/table.sass';
+import React from 'react'
+import '../../../assets/css/components/table.sass'
 
-export default function TBHead({ HeadRows }) {
+export default function TBHead({ HeadRows, ViewBtn, EditBtn, Deletebtn }) {
     return (
-        <div className='thr'>
+        <div className='th'>
             {HeadRows.map((HeadRow, index) => (
-                <div key={index} className='th'>
+                <div key={index} className='tc'>
                     <h3>{HeadRow}</h3>
                 </div>
             ))}
-            <div className='th'>
-                <h3>Actions</h3>
-            </div>
         </div>
     );
 }

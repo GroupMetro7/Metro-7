@@ -1,21 +1,22 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 main section
+    width: 100% !important
+    flex-direction: column !important
+    align-items: center !important
     gap: 13px
-    align-items: center
-    flex-direction: column
-    width: 100%
+    padding: 0 !important
 
     > .title
         width: 100% !important
-        align-items: center !important
+        white-space: nowrap !important
 
         > .left, > .right
-            flex: 1
+            width: 100% !important
 
             > button
-                width: auto !important
-                padding: 5px 23px !important
+                width: unset !important
+                padding: 0px 23px !important
 
         > .right
-            justify-content: flex-end
+            justify-content: flex-end !important

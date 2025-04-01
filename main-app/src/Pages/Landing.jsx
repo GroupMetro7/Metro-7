@@ -2,24 +2,25 @@ import React from 'react'
 import '../assets/css/pages/Landing.sass'
 import { Title, Body_addclass, Header, Footer, Main, Section, Group, Button } from '../exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
+import { useStateContext } from '../Contexts/ContextProvider'
 
 export default function LandingPage() {
     Title('Metro 7 | Login')
     Body_addclass('Landing-PAGE')
 
-    const user = "Micheal Lance Kester Li"
+    const { token } = useStateContext();
 
     return(
         <>
         <Main>
-            <Section Title={<>Want to order in advance before<br />you arrive?</>} Class="pre-order">
-                <Button Title="PRE-ORDER NOW" Redirect={ user ? "/reservation" : "/login" } BtnWhite />
+            <Section Title={ <>Want to order in advance before<br />you arrive?</> } Class='pre-order'>
+                <Button Title='PRE-ORDER NOW' Redirect={ token ? '/reservation' : '/login' } BtnWhite />
             </Section>
-            <Group Class="about">
+            <Group Class='about'>
                 <div>
                     <img src={ Logo } />
                 </div>
-                <Group Col>
+                <Group Class='description' Col>
                     <h2>Our Story</h2>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and

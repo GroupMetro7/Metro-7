@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
 import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination } from '../../exporter/component_exporter';
-import { fetchProducts, deleteProduct, addProduct, modifyProduct, editProduct } from '../../functions/InventoryFunctions';
+import { fetchProducts, deleteProduct, addProduct, modifyProduct, editProduct } from '../../Functions/InventoryFunctions';
 
 export default function InventoryManagementPage() {
     Title('Inventory Management');
@@ -29,7 +29,7 @@ export default function InventoryManagementPage() {
         setCurrentPage(page);
     };
 
-    const tbhead = ['SKU NO.', 'ITEM NAME', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'LAST UPDATED'];
+    const tbhead = ['SKU NO.', 'ITEM NAME', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'MODIFIED', 'ACTIONS'];
     const tbrows = products.map(product => ({
         first: product.SKU_NUMBER,
         second: product.ITEM_NAME,
@@ -38,9 +38,8 @@ export default function InventoryManagementPage() {
         fifth: product.COST_PER_UNIT,
         sixth: product.STOCK_VALUE,
         seventh: product.STATUS,
-
         lastUpdated: new Date(product.updated_at).toLocaleString(),
-        edit: () => editProduct(product, setSKU, setItemName, setCategory, setStock, setUnitCost, setCurrentProductId),
+        edit: () => editProduct(product, setItemName, setCategory, setStock, setUnitCost, setCurrentProductId),
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts)
     }));
 

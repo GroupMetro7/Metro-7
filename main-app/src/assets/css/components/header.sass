@@ -1,4 +1,4 @@
-@use '../Variables.sass' as v
+@use '../constant.sass' as v
 
 header 
     background-color: v.$header-footer !important
@@ -14,20 +14,15 @@ header
         align-items: center !important
         margin-inline: auto !important
         padding: 14.5px 60px 14.5px 80px !important
-    
-        > .titleside 
-            align-items: center !important
 
-            > img 
-                width: 150px !important
-                height: 30px !important
+        > img 
+            width: 150px !important
             
         > nav 
             justify-content: flex-end !important
-            align-items: center !important
             gap: 13px !important
 
-            > a 
+            a
                 font-size: 18px !important
                 padding: 13px !important
                 text-transform: uppercase !important
@@ -37,3 +32,16 @@ header
                     background-color: v.$color-secondary !important
                     color: v.$color-primary !important
                     text-decoration: none !important
+
+            > ul
+                background-color: v.$color-secondary !important
+                margin-top: 12px !important
+                border-radius: 0px 0px 5px 5px !important
+
+                > a
+                    color: v.$color-primary !important
+                    padding: 7.5px 13px !important
+
+                    &:hover 
+                        background-color: v.$color-primary !important
+                        color: v.$color-white !important

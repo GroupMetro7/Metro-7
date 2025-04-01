@@ -75,7 +75,7 @@ export const modifyProduct = async (e, id, ITEM_NAME, CATEGORY, STOCK, COST_PER_
 };
 
 //edit button function retain information
-export  const editProduct = (product, setSKU, setItemName, setCategory, setUnitCost, setCurrentProductId) => {
+export  const editProduct = (product, setItemName, setCategory,setStock , setUnitCost, setCurrentProductId) => {
         setItemName(product.ITEM_NAME);
         setCategory(product.CATEGORY);
         setStock(product.STOCK);
