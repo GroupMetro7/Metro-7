@@ -29,7 +29,7 @@ export default function InventoryManagementPage() {
         setCurrentPage(page);
     };
 
-    const tbhead = ['SKU NO.', 'ITEM NAME', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'LAST UPDATED'];
+    const tbhead = ['SKU NO.', 'NAME', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'UPDATE'];
     const tbrows = products.map(product => ({
         first: product.SKU_NUMBER,
         second: product.ITEM_NAME,

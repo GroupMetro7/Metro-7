@@ -4,12 +4,12 @@
     width: 100% !important
     flex-direction: column !important
     overflow-x: auto !important
-    gap: 13px!important
+    gap: 8px !important
 
     > .th, > .td
         width: 100% !important
         align-items: center !important
-        gap: 13px !important
+        gap: 3px !important
 
         > .tc
             width: 100% !important
@@ -17,7 +17,7 @@
             text-align: center !important
 
             &:not(.tcbtn)
-                min-width: 122px !important
+                min-width: 121.8px !important
                 
             &.tcbtn
                 width: unset !important
@@ -66,5 +66,8 @@
                         > img 
                             filter: invert(1) !important
 
+    &::-webkit-scrollbar-track 
+        background: none
+
 div.box:has( >.tb )
-    gap: 33px
+    gap: 18px

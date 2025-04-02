@@ -7,7 +7,7 @@ export default function Table({ Class, HeadRows, DataRows, ViewBtn, EditBtn, Del
     return(
         <>
         <div className={`tb ${ Class }`}>
-            <TBHead HeadRows={ HeadRows } />
+            <TBHead HeadRows={ HeadRows } ViewBtn={ ViewBtn } EditBtn={ EditBtn } Deletebtn={ Deletebtn }/>
             <hr />
             <TBData DataRows={ DataRows } ViewBtn={ ViewBtn } EditBtn={ EditBtn } Deletebtn={ Deletebtn }/>
         </div>
