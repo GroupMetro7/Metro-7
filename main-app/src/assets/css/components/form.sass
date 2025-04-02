@@ -36,6 +36,13 @@ div.form
             &.wrap
                 gap: 8px 18px !important
 
+            &.errorside
+                width: v.$elem-w-size-primary !important
+                justify-content: center !important
+                
+                p
+                    color: red !important
+
             &.buttonside
                 width: 100% !important
                 justify-content: center !important
@@ -46,6 +53,13 @@ div.form
 
         &.formthreelayers
             width: 808px !important
+
+        &.formtwolayers, &.formthreelayers
+
+            div.group
+
+                &.errorside
+                    width: 100% !important
 
         label.inputbox, label.selectionbox, label.outputfetch
 
