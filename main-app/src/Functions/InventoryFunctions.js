@@ -11,16 +11,22 @@ export const fetchProducts = (page, setProducts, setCurrentPage, setTotalPages) 
 
 //delete product function
 export const deleteProduct = async (id, setError, setSuccess, products, setProducts) => {
-    setError(null);
-    setSuccess(null);
+  setError(null);
+  setSuccess(null);
 
-    try {
-        await axiosClient.delete(`/products/${id}`);
-        setProducts(products.filter((product) => product.id !== id));
-        setSuccess("Product deleted successfully");
-    } catch (err) {
-        setError("Failed to delete product, please try again!");
-    }
+  // Show confirmation popup
+  const isConfirmed = window.confirm("Are you sure you want to delete this product?");
+  if (!isConfirmed) {
+      return; // Exit the function if the user cancels
+  }
+
+  try {
+      await axiosClient.delete(`/products/${id}`);
+      setProducts(products.filter((product) => product.id !== id));
+      setSuccess("Product deleted successfully");
+  } catch (err) {
+      setError("Failed to delete product, please try again!");
+  }
 };
 
 //add products function
