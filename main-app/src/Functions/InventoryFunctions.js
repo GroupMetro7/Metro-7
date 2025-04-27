@@ -15,7 +15,7 @@ export const deleteProduct = async (id, setError, setSuccess, products, setProdu
   setSuccess(null);
 
   // Show confirmation popup
-  const isConfirmed = window.confirm("Are you sure you want to delete this product?");
+  const isConfirmed = window.confirm("Are you sure you want to delete this item?");
   if (!isConfirmed) {
       return; // Exit the function if the user cancels
   }
@@ -23,9 +23,9 @@ export const deleteProduct = async (id, setError, setSuccess, products, setProdu
   try {
       await axiosClient.delete(`/products/${id}`);
       setProducts(products.filter((product) => product.id !== id));
-      setSuccess("Product deleted successfully");
+      setSuccess("Item deleted successfully");
   } catch (err) {
-      setError("Failed to delete product, please try again!");
+      setError("Failed to delete item, please try again!");
   }
 };
 
