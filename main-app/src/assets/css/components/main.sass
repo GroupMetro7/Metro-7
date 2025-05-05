@@ -12,7 +12,7 @@ main.PCMOD-body
         flex-direction: column !important
         justify-content: center !important
         gap: 18px !important
-        padding: 18px 53px 13px !important
+        padding: 13px 53px !important
 
         &.row
             flex-direction: unset !important
@@ -23,3 +23,9 @@ div.group:has( > main.PCMOD-body )
 
         > div
             max-width: 1184px !important
+
+@media only screen and (max-width: 766px) 
+    main.PCMOD-body
+
+        > div
+            max-width: unset !important

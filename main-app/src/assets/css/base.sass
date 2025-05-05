@@ -1,6 +1,6 @@
-@use 'constant.sass' as v
+@use 'Constant.sass' as v
 
-html, body 
+html, body
     background-color: #C3B9B9 !important
     width: 100% !important
     height: 100% !important
@@ -11,8 +11,11 @@ html, body
     -webkit-user-select: none !important
     font-family: Poppins !important
 
-main div, header, header div, footer, footer div, main, section, aside, aside div, article, form, form div, label, nav, 
+main div, header, header div, footer, footer div, main, section, aside, aside div, article, form, form div, label, nav,
 input, textarea, button, select, a, h1, h2, h3, h4, h5, p, figure, figurecaption, hr, div.group, div.form
+    display: flex
+
+label
     display: flex !important
 
 input, textarea, button, select
@@ -20,7 +23,7 @@ input, textarea, button, select
     border: none !important
     outline: none !important
 
-hr 
+hr
     width: 100% !important
     border: .8px solid #000000 !important
 
@@ -65,15 +68,14 @@ h1, h2, h3, h4, h5, p, figure, figurecaption, a, article, hr
 img
     pointer-events: none !important
 
-::-webkit-scrollbar 
+::-webkit-scrollbar
     width: unset
 
-::-webkit-scrollbar-track 
+::-webkit-scrollbar-track
     background: #f1f1f1
 
-::-webkit-scrollbar-thumb 
+::-webkit-scrollbar-thumb
     background: #888
 
-    &:hover 
+    &:hover
         background: #555
-

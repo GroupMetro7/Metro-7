@@ -1,26 +1,79 @@
 @use '../constant.sass' as v
 
-body.Login-PAGE 
+body.Login-PAGE
     background-image: url('/background-image/BG2.png') !important
     background-size: cover !important
     background-position: center !important
     background-attachment: fixed !important
 
-    main.PCMOD-body
+@media only screen and (min-width: 1267px) 
 
-        > div
-            min-height: 469px !important
-            padding: unset !important
+    body.Login-PAGE
 
-            .login
+        main.PCMOD-body
 
-                > div.form
+            > div
+                min-height: 469px !important
+                padding: unset !important
 
-                    > form
+                .login
 
-                        > .buttonside
-                            gap: 23px !important
+                    > div.form
 
-                            > a
-                                align-self: start !important
-                                font-size: 15px !important
+                        > form
+
+                            > .buttonside
+                                gap: 23px !important
+
+                                > a
+                                    align-self: start !important
+                                    font-size: 15px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Login-PAGE
+
+        main.PCMOD-body
+            justify-content: center !important
+
+            > div
+                min-height: calc(100vh - 82px - 208.38px) !important
+                padding: 13px !important
+
+                .login
+
+                    > div.form
+
+                        > form
+
+                            > .buttonside
+                                gap: 23px !important
+
+                                > a
+                                    align-self: start !important
+                                    font-size: 15px !important
+
+
+@media only screen and (max-width: 766px) 
+
+    body.Login-PAGE
+
+        main.PCMOD-body
+            justify-content: center !important
+
+            > div
+                min-height: 80vh !important
+                padding: 13px !important
+
+                .login
+
+                    > div.form
+
+                        > form
+
+                            > .buttonside
+                                gap: 23px !important
+
+                                > a
+                                    align-self: start !important
+                                    font-size: 15px !important

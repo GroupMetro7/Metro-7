@@ -1,100 +1,63 @@
 @use '../../constant.sass' as v
 
-body.Menu-PAGE 
+@media only screen and (min-width: 1267px) 
 
-    .leftside
-        max-width: 725px !important
-        gap: 23px !important
+    body.Menu-PAGE
 
-        > .menu
-
-            > h1
-                align-self: flex-start !important
+        .menu
 
             > div.group
-                gap: 23px !important
 
                 > .search
-                    gap: 33px !important
 
                     > label
                         width: 100% !important
 
+                > .filter
+
+                    > label
+                        width: 100% !important
+                        height: v.$elem-h-size-secondary !important
+
                 > .items
-                    gap: 13px 23px !important
+                    gap:  13px !important
 
-    .rightside
-        max-width: 449px !important
-        align-self: start !important
+@media only screen and (max-width: 766px) 
 
-        > .datetime
-            width: 100% !important
-            align-items: center !important
-            gap: 13px !important
-            text-align: center !important
+    body.Menu-PAGE
 
-            > h2
-                text-align: center !important
+        main.PCMOD-body
 
-        > .opts
-            width: 100% !important
-            gap: 23px !important
+            > div
+                max-width: unset !important
+                padding: 13px !important
 
-            > label.btnradio
-                max-width: 50% !important
-                height: v.$elem-h-size-secondary !important
+                .menu
 
-        > .totalitem
-            gap: 23px !important
+                    > div.group
 
-            > .itemlist
-                gap: 13px !important
+                        > .search
 
-        > .paymentsum
-            gap: 23px !important
+                            > label
+                                width: 100% !important
 
-            > article
-                flex-direction: column !important
-                gap: 13px !important
+                        > .filter
 
-                > div:has(> h3, > h4)
-                    justify-content: space-between !important
+                            > label
+                                width: 100% !important
+                                height: v.$elem-h-size-secondary !important
 
-            > button
-                width: 100% !important
-                height: v.$elem-h-size-secondary !important
+                        > .items
+                            row-gap: 13px !important
+                            column-gap:  13px !important
+                            justify-content: space-between !important
 
-    .modal
 
-        > .modal-dialog
 
-            > div.form
 
-                > form
 
-                    > .qr
-                        width: 628px !important
-                        align-self: center !important
 
-                        > div:has(> label.btnfile)
-                            flex-direction: column !important
-                            align-items: center !important
-                            gap: 23px !important
-                            color: v.$input-white !important
 
-                            > label.btnfile
-                                height: 37px !important
 
-    .menu-notauth
-    
-        > div.group
-            gap: 23px !important
 
-            > .search
-                gap: 33px !important
 
-                > label
-                    width: 100% !important
-
-            > .items
-                gap: 13px 23px !important

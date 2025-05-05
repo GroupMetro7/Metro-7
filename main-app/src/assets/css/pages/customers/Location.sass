@@ -1,25 +1,94 @@
 @use '../../constant.sass' as v
 
-body.Location-PAGE 
+@media only screen and (min-width: 1267px) 
 
-    .location
+    body.Location-PAGE
 
-        > div.box
-            width: 1000px !important
-            height: 312px !important
-            justify-content: space-between !important
+        .location
 
-            > article 
-                width: 511px !important
-                flex-direction: column !important
-                gap: 13px !important
+            > div.box
+                width: 1000px !important
+                height: 312px !important
+                justify-content: space-between !important
 
-                > h2
-                    font-weight: 500 !important
-                    text-transform: capitalize !important
+                > article
+                    width: 511px !important
+                    flex-direction: column !important
+                    gap: 13px !important
 
-            > img 
-                width: 400px !important
-                height: 266px !important
-                border-radius: 10px !important
-                border: white solid 5px !important
+                    > h2
+                        font-weight: 500 !important
+                        text-transform: capitalize !important
+
+                > .map
+                    width: 400px !important
+                    height: 100% !important
+                    border-radius: 10px !important
+                    border: white solid 5px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Location-PAGE
+
+        main.PCMOD-body
+
+            > div
+                max-width: unset !important
+                padding: 13px !important
+                min-height: calc(100vh - 82px - 208.38px) !important
+                justify-content: flex-start !important
+
+                .location
+
+                    > div.box
+                        max-width: 1000px !important
+                        height: 312px !important
+                        justify-content: space-between !important
+
+                        > article
+                            width: 511px !important
+                            flex-direction: column !important
+                            gap: 13px !important
+
+                            > h2
+                                font-weight: 500 !important
+                                text-transform: capitalize !important
+
+                        > .map
+                            width: 400px !important
+                            height: 100% !important
+                            border-radius: 10px !important
+                            border: white solid 5px !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Location-PAGE
+
+        main.PCMOD-body
+
+            > div
+                max-width: unset !important
+                padding: 13px !important
+
+                .location
+
+                    > div.box
+                        width: 100% !important
+                        height: 312px !important
+                        justify-content: space-between !important
+                        flex-direction: column-reverse !important
+
+                        > .map
+                            width: 100% !important
+                            height: 232px !important
+                            border-radius: 10px !important
+
+                        > article
+                            flex-direction: column !important
+                            gap: 7.5px !important
+
+                            > h2
+                                font-size: 18px !important
+                                font-weight: 500 !important
+                                text-transform: capitalize !important
+

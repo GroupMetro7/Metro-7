@@ -1,57 +1,59 @@
 @use '../../constant.sass' as v
 
-body.Profile-Customer-PAGE
+@media only screen and (min-width: 1267px) 
 
-    .myprofile
+    body.Profile-Customer-PAGE
 
-        > div.box
-            width: 1000px !important
-            gap: 33px !important
+        .myprofile
 
-            &.profile
-                align-items: center !important
+            > div.box
+                width: 1000px !important
+                gap: 33px !important
 
-                > img
-                    background-color: white !important
-                    width: 125px !important
-                    aspect-ratio: 1 !important
-                    border-radius: 100% !important
+                &.profile
+                    align-items: center !important
 
-                > article
-                    flex-grow: 1 !important
-                    flex-direction: column !important
-                    gap: 3px !important
+                    > img
+                        background-color: white !important
+                        width: 125px !important
+                        aspect-ratio: 1 !important
+                        border-radius: 100% !important
 
-                    > h2
-                        text-transform: capitalize !important
-                    
-                > button
-                    width: unset !important
-                    padding: 0px 23px !important
-            
-            &.orderhistory
+                    > article
+                        flex-grow: 1 !important
+                        flex-direction: column !important
+                        gap: 3px !important
 
-                > .tb
+                        > h2
+                            text-transform: capitalize !important
+                        
+                    > button
+                        width: unset !important
+                        padding: 0px 23px !important
+                
+                &.orderhistory
 
-                    > .tdr 
+                    > .tb
 
-                        > div 
+                        > .tdr 
 
-                            > .td
+                            > div 
 
-                                &.status 
-                                    height: 37px !important
-                                    align-items: center !important
-                                    border-radius: 5px !important
+                                > .td
 
-                                    &.pending 
-                                        background-color: #b43434
-                                        color: v.$color-white !important
+                                    &.status 
+                                        height: 37px !important
+                                        align-items: center !important
+                                        border-radius: 5px !important
 
-                                    &.paid 
-                                        background-color: #5fb91a
-                                        color: v.$color-white !important
-    
+                                        &.pending 
+                                            background-color: #b43434
+                                            color: v.$color-white !important
+
+                                        &.paid 
+                                            background-color: #5fb91a
+                                            color: v.$color-white !important
+        
     .modal
 
         > .modal-dialog
@@ -59,3 +61,68 @@ body.Profile-Customer-PAGE
             > div.form
                 gap: 23px !important
 
+
+@media only screen and (max-width: 766px) 
+
+    body.Profile-Customer-PAGE
+
+        main.PCMOD-body
+
+            > div
+                max-width: unset !important
+                padding: 13px !important
+
+                .myprofile
+
+                    > div.box
+                        width: 100% !important
+                        gap: 13px !important
+
+                        &.profile
+                            flex-wrap: wrap
+                            justify-content: space-between !important
+                            align-items: center !important
+
+                            > img
+                                background-color: white !important
+                                width: 78px !important
+                                aspect-ratio: 1 !important
+                                border-radius: 100% !important
+
+                            > article
+                                width: 100% !important
+                                flex-direction: column !important
+                                gap: 3px !important
+                                order: 2 !important
+
+                                > h2
+                                    text-transform: capitalize !important
+                                
+                            > button
+                                width: unset !important
+                                padding: 0px 23px !important
+                                order: 1 !important
+
+        .modal
+
+            > .modal-dialog
+
+                > div.form
+                    gap: 13px !important
+
+                    > form
+                        width: 100% !important
+
+                        > div.inputside
+                            flex-direction: column !important
+                            gap: 7.5px !important
+
+                        > div.buttonside
+                            flex-direction: column !important
+                            gap: 18px !important
+
+                            > input[type="submit"]
+                                order: 0 !important
+
+                            > button
+                                order: 1 !important
