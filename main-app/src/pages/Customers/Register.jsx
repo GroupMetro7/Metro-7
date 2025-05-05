@@ -47,7 +47,9 @@ export default function RegisterPage() {
       <Main>
         <Section Class="register">
           <Form Title="REGISTER" FormTwolayers OnSubmit={handleSubmit}>
-            {error && <p className="error">{error}</p>}
+            <Group Class="errorside">
+                {error && <p>{error}</p>}
+            </Group>
             <Group Class="inputside" Wrap>
               <Inputbox
                 Title="First Name"
