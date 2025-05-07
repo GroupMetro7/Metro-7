@@ -1,0 +1,58 @@
+@use '../../constant.sass' as v
+
+body.Dashboard-Admin-PAGE 
+    
+    .salesrevenue
+
+        > h1
+            align-self: start !important
+
+        > .upper
+
+            > .kpis
+
+                > .kpi
+
+                    &.red1
+                        background-color: #461220
+                        color: v.$color-white !important
+
+                    &.red2
+                        background-color: #B53535
+                        color: v.$color-white !important
+
+                    &.red3
+                        background-color: #761430
+                        color: v.$color-white !important
+
+            > .datetime
+                max-width: 390px !important
+                justify-content: center !important
+
+                > h2
+                    text-align: center !important
+        
+        > .charts
+
+            > .salesstatus
+                max-width: 675px !important
+
+                > img
+                    background-color: white !important
+                    width: 100% !important
+                    height: 344px !important
+
+            > .topcategory
+                max-width: 390px !important
+
+                > img
+                    background-color: white !important
+                    width: 100% !important
+                    aspect-ratio: 1 !important
+
+            > .demandforecast
+
+                > img
+                    background-color: white !important
+                    width: 100% !important
+                    height: 133px !important

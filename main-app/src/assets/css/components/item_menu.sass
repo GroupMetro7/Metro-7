@@ -1,0 +1,49 @@
+@use '../constant.sass' as v
+
+div.item
+    background-color: v.$color-white !important
+    flex-direction: column !important
+    gap: 7.5px !important
+    padding: 7.5px !important
+    border-radius: 10px !important
+
+    > img 
+        width: 145.5px !important
+        aspect-ratio: 1 !important
+        border: white solid 5px !important
+    
+    > article 
+        width: 100% !important
+        flex-direction: column !important
+        gap: 7.5px !important
+
+        > h2 
+            height: 54px !important
+            display: -webkit-box !important
+            overflow: hidden !important
+            text-transform: uppercase !important
+            text-overflow: ellipsis !important
+            -webkit-line-clamp: 2 !important
+            -webkit-box-orient: vertical !important
+            font-size: 18px !important
+        
+        > div
+            justify-content: space-between !important
+
+            > div
+                background-color: v.$input-white !important
+                justify-content: space-between !important
+                border-radius: 5px !important
+
+                > h3
+                    width: 37px !important
+                    justify-content: center !important
+                    align-items: center !important
+
+                > button
+                    width: 37px !important
+
+            button
+                width: unset !important
+                height: 37px !important
+                padding: 0px 13px

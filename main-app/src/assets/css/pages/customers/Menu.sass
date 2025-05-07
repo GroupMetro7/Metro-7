@@ -1,0 +1,63 @@
+@use '../../constant.sass' as v
+
+@media only screen and (min-width: 1267px) 
+
+    body.Menu-PAGE
+
+        .menu
+
+            > div.group
+
+                > .search
+
+                    > label
+                        width: 100% !important
+
+                > .filter
+
+                    > label
+                        width: 100% !important
+                        height: v.$elem-h-size-secondary !important
+
+                > .items
+                    gap:  13px !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Menu-PAGE
+
+        main.PCMOD-body
+
+            > div
+                max-width: unset !important
+                padding: 13px !important
+
+                .menu
+
+                    > div.group
+
+                        > .search
+
+                            > label
+                                width: 100% !important
+
+                        > .filter
+
+                            > label
+                                width: 100% !important
+                                height: v.$elem-h-size-secondary !important
+
+                        > .items
+                            row-gap: 13px !important
+                            column-gap:  13px !important
+                            justify-content: space-between !important
+
+
+
+
+
+
+
+
+
+
