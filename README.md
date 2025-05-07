@@ -25,3 +25,10 @@ Note: <br>
 <br>...>`npm run build`
 <br>...>`npm install -g sass`
 <br>...>`npm run dev`
+
+## 5-7-25
+<br> Added sw.js in public folder
+<br> Added serviceWorker.js in src folder
+<br> Added SWdev.js in src folder
+
+<br> sw.js allows for cache allowing offline view of the website.
