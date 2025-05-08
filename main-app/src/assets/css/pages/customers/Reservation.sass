@@ -1,0 +1,36 @@
+@use '../../constant.sass' as v
+
+body.Reservation-PAGE 
+    background-image: url('/background-image/BG2.png') !important
+    background-size: cover !important
+    background-position: center !important
+    background-attachment: fixed !important
+
+    .register
+
+        > div.form
+            gap: 13px !important
+
+            > form
+
+                > div.group:has(div.group.inputside)
+
+                    > hr
+                        width: 100% !important
+                        border: .8px solid v.$input-white !important
+
+                    > div.group.infoside
+                        align-items: flex-start !important
+                        gap: 3px !important
+
+                        > h5
+                            color: v.$input-white !important
+                            text-transform: uppercase !important
+
+                    > div.group.inputside
+                        
+                        > label:has(input[type="number"])
+                            width: 100% !important
+
+                > div.group.buttonside
+                    width: 254px !important

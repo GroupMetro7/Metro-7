@@ -1,0 +1,75 @@
+@use '../../constant.sass' as v
+
+body.Register-PAGE
+    background-image: url('/background-image/BG2.png') !important
+    background-size: cover !important
+    background-position: center !important
+    background-attachment: fixed !important
+
+@media only screen and (min-width: 1267px) 
+
+    body.Register-PAGE
+
+        main.PCMOD-body
+
+            > div
+                min-height: 469px !important
+                padding: unset !important
+
+                .register
+
+                    > div.form
+                        gap: 23px !important
+
+                        > form
+
+                            > .buttonside
+                                width: 254px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Register-PAGE
+
+        main.PCMOD-body
+            justify-content: center !important
+
+            > div
+                min-height: calc(100vh - 82px - 208.38px) !important
+                padding: 13px !important
+
+                .register
+
+                    > div.form
+                        gap: 23px !important
+
+                        > form
+
+                            > .buttonside
+                                width: 254px !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Register-PAGE
+        
+        main.PCMOD-body
+            justify-content: center !important
+
+            > div
+                min-height: 80vh !important
+                padding: 13px !important
+
+                .register
+
+                    > div.form
+                        gap: 13px !important
+
+                        > form
+                            width: 100% !important
+
+                            > div.inputside
+                                flex-direction: column !important
+                                gap: 7.5px !important
+
+                            > div.buttonside
+                                width: 254px !important
+                                
