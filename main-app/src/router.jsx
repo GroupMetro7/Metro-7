@@ -3,7 +3,6 @@ import GuestLayout from './components/Layout/GuestLayout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Customers/Register'
 import LocationPage from './pages/Customers/Location'
-import CustomerLayout from './components/Layout/CustomerLayout'
 import ProfilePage from './pages/Customers/Profile'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
@@ -20,8 +19,17 @@ import SalesPage from './pages/admin/Sales'
 import StaffOrderList from './pages/services/Order_List'
 import InventoryManagementPage from './Pages/admin/Inventory_Management'
 import MenuPage from './Pages/Customers/Menu'
+import CustomerLayout from './Components/Layout/CustomerLayout'
+import Test from './Pages/admin/test'
 
 const router = createBrowserRouter([
+
+  //testing
+
+  {
+    path: 'test',
+    element: <Test />
+  },
 
 	//Customers routing
 	{
@@ -29,7 +37,7 @@ const router = createBrowserRouter([
 		element: <CustomerLayout />,
 		children: [
 			{
-				path: '/',
+				path: '',
 				element: <LandingPage />
 			},
 			{
@@ -63,8 +71,6 @@ const router = createBrowserRouter([
 		]
 	},
 
-
-
 	{
 		path: '/location',
 		element: <LocationPage />
@@ -73,7 +79,6 @@ const router = createBrowserRouter([
     path: 'menu',
     element: <MenuPage />
   },
-
 	//Staff routing
 
 	{
@@ -94,7 +99,6 @@ const router = createBrowserRouter([
 			}
 		]
 	},
-
 	//Admin routing
 
 	{
@@ -124,7 +128,8 @@ const router = createBrowserRouter([
 			{
 				path: 'customer_management',
 				element: <CustomerManagementPage />
-			}
+			},
+
 		]
 	}
 ])

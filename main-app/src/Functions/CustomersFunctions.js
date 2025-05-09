@@ -1,86 +1,58 @@
-import axiosClient from "../axiosClient";
+import axiosClient from '../axiosClient';
 
-export const fetchCustomers = (page, setCustomers, setCurrentPage, setTotalPages) => {
-  axiosClient.get(`/customers?page=${page}`).then(({ data }) => {
-      setCustomers(data.data);
-      setCurrentPage(data.current_page);
-      setTotalPages(data.last_page);
-  });
-};
-
-//add customer
-export const addCustomer = async (e, firstname, lastname, email, loyalty, total_spent, balance, setError, setSuccess, currentPage, setCustomers, setCurrentPage, setTotalPages, fetchCustomers) => {
-  e.preventDefault();
-  setError(null);
-  setSuccess(null);
-
+export const fetchAllUsers = async (setUsers, setError, setCurrentPage, setTotalPages, page) => {
   try {
-      await axiosClient.post('/customers', {
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          loyalty: loyalty,
-          total_spent: total_spent,
-          balance: balance,
-      });
-      setSuccess('Customer added successfully');
-      fetchCustomers(currentPage, setCustomers, setCurrentPage, setTotalPages);
+      // Call the backend API with the current page
+      const { data } = await axiosClient.get(`/customers?page=${page}`);
+      // Update the state with the list of employees and pagination metadata
+      setUsers(data.data); //lists of users
+      setCurrentPage(data.current_page); // Update the current page
+      setTotalPages(data.last_page); // Update the total number of pages
   } catch (error) {
-      setError('An error occurred');
+      console.error('Failed to fetch employees:', error);
+      setError('Failed to fetch customers. Please try again.');
   }
 };
 
-//remove customer
-export const removeCustomer = async (id, setError, setSuccess, Customers, setCustomers) => {
-  setError(null);
-  setSuccess(null);
 
-  try {
-      await axiosClient.delete(`/customers/${id}`);
-      setCustomers(Customers.filter((customer) => customer.id !== id));
-      setSuccess("Customer has been removed!");
-  } catch (err) {
-      setError("Failed to remove Customer, please try again!");
-  }
+export const editCustomer = (customer, setFormData, setCurrentCustomerId) => {
+  setFormData({
+    firstname: customer.firstname,
+    lastname: customer.lastname,
+    email: customer.email,
+    contact: customer.contact,
+    role: customer.role,
+  });
+  setCurrentCustomerId(customer.id);
 };
 
-export const modifyCustomer = async (e, id, firstname, lastname, email, loyalty, total_spent, balance, setFirstName, setLastName, setEmail, setLoyalty, setBalance, setTotalSpent, setSuccess, setError, Customers, currentPage, setCustomers, setCurrentPage, setTotalPages) => {
+export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuccess, setError) => {
   e.preventDefault();
-  setError(null);
-  setSuccess(null);
+  setError(null); // Clear any previous errors
+  setSuccess(null); // Clear any previous success messages
 
   try {
-    const response = await axiosClient.put(`/customers/${id}`, {
-        firstname,
-        lastname,
-        email,
-        loyalty,
-        total_spent,
-        balance,
+    // PUT request to the backend to update user details
+    const response = await axiosClient.put(`/updateUserByAdmin/${id}`, {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      role: formData.role,
     });
 
-    setSuccess("Customer information updated successfully");
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setLoyalty("");
-    setBalance("");
-    setTotalSpent("");
-    fetchCustomers(currentPage, setCustomers, setCurrentPage, setTotalPages);
+    // Update the form data with the response from the backend
+    setFormData(response.data.user); // Assuming the backend returns the updated user in `response.data.user`
 
-  } catch (err) {
+    // Show success message
+    setSuccess("User information updated successfully");
+
+    // Refresh the user list
+    fetchAllUsers();
+  } catch (error) {
+    console.error('Failed to update user details:', error);
+
+    // Handle error and show an appropriate message
     setError(
-      err.response?.data?.message || "Failed to update Customer, please try again!"
+      error.response?.data?.message || "Failed to update user details. Please try again."
     );
   }
-};
-
-export const editCustomer =(customer, setFirstName, setLastName, setEmail, setLoyalty, setBalance, setTotalSpent, setCurrentCustomerId) => {
-  setFirstName(customer.firstname);
-  setLastName(customer.lastname);
-  setEmail(customer.email);
-  setLoyalty(customer.loyalty);
-  setBalance(customer.balance);
-  setTotalSpent(customer.total_spent);
-  setCurrentCustomerId(customer.id);
 };

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('stock_management', function (Blueprint $table) {
             $table->id();
+            $table->string('SKU_NUMBER', 20);
+            $table->string('ITEM_NAME', 55);
+            $table->string('CATEGORY', 15);
+            $table->integer('STOCK');
+            $table->float('COST_PER_UNIT');
+            $table->float('STOCK_VALUE');
+            $table->string('STATUS');
             $table->timestamps();
         });
     }

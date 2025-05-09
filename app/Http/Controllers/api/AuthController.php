@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+  public function index()
+    {
+      $employees = User::where('role', 'employee')->paginate(2);
+      return response()->json($employees);
+    }
+
+    public function index_customer()
+    {
+      $employees = User::where('role', 'customer')->paginate(2);
+      return response()->json($employees);
+    }
+
   public function login(StaffLoginRequest $request)
   {
     $credentials = $request->validated();
@@ -66,8 +78,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
-            'contact' => 'nullable|string|max:15',
+            'contact' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -80,7 +91,6 @@ class AuthController extends Controller
         // Update the user's profile
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->email = $request->email;
         $user->contact = $request->contact;
         $user->save();
 
@@ -100,4 +110,35 @@ class AuthController extends Controller
 
       return response()->json(['message' => 'Logged out successfully'], 200);
   }
+
+
+  public function updateUserByAdmin(Request $request, $id)
+{
+    // Get the authenticated user
+    $admin = Auth::user();
+
+    if($admin->isAdmin()){
+      $validated = $request->validate([
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'role' => 'required',
+    ]);
+
+    // Find the user to be updated
+    $user = User::findOrFail($id);
+
+    // Update the user's profile
+    $user->update($validated);
+
+    return response()->json([
+        'message' => 'User information updated successfully.',
+        'user' => $user,
+    ], 200);
+    }else {
+      return response()->json(['message' => 'Unauthorized. Only admins can perform this action.'], 403);
+    }
+
 }
+}
+
+

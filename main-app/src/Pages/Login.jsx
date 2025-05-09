@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../assets/css/pages/Login.sass'
 import { useStateContext } from '../Contexts/ContextProvider';
 import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Footer } from '../exporter/component_exporter'
@@ -6,11 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
-    const { setUser, setToken } = useStateContext();
+    const { token, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { user } = useStateContext();
+
+    useEffect(() => {
+      axiosClient.get("/user")
+          .then(({ data }) => {
+              setUser(data);
+              setLoading(false); // Stop loading once user data is fetched
+          })
+          .catch((error) => {
+              console.error("Failed to fetch user:", error);
+              setLoading(false); // Stop loading even if the request fails
+          });
+  }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +36,14 @@ export default function LoginPage() {
 
             setUser(response.data.user);
             setToken(response.data.token);
-            navigate("/");
+            if (user.role === "customer") {
+                navigate("/");
+            }
+            else if (user.role === "employee") {
+                navigate("/service");
+            } else if (user.role === "admin") {
+                navigate("/admin");
+            }
         } catch (err) {
             setError(
                 err.response.data.message || "Login failed, please try again."

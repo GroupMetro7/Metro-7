@@ -3,7 +3,6 @@ import "../../assets/css/pages/services/Dashboard.sass";
 import {
   Title,
   Body_addclass,
-  SideBar,
   Main,
   Section,
   Form,
@@ -20,28 +19,27 @@ import {
   Outputfetch,
   DateText,
   TimeText,
-  InsertFileButton,
 } from "../../exporter/component_exporter";
-import { Outlet } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 
 export default function StaffDashboard() {
   Title("Metro 7");
   Body_addclass("Dashboard-Service-PAGE");
 
-  const [menuProduct, setMenu] = useState([]);
-
+  const [menuItems, setMenuItems] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchMenuItems = async () => {
       try {
         const response = await axiosClient.get("/menu");
-        setMenu(response.data); // Populate menuProduct with the fetched data
+        setMenuItems(response.data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching menu items:", error);
       }
     };
 
-    fetchProducts();
+    fetchMenuItems();
   }, []);
 
   const orders = [
@@ -51,16 +49,57 @@ export default function StaffDashboard() {
     ["#25569", "TAKE-OUT"],
   ];
 
-  const orderlist = menuProduct.map((product) => [
-    product.product_name,
-    product.price,
-    product.image,
-  ]); // Include the image URL
+  const orderlist = menuItems.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    price: product.price,
+    image: product.image,
+  }));
 
-  const checkedorders = [
-    [<>Burger</>, (559.0).toFixed(2), {}],
-    [<>Carbonara</>, (1258.0).toFixed(2), {}],
-  ];
+  const checkedorders = order.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    price: product.price,
+    image: product.image,
+    quantity : product.quantity
+  }));
+
+    const addItemToOrder = (item) => {
+      const existingItem = order.find((orderItem) => orderItem.id === item.id);
+      let updatedOrder;
+      if (existingItem) {
+        updatedOrder = order.map((orderItem) =>
+          orderItem.id === item.id
+            ? { ...orderItem, quantity: orderItem.quantity + 1 }
+            : orderItem
+        );
+      } else {
+        updatedOrder = [...order, { ...item, quantity: 1 }];
+      }
+      setOrder(updatedOrder);
+      calculateTotalPrice(updatedOrder);
+    };
+
+  const calculateTotalPrice = (updatedOrder) => {
+    const total = updatedOrder.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setTotalPrice(total);
+  };
+
+  const removeItemFromOrder = (itemId) => {
+    const updatedOrder = order
+      .map((orderItem) =>
+        orderItem.id === itemId && orderItem.quantity > 1
+          ? { ...orderItem, quantity: orderItem.quantity - 1 }
+          : orderItem
+      )
+      .filter((orderItem) => orderItem.quantity > 0);
+    setOrder(updatedOrder);
+    calculateTotalPrice(updatedOrder);
+  };
+
 
   return (
     <>
@@ -88,7 +127,7 @@ export default function StaffDashboard() {
                   <Selectionbox Title="Filter" />
                 </Box>
                 <Group Wrap>
-                  <ItemMenu List={orderlist} />
+                  <ItemMenu List={orderlist} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder}/>
                 </Group>
               </Group>
             </Section>
@@ -108,10 +147,8 @@ export default function StaffDashboard() {
             </Group>{" "}
             <hr />
             <Group Class="totalitem">
-              <h3>TOTAL ITEM</h3>
-              <div className="itemlist">
-                <CheckedItem List={checkedorders} />
-              </div>
+            <h3>TOTAL ITEM</h3>
+              <CheckedItem List={checkedorders} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder}/>
             </Group>
             <hr />
             <Inputbox Title="Customer" />
@@ -125,7 +162,7 @@ export default function StaffDashboard() {
                 <h3>PAYMENT SUMMARY</h3>
                 <div>
                   <h3>TOTAL PRICE:</h3>
-                  <h4>₱581.00</h4>
+                  <h4 >₱{totalPrice}</h4>
                 </div>
                 <div>
                   <h3>DISCOUNT:</h3>

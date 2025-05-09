@@ -14,19 +14,20 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <Button
                 Title="<"
                 Onclick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
+                Disabled={currentPage === 1}
             />
             {[...Array(totalPages)].map((_, index) => (
                 <Button
                     key={index}
                     Title={index + 1}
                     Onclick={() => handlePageChange(index + 1)}
+                    Disabled={currentPage === index + 1}
                 />
             ))}
             <Button
                 Title=">"
                 Onclick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
+                Disabled={currentPage === totalPages}
             />
         </div>
     )
