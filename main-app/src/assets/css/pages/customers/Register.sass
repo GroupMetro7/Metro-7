@@ -6,57 +6,55 @@ body.Register-PAGE
     background-position: center !important
     background-attachment: fixed !important
 
+    main
+
+        > div
+            justify-content: center !important
+
+            .register
+
+                > div.form
+
+                    > form
+
+                        > .buttonside
+                            width: 254px !important
+
 @media only screen and (min-width: 1267px) 
 
     body.Register-PAGE
 
-        main.PCMOD-body
+        main
 
             > div
-                min-height: 469px !important
-                padding: unset !important
 
                 .register
 
                     > div.form
                         gap: 23px !important
-
-                        > form
-
-                            > .buttonside
-                                width: 254px !important
 
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     body.Register-PAGE
 
-        main.PCMOD-body
-            justify-content: center !important
+        main
 
             > div
-                min-height: calc(100vh - 82px - 208.38px) !important
-                padding: 13px !important
+                min-height: calc(100vh - v.$header-size - 208.38px) !important
 
                 .register
 
                     > div.form
                         gap: 23px !important
 
-                        > form
-
-                            > .buttonside
-                                width: 254px !important
-
 @media only screen and (max-width: 766px) 
 
     body.Register-PAGE
         
-        main.PCMOD-body
-            justify-content: center !important
+        main
 
             > div
-                min-height: 80vh !important
-                padding: 13px !important
+                min-height: calc(100vh - v.$header-size - 194px) !important
 
                 .register
 
@@ -66,10 +64,6 @@ body.Register-PAGE
                         > form
                             width: 100% !important
 
-                            > div.inputside
-                                flex-direction: column !important
+                            > .inputside
                                 gap: 7.5px !important
-
-                            > div.buttonside
-                                width: 254px !important
                                 

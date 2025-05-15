@@ -1,29 +1,39 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { Title, Body_addclass, Header, Footer, Main, Section, Group, Button } from '../exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Header, Footer, Main, Section, Group, Button } from '../Exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
 import { useStateContext } from '../Contexts/ContextProvider'
 
 export default function LandingPage() {
     Title('Metro 7 | Login')
     Body_addclass('Landing-PAGE')
-
-    const user = "Micheal Lance Kester Li"
+    const screenwidth = ScreenWidth()
 
     const { token } = useStateContext();
 
     return(
         <>
         <Main>
-            <Section Title={ <>Want to order in advance before<br />you arrive?</> } Class='pre-order'>
+            <Section Class='pre-order'>
+                { screenwidth > 766 ? 
+                    <h1>Want to order in advance before<br />you arrive?</h1>
+                    : 
+                    <h2>Want to order in advance before you arrive?</h2>
+                }
                 <Button Title='PRE-ORDER NOW' Redirect={ token ? '/reservation' : '/login' } BtnWhite />
             </Section>
             <Group Class='about'>
-                <div>
-                    <img src={ Logo } />
-                </div>
+                { screenwidth > 1023 && (
+                    <div>
+                        <img src={ Logo } />
+                    </div>
+                ) }
                 <Group Class='description' Col>
-                    <h2>Our Story</h2>
+                    { screenwidth > 766 ? 
+                        <h2>OUR STORY</h2>
+                        :
+                        <h3>OUR STORY</h3>
+                    }
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the industry's

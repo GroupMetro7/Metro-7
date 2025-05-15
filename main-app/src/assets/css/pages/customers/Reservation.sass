@@ -6,31 +6,98 @@ body.Reservation-PAGE
     background-position: center !important
     background-attachment: fixed !important
 
-    .register
+    main
 
-        > div.form
-            gap: 13px !important
+        > div
+            justify-content: center !important
 
-            > form
+            .reservation
 
-                > div.group:has(div.group.inputside)
+                > div.form
+                    gap: 13px !important
 
-                    > hr
-                        width: 100% !important
-                        border: .8px solid v.$input-white !important
+                    > form
 
-                    > div.group.infoside
-                        align-items: flex-start !important
-                        gap: 3px !important
+                        > div.group:has(.inputside)
 
-                        > h5
-                            color: v.$input-white !important
-                            text-transform: uppercase !important
+                            > hr
+                                width: 100% !important
+                                border: .8px solid v.$input-white !important
 
-                    > div.group.inputside
-                        
-                        > label:has(input[type="number"])
+                            > .infoside
+                                gap: 3px !important
+
+                                > h5
+                                    color: v.$input-white !important
+                                    text-transform: uppercase !important
+
+@media only screen and (min-width: 1267px)
+
+    body.Reservation-PAGE 
+
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
+
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    
+                                    > label:nth-child(1)
+                                        width: 100% !important
+
+                            > .buttonside
+                                width: 254px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Reservation-PAGE
+
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
+
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    
+                                    > label:nth-child(1)
+                                        width: 100% !important
+
+                            > .buttonside
+                                width: 254px !important
+
+
+@media only screen and (max-width: 766px)
+
+    body.Reservation-PAGE
+        
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
                             width: 100% !important
 
-                > div.group.buttonside
-                    width: 254px !important
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    gap: 7.5px !important
+
+                                        

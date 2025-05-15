@@ -1,126 +1,53 @@
-import axiosClient from "../axiosClient";
+import axiosClient from '../axiosClient';
 
-export const fetchEmployees = (
-  page,
-  setEmployees,
-  setCurrentPage,
-  setTotalPages
-) => {
-  axiosClient.get(`/employees?page=${page}`).then(({ data }) => {
-    setEmployees(data.data);
-    setCurrentPage(data.current_page);
-    setTotalPages(data.last_page);
-  });
-};
-
-//add employee
-export const addEmployee = async (
-  e,
-  name,
-  email,
-  phone,
-  username,
-  role,
-  schedule,
-  time,
-  setError,
-  setSuccess,
-  fetchEmployees,
-  currentPage,
-  setEmployees,
-  setCurrentPage,
-  setTotalPages
-) => {
-  e.preventDefault();
-  setError(null);
-  setSuccess(null);
-
+export const fetchAllEmployees = async (setUsers, setError, setCurrentPage, setTotalPages, page) => {
   try {
-    await axiosClient.post("/employees", {
-      name: name,
-      email: email,
-      phone: phone,
-      username: username,
-      role: role,
-      schedule: schedule,
-      time: time,
-    });
-    setSuccess("Employee added successfully");
-    fetchEmployees(currentPage, setEmployees, setCurrentPage, setTotalPages);
+      // Call the backend API with the current page
+      const { data } = await axiosClient.get(`/employees?page=${page}`);
+      // Update the state with the list of employees and pagination metadata
+      setUsers(data.data); //lists of users
+      setCurrentPage(data.current_page); // Update the current page
+      setTotalPages(data.last_page); // Update the total number of pages
   } catch (error) {
-    setError("An error occurred");
+      console.error('Failed to fetch employees:', error);
+      setError('Failed to fetch employees. Please try again.');
   }
 };
 
-//remove employee function
-export const removeEmployee = async (
-  id,
-  setError,
-  setSuccess,
-  Employees,
-  setEmployees
-) => {
-  setError(null);
-  setSuccess(null);
 
-  try {
-    await axiosClient.delete(`/employees/${id}`);
-    setEmployees(Employees.filter((employee) => employee.id !== id));
-    setSuccess("Employee has been removed!");
-  } catch (err) {
-    setError("Failed to delete employee, please try again!");
-  }
-};
-
-//modify employee function
-export const modifyEmployee = async (e, id, setError, setSuccess, name, email, username, role, schedule, time, phone, setName, setEmail, setUsername, setRole, setTime, setPhone, fetchEmployees, currentPage, setEmployees, setCurrentPage, setTotalPages) => {
+export const modifyEmployee = async (e, id, formData, setFormData, fetchAllEmployees, setSuccess, setError,setUsers, setCurrentPage, setTotalPages,currentPage) => {
   e.preventDefault();
-  setError(null);
-  setSuccess(null);
+  setError(null); // Clear any previous errors
+  setSuccess(null); // Clear any previous success messages
 
   try {
-    const response = await axiosClient.put(`/employees/${id}`, {
-      name,
-      email,
-      username,
-      role,
-      schedule,
-      time,
-      phone,
+    // PUT request to the backend to update user details
+    const response = await axiosClient.put(`/updateUserByAdmin/${id}`, {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      role: formData.role,
     });
-    setSuccess("Employee information updated successfully");
-    setName("");
-    setEmail("");
-    setUsername("");
-    setRole("");
-    setTime("");
-    setPhone("");
-    fetchEmployees(currentPage, setEmployees, setCurrentPage, setTotalPages);
-  } catch (err) {
+    setFormData(response.data.user);
+    setSuccess("User information updated successfully");
+    fetchAllEmployees(setUsers, setCurrentPage, setTotalPages, currentPage);
+  } catch (error) {
+    console.error('Failed to update user details:', error);
+
+    // Handle error and show an appropriate message
     setError(
-      err.response?.data?.message ||
-        "Failed to update employee, please try again!"
+      error.response?.data?.message || "Failed to update user details. Please try again."
     );
   }
 };
 
-export const editEmployee = (
-  employee,
-  setName,
-  setEmail,
-  setUsername,
-  setRole,
-  setSchedule,
-  setTime,
-  setPhone,
-  setCurrentEmployeeId
-) => {
-  setName(employee.name);
-  setEmail(employee.email);
-  setUsername(employee.username);
-  setRole(employee.role);
-  setSchedule(employee.schedule);
-  setTime(employee.time);
-  setPhone(employee.phone);
+// Retain the details to the input fields
+export const editEmployee = (employee, setFormData, setCurrentEmployeeId) => {
+  setFormData({
+    firstname: employee.firstname,
+    lastname: employee.lastname,
+    email: employee.email,
+    contact: employee.contact,
+    role: employee.role,
+  });
   setCurrentEmployeeId(employee.id);
 };

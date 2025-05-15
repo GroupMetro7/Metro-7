@@ -5,28 +5,28 @@ import { M7Logo, DashboardLogo, OrderlistLogo, ProfileLogo, SalesLogo, Inventory
 
 export default function SideBar({ ServiceMode, AdminMode }) {
     return(
-        <aside className='sidebar'>
+        <aside className="sidebar">
             <div>
                 <img src={ M7Logo }/>
                 <nav>
                     { ServiceMode ? 
                         <>
-                            <Href Icon={ DashboardLogo } Redirect='/service'></Href>
-                            <Href Icon={ OrderlistLogo } Redirect='/service/order_list'></Href>
-                            <Href Icon={ ProfileLogo } Redirect='/service/profile'></Href>
-                            <Href Icon={ LogoutLogo }></Href>
+                            <Href Title={ <span>Dashboard</span> } Icon={ DashboardLogo } Redirect="/service"></Href>
+                            <Href Title={ <span>Order List</span> } Icon={ OrderlistLogo } Redirect="/service/orderlist"></Href>
+                            <Href Title={ <span>Profile</span> } Icon={ ProfileLogo } Redirect="/service/profile"></Href>
+                            <Href Title={ <span>Logout</span> } Icon={ LogoutLogo }></Href>
                         </>
                     : undefined
                     }
                     { AdminMode ? 
                         <>
-                            <Href Icon={ DashboardLogo } Redirect='/admin'/>
-                            <Href Icon={ SalesLogo } Redirect='/admin/sales'/>
-                            <Href Icon={ OrderlistLogo } Redirect='/admin/menu_management'/>
-                            <Href Icon={ InventoryLogo } Redirect='/admin/inventory_management'/>
-                            <Href Icon={ EmployeeLogo } Redirect='/admin/employee_management'/>
-                            <Href Icon={ CustomerLogo } Redirect='/admin/customer_management'/>
-                            <Href Icon={ LogoutLogo }/>
+                            <Href Title={ <span>Dashboard</span> } Icon={ DashboardLogo } Redirect="/admin"/>
+                            <Href Title={ <span>Sales</span> } Icon={ SalesLogo } Redirect=""/>
+                            <Href Title={ <span>Order List</span> } Icon={ OrderlistLogo } Redirect="/admin/menu_management"/>
+                            <Href Title={ <span>Inventory</span> } Icon={ InventoryLogo } Redirect="/admin/inventory_management"/>
+                            <Href Title={ <span>Employee</span> } Icon={ EmployeeLogo } Redirect="/admin/employee_management"/>
+                            <Href Title={ <span>Customers</span> } Icon={ CustomerLogo } Redirect="/admin/customer_management"/>
+                            <Href Title={ <span>Logout</span> } Icon={ LogoutLogo }/>
                         </>
                     : undefined
                     }

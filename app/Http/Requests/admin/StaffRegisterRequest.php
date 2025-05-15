@@ -25,7 +25,7 @@ class StaffRegisterRequest extends FormRequest
           'lastname' => 'required|string|max:255',
           'firstname' => 'required|string|max:255',
           'email' => 'required|string|email|max:255|unique:users',
-          'contact' => 'required|integer',
+          'contact' => 'required|string|regex:/^\+?[0-9\s\-]+$/',
           'password' => 'required|string|min:8|confirmed',
         ];
     }

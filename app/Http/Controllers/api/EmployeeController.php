@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddEmployeeRequest;
 use App\Http\Requests\admin\UpdateEmployeeRequest;
 use App\Models\employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -43,17 +44,13 @@ class EmployeeController extends Controller
       return 'EMP' . $newNumber;
     }
 
-    public function update(UpdateEmployeeRequest $request, $id){
-      $validated = $request->validated();
+    public function update(Request $request, $id){
+      $validated = $request->validate([
+        'firstname' => 'sometimes|required|string|max:255',
+    ]);
 
-      $employee = employee::findOrFail($id);
-      $employee->name = $validated['name'];
-      $employee->email = $validated['email'];
-      $employee->username = $validated['username'];
-      $employee->role = $validated['role'];
-      $employee->schedule = $validated['schedule'];
-      $employee->time = $validated['time'];
-      $employee->phone = $validated['phone'];
+      $employee = User::findOrFail($id);
+      $employee->firstname = $validated['firstname'];
       $employee->save();
 
       return response()->json(['message' => 'Employee updated successfully', 'Employee' => $employee]);

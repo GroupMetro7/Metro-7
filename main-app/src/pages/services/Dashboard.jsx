@@ -1,128 +1,312 @@
-import React from 'react'
-import '../../assets/css/pages/services/Dashboard.sass'
-import { Title, Body_addclass, SideBar, Main, Section, Form, Group, Inputbox, Button, Box, Selectionbox, PrepOrder, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, DateText, TimeText, InsertFileButton } from '../../exporter/component_exporter'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import "../../assets/css/pages/services/Dashboard.sass";
+import { ScreenWidth, Title, Body_addclass, SideBar, Main, Section, Form, Group, Inputbox, Button, Box, Selectionbox, PrepOrder, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, DateText, TimeText, InsertFileButton, SubmitButton } from "../../Exporter/component_exporter";
+import axiosClient from "../../axiosClient";
+import { useStateContext } from "../../Contexts/ContextProvider";
 
 export default function StaffDashboard() {
-    Title('Metro 7')
-    Body_addclass('Dashboard-Service-PAGE')
+  Title("Metro 7");
+  Body_addclass("Dashboard-Service-PAGE")
+    const screenwidth = ScreenWidth()
 
-    const user = "Micheal Lance Kester Li"
+  const [menuItems, setMenuItems] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [customer, setCustomer] = useState();
+  const [paymentOpt, setPaymentOpt] = useState();
+  const [diningOpt, setDiningOpt] = useState();
+  const { user } = useStateContext();
 
-    const orders = [
-        ['#25569', 'TAKE-OUT'],
-        ['#25569', 'TAKE-OUT'],
-        ['#25569', 'TAKE-OUT'],
-        ['#25569', 'TAKE-OUT']
-    ]
-    const orderlist = [
-        [<>Burger</>, 559.00.toFixed(2), {},],
-        [<>Espresso</>, 358.00.toFixed(2), {}],
-        [<>Carbonara</>, 1258.00.toFixed(2), {}],
-        [<>Burger</>, 559.00.toFixed(2), {}],
-        [<>Espresso</>, 358.00.toFixed(2), {}],
-        [<>Carbonara</>, 1258.00.toFixed(2), {}]
-    ]
-    const checkedorders = [
-        [<>Burger</>, 559.00.toFixed(2), {}],
-        [<>Carbonara</>, 1258.00.toFixed(2), {}],
-    ]
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const response = await axiosClient.get("/menu");
+        setMenuItems(response.data);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+    fetchMenuItems();
+  }, []);
 
-    return(
-        <>
-        <Group>
-            <Main Row>
-                <Group Class="leftside" Col>
-                    <Section Title="PREPARING ORDER" Class="preporder" UpperRight={<Button Title="VIEW ALL ORDERS" Redirect="/service/order_list" />}>
-                        <Group Class="orders" Wrap>
-                            <PrepOrder List={orders} />
-                        </Group>
-                    </Section>
-                    <Section Title="Menu Order" Class="menu">
-                        <Group Col>
-                            <Box Class="search">
-                                <Inputbox Title="Search" Type="search" />
-                                <Selectionbox Title="Filter" />
-                            </Box>
-                            <Group Wrap>
-                                <ItemMenu List={orderlist} />
-                            </Group>
-                        </Group>
-                    </Section>
-                </Group>
-                <Box Class="rightside" BoxCol>
-                    <Group Class="datetime" Col><h2><DateText /><br /><TimeText /></h2><hr /></Group>
-                    <Group Class="diningopts">
-                        <Radio Title="DINE-IN" RadioName="Options" />
-                        <Radio Title="TAKE-OUT" RadioName="Options" />
-                    </Group>                    <hr />
-                    <Group Class="totalitem">
-                        <h3>TOTAL ITEM</h3>
-                        <div className="itemlist">
-                            <CheckedItem List={checkedorders} />
-                        </div>
-                    </Group>
-                    <hr />
-                    <Inputbox Title="Customer" />
-                    <hr />
-                    <Group Class="diningopts"><Radio Title="CASH" RadioName="Payment" /><Radio Title="ONLINE" RadioName="Payment" /></Group>
-                    <Group Class="paymentsum" Col>
-                        <article>
-                            <h3>PAYMENT SUMMARY</h3>
-                            <div>
-                                <h3>TOTAL PRICE:</h3>
-                                <h4>₱581.00</h4>
-                            </div>
-                            <div>
-                                <h3>DISCOUNT:</h3>
-                                <h4>₱0.00</h4>
-                            </div>
-                        </article>
-                        <Button Title="CHECKOUT" OpenModal="CheckoutModal" />
-                    </Group>
-                </Box>
-            </Main>
-        </Group>
-        <Modal Modal="ViewModal">
-            <Form Title="VIEW ORDER" FormThreelayers>
-                <Group Class='outputfetch' Wrap>
-                    <Outputfetch Title="Order No." Value="25569" OutCol OutWhite />
-                    <Outputfetch Title="Order Date" Value="2025-02-24 | 02:27:25" OutCol OutWhite />
-                    <Outputfetch Title="Cashier Name" Value="Micheal Lance Kester Li" OutCol OutWhite />
-                    <Outputfetch Title="Options" Value="TAKE-OUT" OutCol OutWhite />
-                    <Outputfetch Title="Amount" Value="₱559.00" OutCol OutWhite />
-                    <Outputfetch Title="Status" Value="PREPARING" OutCol OutWhite />
-                </Group>
-                <Group Class='buttonside'>
-                    <Button Title="CLOSE" CloseModal BtnWhite />
-                    <Button Title="VIEW ALL ORDER" Redirect="/staff/OrderList" CloseModal BtnWhite />
-                </Group>
-            </Form>
-        </Modal>
-        <Modal Modal="CheckoutModal">
-            <Form Title="CHECKOUT" FormThreelayers>
-                <Group Class='outputfetch' Wrap>
-                    <Outputfetch Title="Customer Name" Value="Micheal Lance Kester Li" OutCol OutWhite />
-                    <Outputfetch Title="Order Date" Value="2025-02-24 | 02:27:25" OutCol OutWhite />
-                    <Outputfetch Title="Order Options" Value="TAKE-OUT" OutCol OutWhite />
-                </Group>
-                <Group Class='outputfetch' Col>
-                    <Outputfetch Title="Customer Name" OutWhite />
-                    <div><Outputfetch Value="Pork Steak" OutWhite /><Outputfetch Value="₱581.00" OutWhite /></div>
-                    <div><Outputfetch Value="Bacardi" OutWhite /><Outputfetch Value="₱369.00" OutWhite /></div>
-                </Group>
-                <Group Class='outputfetch' Wrap>
-                    <Outputfetch Title="Total Price" Value="₱950.00" OutCol OutWhite />
-                    <Outputfetch Title="Discount" Value="₱0.00" OutCol OutWhite />
-                    <Outputfetch Title="Payment Mode" Value="ONLINE" OutCol OutWhite />
-                    <Outputfetch Title="Down Payment Price" Value="₱475.00" OutCol OutWhite />
-                </Group>
-                <Group Class='buttonside'>
-                    <Button Title="CANCEL" CloseModal BtnWhite />
-                    <Button Title="CHECKOUT" Redirect="/service/order_list" CloseModal BtnWhite />
-                </Group>
-            </Form>
-        </Modal>
-        </>
-    )
+  const orders = [
+    ["#25569", "TAKE-OUT"],
+    ["#25569", "TAKE-OUT"],
+    ["#25569", "TAKE-OUT"],
+    ["#25569", "TAKE-OUT"],
+  ];
+
+  const orderlist = menuItems.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    price: product.price,
+    image: product.image,
+  }));
+
+  const checkedorders = order.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    price: product.price,
+    image: product.image,
+    quantity: product.quantity,
+  }));
+
+  const addItemToOrder = (item) => {
+    const existingItem = order.find((orderItem) => orderItem.id === item.id);
+    let updatedOrder;
+    if (existingItem) {
+      updatedOrder = order.map((orderItem) =>
+        orderItem.id === item.id
+          ? { ...orderItem, quantity: orderItem.quantity + 1 }
+          : orderItem
+      );
+    } else {
+      updatedOrder = [...order, { ...item, quantity: 1 }];
+    }
+    setOrder(updatedOrder);
+    calculateTotalPrice(updatedOrder);
+  };
+
+  const calculateTotalPrice = (updatedOrder) => {
+    const total = updatedOrder.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setTotalPrice(total);
+  };
+
+  const removeItemFromOrder = (itemId) => {
+    const updatedOrder = order
+      .map((orderItem) =>
+        orderItem.id === itemId && orderItem.quantity > 1
+          ? { ...orderItem, quantity: orderItem.quantity - 1 }
+          : orderItem.id === itemId
+          ? null
+          : orderItem
+      )
+      .filter((orderItem) => orderItem !== null);
+    setOrder(updatedOrder);
+    calculateTotalPrice(updatedOrder);
+  };
+
+  const submitOrder = async (e) => {
+    e.preventDefault(); // Prevent form submission from reloading the page
+
+    // Validate required fields
+    if (!customer || !paymentOpt || !diningOpt) {
+      alert(
+        "Please fill in all required fields: Customer, Payment Option, and Dining Option."
+      );
+      return;
+    }
+    if (order.length === 0) {
+      alert("No items in the order. Please add items before submitting.");
+      return;
+    }
+    try {
+      // Format the order data for submission
+      const formattedOrder = {
+        amount: totalPrice || 0,
+        customer_name: customer || "Unknown",
+        payment_option: paymentOpt || "Not Specified",
+        option: diningOpt || "Not Specified",
+        status: "pending",
+        tickets: order.map((item) => ({
+          product_id: item.id,
+          product_name: item.product_name,
+          quantity: item.quantity,
+          unit_price: item.price,
+          total_price: item.price * item.quantity,
+        })),
+      };
+
+      console.log("Submitting order:", formattedOrder);
+      // Send the order to the backend
+      const response = await axiosClient.post("/orders", formattedOrder);
+
+      alert("Order submitted successfully!");
+      setOrder([]);
+      setTotalPrice(0);
+      setCustomer("");
+      setPaymentOpt("");
+      setDiningOpt("");
+    } catch (error) {
+      console.error("Failed to submit order:", error);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        alert(`Failed to submit order: ${error.response.data.message}`);
+      } else {
+        alert("Failed to submit order. Please try again.");
+      }
+    }
+  };
+
+  return (
+      <>
+          <Group>
+              <Main Row>
+                  <Section Title="MENU ORDER" Class="menu">
+                      <Group Col>
+                          <Box Class="search">
+                              <Inputbox Title="Search" Type="search" />
+                          </Box>
+                          <Group Class='filter'>
+                              <Radio Title='Meal' Value='Meal' RadioName='Category' BtnWhite />
+                              <Radio Title='Liquor' Value='Meal' RadioName='Category' BtnWhite />
+                              <Radio Title='Deserts' Value='Meal' RadioName='Category' BtnWhite />
+                              <Radio Title='Breakfast' Value='Meal' RadioName='Category' BtnWhite />
+                          </Group>
+                          <Group Wrap>
+                              <ItemMenu
+                                  List={orderlist}
+                                  addItemToOrder={addItemToOrder}
+                                  removeItemFromOrder={removeItemFromOrder}
+                              />
+                          </Group>
+                      </Group>
+                  </Section>
+                  <Box Class="checkout" BoxCol>
+                      <Group Class="datetime" Col>
+                          <h3>
+                              <DateText />
+                              <br />
+                              <TimeText />
+                          </h3>
+                          <hr />
+                      </Group>
+                      <Group Class="diningopts">
+                          <Radio
+                              Title="DINE-IN"
+                              RadioName="Options"
+                              Value="DINE-IN"
+                              Checked={diningOpt === "DINE-IN"}
+                              OnChange={(e) => setDiningOpt(e.target.value)}
+                          />
+                          <Radio
+                              Title="TAKE-OUT"
+                              RadioName="Options"
+                              Value="TAKE-OUT"
+                              Checked={diningOpt === "TAKE-OUT"}
+                              OnChange={(e) => setDiningOpt(e.target.value)}
+                          />
+                      </Group>
+                      <hr />
+                      <Group Class="totalitem">
+                          <h3>TOTAL ITEM</h3>
+                          <div className="itemlist">
+                              <CheckedItem
+                                  List={checkedorders}
+                                  addItemToOrder={addItemToOrder}
+                                  removeItemFromOrder={removeItemFromOrder}
+                              />
+                          </div>
+                      </Group>
+                      <hr />
+                      <Inputbox
+                          Title="Customer"
+                          value={customer}
+                          onChange={(e) => setCustomer(e.target.value)}
+                      />
+                      <hr />
+                      <Group Class="diningopts">
+                          <Radio
+                              Title="CASH"
+                              RadioName="Payment"
+                              Value="CASH"
+                              Checked={paymentOpt === "CASH"}
+                              OnChange={(e) => setPaymentOpt(e.target.value)}
+                          />
+                          <Radio
+                              Title="ONLINE"
+                              RadioName="Payment"
+                              Value="ONLINE"
+                              Checked={paymentOpt === "ONLINE"}
+                              OnChange={(e) => setPaymentOpt(e.target.value)}
+                          />
+                      </Group>
+                      <Group Class="paymentsum" Col>
+                          <article>
+                              <h3>PAYMENT SUMMARY</h3>
+                              <div>
+                                  <h3>TOTAL PRICE:</h3>
+                                  <h4>₱{totalPrice}</h4>
+                              </div>
+                              <div>
+                                  <h3>DISCOUNT:</h3>
+                                  <h4>₱0.00</h4>
+                              </div>
+                          </article>
+                          <Button Title="CHECKOUT" OpenModal="CheckoutModal" />
+                      </Group>
+                  </Box>
+              </Main>
+          </Group>
+          <Modal Modal="CheckoutModal">
+              <Form Title="CHECKOUT" { ...screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true } } OnSubmit={submitOrder}>
+                  <Group Class="outputfetch" Wrap>
+                      <Outputfetch
+                          Title="Customer Name"
+                          Value={customer}
+                          OutCol
+                          OutWhite
+                      />
+                      <Outputfetch
+                          Title="Order Date"
+                          Value="2025-02-24 | 02:27:25"
+                          OutCol
+                          OutWhite
+                      />
+                      <Outputfetch
+                          Title="Order Options"
+                          Value={diningOpt}
+                          OutCol
+                          OutWhite
+                      />
+                  </Group>
+                  <Group Class="outputfetch" Col>
+                      <Outputfetch Title="Order details" OutWhite />
+                      <div>
+                          {order.map((product, index) => (
+                              <Outputfetch
+                                  key={index}
+                                  Title={product.product_name}
+                                  Value={`₱${product.price * product.quantity}`}
+                                  OutWhite
+                              />
+                          ))}
+                      </div>
+                  </Group>
+                  <Group Class="outputfetch" Wrap>
+                      <Outputfetch
+                          Title="Total Price"
+                          Value={`₱${totalPrice}`}
+                          OutCol
+                          OutWhite
+                      />
+                      <Outputfetch Title="Discount" Value="₱0.00" OutCol OutWhite />
+                      <Outputfetch
+                          Title="Payment Mode"
+                          Value={paymentOpt}
+                          OutCol
+                          OutWhite
+                      />
+                      <Outputfetch
+                          Title="Down Payment Price"
+                          Value="₱0"
+                          OutCol
+                          OutWhite
+                      />
+                  </Group>
+                  <Group Class="buttonside">
+                      <Button Title="CANCEL" CloseModal BtnWhite />
+                      <SubmitButton Title={"CHECKOUT"} BtnWhite />
+                  </Group>
+              </Form>
+          </Modal>
+      </>
+  );
 }

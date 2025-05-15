@@ -1,27 +1,25 @@
-# DEVELOPMENT IN PROGRESS
+To run the system
+ In the laravel directory Metro-7
+ #run this command in powershell or cmd
+ 1. npm install
+ 2. npm run build
+ 3. composer install
+ 4. php artisan storage:link //link the public file for the images to render
+ 5. php artisan serve //to run the server
+ 
+ In the main-app directory
+ run this command
+ 1. if your still not in the main-app directory run "cd main-app"
+ 2. npm install
+ 3. npm run build
+ 4. npm run dev //to run the website
 
-## 1. NPM INSTALL
-...>`winget install Schniz.fnm`
-<br>...>`fnm install 22`
 
-## 2. COMPOSER INSTALL
-...>`php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"`
-<br>...>`php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"`
-<br>...>`php composer-setup.php`
-<br>...>`php -r "unlink('composer-setup.php');"`
-
-## 3. LARAVEL CONFIGURATION
-...>`composer install`
-<br>...>`php artisan migrate`
-<br>...>`composer run dev`
-<br><br>
-Note: <br>
-— Configure the php.ini and change the `;extension=zip` to `extension=zip`
-<br>— Make sure the xampp are installed and open
-<br>Download Link: https://drive.google.com/file/d/1Xq6A7HRPRMCJAbjjKbMYeZhlL_f2FyVp/view?usp=drive_link
-
-## 4. REACT CONFIGURATION
-...>`npm install`
-<br>...>`npm run build`
-<br>...>`npm install -g sass`
-<br>...>`npm run dev`
+ FOR NETWORK TESTING
+ You need to configure the routes here's how you will know your current IP address.
+ 1. in terminal or cmd type "ipconfig" then look for IPv4 address.
+ 2. now that you know your IP address you need to copy that address.
+ 3. now in the laravel file Metro-7 type in the terminal : php artisan serve --host="<ipaddress>" port="8000"
+ 4. once the backend is running go to axiosClient.jsx and change the baseURL to baseURL: '<ipaddress>:port/api'
+ 5. then go to main-app directory, and type in the terminal : npm run dev -- --host 0.0.0.0
+ 6. once the app is running ctrl+click on the network URL.

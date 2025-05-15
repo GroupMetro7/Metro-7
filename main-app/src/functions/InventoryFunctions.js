@@ -1,84 +1,62 @@
 import axiosClient from "../axiosClient";
 
-//fetch Products
-export const fetchProducts = (page, setProducts, setCurrentPage, setTotalPages) => {
-    axiosClient.get(`/products?page=${page}`).then(({ data }) => {
+// Fetch Products
+export const fetchProducts = async (page, setProducts, setCurrentPage, setTotalPages) => {
+    try {
+        const { data } = await axiosClient.get(`/products?page=${page}`);
         setProducts(data.data);
         setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
-    });
+    } catch (error) {
+        console.error("Failed to fetch products:", error);
+    }
 };
 
-//delete product function
+// Delete Product
 export const deleteProduct = async (id, setError, setSuccess, products, setProducts) => {
     setError(null);
     setSuccess(null);
 
+    const isConfirmed = window.confirm("Are you sure you want to delete this item?");
+    if (!isConfirmed) return;
+
     try {
         await axiosClient.delete(`/products/${id}`);
         setProducts(products.filter((product) => product.id !== id));
-        setSuccess("Product deleted successfully");
-    } catch (err) {
-        setError("Failed to delete product, please try again!");
+        setSuccess("Item deleted successfully");
+    } catch (error) {
+        console.error("Failed to delete product:", error);
+        setError("Failed to delete item, please try again!");
     }
 };
 
-//add products function
-export const addProduct = async (e, ITEM_NAME, CATEGORY, STOCK, COST_PER_UNIT, setError, setSuccess, setItemName, setCategory, setStock, setUnitCost, fetchProducts, currentPage, setProducts, setCurrentPage, setTotalPages) => {
+// Add or Modify Product
+export const saveProduct = async (e, formData, isEdit, id, setError, setSuccess, resetForm, fetchProducts, currentPage, setProducts, setCurrentPage, setTotalPages) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
 
     try {
-        await axiosClient.post('/products', {
-            ITEM_NAME: ITEM_NAME,
-            CATEGORY: CATEGORY,
-            STOCK: STOCK,
-            COST_PER_UNIT: COST_PER_UNIT,
-        });
-        setSuccess('Product added successfully');
-        setItemName('');
-        setCategory('');
-        setStock('');
-        setUnitCost('');
+        const url = isEdit ? `/products/${id}` : '/products';
+        const method = isEdit ? 'put' : 'post';
+
+        await axiosClient[method](url, formData);
+        setSuccess(isEdit ? "Product updated successfully" : "Product added successfully");
+        resetForm(); // Reset form fields
         fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
-    } catch (err) {
-        setError(err.response.data.message || 'Failed to add product, please try again!');
+    } catch (error) {
+        console.error("Failed to save product:", error);
+        setError(error.response?.data?.message || "Failed to save product, please try again!");
     }
 };
 
-//modify product function
-export const modifyProduct = async (e, id, ITEM_NAME, CATEGORY, STOCK, COST_PER_UNIT, setError, setSuccess, setItemName, setCategory, setStock, setUnitCost, products, currentPage, setProducts, setCurrentPage, setTotalPages) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    try {
-        const response = await axiosClient.put(`/products/${id}`, {
-            ITEM_NAME,
-            CATEGORY,
-            STOCK,
-            COST_PER_UNIT
-        });
-
-        setSuccess("Product updated successfully");
-        setItemName("");
-        setCategory("");
-        setStock("");
-        setUnitCost("");
-        fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
-    } catch (err) {
-        setError(
-            err.response.data.message || "Failed to update product, please try again!"
-        );
-    }
-};
-
-//edit button function retain information
-export  const editProduct = (product, setSKU, setItemName, setCategory, setUnitCost, setCurrentProductId) => {
-        setItemName(product.ITEM_NAME);
-        setCategory(product.CATEGORY);
-        setStock(product.STOCK);
-        setUnitCost(product.COST_PER_UNIT);
-        setCurrentProductId(product.id);
+// Prefill Form for Editing
+export const editProduct = (product, setFormData, setCurrentProductId) => {
+    setFormData({
+        ITEM_NAME: product.ITEM_NAME,
+        CATEGORY: product.CATEGORY,
+        STOCK: product.STOCK,
+        COST_PER_UNIT: product.COST_PER_UNIT,
+    });
+    setCurrentProductId(product.id);
 };

@@ -6,134 +6,115 @@ body.Landing-PAGE
     background-position: center !important
     background-attachment: fixed !important
 
+    main
+
+        > div
+            max-width: unset !important
+            gap: 0 !important
+            padding: 0 !important
+
+            .pre-order
+                background-color: v.$container-red !important
+                backdrop-filter: blur(13px) !important
+
+                > h1, > h2
+                    align-self: flex-start !important
+                    color: v.$color-secondary !important
+                    font-weight: 500 !important
+                    text-transform: inherit !important
+
+                > button
+                    background: none !important
+                    border: 3px solid  v.$color-secondary !important
+                    color: v.$color-secondary !important
+        
+            .about
+                gap: 0 !important
+
+                > div:has( > img )
+                    background-color:  v.$color-primary !important
+
+                    > img 
+                        width: 255px !important
+                        aspect-ratio: 1 !important
+
+                > .description
+                    background-color: v.$color-secondary !important
+                    color:  v.$color-primary !important
+
 @media only screen and (min-width: 1267px) 
 
     body.Landing-PAGE 
 
-        main.PCMOD-body
+        main
 
             > div
-                max-width: unset !important
-                gap: 0 !important
-                padding: 0 !important
+                margin-top: calc( 100vh - v.$header-size - 130px ) !important
 
                 .pre-order
-                    background-color: v.$container-red !important
                     gap: 0 !important
-                    margin-top: calc( 100vh - 81px - 214px ) !important
+                    
                     padding: 43px 130px !important
-                    backdrop-filter: blur(13px) !important
-
-                    > h1
-                        align-self: flex-start !important
-                        color: v.$color-secondary !important
-                        font-weight: 500 !important
-                        text-transform: inherit !important
 
                     > button
-                        background: none !important
                         align-self: flex-end !important
-                        border: 3px solid  v.$color-secondary !important
-                        color: v.$color-secondary !important
 
                         &:hover 
                             background-color: v.$color-secondary !important
                             color:  v.$color-primary !important
 
                 .about
-                    gap: 0 !important
 
                     > div:has( > img )
-                        background-color:  v.$color-primary !important
                         padding: 50px 100px !important
-
-                        > img 
-                            width: 260px !important
                         
                     > .description
-                        background-color: v.$color-secondary !important
                         gap: 23px !important
                         padding: 53px 53px 0 !important
-                        color:  v.$color-primary !important
 
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     body.Landing-PAGE 
 
-        main.PCMOD-body
+        main
 
             > div
-                max-width: unset !important
-                gap: 0 !important
-                padding: 0 !important
+                margin-top: calc( 100vh - v.$header-size - 223px ) !important
 
-                .pre-order
-                    background-color: v.$container-red !important
+                .pre-order  
                     gap: 0 !important
-                    margin-top: calc( 100vh - 81px - 166px ) !important
                     padding: 20px 43px !important
-                    backdrop-filter: blur(13px) !important  
-
-                    > h1
-                        align-self: flex-start !important
-                        color: v.$color-secondary !important
-                        font-weight: 500 !important
-                        text-transform: inherit !important
 
                     > button
-                        background: none !important
                         align-self: flex-end !important
-                        border: 3px solid  v.$color-secondary !important
-                        color: v.$color-secondary !important
+
+                        &:active 
+                            background-color: v.$color-secondary !important
+                            color:  v.$color-primary !important
 
                 .about
-                    gap: 0 !important
 
                     > div:has( > img )
-                        background-color:  v.$color-primary !important
                         padding: 25px 50px !important
 
-                        > img 
-                            width: 255px !important
-                            aspect-ratio: 1 !important
-
                     > .description
-                        background-color: v.$color-secondary !important
                         gap: 13px !important
                         padding: 23px !important
-                        color:  v.$color-primary !important
 
 @media only screen and (max-width: 766px) 
 
     body.Landing-PAGE 
 
-        main.PCMOD-body
+        main
 
             > div
-                gap: 0 !important
-                padding: 0 !important
+                margin-top: calc( 100vh - v.$header-size - 211px ) !important
 
                 .pre-order
-                    background-color: v.$container-red !important
                     gap: 23px !important
-                    margin-top: 60vh !important
                     padding: 23px 33px !important
-                    backdrop-filter: blur(13px) !important
-
-                    > h1
-                        font-size: 23px !important
-                        align-self: flex-start !important
-                        color: v.$color-secondary !important
-                        font-weight: 500 !important
-                        text-transform: inherit !important
-
-                        > br
-                            display: none !important
 
                     > button
-                        background: none !important
-                        border: 3px solid  v.$color-secondary !important
-                        color: v.$color-secondary !important
                         font-size: 18px !important
 
                         &:active 
@@ -141,17 +122,8 @@ body.Landing-PAGE
                             color:  v.$color-primary !important
 
                 .about
-                    gap: 0 !important
-
-                    > div:has( > img )
-                        display: none !important
 
                     > .description
-                        background-color: v.$color-secondary !important
                         gap: 7.5px !important
-                        padding: 23px 23px !important
-                        color:  v.$color-primary !important
-
-                        > h2
-                            font-size: 18px !important
+                        padding: 23px !important
 

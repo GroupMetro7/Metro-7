@@ -6,74 +6,50 @@ body.Login-PAGE
     background-position: center !important
     background-attachment: fixed !important
 
+    main
+
+        > div
+            justify-content: center !important
+
+            .login
+
+                > div.form
+
+                    > form
+
+                        > .buttonside
+                            gap: 23px !important
+
+                            > a
+                                align-self: start !important
+                                font-size: 15px !important
+
 @media only screen and (min-width: 1267px) 
 
     body.Login-PAGE
 
-        main.PCMOD-body
+        main
 
             > div
-                min-height: 469px !important
-                padding: unset !important
-
-                .login
-
-                    > div.form
-
-                        > form
-
-                            > .buttonside
-                                gap: 23px !important
-
-                                > a
-                                    align-self: start !important
-                                    font-size: 15px !important
+                min-height: calc( 469px + v.$header-size ) !important 
 
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     body.Login-PAGE
 
-        main.PCMOD-body
+        main
             justify-content: center !important
 
             > div
-                min-height: calc(100vh - 82px - 208.38px) !important
-                padding: 13px !important
-
-                .login
-
-                    > div.form
-
-                        > form
-
-                            > .buttonside
-                                gap: 23px !important
-
-                                > a
-                                    align-self: start !important
-                                    font-size: 15px !important
-
+                min-height: calc(100vh - v.$header-size - 208.38px) !important
 
 @media only screen and (max-width: 766px) 
 
     body.Login-PAGE
 
-        main.PCMOD-body
+        main
             justify-content: center !important
 
             > div
-                min-height: 80vh !important
-                padding: 13px !important
+                min-height: calc(100vh - v.$header-size - 194px) !important
 
-                .login
-
-                    > div.form
-
-                        > form
-
-                            > .buttonside
-                                gap: 23px !important
-
-                                > a
-                                    align-self: start !important
-                                    font-size: 15px !important
