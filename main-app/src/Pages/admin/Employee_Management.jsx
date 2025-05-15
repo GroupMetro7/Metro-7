@@ -190,7 +190,10 @@ export default function EmployeeManagementPage() {
             setFormData,
             fetchAllEmployees,
             setSuccess,
-            setError
+            setError,
+            setCurrentPage,
+            currentPage,
+            setTotalPages
             )
           }
         >

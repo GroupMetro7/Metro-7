@@ -26,6 +26,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->put('/user', [AuthController::class, 'updateUser']);
+
 //Stock Management
 Route::get('/products', [StockManagementController::class, 'index']);
 Route::post('/products', [StockManagementController::class, 'AddProduct']);
@@ -50,3 +51,4 @@ Route::delete('/menu/{id}', [ProductController::class, 'destroy']);
 
 
 Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'store']);
+Route::get('/orders', [OrderController::class, 'index']);

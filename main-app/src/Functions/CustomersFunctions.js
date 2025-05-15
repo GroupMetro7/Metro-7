@@ -26,27 +26,23 @@ export const editCustomer = (customer, setFormData, setCurrentCustomerId) => {
   setCurrentCustomerId(customer.id);
 };
 
-export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuccess, setError) => {
+export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuccess, setUsers, setError, setCurrentPage, setTotalPages, currentPage) => {
   e.preventDefault();
-  setError(null); // Clear any previous errors
-  setSuccess(null); // Clear any previous success messages
+  setError(null);
+  setSuccess(null);
 
   try {
-    // PUT request to the backend to update user details
     const response = await axiosClient.put(`/updateUserByAdmin/${id}`, {
       firstname: formData.firstname,
       lastname: formData.lastname,
       role: formData.role,
     });
 
-    // Update the form data with the response from the backend
-    setFormData(response.data.user); // Assuming the backend returns the updated user in `response.data.user`
+    setFormData(response.data.user);
 
-    // Show success message
     setSuccess("User information updated successfully");
 
-    // Refresh the user list
-    fetchAllUsers();
+    fetchAllUsers(setUsers, setCurrentPage, setTotalPages,currentPage);
   } catch (error) {
     console.error('Failed to update user details:', error);
 

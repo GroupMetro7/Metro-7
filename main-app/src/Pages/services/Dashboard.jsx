@@ -19,8 +19,10 @@ import {
   Outputfetch,
   DateText,
   TimeText,
+  SubmitButton,
 } from "../../exporter/component_exporter";
 import axiosClient from "../../axiosClient";
+import { useStateContext } from "../../Contexts/ContextProvider";
 
 export default function StaffDashboard() {
   Title("Metro 7");
@@ -29,6 +31,11 @@ export default function StaffDashboard() {
   const [menuItems, setMenuItems] = useState([]);
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [customer, setCustomer] = useState();
+  const [paymentOpt, setPaymentOpt] = useState();
+  const [diningOpt, setDiningOpt] = useState();
+  const { user } = useStateContext();
+
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
@@ -38,7 +45,6 @@ export default function StaffDashboard() {
         console.error("Error fetching menu items:", error);
       }
     };
-
     fetchMenuItems();
   }, []);
 
@@ -61,24 +67,24 @@ export default function StaffDashboard() {
     product_name: product.product_name,
     price: product.price,
     image: product.image,
-    quantity : product.quantity
+    quantity: product.quantity,
   }));
 
-    const addItemToOrder = (item) => {
-      const existingItem = order.find((orderItem) => orderItem.id === item.id);
-      let updatedOrder;
-      if (existingItem) {
-        updatedOrder = order.map((orderItem) =>
-          orderItem.id === item.id
-            ? { ...orderItem, quantity: orderItem.quantity + 1 }
-            : orderItem
-        );
-      } else {
-        updatedOrder = [...order, { ...item, quantity: 1 }];
-      }
-      setOrder(updatedOrder);
-      calculateTotalPrice(updatedOrder);
-    };
+  const addItemToOrder = (item) => {
+    const existingItem = order.find((orderItem) => orderItem.id === item.id);
+    let updatedOrder;
+    if (existingItem) {
+      updatedOrder = order.map((orderItem) =>
+        orderItem.id === item.id
+          ? { ...orderItem, quantity: orderItem.quantity + 1 }
+          : orderItem
+      );
+    } else {
+      updatedOrder = [...order, { ...item, quantity: 1 }];
+    }
+    setOrder(updatedOrder);
+    calculateTotalPrice(updatedOrder);
+  };
 
   const calculateTotalPrice = (updatedOrder) => {
     const total = updatedOrder.reduce(
@@ -93,13 +99,70 @@ export default function StaffDashboard() {
       .map((orderItem) =>
         orderItem.id === itemId && orderItem.quantity > 1
           ? { ...orderItem, quantity: orderItem.quantity - 1 }
+          : orderItem.id === itemId
+          ? null
           : orderItem
       )
-      .filter((orderItem) => orderItem.quantity > 0);
+      .filter((orderItem) => orderItem !== null);
     setOrder(updatedOrder);
     calculateTotalPrice(updatedOrder);
   };
 
+  const submitOrder = async (e) => {
+    e.preventDefault(); // Prevent form submission from reloading the page
+
+    // Validate required fields
+    if (!customer || !paymentOpt || !diningOpt) {
+      alert(
+        "Please fill in all required fields: Customer, Payment Option, and Dining Option."
+      );
+      return;
+    }
+    if (order.length === 0) {
+      alert("No items in the order. Please add items before submitting.");
+      return;
+    }
+    try {
+      // Format the order data for submission
+      const formattedOrder = {
+        amount: totalPrice || 0,
+        customer_name: customer || "Unknown",
+        payment_option: paymentOpt || "Not Specified",
+        option: diningOpt || "Not Specified",
+        status: "pending",
+        tickets: order.map((item) => ({
+          product_id: item.id,
+          product_name: item.product_name,
+          quantity: item.quantity,
+          unit_price: item.price,
+          total_price: item.price * item.quantity,
+        })),
+      };
+
+      console.log("Submitting order:", formattedOrder);
+      // Send the order to the backend
+      const response = await axiosClient.post("/orders", formattedOrder);
+
+      alert("Order submitted successfully!");
+      setOrder([]);
+      setTotalPrice(0);
+      setCustomer("");
+      setPaymentOpt("");
+      setDiningOpt("");
+    } catch (error) {
+      console.error("Failed to submit order:", error);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        alert(`Failed to submit order: ${error.response.data.message}`);
+      } else {
+        alert("Failed to submit order. Please try again.");
+      }
+    }
+  };
 
   return (
     <>
@@ -127,7 +190,11 @@ export default function StaffDashboard() {
                   <Selectionbox Title="Filter" />
                 </Box>
                 <Group Wrap>
-                  <ItemMenu List={orderlist} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder}/>
+                  <ItemMenu
+                    List={orderlist}
+                    addItemToOrder={addItemToOrder}
+                    removeItemFromOrder={removeItemFromOrder}
+                  />
                 </Group>
               </Group>
             </Section>
@@ -142,27 +209,59 @@ export default function StaffDashboard() {
               <hr />
             </Group>
             <Group Class="diningopts">
-              <Radio Title="DINE-IN" RadioName="Options" />
-              <Radio Title="TAKE-OUT" RadioName="Options" />
+              <Radio
+                Title="DINE-IN"
+                RadioName="Options"
+                Value="DINE-IN"
+                Checked={diningOpt === "DINE-IN"}
+                OnChange={(e) => setDiningOpt(e.target.value)}
+              />
+              <Radio
+                Title="TAKE-OUT"
+                RadioName="Options"
+                Value="TAKE-OUT"
+                Checked={diningOpt === "TAKE-OUT"}
+                OnChange={(e) => setDiningOpt(e.target.value)}
+              />
             </Group>{" "}
             <hr />
             <Group Class="totalitem">
-            <h3>TOTAL ITEM</h3>
-              <CheckedItem List={checkedorders} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder}/>
+              <h3>TOTAL ITEM</h3>
+              <CheckedItem
+                List={checkedorders}
+                addItemToOrder={addItemToOrder}
+                removeItemFromOrder={removeItemFromOrder}
+              />
             </Group>
             <hr />
-            <Inputbox Title="Customer" />
+            <Inputbox
+              Title="Customer"
+              value={customer}
+              onChange={(e) => setCustomer(e.target.value)}
+            />
             <hr />
             <Group Class="diningopts">
-              <Radio Title="CASH" RadioName="Payment" />
-              <Radio Title="ONLINE" RadioName="Payment" />
+              <Radio
+                Title="CASH"
+                RadioName="Payment"
+                Value="CASH"
+                Checked={paymentOpt === "CASH"}
+                OnChange={(e) => setPaymentOpt(e.target.value)}
+              />
+              <Radio
+                Title="ONLINE"
+                RadioName="Payment"
+                Value="ONLINE"
+                Checked={paymentOpt === "ONLINE"}
+                OnChange={(e) => setPaymentOpt(e.target.value)}
+              />
             </Group>
             <Group Class="paymentsum" Col>
               <article>
                 <h3>PAYMENT SUMMARY</h3>
                 <div>
                   <h3>TOTAL PRICE:</h3>
-                  <h4 >₱{totalPrice}</h4>
+                  <h4>₱{totalPrice}</h4>
                 </div>
                 <div>
                   <h3>DISCOUNT:</h3>
@@ -186,7 +285,7 @@ export default function StaffDashboard() {
             />
             <Outputfetch
               Title="Cashier Name"
-              Value="Micheal Lance Kester Li"
+              Value={`${user.firstname} ${user.lastname}`}
               OutCol
               OutWhite
             />
@@ -206,11 +305,11 @@ export default function StaffDashboard() {
         </Form>
       </Modal>
       <Modal Modal="CheckoutModal">
-        <Form Title="CHECKOUT" FormThreelayers>
+        <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Customer Name"
-              Value="Micheal Lance Kester Li"
+              Value={customer}
               OutCol
               OutWhite
             />
@@ -222,41 +321,48 @@ export default function StaffDashboard() {
             />
             <Outputfetch
               Title="Order Options"
-              Value="TAKE-OUT"
+              Value={diningOpt}
               OutCol
               OutWhite
             />
           </Group>
           <Group Class="outputfetch" Col>
-            <Outputfetch Title="Customer Name" OutWhite />
+            <Outputfetch Title="Order details" OutWhite />
             <div>
-              <Outputfetch Value="Pork Steak" OutWhite />
-              <Outputfetch Value="₱581.00" OutWhite />
-            </div>
-            <div>
-              <Outputfetch Value="Bacardi" OutWhite />
-              <Outputfetch Value="₱369.00" OutWhite />
+              {order.map((product, index) => (
+                <Outputfetch
+                  key={index}
+                  Title={product.product_name}
+                  Value={`₱${product.price * product.quantity}`}
+                  OutWhite
+                />
+              ))}
             </div>
           </Group>
           <Group Class="outputfetch" Wrap>
-            <Outputfetch Title="Total Price" Value="₱950.00" OutCol OutWhite />
+            <Outputfetch
+              Title="Total Price"
+              Value={`₱${totalPrice}`}
+              OutCol
+              OutWhite
+            />
             <Outputfetch Title="Discount" Value="₱0.00" OutCol OutWhite />
-            <Outputfetch Title="Payment Mode" Value="ONLINE" OutCol OutWhite />
+            <Outputfetch
+              Title="Payment Mode"
+              Value={paymentOpt}
+              OutCol
+              OutWhite
+            />
             <Outputfetch
               Title="Down Payment Price"
-              Value="₱475.00"
+              Value="₱0"
               OutCol
               OutWhite
             />
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <Button
-              Title="CHECKOUT"
-              Redirect="/service/order_list"
-              CloseModal
-              BtnWhite
-            />
+            <SubmitButton Title={"CHECKOUT"} BtnWhite />
           </Group>
         </Form>
       </Modal>

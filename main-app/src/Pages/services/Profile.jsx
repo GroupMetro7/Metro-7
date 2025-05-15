@@ -1,12 +1,13 @@
 import React from 'react'
 import '../../assets/css/pages/services/Profile.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../exporter/component_exporter'
+import { useStateContext } from '../../Contexts/ContextProvider'
 
 export default function StaffProfile() {
     Title('Inventory Management')
     Body_addclass('Profile-Services-PAGE')
 
-    const user = 'Micheal Lance Kester Li'
+    const {user} = useStateContext();
 
     return(
         <>
@@ -17,8 +18,8 @@ export default function StaffProfile() {
                         <Box Class="details">
                             <img />
                             <article>
-                                <h2>{user}</h2>
-                                <h4>09774956316</h4>
+                                <h2>{user.firstname} {user.lastname}</h2>
+                                <h4>{user.contact}</h4>
                             </article>
                             <div className='buttons'>
                                 <Button Title='EDIT PROFILE' OpenModal="EditProfile" />

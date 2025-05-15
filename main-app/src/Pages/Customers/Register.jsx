@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import '../../assets/css/pages/customers/Register.sass'
 import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Footer } from '../../exporter/component_exporter'
 import { useNavigate } from 'react-router-dom';

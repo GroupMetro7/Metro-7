@@ -15,7 +15,7 @@ export const fetchAllEmployees = async (setUsers, setError, setCurrentPage, setT
 };
 
 
-export const modifyEmployee = async (e, id, formData, setFormData, fetchAllEmployees, setSuccess, setError) => {
+export const modifyEmployee = async (e, id, formData, setFormData, fetchAllEmployees, setSuccess, setError,setUsers, setCurrentPage, setTotalPages,currentPage) => {
   e.preventDefault();
   setError(null); // Clear any previous errors
   setSuccess(null); // Clear any previous success messages
@@ -27,15 +27,9 @@ export const modifyEmployee = async (e, id, formData, setFormData, fetchAllEmplo
       lastname: formData.lastname,
       role: formData.role,
     });
-
-    // Update the form data with the response from the backend
-    setFormData(response.data.user); // Assuming the backend returns the updated user in `response.data.user`
-
-    // Show success message
+    setFormData(response.data.user);
     setSuccess("User information updated successfully");
-
-    // Refresh the user list
-    fetchAllEmployees();
+    fetchAllEmployees(setUsers, setCurrentPage, setTotalPages, currentPage);
   } catch (error) {
     console.error('Failed to update user details:', error);
 

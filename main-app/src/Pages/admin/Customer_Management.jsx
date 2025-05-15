@@ -89,7 +89,10 @@ export default function CustomerManagementPage() {
               setFormData,
               fetchAllUsers,
               setSuccess,
-              setError
+              setError,
+              setCurrentPage,
+              setTotalPages,
+              currentPage,
             )
           }
         >

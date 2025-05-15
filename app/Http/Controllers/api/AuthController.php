@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\StaffLoginRequest;
 use App\Http\Requests\admin\StaffRegisterRequest;
-use App\Http\Requests\cxUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,18 +99,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-  public function logout(Request $request)
-  {
-      /** @var User $user */
-      $user = $request->user();
-      if ($user) {
-          $user->currentAccessToken()->delete();
-      }
-
-      return response()->json(['message' => 'Logged out successfully'], 200);
-  }
-
-
   public function updateUserByAdmin(Request $request, $id)
 {
     // Get the authenticated user
@@ -137,8 +124,18 @@ class AuthController extends Controller
     }else {
       return response()->json(['message' => 'Unauthorized. Only admins can perform this action.'], 403);
     }
-
 }
+  public function logout(Request $request)
+  {
+      /** @var User $user */
+      $user = $request->user();
+      if ($user) {
+          $user->currentAccessToken()->delete();
+      }
+
+      return response()->json(['message' => 'Logged out successfully'], 200);
+  }
+
 }
 
 

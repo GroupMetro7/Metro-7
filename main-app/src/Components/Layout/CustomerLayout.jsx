@@ -30,15 +30,6 @@ export default function CustomerLayout() {
         </div>
       </div>; // Show a loading indicator while fetching user data
     }
-
-    if (!token) {
-        return <Navigate to={"/welcome"} />;
-    } else if (user.role === 'employee') {
-        return <Navigate to={"/service"} />;
-    } else if (user.role === 'admin') {
-        return <Navigate to={"/admin"} />;
-    }
-
     const onLogout = async (ev) => {
         ev.preventDefault();
         try {
@@ -49,6 +40,16 @@ export default function CustomerLayout() {
             console.error("Logout failed:", error);
         }
     };
+
+    if (!token) {
+        return <Navigate to={"/welcome"} />;
+    } else if (user.role === 'employee') {
+        return <Navigate to={"/service"} />;
+    } else if (user.role === 'admin') {
+        return <Navigate to={"/admin"} />;
+    }
+
+
 
     return (
       <div>
@@ -63,7 +64,7 @@ export default function CustomerLayout() {
                       <Href Title={ user.firstname } DropDown />
                       <ul class="dropdown-menu dropdown-menu-end">
                           <Href Title='PROFILE' Redirect='/profile' />
-                          <Href Title='LOGOUT' Onclick={ onLogout } />
+                          <a href="#" onClick={onLogout}>LOGOUT</a>
                       </ul>
                   </nav>
               </div>

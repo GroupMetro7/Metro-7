@@ -9,12 +9,15 @@ class Order extends Model
   protected $fillable = [
     'name',
     'status',
+    'amount',
+    'order_number',
+    'option'
   ];
 
   protected $casts = [
-    'tickets' => 'nullable|array',
+    'tickets' => 'array',
   ];
-  
+
   public function tickets(){
     return $this->hasMany(Ticket::class);
   }
