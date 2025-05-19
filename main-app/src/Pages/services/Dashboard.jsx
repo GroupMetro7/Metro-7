@@ -176,7 +176,7 @@ export default function StaffDashboard() {
                               />
                             ))}
                           </Group>
-                          <Group Wrap>
+                          <Group Class="items" Wrap>
                               <ItemMenu
                                   List={orderlist}
                                   addItemToOrder={addItemToOrder}

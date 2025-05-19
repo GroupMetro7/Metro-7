@@ -220,7 +220,7 @@ export default function EmployeeManagementPage() {
             />
             <Selectionbox
               Title="Role"
-              Name="role" // Add this line
+              Name="role" 
               Value={formData.role}
               SltCol
               SltWhite

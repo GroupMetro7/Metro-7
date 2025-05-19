@@ -32,7 +32,7 @@ protected static function boot()
           $Model->STATUS = 'Available';
         }
 
-        $Model->STOCK_VALUE = $Model->STOCK * $Model->COST_PER_UNIT;
+        
     });
 }
 

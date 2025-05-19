@@ -71,6 +71,11 @@ class StockManagementController extends Controller
         if (isset($validated['COST_PER_UNIT'])) {
             $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
         }
+
+        // Update the STOCK_VALUE based on the new STOCK and COST_PER_UNIT
+        if (isset($validated['STOCK']) || isset($validated['COST_PER_UNIT'])) {
+            $product->STOCK_VALUE = ($validated['STOCK'] ?? $product->STOCK) * ($validated['COST_PER_UNIT'] ?? $product->COST_PER_UNIT);
+        }
         $product->save();
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
     }

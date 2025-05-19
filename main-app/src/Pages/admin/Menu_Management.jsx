@@ -12,6 +12,8 @@ export default function MenuManagementPage() {
     const [price, setPrice] = useState('');
     const [image, setImage] = useState(null);
     const [menuProduct, setMenu] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -27,6 +29,13 @@ export default function MenuManagementPage() {
       fetchMenu();
     }, []);
 
+      useEffect(() => {
+  axiosClient.get("/categories").then(res => {
+    setCategories(res.data);
+      if (res.data.length > 0) setSelectedCategory(res.data[0].id);
+    });
+  }, []);
+
     const handlePageChange = (page) => {
       setCurrentPage(page);
     };
@@ -38,7 +47,7 @@ export default function MenuManagementPage() {
         formData.append('description', description);
         formData.append('price', price);
         formData.append('image', image);
-
+        formData.append('category_id', selectedCategory);
         axiosClient.post('/menu', formData)
             .then(({ data }) => {
                 setMenu(prevMenu => [...prevMenu, data]);
@@ -82,7 +91,18 @@ export default function MenuManagementPage() {
                 <Group Class='inputside' Wrap>
                     <Inputbox Title='Product Name' Type='text' InCol InWhite Value={product_name} onChange={(e)=> setProductName(e.target.value)}/>
                     <Inputbox Title='Description' Type='text' InCol InWhite Value={description} onChange={(e)=> setDescription(e.target.value)}/>
-                    <Inputbox Title='Buying Price' Type='number' InCol InWhite Value={price} onChange={(e)=> setPrice(e.target.value)} />
+                    <Inputbox Title='Price' Type='number' InCol InWhite Value={price} onChange={(e)=> setPrice(e.target.value)}/>
+                    <select
+                        name="category"
+                        value={selectedCategory}
+                        onChange={e => setSelectedCategory(e.target.value)}
+                    >
+                        {categories.map(category => (
+                            <option  value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
                     <Inputbox Title='Upload Product Image ' Name="image" Type='file' accept='image/*' InCol InWhite onChange={(e)=> setImage(e.target.files[0])}/>
                 </Group>
                 <Group Class='buttonside'>
