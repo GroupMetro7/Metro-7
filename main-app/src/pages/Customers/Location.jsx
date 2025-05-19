@@ -1,10 +1,10 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Location.sass'
 import { Title, Body_addclass, Header, Footer, Main, Section, Box } from '../../exporter/component_exporter'
-import CustomerLayout from '../../Components/Layout/CustomerLayout'
-import GuestLayout from '../../Components/Layout/GuestLayout'
 import { useStateContext } from '../../Contexts/ContextProvider'
 import GoogleMapEmbed from '../../Components/Map/GoogleMap'
+import CustomerLayout from '../../components/Layout/CustomerLayout'
+import GuestLayout from '../../components/Layout/GuestLayout'
 
 export default function LocationPage() {
     const { token} = useStateContext();

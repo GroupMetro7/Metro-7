@@ -3,7 +3,7 @@ import '../../assets/css/components/button.sass'
 
 export default function Radio({ Class, Title, RadioName, Value, BtnWhite }) {
     return(
-        <label className={ `btnradio ${ BtnWhite ? 'btnwhite' : null } ${ Class }` }>
+        <label className={ `btnradio ${BtnWhite ? 'btnwhite' : undefined} ${Class}` }>
             <input type='radio' 
             name={ RadioName } 
             value={ Value }/>

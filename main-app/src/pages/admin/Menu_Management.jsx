@@ -1,11 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
-import { user, menulistdatahead, menulistdata } from '../../constant'
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
+import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, TBHead, Pagination } from '../../exporter/component_exporter'
+import axiosClient from '../../axiosClient'
 
 export default function MenuManagementPage() {
     Title('Menu List Management')
     Body_addclass('Management-PAGE')
+
+    const [product_name, setProductName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+    const [image, setImage] = useState(null);
+    const [menuProduct, setMenu] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    useEffect(() => {
+      const fetchMenu = (page) => {
+        axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
+            setMenu(data.data);
+            setCurrentPage(data.current_page);
+            setTotalPages(data.last_page);
+        });
+      };
+
+      fetchMenu();
+    }, []);
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+
+    const handleAddProduct = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('product_name', product_name);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('image', image);
+
+        axiosClient.post('/menu', formData)
+            .then(({ data }) => {
+                setMenu(prevMenu => [...prevMenu, data]);
+                setProductName('');
+                setDescription('');
+                setPrice('');
+                setImage(null);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error adding product:', error);
+            });
+    };
+
+    const tbhead = ['ID', 'Product Name', 'Description', 'Price', 'Actions'];
+    const tbrows = menuProduct.map(product => ({
+        id: product.id,
+        product_name: product.product_name,
+        description: product.description,
+        price: product.price,
+        edit: () => console.log(`Edit product with ID: ${product.id}`),
+        delete: () => console.log(`Delete product with ID: ${product.id}`),
+    }));
 
     return(
         <>
@@ -16,17 +72,18 @@ export default function MenuManagementPage() {
                     <Selectionbox Title='Filter' />
                 </Box>
                 <Box Title='MENU' UpperRight={ <Button Title='+' OpenModal='AddModal' /> } BoxCol>
-                    <Table HeadRows={ menulistdatahead } DataRows={ menulistdata } Paginate={ 5 } EditBtn Deletebtn />
+                    <Table HeadRows={ tbhead } DataRows={ tbrows } EditBtn Deletebtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                 </Box>
             </Main>
         </Group>
         <Modal Modal='AddModal'>
-            <Form Title='ADD MENU' FormThreelayers>
+            <Form Title='ADD MENU' FormThreelayers OnSubmit={handleAddProduct}>
                 <Group Class='inputside' Wrap>
-                    <Inputbox Title='No.' Type='number' InCol InWhite />
-                    <Inputbox Title='Name' Type='text' InCol InWhite />
-                    <Inputbox Title='Category' Type='text' InCol InWhite />
-                    <Inputbox Title='Amount' Type='number' InCol InWhite />
+                    <Inputbox Title='Product Name' Type='text' InCol InWhite Value={product_name} onChange={(e)=> setProductName(e.target.value)}/>
+                    <Inputbox Title='Description' Type='text' InCol InWhite Value={description} onChange={(e)=> setDescription(e.target.value)}/>
+                    <Inputbox Title='Buying Price' Type='number' InCol InWhite Value={price} onChange={(e)=> setPrice(e.target.value)} />
+                    <Inputbox Title='Upload Product Image ' Name="image" Type='file' accept='image/*' InCol InWhite onChange={(e)=> setImage(e.target.files[0])}/>
                 </Group>
                 <Group Class='buttonside'>
                     <Button Title='CANCEL' CloseModal BtnWhite />

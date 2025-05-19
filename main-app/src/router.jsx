@@ -3,25 +3,33 @@ import GuestLayout from './components/Layout/GuestLayout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Customers/Register'
 import LocationPage from './pages/Customers/Location'
-import CustomerLayout from './components/Layout/CustomerLayout'
 import ProfilePage from './pages/Customers/Profile'
-import InventoryManagementPage from './pages/admin/Inventory_Management'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
 import AdminLayout from './components/Layout/AdminLayout'
 import Inventory from './pages/admin/testInventory'
 import ReservationPage from './pages/Customers/Reservation'
-import MenuPage from './pages/Customers/Menu'
 import EmployeeManagementPage from './pages/admin/Employee_Management'
 import StaffDashboard from './pages/services/Dashboard'
-import StaffOrderList from './pages/services/Order_List'
 import StaffProfile from './pages/services/Profile'
 import StaffLayout from './components/Layout/StaffLayout'
 import CustomerManagementPage from './pages/admin/Customer_Management'
 import MenuManagementPage from './pages/admin/Menu_Management'
 import SalesPage from './pages/admin/Sales'
+import StaffOrderList from './pages/services/Order_List'
+import InventoryManagementPage from './Pages/admin/Inventory_Management'
+import MenuPage from './Pages/Customers/Menu'
+import CustomerLayout from './Components/Layout/CustomerLayout'
+import Test from './Pages/admin/test'
 
 const router = createBrowserRouter([
+
+  //testing
+
+  {
+    path: 'test',
+    element: <Test />
+  },
 
 	//Customers routing
 	{
@@ -29,7 +37,7 @@ const router = createBrowserRouter([
 		element: <CustomerLayout />,
 		children: [
 			{
-				path: '/',
+				path: '',
 				element: <LandingPage />
 			},
 			{
@@ -39,10 +47,6 @@ const router = createBrowserRouter([
 			{
 				path: 'reservation',
 				element: <ReservationPage />
-			},
-			{
-				path: 'menu',
-				element: <MenuPage />
 			},
 		]
 	},
@@ -64,20 +68,17 @@ const router = createBrowserRouter([
 				path: 'register',
 				element: <RegisterPage />
 			},
-			{
-				path: 'menu',
-				element: <MenuPage />
-			},
 		]
 	},
-
-
 
 	{
 		path: '/location',
 		element: <LocationPage />
 	},
-
+  {
+    path: 'menu',
+    element: <MenuPage />
+  },
 	//Staff routing
 
 	{
@@ -98,7 +99,6 @@ const router = createBrowserRouter([
 			}
 		]
 	},
-
 	//Admin routing
 
 	{
@@ -128,7 +128,8 @@ const router = createBrowserRouter([
 			{
 				path: 'customer_management',
 				element: <CustomerManagementPage />
-			}
+			},
+
 		]
 	}
 ])

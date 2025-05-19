@@ -2,14 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../../assets/css/components/href.sass'
 
-export default function Href({ Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, HrefWhite }) {
+export default function Href({ Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, HrefWhite, redirect }) {
     return(
         OpenModal || CloseModal || DropDown ? (
             <a className={ `${HrefWhite ? 'hrefwhite' : null} ${Class}` }
                 onClick={ Onclick ? () => Onclick : null }
                 data-bs-toggle={ OpenModal ? 'modal' : DropDown ? 'dropdown' : null }
-                data-bs-target={ OpenModal ? '#Modal' : null } 
-                data-bs-dismiss={ CloseModal ? 'modal' : null }>
+                data-bs-target={ OpenModal ? '#Modal' : null }
+                data-bs-dismiss={ CloseModal ? 'modal' : null }
+                href={ redirect }>
                 { Icon ? <><img src={ Icon }/></> : null }
                 { Title }
             </a>

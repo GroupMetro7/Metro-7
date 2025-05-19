@@ -1,99 +1,156 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination } from '../../exporter/component_exporter'
-import axiosClient from '../../axiosClient'
-import { addCustomer, editCustomer, modifyCustomer, fetchCustomers, removeCustomer } from '../../Functions/CustomersFunctions'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from '../../exporter/component_exporter'
+import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
 
 export default function CustomerManagementPage() {
-    Title('Inventory Management')
-    Body_addclass('Management-PAGE')
+  Title("Employee Management");
+  Body_addclass("Management-PAGE");
+  // variables for Employee table
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    contact: "",
+    role: "",
+    loyalty: "",
+    balance: "",
+    total_spent: "",
+  });
+  const [currentCustomerId, setCurrentCustomerId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-    const [Customers, setCustomers] = useState([]);
-    const [firstname, setFirstName] = useState('');
-    const [lastname, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [loyalty, setLoyalty] = useState('');
-    const [balance, setBalance] = useState('');
-    const [total_spent, setTotalSpent] = useState('');
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
-    const [totalPages, setTotalPages] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [currentCustomerId, setCurrentCustomerId] = useState('');
-
-    const tbhead = ['No.#', 'First name', 'Last name', 'EMAIL', 'LOYALTY', 'Total spent', 'BALANCE', 'Last Updated']
-    const tbrows = Customers.map(customer => ({
-      first: customer.id,
-      second: customer.firstname,
-      third: customer.lastname,
-      fourth: customer.email,
-      fifth: customer.loyalty,
-      sixth: customer.total_spent,
-      seventh: customer.balance,
-      lastUpdated: new Date(customer.updated_at).toLocaleString(),
-      edit: () => editCustomer(customer, setFirstName, setLastName, setEmail, setLoyalty, setBalance, setTotalSpent, setCurrentCustomerId),
-      delete: () => removeCustomer(customer.id, setError, setSuccess, Customers, setCustomers),
+  //table
+  const tbhead = [
+    "FULL NAME",
+    "EMAIL",
+    "PHONE",
+    "LOYALTY",
+    "ROLE",
+    "BALANCE",
+    "TOTAL SPENT",
+    "ACTIONS",
+  ];
+  const tbrows = users
+    .map((customer) => ({
+      fullname: `${customer.firstname} ${customer.lastname}`,
+      email: customer.email,
+      phone: customer.contact,
+      loyalty: customer.loyalty,
+      role: customer.role,
+      balance: customer.balance,
+      total_spent: customer.total_spent,
+      edit: () => editCustomer(customer, setFormData, setCurrentCustomerId),
+      delete: () => removeCustomer(),
     }));
 
+  // fetch Employee table
   useEffect(() => {
-      fetchCustomers(currentPage, setCustomers, setCurrentPage, setTotalPages);
+    fetchAllUsers(setUsers, setError, setCurrentPage, setTotalPages, currentPage);
   }, [currentPage]);
 
   // handle page change
   const handlePageChange = (page) => {
-      setCurrentPage(page);
+    setCurrentPage(page);
   };
 
-    return(
-        <>
-        <Group>
-            <Main>
-                <Box Class="search">
-                    <Inputbox Title="Search" Type="search" />
-                    <Inputbox Title="Filter" Type="text" />
-                </Box>
-                <Box Title="CUSTOMERS" UpperRight={ <Button Title="+" OpenModal="AddModal"/> } BoxCol>
-                    <Table HeadRows={ tbhead } DataRows={ tbrows } EditBtn Deletebtn />
-                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                </Box>
-            </Main>
-        </Group>
-        <Modal Modal="AddModal">
-            <Form Title="ADD CUSTOMER" FormThreelayers OnSubmit={(e)=> addCustomer(e, firstname, lastname, email, loyalty, total_spent, balance, setError, setSuccess, currentPage, setCustomers, setCurrentPage, setTotalPages, fetchCustomers)}>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {success && <p style={{ color: "green" }}>{success}</p>}
-                <Group Class='inputside' Wrap>
-                    <Inputbox Title='First Name' Type='text' InCol InWhite Value={firstname} OnChange={(e)=>setFirstName(e.target.value)}/>
-                    <Inputbox Title='Last Name' Type='text' InCol InWhite Value={lastname} OnChange={(e)=>setLastName(e.target.value)}/>
-                    <Inputbox Title='Email' Type='email' InCol InWhite Value={email} OnChange={(e)=>setEmail(e.target.value)}/>
-                    <Inputbox Title='Loyalty' Type='text' InCol InWhite Value={loyalty} OnChange={(e)=>setLoyalty(e.target.value)}/>
-                    <Inputbox Title='Balance' Type='number' InCol InWhite Value={balance} OnChange={(e)=>setBalance(e.target.value)}/>
-                    <Inputbox Title='Total spent' Type='number' InCol InWhite Value={total_spent} OnChange={(e)=>setTotalSpent(e.target.value)}/>
-                </Group>
-                <Group Class='buttonside'>
-                    <Button Title="CLOSE" CloseModal BtnWhite />
-                    <SubmitButton Title='SUBMIT' BtnWhite />
-                </Group>
-            </Form>
-        </Modal>
-        <Modal Modal="EditModal">
-            <Form Title="EDIT CUSTOMER" FormTwolayers OnSubmit={(e) => modifyCustomer(e, currentCustomerId, firstname, lastname, email, loyalty, total_spent, balance, setFirstName, setLastName, setEmail, setLoyalty, setBalance, setTotalSpent, setSuccess, setError, Customers, currentPage, setCustomers, setCurrentPage, setTotalPages)}>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {success && <p style={{ color: "green" }}>{success}</p>}
-                <Group Class='inputside' Wrap>
-                    <Inputbox Title='First Name' Type='text' InCol InWhite Value={firstname} OnChange={(e)=>setFirstName(e.target.value)}/>
-                    <Inputbox Title='Last Name' Type='text' InCol InWhite Value={lastname} OnChange={(e)=>setLastName(e.target.value)}/>
-                    <Inputbox Title='Email' Type='email' InCol InWhite Value={email} OnChange={(e)=>setEmail(e.target.value)}/>
-                    <Inputbox Title='Loyalty' Type='text' InCol InWhite Value={loyalty} OnChange={(e)=>setLoyalty(e.target.value)}/>
-                    <Inputbox Title='Balance' Type='number' InCol InWhite Value={balance} OnChange={(e)=>setBalance(e.target.value)}/>
-                    <Inputbox Title='Total spent' Type='number' InCol InWhite Value={total_spent} OnChange={(e)=>setTotalSpent(e.target.value)}/>
-                </Group>
-                <Group Class='buttonside'>
-                    <Button Title="CLOSE" CloseModal BtnWhite />
-                    <SubmitButton Title='SUBMIT' BtnWhite />
-                </Group>
-            </Form>
-        </Modal>
-        </>
-    )
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <>
+      <Group>
+        <Main>
+          <Box Class="search">
+              <Inputbox Title="Search" Type="search" />
+              <Inputbox Title="Filter" Type="text" />
+          </Box>
+          <Box Title="CUSTOMERS" UpperRight={ <Button Title="+" OpenModal="AddModal"/> } BoxCol>
+              <Table HeadRows={ tbhead } DataRows={ tbrows } EditBtn Deletebtn />
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+          </Box>
+        </Main>
+      </Group>
+      <Modal Modal="EditModal">
+        <Form
+          Title="EDIT CUSTOMER"
+          FormThreelayers
+          OnSubmit={(e) =>
+            modify(
+              e,
+              currentCustomerId, // Pass the ID of the employee being edited
+              formData,
+              setFormData,
+              fetchAllUsers,
+              setSuccess,
+              setError
+            )
+          }
+        >
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && <p style={{ color: "green" }}>{success}</p>}
+          <Group Class="inputside" Wrap>
+            <Inputbox
+              Title="Last Name"
+              Name="lastname"
+              Type="text"
+              InCol
+              InWhite
+              Value={formData.lastname}
+              onChange={handleInputChange}
+            />
+            <Inputbox
+              Title="First Name"
+              Name="firstname"
+              Type="text"
+              InCol
+              InWhite
+              Value={formData.firstname}
+              onChange={handleInputChange}
+            />
+            <Selectionbox
+                Title="Role"
+                Name="role"
+                Value={formData.role}
+                SltCol
+                SltWhite
+                Options={['customer', 'employee', 'admin']}
+                option_value={formData.role}
+                InCol
+                InWhite
+                OnChange={handleInputChange}
+              />
+            <Inputbox
+              Title="Email"
+              Name="email"
+              Type="email"
+              InCol
+              InWhite
+              Value={formData.email}
+              onChange={handleInputChange}
+            />
+            <Inputbox
+              Title="Phone"
+              Name="contact"
+              Type="text"
+              InCol
+              InWhite
+              Value={formData.contact}
+              onChange={handleInputChange}
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
+    </>
+  );
 }

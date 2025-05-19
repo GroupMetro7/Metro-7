@@ -8,8 +8,6 @@ export default function LandingPage() {
     Title('Metro 7 | Login')
     Body_addclass('Landing-PAGE')
 
-    const user = "Micheal Lance Kester Li"
-
     const { token } = useStateContext();
 
     return(

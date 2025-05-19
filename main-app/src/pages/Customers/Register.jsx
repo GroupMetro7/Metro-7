@@ -30,8 +30,8 @@ export default function RegisterPage() {
         password_confirmation: passwordConfirmation,
       });
       localStorage.setItem("ACCESS_TOKEN", response.data.token);
-      window.location.reload();
       navigate("/");
+      window.location.reload();
     } catch (err) {
       setError(
         err.response.data.message || "Registration failed, please try again."
@@ -47,9 +47,7 @@ export default function RegisterPage() {
       <Main>
         <Section Class="register">
           <Form Title="REGISTER" FormTwolayers OnSubmit={handleSubmit}>
-            <Group Class="errorside">
-                {error && <p>{error}</p>}
-            </Group>
+            {error && <p className="error">{error}</p>}
             <Group Class="inputside" Wrap>
               <Inputbox
                 Title="First Name"
@@ -57,7 +55,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={firstname}
-                OnChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => setFirstName(e.target.value)}
               />
               <Inputbox
                 Title="Last Name"
@@ -65,7 +63,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={lastname}
-                OnChange={(e) => setLastName(e.target.value)}
+                onChange={(e) => setLastName(e.target.value)}
               />
               <Inputbox
                 Title="Email"
@@ -73,7 +71,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={email}
-                OnChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Inputbox
                 Title="Contact Number"
@@ -81,7 +79,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={contact}
-                OnChange={(e) => setContact(e.target.value)}
+                onChange={(e) => setContact(e.target.value)}
               />
               <Inputbox
                 Title="Password"
@@ -89,7 +87,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={password}
-                OnChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Inputbox
                 Title="Confirm Password"
@@ -97,7 +95,7 @@ export default function RegisterPage() {
                 InCol
                 InWhite
                 Value={passwordConfirmation}
-                OnChange={(e) => setPasswordConfirmation(e.target.value)}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
               />
             </Group>
             <Group Class="buttonside">
@@ -107,7 +105,6 @@ export default function RegisterPage() {
         </Section>
       </Main>
       <Footer />
-
     </>
   );
 }
