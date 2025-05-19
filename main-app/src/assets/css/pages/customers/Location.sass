@@ -1,94 +1,90 @@
 @use '../../constant.sass' as v
 
+body.Location-PAGE
+
+    main
+
+        > div
+
+            .location
+
+                > div.box
+                    justify-content: space-between !important
+
+                    > article
+                        flex-direction: column !important
+
+                        > h2, > h3
+                            font-weight: 500 !important
+                            text-transform: capitalize !important
+
+                    > .map
+                        border-radius: 10px !important
+
 @media only screen and (min-width: 1267px) 
 
     body.Location-PAGE
 
-        .location
-
-            > div.box
-                width: 1000px !important
-                height: 312px !important
-                justify-content: space-between !important
-
-                > article
-                    width: 511px !important
-                    flex-direction: column !important
-                    gap: 13px !important
-
-                    > h2
-                        font-weight: 500 !important
-                        text-transform: capitalize !important
-
-                > .map
-                    width: 400px !important
-                    height: 100% !important
-                    border-radius: 10px !important
-                    border: white solid 5px !important
-
-@media only screen and (min-width: 767px) and (max-width: 1266px) 
-
-    body.Location-PAGE
-
-        main.PCMOD-body
+        main
 
             > div
-                max-width: unset !important
-                padding: 13px !important
-                min-height: calc(100vh - 82px - 208.38px) !important
-                justify-content: flex-start !important
 
                 .location
 
                     > div.box
                         max-width: 1000px !important
                         height: 312px !important
-                        justify-content: space-between !important
 
                         > article
                             width: 511px !important
-                            flex-direction: column !important
                             gap: 13px !important
-
-                            > h2
-                                font-weight: 500 !important
-                                text-transform: capitalize !important
 
                         > .map
                             width: 400px !important
                             height: 100% !important
-                            border-radius: 10px !important
-                            border: white solid 5px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Location-PAGE
+
+        main
+
+            > div
+                min-height: calc(100vh - v.$header-size - 208.38px) !important
+
+                .location
+
+                    > div.box
+                        max-width: 1000px !important
+                        height: 312px !important
+
+                        > article
+                            width: 511px !important
+                            gap: 13px !important
+
+                        > .map
+                            width: 400px !important
+                            height: 100% !important
 
 @media only screen and (max-width: 766px) 
 
     body.Location-PAGE
 
-        main.PCMOD-body
+        main
 
             > div
-                max-width: unset !important
-                padding: 13px !important
+                min-height: calc(100vh - v.$header-size - 194px) !important
 
                 .location
 
                     > div.box
                         width: 100% !important
-                        height: 312px !important
-                        justify-content: space-between !important
-                        flex-direction: column-reverse !important
+                        gap: 23px !important
 
                         > .map
                             width: 100% !important
                             height: 232px !important
-                            border-radius: 10px !important
 
                         > article
-                            flex-direction: column !important
                             gap: 7.5px !important
-
-                            > h2
-                                font-size: 18px !important
-                                font-weight: 500 !important
-                                text-transform: capitalize !important
 

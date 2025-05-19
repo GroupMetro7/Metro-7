@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/pages/customers/Profile.sass';
-import {
-    Title,
-    Body_addclass,
-    Main,
-    Section,
-    Box,
-    Button,
-    Table,
-    Footer,
-    Modal,
-    Form,
-    Group,
-    Inputbox,
-    SubmitButton,
-} from '../../exporter/component_exporter';
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
@@ -60,8 +46,9 @@ export default function ProfilePage() {
     };
 
     // Page title and body class
-    Title('Metro 7');
-    Body_addclass('Profile-Customer-PAGE');
+    Title('Metro 7')
+    Body_addclass('Profile-Customer-PAGE')
+    const screenwidth = ScreenWidth()
 
     // Table data
     const tbhead = ['ORDER NO.', 'ORDER DATE', 'OPTIONS', 'AMOUNT', 'STATUS'];
@@ -75,16 +62,29 @@ export default function ProfilePage() {
         <>
             <Main>
                 <Section Title="My Profile" Class="myprofile">
-                    <Box Class="profile">
-                        <img alt="Profile" />
-                        <article>
-                            <h2>{user?.firstname} {user?.lastname}</h2>
-                            <h4>{user?.email}</h4>
-                            <h4>{user?.contact}</h4>
-                            <h4>{user?.loyalty}</h4>
-                        </article>
-                        <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
-                    </Box>
+                    { screenwidth > 766 ? 
+                        <Box Class='profile'>
+                            <img />
+                            <article> 
+                                <h2>{user?.firstname} {user?.lastname}</h2>
+                                <h4>{user?.email}</h4>
+                                <h4>{user?.contact}</h4>
+                                <h4>{user?.loyalty}</h4>
+                            </article>
+                            <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
+                        </Box>
+                        :
+                        <Box Class='profile' BoxWrap>
+                            <img />
+                            <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
+                            <article> 
+                                <h2>{user?.firstname} {user?.lastname}</h2>
+                                <h4>{user?.email}</h4>
+                                <h4>{user?.contact}</h4>
+                                <h4>{user?.loyalty}</h4>
+                            </article>
+                        </Box>
+                    }
                     <Box Title="Order History" Class="orderhistory" BoxCol>
                         <Table HeadRows={tbhead} DataRows={tbrows} ViewBtn />
                     </Box>
@@ -93,7 +93,7 @@ export default function ProfilePage() {
             <Footer />
             <Modal Modal="EditProfile">
                 <Form Title="Edit Profile" FormTwolayers OnSubmit={handleSubmit}>
-                    <Group Class="inputside" Wrap>
+                    <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
                         <Inputbox
                             Title="First Name"
                             Type="text"
@@ -131,10 +131,17 @@ export default function ProfilePage() {
                             onChange={handleInputChange}
                         />
                     </Group>
-                    <Group Class="buttonside">
-                        <Button Title="CANCEL" CloseModal BtnWhite />
-                        <SubmitButton Title="SUBMIT" BtnWhite />
-                    </Group>
+                    { screenwidth > 766 ? 
+                        <Group Class="buttonside">
+                            <Button Title="CANCEL" CloseModal BtnWhite />
+                            <SubmitButton Title="SUBMIT" BtnWhite />
+                        </Group>
+                        :
+                        <Group Class="buttonside" Col>
+                            <SubmitButton Title="SUBMIT" BtnWhite />
+                            <Button Title="CANCEL" CloseModal BtnWhite />
+                        </Group>
+                    }
                 </Form>
             </Modal>
         </>

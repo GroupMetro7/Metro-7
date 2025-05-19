@@ -1,9 +1,9 @@
 import React from 'react'
 import '../../assets/css/components/box.sass'
 
-export default function Box({ children, Class, Title, UpperLeft, UpperRight, BoxCol }) {
+export default function Box({ children, Class, Title, UpperLeft, UpperRight, BoxCol, BoxWrap }) {
     return(
-        <div className={`box ${ BoxCol ? 'boxcol' : undefined } ${ Class }`}>
+        <div className={`box ${ BoxCol && 'boxcol' } ${ BoxWrap && 'boxwrap' } ${ Class }`}>
             { UpperLeft || UpperRight ? (
                 <div className="title">
                     { UpperLeft ? <div className="left">{ UpperLeft }</div> : <div className="left"></div> }

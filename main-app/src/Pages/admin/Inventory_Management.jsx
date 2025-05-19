@@ -39,23 +39,21 @@ export default function Test() {
     useEffect(() => {
         fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
     }, [currentPage]);
-
     // Handle form input changes dynamically
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
-
     // Reset form fields
     const resetForm = () => {
         setFormData({ ITEM_NAME: '', CATEGORY: '', STOCK: '', COST_PER_UNIT: '' });
         setCurrentProductId(null);
     };
-
     // Table headers and rows
     const tbhead = [
         'SKU NO.',
         'ITEM NAME',
+        'SOLD BY',
         'CATEGORY',
         'STOCK',
         'UNIT COST',
@@ -65,13 +63,14 @@ export default function Test() {
         'ACTIONS',
     ];
     const tbrows = products.map((product) => ({
-        first: product.SKU_NUMBER,
-        second: product.ITEM_NAME,
-        third: product.CATEGORY,
-        fourth: product.STOCK,
-        fifth: product.COST_PER_UNIT,
-        sixth: product.STOCK_VALUE,
-        seventh: product.STATUS,
+        SKU: product.SKU_NUMBER,
+        ITEMNAME: product.COMPOSITE_NAME,
+        SOLDBY: product.SOLD_BY,
+        CATEGORY: product.CATEGORY,
+        STOCK: product.STOCK,
+        COSTPERUNIT: product.COST_PER_UNIT,
+        STOCKVALUE: product.STOCK_VALUE,
+        STATUS: product.STATUS,
         lastUpdated: new Date(product.updated_at).toLocaleString(),
         edit: () => editProduct(product, setFormData, setCurrentProductId),
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),

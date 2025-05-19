@@ -1,31 +1,136 @@
 @use '../constant.sass' as v
 
-aside.sidebar 
-    background-color: v.$header-footer !important
-    width: v.$sidebar-size !important
-    height: 100vh !important
-    position: sticky !important
-    top: 0 !important
+@media only screen and (min-width: 1267px) 
 
-    > div
-        height: 100% !important
-        flex-direction: column !important
-        align-items: center !important
-        gap: 37.5px !important
-        padding: 27.5px 13px !important
+    aside.sidebar 
+        background-color: v.$header-footer !important
+        width: v.$sidebar-size !important
+        height: 100vh !important
+        position: fixed !important
+        top: 0 !important
+        transition: .33s !important
+        overflow: hidden
+        z-index: 100 !important
 
-        > img 
-            width: 50px !important
-
-        > nav 
+        > div
+            height: 100% !important
             flex-direction: column !important
-            gap: 23px !important
+            gap: 37.5px !important
+            padding: 27.5px 13px !important
 
-            > a 
-                background-color: v.$color-secondary !important
-                width: 43px !important
-                padding: 10px !important
-                border-radius: 100% !important
+            > img 
+                width: 50px !important
 
-                > img 
-                    width: 23px !important
+            > nav 
+                align-self: center !important
+                flex-direction: column !important
+                gap: 17.5px !important
+
+                > a 
+                    gap: 7.5px !important
+                    align-items: center !important
+
+                    > div
+                        background-color: v.$color-secondary !important
+                        width: 43px !important
+                        padding: 10px !important
+                        border-radius: 100% !important
+
+                        > img 
+                            width: 23px !important
+
+                    > span
+                        text-transform: uppercase !important
+                        display: none !important
+                        opacity: 0 !important
+                        visibility: hidden !important
+
+        &:has(nav:hover)
+            width: 200px !important
+
+            nav 
+                margin-left: 3.4px !important
+                
+                > a
+                    width: 100% !important
+                    justify-content: flex-start !important
+                    padding-inline-end: 7.5px !important
+                    transition: .33s !important
+                    
+                    > span
+                        display: flex !important
+                        opacity: 1 !important
+                        visibility: visible !important
+
+                    &:hover
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+                        text-decoration: none !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+        
+    aside.sidebar 
+        background-color: v.$header-footer !important
+        width: v.$sidebar-size !important
+        height: 100vh !important
+        position: fixed !important
+        top: 0 !important
+        transition: .33s !important
+        overflow: hidden
+        z-index: 100 !important
+
+        > div
+            height: 100% !important
+            flex-direction: column !important
+            gap: 37.5px !important
+            padding: 27.5px 13px !important
+
+            > img 
+                width: 50px !important
+
+            > nav 
+                align-self: center !important
+                flex-direction: column !important
+                gap: 17.5px !important
+
+                > a 
+                    gap: 7.5px !important
+                    align-items: center !important
+
+                    > div
+                        background-color: v.$color-secondary !important
+                        width: 43px !important
+                        padding: 10px !important
+                        border-radius: 100% !important
+
+                        > img 
+                            width: 23px !important
+
+                    > span
+                        text-transform: uppercase !important
+                        display: none !important
+                        opacity: 0 !important
+                        visibility: hidden !important
+
+        &:active
+            width: 200px !important
+
+            nav 
+                margin-left: 3.4px !important
+                
+                > a
+                    width: 100% !important
+                    justify-content: flex-start !important
+                    padding-inline-end: 7.5px !important
+                    transition: .33s !important
+                    
+                    > span
+                        display: flex !important
+                        opacity: 1 !important
+                        visibility: visible !important
+
+                    &:hover
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+                        text-decoration: none !important
+

@@ -1,57 +1,57 @@
 @use '../../constant.sass' as v
 
-@media only screen and (min-width: 1267px) 
+body.Menu-PAGE
+
+    main
+
+        > div
+
+            .menu
+
+                > div.group
+
+                    > .search
+
+                        > label
+                            width: 100% !important
+
+                    > .filter
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fit, minmax( 135px, 1fr)) !important
+
+                        > label
+                            width: unset !important
+                            height: v.$elem-h-size-secondary !important
+
+                    > .items
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
+
+// @media only screen and (min-width: 1267px) 
+
+//     body.Menu-PAGE
+
+//         main
+
+//             > div
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     body.Menu-PAGE
 
-        .menu
+        main
 
-            > div.group
-
-                > .search
-
-                    > label
-                        width: 100% !important
-
-                > .filter
-
-                    > label
-                        width: 100% !important
-                        height: v.$elem-h-size-secondary !important
-
-                > .items
-                    gap:  13px !important
+            > div
+                min-height: calc(100vh - v.$header-size - 208.38px) !important
 
 @media only screen and (max-width: 766px) 
 
     body.Menu-PAGE
 
-        main.PCMOD-body
+        main
 
             > div
-                max-width: unset !important
-                padding: 13px !important
-
-                .menu
-
-                    > div.group
-
-                        > .search
-
-                            > label
-                                width: 100% !important
-
-                        > .filter
-
-                            > label
-                                width: 100% !important
-                                height: v.$elem-h-size-secondary !important
-
-                        > .items
-                            row-gap: 13px !important
-                            column-gap:  13px !important
-                            justify-content: space-between !important
-
+                min-height: calc(100vh - v.$header-size - 194px) !important
 
 
 

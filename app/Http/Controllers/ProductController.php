@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
-  public function index()
-  {
-    $products = product::all()->map(function ($product) {
-        if ($product->image) {
-            $product->image = asset('storage/' . $product->image); // Generate full URL for the image
-        }
-        return $product;
-    });
-    return response()->json($products, 200);
-  }
+  // public function index()
+  // {
+  //   $products = product::all()->map(function ($product) {
+  //       if ($product->image) {
+  //           $product->image = asset('storage/' . $product->image); // Generate full URL for the image
+  //       }
+  //       return $product;
+  //   });
+  //   return response()->json($products, 200);
+  // }
 
   public function adminindex()
     {
@@ -24,6 +24,26 @@ class ProductController extends Controller
       return response()->json($products);
     }
 
+
+  public function byCategory($categoryId)
+    {
+      if ($categoryId === '1') {
+          $products = product::all()->map(function ($product) {
+              if ($product->image) {
+                  $product->image = asset('storage/' . $product->image);
+              }
+              return $product;
+          });
+          return response()->json($products);
+      }
+      $products = product::where('category_id', $categoryId)->get()->map(function ($product) {
+              if ($product->image) {
+                  $product->image = asset('storage/' . $product->image);
+              }
+              return $product;
+          });
+      return response()->json($products);
+    }
 
   public function store(Request $request)
   {
