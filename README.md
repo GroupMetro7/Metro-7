@@ -32,3 +32,30 @@ Note: <br>
 <br> Added SWdev.js in src folder
 
 <br> sw.js allows for cache allowing offline view of the website.
+
+## 5-14-2025
+<br> npm install vite-plugin-pwa -D
+<br> add code "VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true" in vite.config.js inside plugins to auto generate serviceworkers.
+<br> add code "manifest: {
+        name: 'My Awesome App',
+        short_name: 'MyApp',
+        description: 'My Awesome App description',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/brand_logo/Test_192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/brand_logo/Test_512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }" to generate manifest. change src to actual favicon logo.
+
+<br> following steps above should allow instalabillity on desktop.

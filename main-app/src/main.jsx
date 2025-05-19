@@ -8,12 +8,11 @@ import './assets/bootstrap/popper.jsx'
 import './assets/bootstrap/bootstrap.css'
 import './assets/bootstrap/bootstrap.jsx'
 import { ContextProvider } from "./Contexts/ContextProvider.jsx";
-import SWdev from "./SWdev.js";
+
 createRoot(document.getElementById("root")).render(
     <StrictMode>
       <ContextProvider>
       <RouterProvider router={router}/>
       </ContextProvider>
     </StrictMode>
-);
-SWdev();
+)
