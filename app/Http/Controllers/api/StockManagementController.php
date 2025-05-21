@@ -26,7 +26,7 @@ class StockManagementController extends Controller
 
       $product = new StockManagement();
       $product->SKU_NUMBER = $this->generateSKUNumber();
-      $product->ITEM_NAME = $validated['ITEM_NAME'];
+      $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
       $product->CATEGORY = $validated['CATEGORY'];
       $product->STOCK = $validated['STOCK'];
       $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
@@ -60,7 +60,7 @@ class StockManagementController extends Controller
             $product->SKU_NUMBER = $validated['SKU_NUMBER'];
         }
         if (isset($validated['ITEM_NAME'])) {
-            $product->ITEM_NAME = $validated['ITEM_NAME'];
+            $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
         }
         if (isset($validated['CATEGORY'])) {
             $product->CATEGORY = $validated['CATEGORY'];
@@ -72,18 +72,14 @@ class StockManagementController extends Controller
             $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
         }
 
-        // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
+        // Update the STOCK_VALUE based on the new STOCK and COST_PER_UNIT
         if (isset($validated['STOCK']) || isset($validated['COST_PER_UNIT'])) {
-            $product->STOCK_VALUE = $product->STOCK * $product->COST_PER_UNIT;
+            $product->STOCK_VALUE = ($validated['STOCK'] ?? $product->STOCK) * ($validated['COST_PER_UNIT'] ?? $product->COST_PER_UNIT);
         }
-
         $product->save();
-
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         $product = StockManagement::findOrFail($id);

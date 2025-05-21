@@ -29,8 +29,9 @@ body.Dashboard-Service-PAGE
                             width: unset !important
                             height: v.$elem-h-size-secondary !important
 
-                    > div.group
-                        gap: 13px !important
+                    > .items
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
   
             .checkout
                 max-width: 27.344vw !important
@@ -48,7 +49,7 @@ body.Dashboard-Service-PAGE
                 > .diningopts
                     width: 100% !important
                     display: grid !important
-                    grid-template-columns: repeat(auto-fill, minmax( 114.3px, 1fr)) !important
+                    grid-template-columns: repeat(auto-fit, minmax( 114.3px, 1fr)) !important
 
                     > .btnradio
                         width: unset !important

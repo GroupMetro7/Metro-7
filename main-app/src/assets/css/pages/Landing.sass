@@ -9,9 +9,11 @@ body.Landing-PAGE
     main
 
         > div
+            min-height: unset !important
             max-width: unset !important
             gap: 0 !important
             padding: 0 !important
+            margin-top: calc( 100vh - v.$preordersection-size ) !important
 
             .pre-order
                 background-color: v.$container-red !important
@@ -49,7 +51,6 @@ body.Landing-PAGE
         main
 
             > div
-                margin-top: calc( 100vh - v.$header-size - 130px ) !important
 
                 .pre-order
                     gap: 0 !important
@@ -79,7 +80,7 @@ body.Landing-PAGE
         main
 
             > div
-                margin-top: calc( 100vh - v.$header-size - 223px ) !important
+                margin-top: calc( 100vh - v.$header-size - v.$preordersection-size ) !important
 
                 .pre-order  
                     gap: 0 !important
@@ -108,7 +109,7 @@ body.Landing-PAGE
         main
 
             > div
-                margin-top: calc( 100vh - v.$header-size - 211px ) !important
+                margin-top: calc( 100vh - v.$header-size - v.$preordersection-size ) !important
 
                 .pre-order
                     gap: 23px !important

@@ -46,12 +46,12 @@ export default function CustomerLayout() {
     } else if (user.role === 'admin') {
         return <Navigate to={"/admin"} />;
     }
-    
+
 
 
     return (
         <>
-            <Header AuthenticatedMode={ user.firstname } Logout={ <a href="#" onClick={ onLogout }>LOGOUT</a> } />
+            <Header AuthenticatedMode={ user.firstname } Logout={onLogout} />
             <Outlet />
         </>
     );

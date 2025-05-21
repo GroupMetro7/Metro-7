@@ -4,7 +4,7 @@ import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Butto
 import axiosClient from '../../axiosClient'
 
 export default function StaffOrderList() {
-    Title('Inventory Management')
+    Title('Order List')
     Body_addclass('Management-PAGE')
 
     const [orders, setOrders ] = useState([]);
@@ -23,7 +23,7 @@ export default function StaffOrderList() {
     }, []);
 
 
-    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS']
+    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS', 'ACTIONS']
     const tbrowsOrders = orders.map((order) => ({
       orderId : order.order_number,
       name : order.name,
@@ -57,7 +57,7 @@ export default function StaffOrderList() {
         <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
           <Form Title={`${selectedOrder.order_number}`} FormThreelayers>
             <Group Class="outputfetch" Wrap>
-              <Outputfetch Title="Order No." Value={selectedOrder.id} OutCol OutWhite />
+              <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
               <Outputfetch
                 Title="Order Date"
                 Value={new Date(selectedOrder.created_at).toLocaleString()}
@@ -74,8 +74,8 @@ export default function StaffOrderList() {
               <Outputfetch Title="Status" Value={selectedOrder.status} OutCol OutWhite />
             </Group>
             <Group Class="outputfetch" Col>
-              <h3>Tickets</h3>
-              <table className="tickets-table">
+
+              <table className="tickets-table" style={{ color: 'white' }}>
                 <thead>
                   <tr>
                     <th>Product Name</th>
@@ -93,8 +93,7 @@ export default function StaffOrderList() {
                       <td>₱{ticket.total_price}</td>
                     </tr>
                   ))}
-                  <h2>Total Amount</h2>
-                  <h2>{selectedOrder.amount}</h2>
+                  <Outputfetch Title="Total Amount" Value={selectedOrder.amount} OutCol OutWhite />
                 </tbody>
               </table>
             </Group>

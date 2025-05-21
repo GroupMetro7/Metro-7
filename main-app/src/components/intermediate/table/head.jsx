@@ -9,6 +9,13 @@ export default function TBHead({ HeadRows, ViewBtn, EditBtn, Deletebtn }) {
                     <h3>{HeadRow}</h3>
                 </div>
             ))}
+            { ( ViewBtn || EditBtn || Deletebtn ) && 
+                <div className='tc tcbtn'>
+                    { ViewBtn ? <div></div> : undefined }
+                    { EditBtn ? <div></div> : undefined }
+                    { Deletebtn ? <div></div> : undefined }
+                </div>
+            }
         </div>
     );
 }

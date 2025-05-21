@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
-  public function index()
-  {
-    $products = product::all()->map(function ($product) {
-        if ($product->image) {
-            $product->image = asset('storage/' . $product->image); // Generate full URL for the image
-        }
-        return $product;
-    });
-    return response()->json($products, 200);
-  }
+  // public function index()
+  // {
+  //   $products = product::all()->map(function ($product) {
+  //       if ($product->image) {
+  //           $product->image = asset('storage/' . $product->image); // Generate full URL for the image
+  //       }
+  //       return $product;
+  //   });
+  //   return response()->json($products, 200);
+  // }
 
   public function adminindex()
     {
@@ -25,6 +25,26 @@ class ProductController extends Controller
     }
 
 
+  public function byCategory($categoryId)
+    {
+      if ($categoryId === '1') {
+          $products = product::all()->map(function ($product) {
+              if ($product->image) {
+                  $product->image = asset('storage/' . $product->image);
+              }
+              return $product;
+          });
+          return response()->json($products);
+      }
+      $products = product::where('category_id', $categoryId)->get()->map(function ($product) {
+              if ($product->image) {
+                  $product->image = asset('storage/' . $product->image);
+              }
+              return $product;
+          });
+      return response()->json($products);
+    }
+
   public function store(Request $request)
   {
       $request->validate([
@@ -32,6 +52,7 @@ class ProductController extends Controller
           'price' => 'required|numeric',
           'description' => 'nullable|string',
           'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+          'category_id' => 'required|string',
       ]);
 
       $imagePath = null;
@@ -44,6 +65,7 @@ class ProductController extends Controller
           'price' => $request->input('price'),
           'description' => $request->input('description', ''),
           'image' => $imagePath,
+          'category_id' => $request->input('category_id'),
       ]);
 
       return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);

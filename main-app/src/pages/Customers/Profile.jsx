@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/pages/customers/Profile.sass';
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
@@ -93,43 +93,15 @@ export default function ProfilePage() {
             <Footer />
             <Modal Modal="EditProfile">
                 <Form Title="Edit Profile" FormTwolayers OnSubmit={handleSubmit}>
+                    <Group Class="imageside">
+                        <img src="" />
+                        <InsertFileButton Title="EDIT PICTURE" BtnWhite />
+                    </Group>
                     <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
-                        <Inputbox
-                            Title="First Name"
-                            Type="text"
-                            Name="firstname"
-                            Value={formData.firstname}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Last Name"
-                            Type="text"
-                            Name="lastname"
-                            Value={formData.lastname}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Email"
-                            Type="email"
-                            Name="email"
-                            Value={formData.email}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Contact Number"
-                            Type="number"
-                            Name="contact"
-                            Value={formData.contact}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="First Name" Type="text" Name="firstname" Value={formData.firstname} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Last Name" Type="text" Name="lastname" Value={formData.lastname} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Email" Type="email" Name="email" Value={formData.email} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Contact Number" Type="number" Name="contact" Value={formData.contact} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     { screenwidth > 766 ? 
                         <Group Class="buttonside">

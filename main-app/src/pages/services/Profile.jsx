@@ -4,7 +4,7 @@ import { ScreenWidth, Title, Body_addclass, SideBar, Group, Main, Box, Inputbox,
 import { useStateContext } from '../../Contexts/ContextProvider'
 
 export default function StaffProfile() {
-    Title('Inventory Management')
+    Title('Profile')
     Body_addclass('Profile-Services-PAGE')
     const screenwidth = ScreenWidth()
 
@@ -13,7 +13,7 @@ export default function StaffProfile() {
     return(
         <>
         <Group>
-            { screenwidth > 1023 ? 
+            { screenwidth > 1023 ?
             <Main Row>
                 <Group Class="leftside" Col>
                     <Section Title='My Profile' Class='myprofile'>

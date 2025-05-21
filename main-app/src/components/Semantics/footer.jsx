@@ -1,9 +1,10 @@
 import React from 'react'
 import '../../assets/css/components/footer.sass'
-import { ScreenWidth, Inputbox, Href } from '../../Exporter/component_exporter'
-import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../exporter/public_exporter'
+import { ScreenWidth, FooterHeight, Inputbox, Href } from '../../Exporter/component_exporter'
+import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../Exporter/public_exporter'
 
 export default function Footer() {
+    FooterHeight()
     const screenwidth = ScreenWidth();
 
     return(

@@ -8,9 +8,9 @@ main
 
     > div
         width: 100% !important
-        min-height: calc( 469px + v.$header-size ) !important 
         flex-direction: column !important
         gap: 18px !important
+        margin-top: v.$header-size !important
 
         &.row
             flex-direction: unset !important
@@ -21,16 +21,26 @@ main
 
         > div
             max-width: 1263px !important
-            padding: calc( 13px + v.$header-size ) 33px 33px 33px !important
+            min-height: calc( 100vh - v.$header-size ) !important 
+            padding: 13px 33px 33px 33px !important
 
-
-@media only screen and (max-width: 1266px) 
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     main
 
         > div
             max-width: unset !important
-            padding: calc( 13px + v.$header-size ) 13px 13px 13px !important
+            min-height: calc(100vh - v.$header-size - v.$footer-size ) !important
+            padding: 13px !important
+
+@media only screen and (max-width: 766px) 
+
+    main
+
+        > div
+            max-width: unset !important
+            min-height: calc(100vh - v.$header-size - ( v.$footer-size / 2 ) ) !important
+            padding: 13px !important
 
 
 div.group:has( > main )
@@ -39,7 +49,9 @@ div.group:has( > main )
 
         > div
             max-width: 1284px !important
+            min-height: 100vh !important
             padding: 13px 23px 23px calc( 23px + v.$sidebar-size ) !important
+            margin-top: unset !important
 
 @media only screen and (max-width: 1266px) 
 
@@ -49,3 +61,4 @@ div.group:has( > main )
 
             > div
                 max-width: unset !important
+                min-height: 100vh !important

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\product;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\User;
@@ -66,6 +67,15 @@ class OrderController extends Controller
               'unit_price' => $ticketData['unit_price'],
               'total_price' => $ticketData['total_price'],
           ]);
+
+          $product = product::with('ingredients')->find($ticketData['product_id']);
+          foreach ($product->ingredients as $ingredient) {
+            $decrementAmount = $ingredient->pivot->quantity * $ticketData['quantity'];
+            $ingredient->decrement('STOCK', $decrementAmount);
+
+                  // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
+            $ingredient->STOCK_VALUE = $ingredient->STOCK * $ingredient->COST_PER_UNIT;
+        }
       }
 
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);

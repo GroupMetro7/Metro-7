@@ -4,6 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 import { useStateContext } from '../../Contexts/ContextProvider';
 
+
 export default function StaffLayout() {
     const { token, setUser, setToken } = useStateContext();
     const { user } = useStateContext();
@@ -42,14 +43,14 @@ export default function StaffLayout() {
         }
     };
 
-    if (!token || user.role !== "employee") {
+    if (!token || user?.role !== "employee") {
         return <Navigate to={"/welcome"} />;
     }
 
 
     return (
         <Group>
-            <SideBar ServiceMode />
+            <SideBar ServiceMode Logout={ onLogout }/>
             <Outlet />
         </Group>
     );

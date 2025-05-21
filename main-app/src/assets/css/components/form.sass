@@ -36,12 +36,31 @@ div.form
             &.wrap
                 gap: 8px 18px !important
 
-            &.errorside
+            &.signalside
                 width: v.$elem-w-size-primary !important
                 justify-content: center !important
 
-                p
+                p.success
+                    color: green !important
+
+                p.error
                     color: red !important
+
+            &.imageside
+                width: unset !important
+                align-items: center !important
+                justify-content: center !important
+                gap: 43px !important
+
+                img
+                    background-color: white !important
+                    width: 70px !important
+                    aspect-ratio: 1 !important
+                    border-radius: 100% !important
+
+                label.btnfile:has(input[type="file"]):has(h3)
+                    width: unset !important
+                    padding-inline: 13px !important
 
             &.buttonside
                 width: 100% !important
@@ -52,7 +71,7 @@ div.form
             width: 526px !important
 
         &.formthreelayers
-            width: 808px !important
+            width: 798px !important
 
         &.formtwolayers, &.formthreelayers
 
@@ -66,5 +85,5 @@ div.form
             > h4
                 font-size: 15px !important
 
-        button, input[type="submit"]
+        button, input[type="submit"], label.btnfile:has(input[type="file"]):has(h3)
             height: v.$elem-h-size-secondary !important

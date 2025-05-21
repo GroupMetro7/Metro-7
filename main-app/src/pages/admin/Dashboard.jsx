@@ -29,7 +29,13 @@ export default function DashboardPage() {
                             <KPI Title="TODAY" Integer="₱13,331.00" Decrease="₱31.00" Class="red3" />
                             <KPI Title="RATE" Integer="23.8%" Increase="1.4%" />
                         </Group>
-                        <Box Title={<><DateText /><br /><TimeText /></>} Class="datetime" />
+                        <Box Class="datetime" >
+                            <h3>
+                                <DateText />
+                                <br />
+                                <TimeText />
+                            </h3>
+                        </Box>
                     </Group>
                     <Group Class="charts" Wrap>
                         <Box Title="Sales Status" Class="salesstatus" BoxCol><img src="" /></Box>
