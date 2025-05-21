@@ -1,132 +1,86 @@
 @use '../constant.sass' as v
 
+header 
+    background-color: v.$header-footer !important
+    width: 100% !important
+    position: fixed !important
+    top: 0 !important
+    z-index: 100 !important
+
+    > div:nth-child(1)
+        width: 100% !important
+        justify-content: space-between !important
+        align-items: center !important
+        margin-inline: auto !important
+
+        > img 
+            width: 150px !important
+
+        > nav 
+            justify-content: flex-end !important
+            gap: 13px !important
+
+            a
+                font-size: 18px !important
+                text-transform: uppercase !important
+                text-decoration: none !important
+                transition: .23s !important
+                padding: 13px !important
+
+    > div.collapse, > div.collapsing
+
+        > nav
+            flex-direction: column !important
+            padding-inline: 20px !important
+
+            > a
+                font-size: 18px !important
+                text-transform: uppercase !important
+                text-decoration: none !important
+                padding: 7.5px !important
+
 @media only screen and (min-width: 1267px) 
 
     header 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        position: sticky !important
-        top: 0 !important
-        z-index: 100 !important
 
-        > div.header
+        > div:nth-child(1)
             max-width: 1263px !important
-            width: 100% !important
-            justify-content: space-between !important
-            align-items: center !important
-            margin-inline: auto !important
             padding: 14.5px 60px 14.5px 80px !important
-
-            > img 
-                width: 150px !important
                 
             > nav 
-                justify-content: flex-end !important
-                gap: 13px !important
 
                 a
-                    font-size: 18px !important
-                    padding: 13px !important
-                    text-transform: uppercase !important
-                    transition: .33s !important
 
                     &:hover 
                         background-color: v.$color-secondary !important
                         color: v.$color-primary !important
-                        text-decoration: none !important
-
-            > div.burger
-                display: none !important    
-
-        > div.collapse, > div.collapsing
-            display: none !important    
 
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     header 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        position: sticky !important
-        top: 0 !important
-        z-index: 100 !important
 
-        > div.header
-            width: 100% !important
-            justify-content: space-between !important
-            align-items: center !important
-            margin-inline: auto !important
+        > div:nth-child(1)
             padding: 14.5px 30px 14.5px 20px !important
 
-            > img 
-                width: 150px !important
-
             > nav 
-                justify-content: flex-end !important
-                gap: 13px !important
 
                 a
-                    font-size: 18px !important
-                    padding: 13px 7.5px !important
-                    text-transform: uppercase !important
-                    transition: .23s !important
-                    text-decoration: none !important
 
                     &:active 
                         background-color: v.$color-secondary !important
                         color: v.$color-primary !important
-                        text-decoration: none !important
-
-            > div.burger
-                display: none !important    
-
-        > div.collapse, > div.collapsing
-            display: none !important    
 
 @media only screen and (max-width: 766px) 
 
     header 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        position: sticky !important
-        top: 0 !important
-        z-index: 100 !important
         flex-direction: column !important
 
-        > div.header
-            width: 100% !important
-            display: flex !important
-            flex-direction: row !important
-            justify-content: space-between !important
-            align-items: center !important
-            margin-inline: auto !important
+        > div:nth-child(1)
             padding: 13px 20px !important
 
-            > img 
-                width: 150px !important
-
-            > nav 
-                display: none !important
-
-            > div.burger
+            > .burger
                 width: 33px !important
 
                 > input[type="checkbox"]
-                    display: flex !important
                     width: 100% !important
-
-        > div.collapse, > div.collapsing
-
-            > nav
-                flex-direction: column !important
-                padding-inline: 20px !important
-
-                a
-                    font-size: 18px !important
-                    padding: 7.5px !important
-                    text-transform: uppercase !important
-                    transition: .33s !important
-                    text-decoration: none !important
-                    
-
-
 

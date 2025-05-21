@@ -6,9 +6,9 @@ div.item
     gap: 7.5px !important
     padding: 7.5px !important
     border-radius: 10px !important
+    min-width: 145.5px !important
 
     > img 
-        width: 145.5px !important
         aspect-ratio: 1 !important
         border: white solid 5px !important
     
@@ -27,23 +27,25 @@ div.item
             -webkit-box-orient: vertical !important
             font-size: 18px !important
         
-        > div
+    > div
+        flex-wrap: wrap !important
+        justify-content: space-between !important
+        gap: 7.5px !important
+
+        > .quantity
+            background-color: v.$input-white !important
             justify-content: space-between !important
+            border-radius: 5px !important
 
-            > div
-                background-color: v.$input-white !important
-                justify-content: space-between !important
-                border-radius: 5px !important
+            > h3
+                width: 37px !important
+                justify-content: center !important
+                align-items: center !important
 
-                > h3
-                    width: 37px !important
-                    justify-content: center !important
-                    align-items: center !important
+            > button
+                width: 37px !important
 
-                > button
-                    width: 37px !important
-
-            button
-                width: unset !important
-                height: 37px !important
-                padding: 0px 13px
+        button
+            width: unset !important
+            height: 37px !important
+            padding: 0px 13px

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../assets/css/pages/Login.sass'
 import { useStateContext } from '../Contexts/ContextProvider';
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Footer } from '../exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Footer } from '../Exporter/component_exporter'
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
@@ -53,13 +53,14 @@ export default function LoginPage() {
 
     Title('Metro 7 | Login')
     Body_addclass('Login-PAGE')
+    const screenwidth = ScreenWidth()
 
     return(
         <>
         <Main>
             <Section Class='login'>
                 <Form Title='LOGIN' OnSubmit={handleSubmit}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                    { error && <Group Class="errorside"><p>{ error }</p></Group> }
                     <Group Class='inputside' Col>
                         <Inputbox Title='Email' Type='email' InCol InWhite Value={email} onChange={(e)=> setEmail(e.target.value)}/>
                         <Inputbox Title='Password' Type='password' InCol InWhite Value={password} onChange={(e) => setPassword(e.target.value)}/>

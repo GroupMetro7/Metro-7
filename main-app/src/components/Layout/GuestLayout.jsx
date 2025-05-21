@@ -1,7 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import '../../assets/css/components/header.sass'
-import { Href } from '../../exporter/component_exporter'
-import { TextLogo } from '../../exporter/public_exporter'
+import { Header } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import CustomerLayout from './CustomerLayout.jsx';
 import { useEffect } from 'react';
@@ -40,17 +38,7 @@ if(token){
                 </CustomerLayout>
             ) : (
               <>
-              <header>
-                  <div className='header'>
-                      <img src={TextLogo} />
-                      <nav>
-                          <Href Title='HOME' Redirect='/welcome' />
-                          <Href Title='LOCATION' Redirect='/location' />
-                          <Href Title='MENU' Redirect='/menu' />
-                          <Href Title='LOGIN' Redirect='/login' />
-                      </nav>
-                  </div>
-              </header>
+              <Header />
               <Outlet />
             </>
             )}

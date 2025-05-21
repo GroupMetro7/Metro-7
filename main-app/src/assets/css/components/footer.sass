@@ -1,189 +1,94 @@
 @use '../constant.sass' as v
 
+footer
+    background-color: v.$header-footer !important
+    width: 100% !important
+    justify-content: center !important
+    align-items: center !important
+
+    > img 
+        width: 160px !important
+
+    > .contactside 
+        width: 200px !important
+        justify-content: center !important
+        align-items: center !important
+        gap: 13px !important
+
+        > div
+            width: 100% !important
+            justify-content: center !important
+
+        > .logos 
+            gap: 23px !important
+
+            > img 
+                width: 33px !important
+
+        > .contact 
+            flex-direction: column !important
+            gap: 7.5px !important
+
+            > figure 
+                align-items: center !important
+                gap: 13px !important
+                color: v.$input-white !important
+
+                > img 
+                    width: 15px !important
+
+    > .privacytermsside 
+        width: 186px !important
+
+        > div
+            flex-direction: column !important
+            gap: 7.5px !important
+
+            > label
+                width: 100% !important
+
+            > p 
+                color: v.$input-white !important
+                font-size: 12px !important
+
 @media only screen and (min-width: 1267px) 
 
     footer 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        justify-content: center !important
-        align-items: center !important
         gap: 63px !important
         padding: 43px 0 !important
-        margin-top: auto !important
 
         > div, > nav
             flex-direction: column !important
-
-        > img 
-            width: 160px !important
-
-        > .contactside 
-            width: 200px !important
-            justify-content: center !important
-            align-items: center !important
-            gap: 13px !important
-
-            > div
-                width: 100% !important
-                justify-content: center !important
-
-            > div.logos 
-                gap: 23px !important
-
-                > img 
-                    width: 33px !important
-
-            > div.contact 
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > figure 
-                    align-items: center !important
-                    gap: 13px !important
-                    color: v.$input-white !important
-
-                    > img 
-                        width: 15px !important
 
         > nav 
             width: 111px !important
             gap: 7.5px !important
             
         > .privacytermsside 
-            width: 186px !important
             gap: 23px !important
             
-            > div
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > label
-                    width: 100% !important
-
-                > p 
-                    color: v.$input-white !important
-                    font-size: 12px !important
-
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     footer 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        justify-content: center !important
-        align-items: center !important
         gap: 33px !important
         padding: 23px 0 !important
 
-        > div, > nav
+        > div
             flex-direction: column !important
-
-        > img 
-            width: 160px !important
-
-        > .contactside 
-            width: 200px !important
-            justify-content: center !important
-            align-items: center !important
-            gap: 13px !important
-
-            > div
-                width: 100% !important
-                justify-content: center !important
-
-            > div.logos 
-                gap: 23px !important
-
-                > img 
-                    width: 33px !important
-
-            > div.contact 
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > figure 
-                    align-items: center !important
-                    gap: 13px !important
-                    color: v.$input-white !important
-
-                    > img 
-                        width: 15px !important
-
-        > nav 
-            display: none !important
             
         > .privacytermsside 
-            width: 186px !important
             gap: 7.5px !important
             
-            > div
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > label
-                    width: 100% !important
-
-                > p 
-                    color: v.$input-white !important
-                    font-size: 12px !important
-
 @media only screen and (max-width: 766px) 
 
     footer 
-        background-color: v.$header-footer !important
-        width: 100% !important
-        justify-content: center !important
-        align-items: center !important
+        flex-direction: column !important
         gap: 23px !important
         padding: 23px 0 !important
-        flex-direction: column !important
 
-        > img 
-            width: 160px !important
-
-        > .contactside 
-            width: 200px !important
-            justify-content: center !important
-            align-items: center !important
-            gap: 13px !important
+        > div
             flex-direction: column !important
-
-            > div
-                width: 100% !important
-                justify-content: center !important
-
-            > div.logos 
-                gap: 23px !important
-
-                > img 
-                    width: 33px !important
-
-            > div.contact 
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > figure 
-                    align-items: center !important
-                    gap: 13px !important
-                    color: v.$input-white !important
-
-                    > img 
-                        width: 15px !important
-
-        > nav
-            display: none !important
 
         > .privacytermsside 
-            width: 186px !important
             gap: 7.5px !important
-            flex-direction: column !important
             
-            > div
-                flex-direction: column !important
-                gap: 7.5px !important
-
-                > label
-                    width: 100% !important
-
-                > p 
-                    color: v.$input-white !important
-                    font-size: 12px !important

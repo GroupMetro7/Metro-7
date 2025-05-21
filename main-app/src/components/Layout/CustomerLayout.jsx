@@ -1,7 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import '../../assets/css/components/header.sass'
-import { Href } from '../../exporter/component_exporter'
-import { TextLogo } from '../../exporter/public_exporter'
+import { Header } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 import axiosClient from '../../axiosClient'
 import { useEffect, useState } from 'react'
@@ -30,15 +28,6 @@ export default function CustomerLayout() {
         </div>
       </div>; // Show a loading indicator while fetching user data
     }
-
-    if (!token) {
-        return <Navigate to={"/welcome"} />;
-    } else if (user.role === 'employee') {
-        return <Navigate to={"/service"} />;
-    } else if (user.role === 'admin') {
-        return <Navigate to={"/admin"} />;
-    }
-
     const onLogout = async (ev) => {
         ev.preventDefault();
         try {
@@ -50,25 +39,20 @@ export default function CustomerLayout() {
         }
     };
 
+    if (!token) {
+        return <Navigate to={"/welcome"} />;
+    } else if (user.role === 'employee') {
+        return <Navigate to={"/service"} />;
+    } else if (user.role === 'admin') {
+        return <Navigate to={"/admin"} />;
+    }
+
+
+
     return (
-      <div>
-          <header>
-              <div className='header'>
-                  <img src={ TextLogo } />
-                  <nav>
-                      <Href Title='HOME' Redirect='/' />
-                      <Href Title='LOCATION' Redirect='/location' />
-                      <Href Title='PRE-ORDER' Redirect='/menu' />
-                      <Href Title='RESERVATION' Redirect='/reservation' />
-                      <Href Title={ user.firstname } DropDown />
-                      <ul class="dropdown-menu dropdown-menu-end">
-                          <Href Title='PROFILE' Redirect='/profile' />
-                          <Href Title='LOGOUT' Onclick={ onLogout } />
-                      </ul>
-                  </nav>
-              </div>
-          </header>
-      <Outlet />
-  </div>
+        <>
+            <Header AuthenticatedMode={ user.firstname } Logout={ <a href="#" onClick={ onLogout }>LOGOUT</a> } />
+            <Outlet />
+        </>
     );
 }

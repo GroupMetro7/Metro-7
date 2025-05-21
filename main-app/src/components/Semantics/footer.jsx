@@ -1,9 +1,11 @@
 import React from 'react'
 import '../../assets/css/components/footer.sass'
-import { Inputbox, Href } from '../../exporter/component_exporter'
+import { ScreenWidth, Inputbox, Href } from '../../Exporter/component_exporter'
 import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../exporter/public_exporter'
 
 export default function Footer() {
+    const screenwidth = ScreenWidth();
+
     return(
         <footer>
             <img src={ Logo }/>
@@ -24,12 +26,14 @@ export default function Footer() {
                     </figure>
                 </div>
             </div>
+            { screenwidth > 1266 && (
             <nav>
                 <Href Title='HOME' Redirect='/' HrefWhite/>
                 <Href Title='LOCATION' Redirect='/location' HrefWhite/>
                 <Href Title='MENU' Redirect='/menu' HrefWhite/>
                 <Href Title='LOGIN' Redirect='/login' HrefWhite/>
             </nav>
+            ) }
             <div className='privacytermsside'>
                 <Href Title='PRIVACY & TERMS' HrefWhite/>
                 <div>

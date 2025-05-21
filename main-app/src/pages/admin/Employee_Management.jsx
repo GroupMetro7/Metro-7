@@ -190,7 +190,10 @@ export default function EmployeeManagementPage() {
             setFormData,
             fetchAllEmployees,
             setSuccess,
-            setError
+            setError,
+            setCurrentPage,
+            currentPage,
+            setTotalPages
             )
           }
         >
@@ -217,7 +220,7 @@ export default function EmployeeManagementPage() {
             />
             <Selectionbox
               Title="Role"
-              Name="role" // Add this line
+              Name="role" 
               Value={formData.role}
               SltCol
               SltWhite
