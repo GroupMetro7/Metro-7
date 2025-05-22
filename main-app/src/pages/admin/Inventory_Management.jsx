@@ -16,12 +16,24 @@ import {
     Pagination,
 } from '../../exporter/component_exporter';
 import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
+import useMonthlySales from '../../hooks/fetch';
+import { useActionData } from 'react-router-dom';
+import useAddCategory from '../../hooks/add';
 
 export default function Test() {
     Title('Inventory Management');
     Body_addclass('Management-PAGE');
 
     // State variables
+
+    const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
+    // Get the latest month's revenue (assuming the first item is the latest)
+    const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
+    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
+
+    // Most sold product info
+    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
+    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
     const [formData, setFormData] = useState({
         ITEM_NAME: '',
         CATEGORY: '',
@@ -60,7 +72,6 @@ export default function Test() {
         'STOCK VALUE',
         'STATUS',
         'MODIFIED',
-        'ACTIONS',
     ];
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
@@ -76,6 +87,8 @@ export default function Test() {
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),
     }));
 
+
+
     return (
         <>
             <Group>
@@ -85,10 +98,10 @@ export default function Test() {
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Group Class="kpis">
-                        <KPI Title="TOTAL REVENUE" Integer="₱230,631.00" Class="red1" />
+                        <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
                         <KPI Title="TOTAL REVENUE" Integer="23.8%" />
                         <KPI Title="TOTAL REVENUE" Integer="₱34,106.00" Class="red2" />
-                        <KPI Title="TOTAL REVENUE" Integer="Tomato" Class="red3" />
+                        <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
                     </Group>
                     <Box
                         Title="INVENTORY"

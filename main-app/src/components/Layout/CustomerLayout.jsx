@@ -51,7 +51,7 @@ export default function CustomerLayout() {
 
     return (
         <>
-            <Header AuthenticatedMode={ user.firstname } Logout={ <a href="#" onClick={ onLogout }>LOGOUT</a> } />
+            <Header AuthenticatedMode={ user.firstname } Logout={onLogout} />
             <Outlet />
         </>
     );

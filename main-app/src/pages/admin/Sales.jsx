@@ -1,11 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Sales.sass'
-import { user, revpermonthhead, revpermonthdata } from '../../constant'
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
+import axiosClient from '../../axiosClient'
+import useMonthlySales from '../../hooks/fetch'
 
-export default function MenuManagementPage() {
+export default function SalesPage() {
     Title('Revenue')
     Body_addclass('Sales-PAGE')
+
+    const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
+    // Get the latest month's revenue (assuming the first item is the latest)
+    const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
+    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
+
+    // Most sold product info
+    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
+    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
+
+    const revpermonthhead = ['Year', 'Month', 'Revenue']
+    const monthNames = [
+      '', 'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ]
+
+    const revpermonthdata = monthlyRevenue.map((item) => [
+      item.year,
+      (item.month !== undefined && item.month !== null ? monthNames[item.month] : ''),
+      `₱${Number(item.revenue).toLocaleString(undefined, {minimumFractionDigits: 2})}`
+    ])
 
     return(
         <>
@@ -18,10 +40,10 @@ export default function MenuManagementPage() {
                 <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" /> }>
                     <Group Class='upper'>
                         <Group Class='kpis'>
-                            <KPI Title='TOTAL SALES' Integer='₱230,631.00' Increase='₱8,271.00' Class='red1' />
-                            <KPI Title='THIS MONTH' Integer='₱34,106.00' Increase='₱3,599.00' Class='red2' />
-                            <KPI Title='TODAY' Integer='₱13,331.00' Decrease='₱31.00' Class='red3' />
-                            <KPI Title='RATE' Integer='23.8%' Increase='1.4%' />
+                          <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
+                          <KPI Title="TOTAL REVENUE" Integer="23.8%" />
+                          <KPI Title="TOTAL REVENUE" Integer="₱34,106.00" Class="red2" />
+                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
                         </Group>
                         <Box Title={ <><DateText /><br /><TimeText /></> } Class='datetime' />
                     </Group>

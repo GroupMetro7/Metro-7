@@ -39,14 +39,15 @@
                         > img 
                             width: 23px !important
 
-                    > span
+                    > span  
+                        white-space: nowrap !important
                         text-transform: uppercase !important
                         display: none !important
                         opacity: 0 !important
                         visibility: hidden !important
 
         &:has(nav:hover)
-            width: 200px !important
+            width: calc( v.$sidebar-size * 2.9 ) !important
 
             nav 
                 margin-left: 3.4px !important
@@ -71,7 +72,6 @@
         
     aside.sidebar 
         background-color: v.$header-footer !important
-        width: v.$sidebar-size !important
         height: 100vh !important
         position: fixed !important
         top: 0 !important

@@ -81,4 +81,23 @@ class OrderController extends Controller
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
   }
 
+    public function monthlyRevenue()
+    {
+    $monthlyRevenue = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(amount) as revenue')
+        ->groupBy('year', 'month')
+        ->orderBy('year', 'desc')
+        ->orderBy('month', 'desc')
+        ->get();
+
+    $mostSold = \DB::table('tickets')
+        ->select('product_id', 'product_name', \DB::raw('SUM(quantity) as total_quantity'))
+        ->groupBy('product_id', 'product_name')
+        ->orderByDesc('total_quantity')
+        ->first();
+
+    return response()->json([
+        'monthlyRevenue' => $monthlyRevenue,
+        'mostSoldProduct' => $mostSold,
+    ]);
+    }
 }

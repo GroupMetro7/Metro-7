@@ -25,9 +25,49 @@ body.Management-PAGE
 
     div.box
 
+        > .title
+
+            > .right
+
+                > div.group
+                    width: unset !important
+                    gap: 13px !important
+
         > .tb
 
             > .tdr
 
                 > .td:has(h4:contains("AVAILABLE"))
                     background-color: green
+
+    .modal
+
+        > .modal-dialog
+
+            > div.form
+
+                > form
+
+                    > .inputside
+
+                        > .ingredients
+                            gap: 8px !important
+
+                            > h4
+                                font-size: 15px !important
+                                color: v.$input-white !important
+                                font-style: italic !important
+                                font-weight: 400 !important
+                                text-transform: capitalize !important
+
+                            > div.group
+
+                                > label.selectionbox:has(select)
+                                    width: 100% !important
+                                    margin-bottom: 5px !important
+
+                                > button
+                                    width: unset !important
+
+                                    > img
+                                        width: 27px !important

@@ -46,7 +46,7 @@ export default function AdminLayout() {
 
     return (
         <Group>
-            <SideBar AdminMode Out={onLogout}/>
+            <SideBar AdminMode Logout={onLogout}/>
             <Outlet />
         </Group>
     );
