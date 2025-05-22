@@ -1,7 +1,7 @@
-import React from 'react';
-import '../../../assets/css/components/table.sass';
-import { Button } from '../../../exporter/component_exporter';
-import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporter';
+import React from 'react'
+import '../../../assets/css/components/table.sass'
+import { Button } from '../../../exporter/component_exporter'
+import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporter'
 
 export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
     return (

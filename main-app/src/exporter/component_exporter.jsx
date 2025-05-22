@@ -3,7 +3,12 @@ export { default as Body_addclass } from '../Components/Others/body_addclass'
 export { default as DateText } from '../Components/Others/text_date'
 export { default as TimeText } from '../Components/Others/text_time'
 export { default as HeaderHeight } from '../Components/Others/get_headerheight'
+export { default as FooterHeight } from '../Components/Others/get_footerheight'
+export { default as PreOrderSectionHeight } from '../Components/Others/get_preordersectionheight'
+export { default as SideBarWeight } from '../Components/Others/get_sidebarweight'
 export { default as ScreenWidth } from '../Components/Others/screen_width'
+
+export { default as LoadingSpinner } from '../Components/Others/loading_spinner'
 
 export { default as Header } from '../Components/Semantics/header'
 export { default as Footer } from '../Components/Semantics/footer'

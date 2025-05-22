@@ -20,3 +20,12 @@ export const deleteProduct = async (id, setError, setSuccess, menuProduct, setMe
       setError("Failed to delete product, please try again!");
   }
 };
+
+export const editProduct = (product, setFormData) => {
+    setFormData({
+        ITEM_NAME: product.product_name,
+        CATEGORY: product.CATEGORY,
+        STOCK: product.STOCK,
+        COST_PER_UNIT: product.COST_PER_UNIT,
+    });
+};

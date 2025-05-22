@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/services/Management.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch } from '../../exporter/component_exporter'
+import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton } from '../../exporter/component_exporter'
 import axiosClient from '../../axiosClient'
 
 export default function StaffOrderList() {
@@ -96,8 +96,13 @@ export default function StaffOrderList() {
                   <Outputfetch Title="Total Amount" Value={selectedOrder.amount} OutCol OutWhite />
                 </tbody>
               </table>
+              <Group Class='buttonside'>
+                  <Button Title='CLOSE' CloseModal BtnWhite />
+                  <SubmitButton Title='SAVE' BtnWhite />
+              </Group>
             </Group>
           </Form>
+
         </Modal>
       )}
     </>

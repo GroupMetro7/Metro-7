@@ -43,14 +43,14 @@ export default function StaffLayout() {
         }
     };
 
-    if (!token || user?.role !== "employee") {
-        return <Navigate to={"/welcome"} />;
-    }
+    // if (!token || user?.role !== "employee") {
+    //     return <Navigate to={"/welcome"} />;
+    // }
 
 
     return (
         <Group>
-            <SideBar ServiceMode Out={ onLogout }/>
+            <SideBar ServiceMode Logout={ onLogout }/>
             <Outlet />
         </Group>
     );

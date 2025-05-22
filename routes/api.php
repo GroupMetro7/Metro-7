@@ -44,6 +44,9 @@ Route::post('/menu', [ProductController::class, 'store']);
 Route::delete('/menu/{id}', [ProductController::class, 'destroy']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/products/category/{categoryId}', [ProductController::class, 'byCategory']);
+Route::post('/createCategory', [CategoryController::class, 'create']);
 
 Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'store']);
 Route::get('/orders', [OrderController::class, 'index']);
+
+Route::get('/monthlyRevenue', [OrderController::class, 'monthlyRevenue']);

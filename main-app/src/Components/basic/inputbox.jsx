@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/css/components/inputbox & selectbox.sass'
 
-export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept }) {
+export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept, NoTitle }) {
     function ValidType( type ) {
         const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file'];
         return allowedTypes.includes( type ) ? type : 'text';
@@ -9,7 +9,7 @@ export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, M
 
     return(
         <label className={ `inputbox ${InCol ? 'incol' : undefined} ${InWhite ? 'inwhite' : undefined} ${Class}` }>
-            <h4>{ Title }:</h4>
+            { !NoTitle && <h4>{ Title }:</h4> }
             <input
             type={ ValidType(Type) }
             value={ Value }

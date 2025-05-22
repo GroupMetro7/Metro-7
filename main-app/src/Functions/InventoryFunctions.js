@@ -53,7 +53,7 @@ export const saveProduct = async (e, formData, isEdit, id, setError, setSuccess,
 // Prefill Form for Editing
 export const editProduct = (product, setFormData, setCurrentProductId) => {
     setFormData({
-        ITEM_NAME: product.ITEM_NAME,
+        ITEM_NAME: product.COMPOSITE_NAME,
         CATEGORY: product.CATEGORY,
         STOCK: product.STOCK,
         COST_PER_UNIT: product.COST_PER_UNIT,

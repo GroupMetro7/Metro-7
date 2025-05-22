@@ -60,7 +60,7 @@ export default function LoginPage() {
         <Main>
             <Section Class='login'>
                 <Form Title='LOGIN' OnSubmit={handleSubmit}>
-                    { error && <Group Class="errorside"><p>{ error }</p></Group> }
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
                     <Group Class='inputside' Col>
                         <Inputbox Title='Email' Type='email' InCol InWhite Value={email} onChange={(e)=> setEmail(e.target.value)}/>
                         <Inputbox Title='Password' Type='password' InCol InWhite Value={password} onChange={(e) => setPassword(e.target.value)}/>

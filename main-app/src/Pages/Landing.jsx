@@ -1,12 +1,13 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { ScreenWidth, Title, Body_addclass, Header, Footer, Main, Section, Group, Button } from '../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Footer, Main, Section, Group, Button } from '../Exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
 import { useStateContext } from '../Contexts/ContextProvider'
 
 export default function LandingPage() {
     Title('Metro 7 | Login')
     Body_addclass('Landing-PAGE')
+    PreOrderSectionHeight()
     const screenwidth = ScreenWidth()
 
     const { token } = useStateContext();
@@ -15,9 +16,9 @@ export default function LandingPage() {
         <>
         <Main>
             <Section Class='pre-order'>
-                { screenwidth > 766 ? 
+                { screenwidth > 766 ?
                     <h1>Want to order in advance before<br />you arrive?</h1>
-                    : 
+                    :
                     <h2>Want to order in advance before you arrive?</h2>
                 }
                 <Button Title='PRE-ORDER NOW' Redirect={ token ? '/reservation' : '/login' } BtnWhite />
@@ -29,7 +30,7 @@ export default function LandingPage() {
                     </div>
                 ) }
                 <Group Class='description' Col>
-                    { screenwidth > 766 ? 
+                    { screenwidth > 766 ?
                         <h2>OUR STORY</h2>
                         :
                         <h3>OUR STORY</h3>

@@ -1,7 +1,7 @@
 @use '../constant.sass' as v
 
-label.inputbox:has(h4):has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]),
-label.selectionbox:has(h4):has(select)
+label.inputbox:has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]),
+label.selectionbox:has(select)
     width: v.$elem-w-size-primary
     align-items: center !important
     gap: 13px !important
@@ -34,3 +34,6 @@ label.selectionbox:has(h4):has(select)
 
         > h4
             color: v.$input-white !important
+
+    &.textarea
+        width: 100% !important

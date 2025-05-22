@@ -5,8 +5,8 @@ import { ScreenWidth, HeaderHeight, Href } from '../../Exporter/component_export
 import { TextLogo } from '../../Exporter/public_exporter'
 
 export default function Header({ AuthenticatedMode, Logout }) {
-    HeaderHeight();
-    const screenwidth = ScreenWidth();
+    HeaderHeight()
+    const screenwidth = ScreenWidth()
 
     return(
         <header>
@@ -23,7 +23,7 @@ export default function Header({ AuthenticatedMode, Logout }) {
                                 <Href Title={ AuthenticatedMode } DropDown />
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <Href Title='PROFILE' Redirect='/profile' />
-                                    { Logout }
+                                    <Href Title='LOGOUT' Onclick={ Logout } />
                                 </ul>
                             </>
                             :
