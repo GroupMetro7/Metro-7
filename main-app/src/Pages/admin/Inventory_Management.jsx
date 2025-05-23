@@ -16,7 +16,7 @@ import {
     Pagination,
 } from '../../exporter/component_exporter';
 import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
-import useMonthlySales from '../../hooks/fetch';
+import useFetch from '../../hooks/fetch';
 import { useActionData } from 'react-router-dom';
 import useAddCategory from '../../hooks/add';
 
@@ -26,7 +26,7 @@ export default function Test() {
 
     // State variables
 
-    const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
+    const { monthlyRevenue, mostSoldProduct } = useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;

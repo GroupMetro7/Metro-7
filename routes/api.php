@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ Route::get('/products', [StockManagementController::class, 'index']);
 Route::post('/products', [StockManagementController::class, 'AddProduct']);
 Route::delete('/products/{id}', [StockManagementController::class, 'destroy']);
 Route::put('/products/{id}', [StockManagementController::class, 'update']);
+
 
 //Employee Management
 Route::get('/employees', [AuthController::class, 'index']);

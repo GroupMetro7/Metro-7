@@ -5,6 +5,7 @@ import axiosClient from '../../axiosClient'
 import { editProduct } from '../../functions/MenuFunctions'
 import { DeleteLogo } from '../../Exporter/public_exporter'
 import useAddCategory from '../../hooks/add'
+import useFetch from '../../hooks/fetch'
 
 export default function MenuManagementPage() {
     Title('Menu List Management')
@@ -19,61 +20,48 @@ export default function MenuManagementPage() {
       error,
       success,
     } = useAddCategory();
-
+    const { menuProduct, setMenu, categories, ingredients, currentPage, setCurrentPage, totalPages, setTotalPages } = useFetch();
     const [product_name, setProductName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState(null);
-    const [menuProduct, setMenu] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-
-    useEffect(() => {
-      const fetchMenu = (page) => {
-        axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
-            setMenu(data.data);
-            setCurrentPage(data.current_page);
-            setTotalPages(data.last_page);
-        });
-      };
-
-      fetchMenu();
-    }, []);
-
-      useEffect(() => {
-  axiosClient.get("/categories").then(res => {
-    setCategories(res.data);
-      if (res.data.length > 0) setSelectedCategory(res.data[0].id);
-    });
-  }, []);
 
     const handlePageChange = (page) => {
       setCurrentPage(page);
     };
 
-    const handleAddProduct = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('product_name', product_name);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('image', image);
-        formData.append('category_id', selectedCategory);
-        axiosClient.post('/menu', formData)
-            .then(({ data }) => {
-                setMenu(prevMenu => [...prevMenu, data]);
-                setProductName('');
-                setDescription('');
-                setPrice('');
-                setImage(null);
-                window.location.reload();
-            })
-            .catch(error => {
-                console.error('Error adding product:', error);
-            });
-    };
+const handleAddProduct = (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('product_name', product_name);
+  formData.append('description', description);
+  formData.append('price', price);
+  formData.append('image', image);
+  formData.append('category_id', selectedCategory);
+
+  const ingredientsToSend = Array.isArray(selects)
+    ? selects.filter(sel => sel.sku && sel.quantity).map(sel => ({
+        sku: sel.sku,
+        quantity: sel.quantity
+      }))
+    : [];
+  formData.append('ingredients', JSON.stringify(ingredientsToSend));
+
+  axiosClient.post('/menu', formData)
+    .then(({ data }) => {
+      setMenu(prevMenu => [...prevMenu, data]);
+      setProductName('');
+      setDescription('');
+      setPrice('');
+      setImage(null);
+      setSelects([{ id: 0, sku: '', quantity: '' }]);
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error('Error adding product:', error);
+    });
+};
 
     const tbhead = ['ID', 'Product Name', 'Description', 'Price', 'Actions'];
     const tbrows = menuProduct.map(product => ({
@@ -85,17 +73,25 @@ export default function MenuManagementPage() {
         delete: () => console.log(`Delete product with ID: ${product.id}`),
     }));
 
-  const [selects, setSelects] = useState([{ id: 0 }]);
-  const [nextId, setNextId] = useState(1); // DO NOT update this in render
+const [selects, setSelects] = useState([{ id: 0, sku: '', quantity: '' }]);
+const [nextId, setNextId] = useState(1);
 
-  const addSelectBox = () => {
-  setSelects(prev => [...prev, { id: nextId }]);
-  setNextId(prev => prev + 1); // ✅ Only updates inside handler
-  };
+const addSelectBox = () => {
+  setSelects(prev => [...prev, { id: nextId, sku: '', quantity: '' }]);
+  setNextId(prev => prev + 1);
+};
 
-  const removeSelectBox = (idToRemove) => {
-    setSelects(prev => prev.filter(select => select.id !== idToRemove));
-  };
+const removeSelectBox = (idToRemove) => {
+  setSelects(prev => prev.filter(select => select.id !== idToRemove));
+};
+
+const handleIngredientChange = (id, field, value) => {
+  setSelects(prev =>
+    prev.map(sel =>
+      sel.id === id ? { ...sel, [field]: value } : sel
+    )
+  );
+};
 
     return(
         <>
@@ -132,9 +128,28 @@ export default function MenuManagementPage() {
                     <Inputbox Title='Description' Type='text' Class="textarea" InCol InWhite Value={description} onChange={(e)=> setDescription(e.target.value)}/>
                     <Group Class="ingredients" Col>
                         <h4>Ingredients:</h4>
-                        {selects.map(({ id }) => (
+                        {selects.map(({ id, sku, quantity }) => (
                         <Group key={id}>
-                            <Selectionbox NoTitle Name='Category' Options={['ingredient1', 'ingredient2', 'ingredient3']} SltCol SltWhite />
+<Selectionbox
+        NoTitle
+        Name="Ingredient"
+        Value={sku}
+        Options={ingredients.map(comp => ({
+          label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
+          value: comp.SKU_NUMBER
+        }))}
+        SltCol
+        SltWhite
+        OnChange={e => handleIngredientChange(id, 'sku', e.target.value)}
+      />
+       <Inputbox
+        NoTitle
+        Type="number"
+        InCol
+        InWhite
+        Value={quantity}
+        onChange={e => handleIngredientChange(id, 'quantity', e.target.value)}
+      />
                             <Button Icon={DeleteLogo} Onclick={() => removeSelectBox(id)} BtnWhite />
                         </Group>
                         ))}

@@ -32,12 +32,31 @@ const router = createBrowserRouter([
   },
 
 	//Customers routing
-	{
-		path: '/',
-		element: <CustomerLayout />,
+  {
+		path: '',
+		element: <GuestLayout />,
 		children: [
 			{
 				path: '',
+				element: <LandingPage />
+			},
+			{
+				path: 'login',
+				element: <LoginPage />
+			},
+			{
+				path: 'register',
+				element: <RegisterPage />
+			},
+		]
+	},
+
+	{
+		path: '',
+		element: <CustomerLayout />,
+		children: [
+			{
+				path: 'welcome',
 				element: <LandingPage />
 			},
 			{
@@ -52,24 +71,7 @@ const router = createBrowserRouter([
 	},
 
 	//customer guest routing
-	{
-		path: '',
-		element: <GuestLayout />,
-		children: [
-			{
-				path: 'welcome',
-				element: <LandingPage />
-			},
-			{
-				path: 'login',
-				element: <LoginPage />
-			},
-			{
-				path: 'register',
-				element: <RegisterPage />
-			},
-		]
-	},
+
 
 	{
 		path: '/location',

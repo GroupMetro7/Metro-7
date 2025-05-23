@@ -14,6 +14,7 @@ class product extends Model
     'description',
     'image',
     'category_id',
+    'composite_id',
 ];
 
 public function category()
@@ -24,6 +25,6 @@ public function category()
 
 public function ingredients()
 {
-  return $this->belongsToMany(StockManagement::class, 'product_ingredient', 'product_id', 'stock_management_id')->withPivot('quantity')->withTimestamps();
+  return $this->belongsToMany(StockManagement::class, 'product_ingredient')->withPivot('quantity');
 }
 }

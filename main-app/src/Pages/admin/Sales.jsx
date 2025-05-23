@@ -3,17 +3,16 @@ import '../../assets/css/pages/admin/Sales.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
 import axiosClient from '../../axiosClient'
 import useMonthlySales from '../../hooks/fetch'
+import { saveAs } from 'file-saver';
 
 export default function SalesPage() {
     Title('Revenue')
     Body_addclass('Sales-PAGE')
 
     const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
-    // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
-    // Most sold product info
     const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
 
@@ -29,6 +28,17 @@ export default function SalesPage() {
       `₱${Number(item.revenue).toLocaleString(undefined, {minimumFractionDigits: 2})}`
     ])
 
+    const exportTableAsCSV = (headers, data, filename = 'table_data.csv') => {
+        const csvRows = [];
+        csvRows.push(headers.join(','));
+        data.forEach(row => {
+            csvRows.push(row.join(','));
+        });
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        saveAs(blob, filename);
+    };
+
     return(
         <>
         <Group>
@@ -37,7 +47,7 @@ export default function SalesPage() {
                     <Selectionbox Title='Period' />
                     <Inputbox Title='Date' Type='date' />
                 </Box>
-                <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" /> }>
+                <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV(revpermonthhead, revpermonthdata, 'sales_data.csv')}/> }>
                     <Group Class='upper'>
                         <Group Class='kpis'>
                           <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
