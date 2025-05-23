@@ -25,6 +25,6 @@ public function category()
 
 public function ingredients()
 {
-  return $this->belongsToMany(StockManagement::class, 'product_ingredient')->withPivot('quantity');
+  return $this->belongsToMany(StockManagement::class, 'product_ingredient', 'product_id', 'ingredient_id')->withPivot('quantity')->withTimestamps();
 }
 }

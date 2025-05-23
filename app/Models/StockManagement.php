@@ -38,6 +38,6 @@ protected static function boot()
 
 public function products()
 {
-  return $this->belongsToMany(product::class, 'product_ingredient')->withPivot('quantity');
+  return $this->belongsToMany(product::class, 'product_ingredient', 'ingredient_id', 'product_id')->withPivot('quantity')->withTimestamps();
 }
 }
