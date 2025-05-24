@@ -1,0 +1,103 @@
+@use '../../constant.sass' as v
+
+body.Reservation-PAGE 
+    background-image: url('/background-image/BG2.png') !important
+    background-size: cover !important
+    background-position: center !important
+    background-attachment: fixed !important
+
+    main
+
+        > div
+            justify-content: center !important
+
+            .reservation
+
+                > div.form
+                    gap: 13px !important
+
+                    > form
+
+                        > div.group:has(.inputside)
+
+                            > hr
+                                width: 100% !important
+                                border: .8px solid v.$input-white !important
+
+                            > .infoside
+                                gap: 3px !important
+
+                                > h5
+                                    color: v.$input-white !important
+                                    text-transform: uppercase !important
+
+@media only screen and (min-width: 1267px)
+
+    body.Reservation-PAGE 
+
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
+
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    
+                                    > label:nth-child(1)
+                                        width: 100% !important
+
+                            > .buttonside
+                                width: 254px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Reservation-PAGE
+
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
+
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    
+                                    > label:nth-child(1)
+                                        width: 100% !important
+
+                            > .buttonside
+                                width: 254px !important
+
+
+@media only screen and (max-width: 766px)
+
+    body.Reservation-PAGE
+        
+        main
+
+            > div
+
+                .reservation
+
+                    > div.form
+
+                        > form
+                            width: 100% !important
+
+                            > div.group:has(.inputside)
+
+                                > .inputside
+                                    gap: 7.5px !important
+
+                                        

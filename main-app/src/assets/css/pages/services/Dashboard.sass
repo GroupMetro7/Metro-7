@@ -1,0 +1,87 @@
+@use '../../constant.sass' as v
+
+body.Dashboard-Service-PAGE
+
+    main
+
+        > div
+
+            .menu
+                width: unset !important
+                flex-grow: 1 !important
+
+                > h1
+                    align-self: flex-start !important
+
+                > div.group
+
+                    > .search
+                        gap: 18px !important
+
+                        > label
+                            width: 100% !important
+
+                    > .filter
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fit, minmax( 135px, 1fr)) !important
+
+                        > label
+                            width: unset !important
+                            height: v.$elem-h-size-secondary !important
+
+                    > .items
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
+  
+            .checkout
+                max-width: 27.344vw !important
+
+                > .datetime
+                    width: 100% !important
+                    gap: 13px !important
+                    align-items: center !important
+                    text-align: center !important
+                    text-transform: uppercase !important
+
+                    > h2
+                        text-align: center !important
+
+                > .diningopts
+                    width: 100% !important
+                    display: grid !important
+                    grid-template-columns: repeat(auto-fit, minmax( 114.3px, 1fr)) !important
+
+                    > .btnradio
+                        width: unset !important
+                        height: v.$elem-h-size-secondary !important
+
+                > .inputbox
+                    width: 100% !important
+
+                    > input
+                        flex-grow: 1 !important
+
+                > .totalitem
+                    flex-direction: column !important
+
+                    > .itemlist
+                        width: 100% !important
+                        gap: 13px !important
+                        flex-direction: column !important
+
+                > .paymentsum
+                    gap: 23px !important
+
+                    > article
+                        gap: 8px !important
+                        flex-direction: column !important
+                        flex-grow: 1 !important
+
+                        > div
+                            width: 100% !important
+                            justify-content: space-between !important
+
+                    > button
+                        width: 100% !important
+                        height: 37px !important
+

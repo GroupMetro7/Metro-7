@@ -1,0 +1,86 @@
+@use '../constant.sass' as v
+
+header 
+    background-color: v.$header-footer !important
+    width: 100% !important
+    position: fixed !important
+    top: 0 !important
+    z-index: 100 !important
+
+    > div:nth-child(1)
+        width: 100% !important
+        justify-content: space-between !important
+        align-items: center !important
+        margin-inline: auto !important
+
+        > img 
+            width: 150px !important
+
+        > nav 
+            justify-content: flex-end !important
+            gap: 13px !important
+
+            a
+                font-size: 18px !important
+                text-transform: uppercase !important
+                text-decoration: none !important
+                transition: .23s !important
+                padding: 13px !important
+
+    > div.collapse, > div.collapsing
+
+        > nav
+            flex-direction: column !important
+            padding-inline: 20px !important
+
+            > a
+                font-size: 18px !important
+                text-transform: uppercase !important
+                text-decoration: none !important
+                padding: 7.5px !important
+
+@media only screen and (min-width: 1267px) 
+
+    header 
+
+        > div:nth-child(1)
+            max-width: 1263px !important
+            padding: 14.5px 60px 14.5px 80px !important
+                
+            > nav 
+
+                a
+
+                    &:hover 
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    header 
+
+        > div:nth-child(1)
+            padding: 14.5px 30px 14.5px 20px !important
+
+            > nav 
+
+                a
+
+                    &:active 
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+
+@media only screen and (max-width: 766px) 
+
+    header 
+        flex-direction: column !important
+
+        > div:nth-child(1)
+            padding: 13px 20px !important
+
+            > .burger
+                width: 33px !important
+
+                > input[type="checkbox"]
+                    width: 100% !important
+
