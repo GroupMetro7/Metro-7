@@ -19,6 +19,12 @@ class StockManagementController extends Controller
       return response()->json($products);
     }
 
+        public function Ingredients()
+    {
+      $products = StockManagement::paginate();
+      return response()->json($products);
+    }
+
     // add product to the inventory table
     public function AddProduct(AddProductRequest $request)
     {

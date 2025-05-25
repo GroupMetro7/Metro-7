@@ -7,7 +7,6 @@ export default function StaffProfile() {
     Title('Profile')
     Body_addclass('Profile-Services-PAGE')
     const screenwidth = ScreenWidth()
-
     const {user} = useStateContext();
 
     return(

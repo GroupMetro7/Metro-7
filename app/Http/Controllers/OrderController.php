@@ -74,7 +74,7 @@ class OrderController extends Controller
             $ingredient->decrement('STOCK', $decrementAmount);
 
                   // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
-            $ingredient->STOCK_VALUE = $ingredient->STOCK * $ingredient->COST_PER_UNIT;
+            $ingredient->save();
         }
       }
 

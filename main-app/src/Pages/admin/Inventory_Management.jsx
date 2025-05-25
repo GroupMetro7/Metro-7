@@ -17,10 +17,9 @@ import {
 } from '../../exporter/component_exporter';
 import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
 import useFetch from '../../hooks/fetch';
-import { useActionData } from 'react-router-dom';
-import useAddCategory from '../../hooks/add';
 
 export default function Test() {
+  // this file is subject for optimization
     Title('Inventory Management');
     Body_addclass('Management-PAGE');
 
@@ -86,7 +85,6 @@ export default function Test() {
         edit: () => editProduct(product, setFormData, setCurrentProductId),
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),
     }));
-
 
 
     return (

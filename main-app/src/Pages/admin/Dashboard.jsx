@@ -6,6 +6,8 @@ import useFetch from '../../hooks/fetch'
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
+    // optimized
+    // needs some updates
 
     const { monthlyRevenue, mostSoldProduct, orders } = useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)

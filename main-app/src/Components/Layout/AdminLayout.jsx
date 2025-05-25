@@ -40,9 +40,9 @@ export default function AdminLayout() {
         }
     };
 
-    // if (!user || user?.role !== "admin") {
-    //     return <Navigate to={"/welcome"} />;
-    // }
+    if (!user || user?.role !== "admin") {
+        return <Navigate to={"/welcome"} />;
+    }
 
     return (
         <Group>

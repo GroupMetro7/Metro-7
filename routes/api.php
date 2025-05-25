@@ -9,8 +9,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-
+// needs grooming
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,6 +26,7 @@ Route::middleware('auth:sanctum')->put('/user', [AuthController::class, 'updateU
 
 //Stock Management
 Route::get('/products', [StockManagementController::class, 'index']);
+Route::get('/ingredients', [StockManagementController::class, 'ingredients']);
 Route::post('/products', [StockManagementController::class, 'AddProduct']);
 Route::delete('/products/{id}', [StockManagementController::class, 'destroy']);
 Route::put('/products/{id}', [StockManagementController::class, 'update']);

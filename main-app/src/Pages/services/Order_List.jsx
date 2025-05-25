@@ -6,7 +6,7 @@ import axiosClient from '../../axiosClient'
 export default function StaffOrderList() {
     Title('Order List')
     Body_addclass('Management-PAGE')
-
+// this file is subject for optimization
     const [orders, setOrders ] = useState([]);
     const [selectedOrder, setSelectedOrder ] = useState(null);
 

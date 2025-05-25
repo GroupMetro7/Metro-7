@@ -9,6 +9,8 @@ export default function SalesPage() {
     Title('Revenue')
     Body_addclass('Sales-PAGE')
 
+    // done & for review
+
     const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;

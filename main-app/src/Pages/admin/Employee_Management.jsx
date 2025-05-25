@@ -22,6 +22,7 @@ import {
 } from "../../Functions/EmployeeFunctions";
 
 export default function EmployeeManagementPage() {
+  // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
     // variables for Employee table
