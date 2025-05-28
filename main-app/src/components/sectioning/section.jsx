@@ -1,9 +1,9 @@
 import React from 'react'
 import '../../assets/css/components/section.sass'
 
-export default function Section({ children, Class, Title, UpperLeft, UpperRight }) {
+export default function Section({ children, Class, ID, Title, UpperLeft, UpperRight }) {
     return(
-        <section className={ Class }>
+        <section className={ Class } id={ ID }>
             { UpperLeft || UpperRight ? (
                 <div className="title">
                     { UpperLeft ? <div className="left">{ UpperLeft }</div> : <div className="left"></div> }

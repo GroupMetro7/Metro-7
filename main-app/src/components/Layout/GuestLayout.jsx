@@ -24,24 +24,16 @@ if(token){
 }else if (user.role === 'admin') {
   return <Navigate to={"/admin"} />;
 } else if(user.role === 'customer'){
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/welcome"} />;
 }
 }
 
 
 
     return (
-        <div>
-            {token && user.role === 'customer' ? (
-                <CustomerLayout>
-                    <Outlet />
-                </CustomerLayout>
-            ) : (
-              <>
+            <>
               <Header />
               <Outlet />
             </>
-            )}
-        </div>
     );
 }

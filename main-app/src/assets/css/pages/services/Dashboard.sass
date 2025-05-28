@@ -3,7 +3,7 @@
 body.Dashboard-Service-PAGE
 
     main
-
+    
         > div
 
             .menu
@@ -35,9 +35,12 @@ body.Dashboard-Service-PAGE
   
             .checkout
                 max-width: 27.344vw !important
+                max-height: calc( 100vh - 13px - 23px )  !important
+                align-items: flex-start !important
 
                 > .datetime
                     width: 100% !important
+                    flex: unset !important
                     gap: 13px !important
                     align-items: center !important
                     text-align: center !important
@@ -55,14 +58,17 @@ body.Dashboard-Service-PAGE
                         width: unset !important
                         height: v.$elem-h-size-secondary !important
 
-                > .inputbox
+                .inputbox
                     width: 100% !important
+                    justify-content: space-between !important
 
                     > input
-                        flex-grow: 1 !important
+                        width: 65% !important
 
                 > .totalitem
                     flex-direction: column !important
+                    flex-grow: 1 !important
+                    overflow-x: auto !important
 
                     > .itemlist
                         width: 100% !important

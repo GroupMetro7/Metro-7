@@ -1,13 +1,14 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { StrictMode } from "react"
+import { createRoot } from "react-dom/client"
+import { RouterProvider } from "react-router-dom"
+import { ContextProvider } from "./Contexts/ContextProvider.jsx"
 import App from "./App.jsx";
-import { RouterProvider } from "react-router-dom";
-import router from "./router.jsx";
-import { ContextProvider } from "./Contexts/ContextProvider.jsx";
+import router from "./router.jsx"
 import './assets/css/Base.sass'
-import './assets/bootstrap/popper.jsx'
-import './assets/bootstrap/bootstrap.css'
-import './assets/bootstrap/bootstrap.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import './assets/bootstrap/jquery'
+import './assets/bootstrap/popper'
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
@@ -16,3 +17,16 @@ createRoot(document.getElementById("root")).render(
       </ContextProvider>
     </StrictMode>
 );
+
+// check if SW is registered
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
+}

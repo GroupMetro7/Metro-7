@@ -50,6 +50,13 @@ export default function ProfilePage() {
     Body_addclass('Profile-Customer-PAGE')
     const screenwidth = ScreenWidth()
 
+    const Inputboxes = [
+        { Title: 'First Name', Type: 'text', Name: 'firstname', Value: formData.firstname, InCol: true, InWhite: true, onChange: handleInputChange },
+        { Title: 'Last Name', Type: 'text', Name: 'lastname', Value: formData.lastname, InCol: true, InWhite: true, onChange: handleInputChange },
+        { Title: 'Email', Type: 'email', Name: 'email', Value: formData.email, InCol: true, InWhite: true, onChange: handleInputChange },
+        { Title: 'Contact Number', Type: 'number', Name: 'contact', Value: formData.contact, InCol: true, InWhite: true, onChange: handleInputChange }
+    ]
+
     // Table data
     const tbhead = ['ORDER NO.', 'ORDER DATE', 'OPTIONS', 'AMOUNT', 'STATUS'];
     const tbrows = [
@@ -78,10 +85,10 @@ export default function ProfilePage() {
                             <img />
                             <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
                             <article> 
-                                <h2>{user?.firstname} {user?.lastname}</h2>
-                                <h4>{user?.email}</h4>
-                                <h4>{user?.contact}</h4>
-                                <h4>{user?.loyalty}</h4>
+                                <h2>{ user?.firstname } { user?.lastname }</h2>
+                                <h4>{ user?.email }</h4>
+                                <h4>{ user?.contact }</h4>
+                                <h4>{ user?.loyalty }</h4>
                             </article>
                         </Box>
                     }
@@ -98,10 +105,9 @@ export default function ProfilePage() {
                         <InsertFileButton Title="EDIT PICTURE" BtnWhite />
                     </Group>
                     <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
-                        <Inputbox Title="First Name" Type="text" Name="firstname" Value={formData.firstname} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Last Name" Type="text" Name="lastname" Value={formData.lastname} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Email" Type="email" Name="email" Value={formData.email} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Contact Number" Type="number" Name="contact" Value={formData.contact} InCol InWhite onChange={handleInputChange} />
+                        { Inputboxes.map((input, index) => (
+                            <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                        )) }
                     </Group>
                     { screenwidth > 766 ? 
                         <Group Class="buttonside">

@@ -1,25 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
-import {
-    Title,
-    Body_addclass,
-    Group,
-    Main,
-    Box,
-    Inputbox,
-    Table,
-    Button,
-    Modal,
-    Form,
-    SubmitButton,
-    Pagination,
-    Selectionbox,
-} from "../../exporter/component_exporter";
-import {
-    modifyEmployee,
-    editEmployee,
-    fetchAllEmployees,
-} from "../../Functions/EmployeeFunctions";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from "../../exporter/component_exporter";
+import { modifyEmployee, editEmployee, fetchAllEmployees } from "../../Functions/EmployeeFunctions";
 
 export default function EmployeeManagementPage() {
     Title("Employee Management");
@@ -90,17 +72,9 @@ export default function EmployeeManagementPage() {
                         <Inputbox Title="Search" Type="search" />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
-                    <Box
-                        Title="EMPLOYEES"
-                        UpperRight={<Button Title="+" OpenModal="AddModal" />}
-                        BoxCol
-                    >
+                    <Box Title="EMPLOYEES" UpperRight={<Button Title="+" OpenModal="AddModal" />} BoxCol >
                         <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
             </Group>
@@ -125,51 +99,14 @@ export default function EmployeeManagementPage() {
                         )
                     }
                 >
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    {success && <p style={{ color: "green" }}>{success}</p>}
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
+                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Last Name"
-                            Name="lastname"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.lastname}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="First Name"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.firstname}
-                            onChange={handleInputChange}
-                        />
-                        <Selectionbox
-                            Title="Role"
-                            Name='name'
-                            Options={["Admin", "Employee"]}
-                            SltCol
-                            SltWhite
-                            Value={formData.role}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Email"
-                            Type="email"
-                            InCol
-                            InWhite
-                            Value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Phone"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.contact}
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
+                        <Inputbox Title="First Name" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
+                        <Selectionbox Title="Role" Name='name' Options={["Admin", "Employee"]} SltCol SltWhite Value={formData.role} onChange={handleInputChange} />
+                        <Inputbox Title="Email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
+                        <Inputbox Title="Phone" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CLOSE" CloseModal BtnWhite />
@@ -199,54 +136,11 @@ export default function EmployeeManagementPage() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Last Name"
-                            Name="lastname"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.lastname}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="First Name"
-                            Name="firstname"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.firstname}
-                            onChange={handleInputChange}
-                        />
-                        <Selectionbox
-                            Title="Role"
-                            Name="role"
-                            Value={formData.role}
-                            SltCol
-                            SltWhite
-                            Options={['customer', 'employee', 'admin']}
-                            option_value={formData.role}
-                            InCol
-                            InWhite
-                            OnChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Email"
-                            Name="email"
-                            Type="email"
-                            InCol
-                            InWhite
-                            Value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Phone"
-                            Name="contact"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.contact}
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
+                        <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
+                        <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} InCol InWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
+                        <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />

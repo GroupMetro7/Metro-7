@@ -8,30 +8,41 @@ export default function Header({ AuthenticatedMode, Logout }) {
     HeaderHeight()
     const screenwidth = ScreenWidth()
 
+    const navitems = [
+        { GuestItem: true, CustItem: true, Title: "HOME", Redirect: "/" },
+        
+        { GuestItem: true, Title: "MENU", Redirect: "/menu" },
+        { GuestItem: true, Title: "LOGIN", Redirect: "/login" },
+
+        { CustItem: true, Title: "PRE-ORDER", Redirect: "/menu" },
+        { CustItem: true, Title: "RESERVATION", Redirect: "/reservation" },
+        { CustItem: true, Title: AuthenticatedMode, DropDown: true },
+        { CustItem: true, DropDownItem: true, Title: "PROFILE", Redirect: "/profile" },
+        { CustItem: true, DropDownItem: true, Title: "LOGOUT", Onclick: Logout }
+    ]
+
     return(
         <header>
-            <div>
+            <div className='dropdown'>
                 <img src={ TextLogo } />
                 { screenwidth > 766 ? 
                     <nav>
                         { AuthenticatedMode ?
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='PRE-ORDER' Redirect='/menu' />
-                                <Href Title='RESERVATION' Redirect='/reservation' />
-                                <Href Title={ AuthenticatedMode } DropDown />
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <Href Title='PROFILE' Redirect='/profile' />
-                                    <Href Title='LOGOUT' Onclick={ Logout } />
-                                </ul>
+                            { navitems.filter( item => item.CustItem && !item.DropDownItem ).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } DropDown={ item.DropDown } />
+                            ))}
+                            <ul className="dropdown-menu dropdown-menu-end">
+                                { navitems.filter( item => item.CustItem && item.DropDownItem ).map(( item, index ) => (
+                                    <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } Onclick={ item.Onclick } />
+                                ))}
+                            </ul>
                             </>
                             :
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='MENU' Redirect='/menu' />
-                                <Href Title='LOGIN' Redirect='/login' />
+                            { navitems.filter( item => item.GuestItem ).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } />
+                            ))}
                             </>
                         }
                     </nav>
@@ -46,19 +57,15 @@ export default function Header({ AuthenticatedMode, Logout }) {
                     <nav>
                         { AuthenticatedMode ?
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='PRE-ORDER' Redirect='/menu' />
-                                <Href Title='RESERVATION' Redirect='/reservation' />
-                                <Href Title='PROFILE' Redirect='/profile' />
-                                <Href Title='LOGOUT' Onclick={ Logout } />
+                            { navitems.filter( item => item.CustItem && item.Title !== AuthenticatedMode ).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } DropDown={ item.DropDown } Onclick={ item.Onclick }  />
+                            ))}
                             </>
                             :
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='MENU' Redirect='/menu' />
-                                <Href Title='LOGIN' Redirect='/login' />
+                            { navitems.filter( item => item.GuestItem ).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } />
+                            ))}
                             </>
                         }
                     </nav>

@@ -33,6 +33,7 @@ export default function CustomerManagementPage() {
         "ROLE",
         "BALANCE",
         "TOTAL SPENT",
+        "ACTIONS",
     ];
     const tbrows = users
         .map((customer) => ({
@@ -98,52 +99,11 @@ export default function CustomerManagementPage() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Last Name"
-                            Name="lastname"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.lastname}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="First Name"
-                            Name="firstname"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.firstname}
-                            onChange={handleInputChange}
-                        />
-                        <Selectionbox
-                            Title="Role"
-                            Name="role"
-                            Value={formData.role}
-                            SltCol
-                            SltWhite
-                            Options={['customer', 'employee', 'admin']}
-                            option_value={formData.role}
-                            OnChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Email"
-                            Name="email"
-                            Type="email"
-                            InCol
-                            InWhite
-                            Value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Phone"
-                            Name="contact"
-                            Type="text"
-                            InCol
-                            InWhite
-                            Value={formData.contact}
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
+                        <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
+                        <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} InCol InWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
+                        <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />

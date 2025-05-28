@@ -1,5 +1,8 @@
 @use '../constant.sass' as v
 
+header, header *:not( ul ):not( div.collapse, div.collapsing )
+    display: flex !important
+
 header 
     background-color: v.$header-footer !important
     width: 100% !important
@@ -14,18 +17,17 @@ header
         margin-inline: auto !important
 
         > img 
-            width: 150px !important
+            height: 30px !important
 
         > nav 
             justify-content: flex-end !important
-            gap: 13px !important
 
             a
                 font-size: 18px !important
                 text-transform: uppercase !important
                 text-decoration: none !important
                 transition: .23s !important
-                padding: 13px !important
+                padding: 13px 23px !important
 
     > div.collapse, > div.collapsing
 

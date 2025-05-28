@@ -13,10 +13,10 @@ div.form
         color: v.$input-white !important
 
     > form
-        min-width: v.$elem-w-size-primary !important
+        width: v.$elem-w-size-primary !important
         flex-direction: column !important
         align-items: center !important
-        gap: 28px
+        gap: 28px !important
 
         div.group
 
@@ -37,8 +37,9 @@ div.form
                 gap: 8px 18px !important
 
             &.signalside
-                width: v.$elem-w-size-primary !important
+                text-align: justify !important
                 justify-content: center !important
+                flex-grow: 1 !important
 
                 p.success
                     color: green !important

@@ -1,21 +1,29 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
+import useFetch from '../../hooks/fetch'
 
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
 
-    const user = 'Micheal Lance Kester Li'
+    const { monthlyRevenue, mostSoldProduct, orders } = useFetch();
+    // Get the latest month's revenue (assuming the first item is the latest)
+    const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
+    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
-    const tbhead = ['ORDER NO.', 'ORDER DATE', 'CASHIER NAME', 'OPTIONS', 'AMOUNT']
-    const tbrows = [
-        [<>25569</>, <>2025-02-24 <br /> 02:27:25</>, <>Micheal Lance Kester Li</>, <>TAKE-OUT</>, <>₱559.00</>],
-        [<>12403</>, <>2025-02-22 <br /> 02:27:25</>, <>Eryck Del Fonso</>, <>DINE-IN</>, <>₱358.00</>],
-        [<>26891</>, <>2025-02-22 <br /> 02:27:25</>, <>Michael Angelo Lim</>, <>TAKE-OUT</>, <>₱358.00</>],
-        [<>12403</>, <>2025-02-22 <br /> 02:27:25</>, <>Eryck Del Fonso</>, <>TAKE-OUT</>, <>₱358.00</>],
-        [<>12403</>, <>2025-01-08 <br /> 03:33:03</>, <>Eryck Del Fonso</>, <>TAKE-OUT</>, <>₱1,258.00</>]
-    ]
+    // Most sold product info
+    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
+    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
+
+    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS']
+    const tbrows = orders.map((order) => ({
+      order_number: order.order_number,
+      order_date: order.name,
+      amount: '₱' + order.amount,
+      option: order.option,
+      status: order.status,
+    }))
 
     return(
         <>
@@ -24,10 +32,10 @@ export default function DashboardPage() {
                 <Section Title="Sales Revenue" Class="salesrevenue">
                     <Group Class="upper">
                         <Group Class="kpis">
-                            <KPI Title="TOTAL SALES" Integer="₱230,631.00" Increase="₱8,271.00" Class="red1" />
-                            <KPI Title="THIS MONTH" Integer="₱34,106.00" Increase="₱3,599.00" Class="red2" />
-                            <KPI Title="TODAY" Integer="₱13,331.00" Decrease="₱31.00" Class="red3" />
-                            <KPI Title="RATE" Integer="23.8%" Increase="1.4%" />
+                            <KPI Title="TOTAL SALES" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
+                            <KPI Title="THIS MONTH" Integer="23.8%" />
+                            <KPI Title="TODAY" Integer="₱34,106.00" Class="red2" />
+                            <KPI Title="RATE" Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
                         </Group>
                         <Box Class="datetime" >
                             <h3>

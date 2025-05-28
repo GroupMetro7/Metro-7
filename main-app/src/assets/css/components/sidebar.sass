@@ -1,5 +1,8 @@
 @use '../constant.sass' as v
 
+aside, aside * 
+    display: flex !important
+
 @media only screen and (min-width: 1267px) 
 
     aside.sidebar 
@@ -19,12 +22,13 @@
             padding: 27.5px 13px !important
 
             > img 
-                width: 50px !important
+                height: 30px !important
+                justify-self: flex-start !important
 
             > nav 
                 align-self: center !important
                 flex-direction: column !important
-                gap: 17.5px !important
+                gap: 13px !important
 
                 > a 
                     gap: 7.5px !important
@@ -32,12 +36,12 @@
 
                     > div
                         background-color: v.$color-secondary !important
-                        width: 43px !important
+                        width: 40px !important
                         padding: 10px !important
                         border-radius: 100% !important
 
                         > img 
-                            width: 23px !important
+                            width: 20px !important
 
                     > span  
                         white-space: nowrap !important
@@ -50,7 +54,7 @@
             width: calc( v.$sidebar-size * 2.9 ) !important
 
             nav 
-                margin-left: 3.4px !important
+                margin-left: 4px !important
                 
                 > a
                     width: 100% !important

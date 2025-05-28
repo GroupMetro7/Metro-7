@@ -7,7 +7,6 @@ import ProfilePage from './pages/Customers/Profile'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
 import AdminLayout from './components/Layout/AdminLayout'
-import Inventory from './pages/admin/testInventory'
 import ReservationPage from './pages/Customers/Reservation'
 import EmployeeManagementPage from './pages/admin/Employee_Management'
 import StaffDashboard from './pages/services/Dashboard'
@@ -32,12 +31,31 @@ const router = createBrowserRouter([
   },
 
 	//Customers routing
-	{
-		path: '/',
-		element: <CustomerLayout />,
+  {
+		path: '',
+		element: <GuestLayout />,
 		children: [
 			{
 				path: '',
+				element: <LandingPage />
+			},
+			{
+				path: 'login',
+				element: <LoginPage />
+			},
+			{
+				path: 'register',
+				element: <RegisterPage />
+			},
+		]
+	},
+
+	{
+		path: '',
+		element: <CustomerLayout />,
+		children: [
+			{
+				path: 'welcome',
 				element: <LandingPage />
 			},
 			{
@@ -52,24 +70,7 @@ const router = createBrowserRouter([
 	},
 
 	//customer guest routing
-	{
-		path: '',
-		element: <GuestLayout />,
-		children: [
-			{
-				path: 'welcome',
-				element: <LandingPage />
-			},
-			{
-				path: 'login',
-				element: <LoginPage />
-			},
-			{
-				path: 'register',
-				element: <RegisterPage />
-			},
-		]
-	},
+
 
 	{
 		path: '/location',

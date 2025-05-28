@@ -32,12 +32,12 @@ protected static function boot()
           $Model->STATUS = 'Available';
         }
 
-        
+
     });
 }
 
 public function products()
 {
-  return $this->belongsToMany(product::class, 'product_ingredient', 'stock_management_id', 'product_id')->withPivot('quantity')->withTimestamps();
+  return $this->belongsToMany(product::class, 'product_ingredient', 'ingredient_id', 'product_id')->withPivot('quantity')->withTimestamps();
 }
 }

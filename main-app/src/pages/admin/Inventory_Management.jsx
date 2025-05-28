@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import '../../assets/css/pages/admin/Management.sass';
-import {
-    Title,
-    Body_addclass,
-    Group,
-    Main,
-    Box,
-    Inputbox,
-    KPI,
-    Table,
-    Button,
-    Modal,
-    Form,
-    SubmitButton,
-    Pagination,
-} from '../../exporter/component_exporter';
+import React, { useEffect, useState } from 'react'
+import '../../assets/css/pages/admin/Management.sass'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch } from '../../exporter/component_exporter';
 import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
+import useFetch from '../../hooks/fetch'
+import { useActionData } from 'react-router-dom'
+import useAddCategory from '../../hooks/add'
 
 export default function Test() {
-    Title('Inventory Management');
-    Body_addclass('Management-PAGE');
+    Title('Inventory Management')
+    Body_addclass('Management-PAGE')
 
     // State variables
+
+    const { monthlyRevenue, mostSoldProduct } = useFetch();
+    // Get the latest month's revenue (assuming the first item is the latest)
+    const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
+    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
+
+    // Most sold product info
+    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
+    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
     const [formData, setFormData] = useState({
         ITEM_NAME: '',
         CATEGORY: '',
@@ -50,17 +48,8 @@ export default function Test() {
         setCurrentProductId(null);
     };
     // Table headers and rows
-    const tbhead = [
-        'SKU NO.',
-        'ITEM NAME',
-        'SOLD BY',
-        'CATEGORY',
-        'STOCK',
-        'UNIT COST',
-        'STOCK VALUE',
-        'STATUS',
-        'MODIFIED',
-    ];
+
+    const tbhead = [ 'SKU NO.', 'ITEM NAME', 'SOLD BY', 'CATEGORY', 'STOCK', 'UNIT COST', 'STOCK VALUE', 'STATUS', 'MODIFIED' ]
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
         ITEMNAME: product.COMPOSITE_NAME,
@@ -75,6 +64,8 @@ export default function Test() {
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),
     }));
 
+    const tbhead2 = ['ID', 'Category', 'Number of Products']
+
     return (
         <>
             <Group>
@@ -84,29 +75,25 @@ export default function Test() {
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Group Class="kpis">
-                        <KPI Title="TOTAL REVENUE" Integer="₱230,631.00" Class="red1" />
-                        <KPI Title="TOTAL REVENUE" Integer="23.8%" />
-                        <KPI Title="TOTAL REVENUE" Integer="₱34,106.00" Class="red2" />
-                        <KPI Title="TOTAL REVENUE" Integer="Tomato" Class="red3" />
+                        <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} />
+                        <KPI Title="RATE" Integer="23.8%" />
+                        <KPI Title="TOTAL STOCK VALUES" Integer="₱34,106.00" />
+                        <KPI Title="MOST PRODUCT REVENUE" Integer={mostSoldQty + ' ' + 'pcs'} />
                     </Group>
-                    <Box
-                        Title="INVENTORY"
-                        UpperRight={<Button Title="+" OpenModal="AddModal" />}
-                        BoxCol
-                    >
-                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                        />
+                    <Box Title="INVENTORY" UpperRight={<Button Title="+" OpenModal="AddModal-Inventory" />} BoxCol >
+                        <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                    </Box>
+                    <Box Title='CATEGORIES' UpperRight={ <Button Title='+ ' OpenModal='AddModal-Category' /> } BoxCol>
+                        <Table Title="Category" HeadRows={ tbhead2 } DataRows={ tbrows } EditBtn DeleteBtn />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={''} />
                     </Box>
                 </Main>
             </Group>
-            <Modal Modal="AddModal">
+            <Modal Modal="AddModal-Inventory">
                 <Form
                     Title="ADD ITEM"
-                    FormThreelayers
+                    FormTwolayers
                     OnSubmit={(e) =>
                         saveProduct(
                             e,
@@ -124,45 +111,13 @@ export default function Test() {
                         )
                     }
                 >
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
+                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Item Name"
-                            Type="text"
-                            Name="ITEM_NAME"
-                            Value={formData.ITEM_NAME}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Category"
-                            Type="text"
-                            Name="CATEGORY"
-                            Value={formData.CATEGORY}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Stock"
-                            Type="number"
-                            Name="STOCK"
-                            Value={formData.STOCK}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Unit Cost"
-                            Type="number"
-                            Name="COST_PER_UNIT"
-                            Value={formData.COST_PER_UNIT}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Category" Type="text" Name="CATEGORY" Value={formData.CATEGORY} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -170,7 +125,7 @@ export default function Test() {
                     </Group>
                 </Form>
             </Modal>
-            <Modal Modal="EditModal">
+            <Modal Modal="EditModal-Inventory">
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
@@ -191,49 +146,69 @@ export default function Test() {
                         )
                     }
                 >
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
+                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Item Name"
-                            Type="text"
-                            Name="ITEM_NAME"
-                            Value={formData.ITEM_NAME}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Category"
-                            Type="text"
-                            Name="CATEGORY"
-                            Value={formData.CATEGORY}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Stock"
-                            Type="number"
-                            Name="STOCK"
-                            Value={formData.STOCK}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Unit Cost"
-                            Type="number"
-                            Name="COST_PER_UNIT"
-                            Value={formData.COST_PER_UNIT}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Category" Type="text" Name="CATEGORY" Value={formData.CATEGORY} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
                         <SubmitButton Title="SUBMIT" BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+            <Modal Modal='DeleteModal-Inventory'>
+                <Form Title='DELETE EMPLOYEE' FormThreelayers>
+                    <Group Class='outputfetch' Wrap>
+                        <Outputfetch Title='Balance' Value='36548' OutCol OutWhite />
+                        <Outputfetch Title='First Name' Value='Micheal Lance Kester' OutCol OutWhite />
+                        <Outputfetch Title='Last Name' Value='Li' OutCol OutWhite />
+                        <Outputfetch Title='Email' Value='kesterli1998@gmail.com' OutCol OutWhite />
+                    </Group>
+                    <Group Class='buttonside'>
+                        <Button Title='CANCEL' CloseModal BtnWhite />
+                        <SubmitButton Title='DELETE' BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+            <Modal Modal='AddModal-Category'>
+                <Form Title='ADD CATEGORY' FormTwolayers >
+                    <Group Class='inputside' Wrap>
+                        <Inputbox Title='Category Name' Type='text' InCol InWhite Value={""} onChange={""}/>
+                        <Inputbox Title='Description' Type='text' InCol InWhite Value={""} onChange={""}/>
+                    </Group>
+                    <Group Class='buttonside'>
+                        <Button Title='CANCEL' CloseModal BtnWhite />
+                        <SubmitButton Title='SUBMIT' BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+            <Modal Modal='EditModal-Category'>
+                <Form Title='EDIT CATEGORY' FormTwolayers >
+                    <Group Class='inputside' Wrap>
+                        <Inputbox Title='Category Name' Type='text' InCol InWhite Value={""} onChange={""}/>
+                        <Inputbox Title='Description' Type='text' InCol InWhite Value={""} onChange={""}/>
+                    </Group>
+                    <Group Class='buttonside'>
+                        <Button Title='CANCEL' CloseModal BtnWhite />
+                        <SubmitButton Title='SUBMIT' BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+            <Modal Modal='DeleteModal-Category'>
+                <Form Title='DELETE EMPLOYEE' FormThreelayers>
+                    <Group Class='outputfetch' Wrap>
+                        <Outputfetch Title='Balance' Value='36548' OutCol OutWhite />
+                        <Outputfetch Title='First Name' Value='Micheal Lance Kester' OutCol OutWhite />
+                        <Outputfetch Title='Last Name' Value='Li' OutCol OutWhite />
+                        <Outputfetch Title='Email' Value='kesterli1998@gmail.com' OutCol OutWhite />
+                    </Group>
+                    <Group Class='buttonside'>
+                        <Button Title='CANCEL' CloseModal BtnWhite />
+                        <SubmitButton Title='DELETE' BtnWhite />
                     </Group>
                 </Form>
             </Modal>

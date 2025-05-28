@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/services/Management.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch } from '../../exporter/component_exporter'
+import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton } from '../../exporter/component_exporter'
 import axiosClient from '../../axiosClient'
 
 export default function StaffOrderList() {
@@ -23,7 +23,7 @@ export default function StaffOrderList() {
     }, []);
 
 
-    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS', 'ACTIONS']
+    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS']
     const tbrowsOrders = orders.map((order) => ({
       orderId : order.order_number,
       name : order.name,
@@ -32,11 +32,6 @@ export default function StaffOrderList() {
       status : order.status,
       edit: () => setSelectedOrder(order),
     }))
-    const tbrowsPreOrders = [
-        [<>25569</>, <>2025-02-24 <br/> 02:27:25</>, <>Micheal Lance Kester Li</>, <>TAKE-OUT</>, <>₱2,475.00</>, <>PRE-ORDER</>],
-        [<>12403</>, <>2025-02-24 <br/> 02:27:25</>, <>Dylan Clive Espino</>, <>DINE-IN</>, <>₱581.00</>, <>PRE-ORDER</>],
-        [<>26891</>, <>2025-02-24 <br/> 02:27:25</>, <>Mark Anthony Amper</>, <>TAKE-OUT</>, <>₱888.00</>, <>PRE-ORDER</>],
-    ]
 
     return(
     <>
@@ -96,8 +91,13 @@ export default function StaffOrderList() {
                   <Outputfetch Title="Total Amount" Value={selectedOrder.amount} OutCol OutWhite />
                 </tbody>
               </table>
+              <Group Class='buttonside'>
+                  <Button Title='CLOSE' CloseModal BtnWhite />
+                  <SubmitButton Title='SAVE' BtnWhite />
+              </Group>
             </Group>
           </Form>
+
         </Modal>
       )}
     </>

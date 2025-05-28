@@ -7,7 +7,11 @@ export default function ReservationPage() {
     Body_addclass('Reservation-PAGE')
     const screenwidth = ScreenWidth()
 
-    const user = "Micheal Lance Kester Li"
+    const Inputboxes = [
+        { Title: 'Party Size', Type: 'number', Class: 'partysize', InCol: true, InWhite: true },
+        { Title: 'Date', Type: 'date', InCol: true, InWhite: true },
+        { Title: 'Time', Type: 'time', InCol: true, InWhite: true }
+    ]
 
     return(
         <>
@@ -21,9 +25,9 @@ export default function ReservationPage() {
                         </Group>
                         <hr />
                         <Group Class='inputside' { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
-                            <Inputbox Title='Party Size' Type='number' Class="partysize" InCol InWhite />
-                            <Inputbox Title='Date' Type='date' InCol InWhite />
-                            <Inputbox Title='Time' Type='time' InCol InWhite />
+                            { Inputboxes.map((input, index) => (
+                                <Inputbox key={index} Title={input.Title} Type={input.Type} Class={input.Class} InCol={input.InCol} InWhite={input.InWhite} />
+                            ))}
                         </Group>
                     </Group>
                     <Group Class='buttonside'>

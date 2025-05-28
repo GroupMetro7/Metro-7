@@ -15,9 +15,11 @@ export default function Selectionbox({ Class, Title, Options, Value, Name, Multi
             required={ Required }
             onChange={ OnChange }>
             <option hidden value="">Options</option>
-            { Options ? Options.map((option) => (
-                <option key={option} value={option}>{option}</option>
-            )) : null }
+            { Options && Options.map((option, idx) =>
+                typeof option === 'object'
+                    ? <option key={option.value ?? idx} value={option.value}>{option.label}</option>
+                    : <option key={option} value={option}>{option}</option>
+            ) }
             </select>
         </label>
     )

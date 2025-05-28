@@ -198,8 +198,7 @@ export default function StaffDashboard() {
                         <hr />
                         <Group Class="diningopts">
                             <Radio Title="CASH" RadioName="Payment" Value="CASH" Checked={paymentOpt === "CASH"} OnChange={(e) => setPaymentOpt(e.target.value)} />
-                            <Radio Title="ONLINE" RadioName="Payment" Value="ONLINE" Checked={paymentOpt === "ONLINE"} OnChange={(e) => setPaymentOpt(e.target.value)}
-                            />
+                            <Radio Title="ONLINE" RadioName="Payment" Value="ONLINE" Checked={paymentOpt === "ONLINE"} OnChange={(e) => setPaymentOpt(e.target.value)} />
                         </Group>
                         <Group Class="paymentsum" Col>
                             <article>
@@ -208,10 +207,7 @@ export default function StaffDashboard() {
                                     <h3>TOTAL PRICE:</h3>
                                     <h4>₱{totalPrice}</h4>
                                 </div>
-                                <div>
-                                    <h3>DISCOUNT:</h3>
-                                    <h4>₱0.00</h4>
-                                </div>
+                                <Inputbox Title="Discount" value={customer} onChange={(e) => setCustomer(e.target.value)} />
                             </article>
                             <Button Title="CHECKOUT" OpenModal="CheckoutModal" />
                         </Group>
