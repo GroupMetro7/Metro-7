@@ -7,16 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
-  // public function index()
-  // {
-  //   $products = product::all()->map(function ($product) {
-  //       if ($product->image) {
-  //           $product->image = asset('storage/' . $product->image); // Generate full URL for the image
-  //       }
-  //       return $product;
-  //   });
-  //   return response()->json($products, 200);
-  // }
+
 
   public function adminindex()
     {
@@ -24,25 +15,23 @@ class ProductController extends Controller
       return response()->json($products);
     }
 
-
-  public function byCategory($categoryId)
-    {
-      if ($categoryId === '1') {
-          $products = product::all()->map(function ($product) {
-              if ($product->image) {
-                  $product->image = asset('storage/' . $product->image);
-              }
-              return $product;
-          });
-          return response()->json($products);
-      }
-      $products = product::where('category_id', $categoryId)->get()->map(function ($product) {
-              if ($product->image) {
-                  $product->image = asset('storage/' . $product->image);
-              }
-              return $product;
-          });
+  public function search(Request $request)
+  {
+      $search = $request->input('q');
+      $products = product::where('product_name', 'like', '%' . $search . '%')->paginate(10);
       return response()->json($products);
+  }
+
+    public function byCategory($categoryId)
+    {
+        $query = product::query();
+        if ($categoryId !== '1') {
+            $query->where('category_id', $categoryId);
+        }
+        // Eager load relationships if needed, e.g. ->with('category')
+        $products = $query->paginate(10);
+        // Use Eloquent accessor for image URL (see note below)
+        return response()->json($products);
     }
 
 public function store(Request $request)
@@ -55,10 +44,7 @@ public function store(Request $request)
         'category_id' => 'required|string',
     ]);
 
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('images', 'public');
-    }
+    $imagePath = $request->file('image')->store('images', 'public');
 
     $product = product::create([
         'product_name' => $request->input('product_name'),
@@ -99,8 +85,8 @@ public function store(Request $request)
       // Delete the image from storage if it exists
       if ($product->image) {
           $imagePath = str_replace(asset('storage/'), '', $product->image); // Remove the base URL to get the relative path
-          if (\Storage::disk('public')->exists($imagePath)) {
-              \Storage::disk('public')->delete($imagePath);
+          if (Storage::disk('public')->exists($imagePath)) {
+              Storage::disk('public')->delete($imagePath);
           }
       }
 

@@ -32,7 +32,6 @@ return new class extends Migration
           $table->integer('stock')->default(0);
           $table->unsignedBigInteger('category_id')->nullable();
           $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-          $table->foreignId('composite_id')->nullable()->constrained('stock_management')->onDelete('set null');
           $table->timestamps();
         });
     }

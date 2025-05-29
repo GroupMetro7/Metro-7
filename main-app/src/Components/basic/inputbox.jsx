@@ -1,9 +1,9 @@
 import React from 'react'
 import '../../assets/css/components/inputbox & selectbox.sass'
 
-export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept, NoTitle }) {
+export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept, NoTitle, Placeholder }) {
     function ValidType( type ) {
-        const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file'];
+        const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file', 'checkbox'];
         return allowedTypes.includes( type ) ? type : 'text';
     }
 
@@ -22,6 +22,7 @@ export default function Inputbox({ Class, Title, Type, Value, Name, MinLength, M
             onChange={ onChange }
             required={ Required }
             accept={ accept }
+            placeholder={Placeholder}
             />
         </label>
     )

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddProductRequest;
 use App\Http\Requests\admin\UpdateProductRequest;
+use App\Models\product;
+use App\Models\stockLog;
 use App\Models\StockManagement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockManagementController extends Controller
 {
@@ -16,6 +19,12 @@ class StockManagementController extends Controller
     public function index()
     {
       $products = StockManagement::paginate(10);
+      return response()->json($products);
+    }
+
+        public function Ingredients()
+    {
+      $products = StockManagement::paginate();
       return response()->json($products);
     }
 
@@ -32,6 +41,12 @@ class StockManagementController extends Controller
       $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
       $product->STOCK_VALUE = $validated['STOCK'] * $validated['COST_PER_UNIT'];
       $product->save();
+
+      stockLog::create([
+                'sku_number' => $product->SKU_NUMBER,
+                'quantity' => $product->STOCK,
+                'type' => 'in',
+            ]);
 
       return response()->json(['message' => 'Product added successfully', 'product' => $product], 201);
     }
@@ -76,9 +91,35 @@ class StockManagementController extends Controller
         if (isset($validated['STOCK']) || isset($validated['COST_PER_UNIT'])) {
             $product->STOCK_VALUE = ($validated['STOCK'] ?? $product->STOCK) * ($validated['COST_PER_UNIT'] ?? $product->COST_PER_UNIT);
         }
+        // Calculate stock change for logging
+        $originalStock = $product->getOriginal('STOCK');
         $product->save();
+
+        $stockChange = $product->STOCK - $originalStock;
+        if ($stockChange != 0) {
+            stockLog::create([
+                'sku_number' => $product->SKU_NUMBER,
+                'quantity' => $stockChange,
+                'type' => $stockChange > 0 ? 'in' : 'out',
+            ]);
+        }
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
     }
+
+    public function showExpense()
+{
+    $totalExpense = stockLog::sum(\DB::raw('COALESCE(value, 0)'));
+    $totalStockValue = StockManagement::sum(\DB::raw('COALESCE(STOCK_VALUE, 0)'));
+
+    $monthlyExpenses = stockLog::selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(COALESCE(value, 0)) as total")
+    ->groupBy('month')
+    ->orderBy('month', 'desc')
+    ->get();
+
+    return response()->json(['total_expense' => $totalExpense,
+                            'total_stock_value' => $totalStockValue,
+                          'monthly_expenses' => $monthlyExpenses]);
+}
 
     public function destroy($id)
     {

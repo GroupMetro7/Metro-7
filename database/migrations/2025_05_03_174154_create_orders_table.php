@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('order_number')->unique();
         $table->decimal('amount', 10, 2)->nullable();
         $table->string('option')->nullable();
+        $table->decimal('discount', 10, 2)->nullable();
         $table->string('status')->default('pending');
         $table->timestamps();
     });

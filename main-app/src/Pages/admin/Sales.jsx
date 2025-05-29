@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../../assets/css/pages/admin/Sales.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
-import axiosClient from '../../axiosClient'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
 import useMonthlySales from '../../hooks/fetch'
 import { saveAs } from 'file-saver';
 
 export default function SalesPage() {
     Title('Revenue')
     Body_addclass('Sales-PAGE')
+
+    // done & for review
 
     const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
@@ -17,14 +18,10 @@ export default function SalesPage() {
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
 
     const revpermonthhead = ['Year', 'Month', 'Revenue']
-    const monthNames = [
-      '', 'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ]
 
     const revpermonthdata = monthlyRevenue.map((item) => [
       item.year,
-      (item.month !== undefined && item.month !== null ? monthNames[item.month] : ''),
+      item.month_name,
       `₱${Number(item.revenue).toLocaleString(undefined, {minimumFractionDigits: 2})}`
     ])
 

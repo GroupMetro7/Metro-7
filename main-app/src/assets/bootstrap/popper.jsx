@@ -1,7 +1,3 @@
-/**
- * @popperjs/core v2.11.8 - MIT License
- */
-
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -1823,3 +1819,4 @@
     Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
+

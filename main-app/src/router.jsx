@@ -21,10 +21,18 @@ import InventoryManagementPage from './Pages/admin/Inventory_Management'
 import MenuPage from './Pages/Customers/Menu'
 import CustomerLayout from './Components/Layout/CustomerLayout'
 import Test from './Pages/admin/test'
+import { useStateContext } from './Contexts/ContextProvider'
+import NotFound from './Pages/404not_found'
 
 const router = createBrowserRouter([
+  //not found page
 
-  //testing
+  {
+    path: '*',
+    element: <NotFound />
+  },
+  
+  //tesing
 
   {
     path: 'test',

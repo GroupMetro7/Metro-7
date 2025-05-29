@@ -6,6 +6,7 @@ import CustomerLayout from '../../components/Layout/CustomerLayout'
 import GuestLayout from '../../components/Layout/GuestLayout'
 
 export default function LocationPage() {
+  //done
     const { token} = useStateContext();
     Title('Metro 7 | Location')
     Body_addclass('Location-PAGE')
@@ -19,7 +20,7 @@ export default function LocationPage() {
         )}
         <Main>
             <Section Title='OUR LOCATION' Class='location'>
-                { screenwidth > 766 ? 
+                { screenwidth > 766 ?
                     <Box>
                         <article>
                             <h2>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
 import {
     Title,
@@ -17,10 +17,9 @@ import {
 } from '../../exporter/component_exporter';
 import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
 import useFetch from '../../hooks/fetch';
-import { useActionData } from 'react-router-dom';
-import useAddCategory from '../../hooks/add';
 
 export default function Test() {
+  // this file is subject for optimization
     Title('Inventory Management');
     Body_addclass('Management-PAGE');
 
@@ -71,7 +70,6 @@ export default function Test() {
         'UNIT COST',
         'STOCK VALUE',
         'STATUS',
-        'MODIFIED',
     ];
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
@@ -82,11 +80,10 @@ export default function Test() {
         COSTPERUNIT: product.COST_PER_UNIT,
         STOCKVALUE: product.STOCK_VALUE,
         STATUS: product.STATUS,
-        lastUpdated: new Date(product.updated_at).toLocaleString(),
+        // lastUpdated: new Date(product.updated_at).toLocaleString(),
         edit: () => editProduct(product, setFormData, setCurrentProductId),
         delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),
     }));
-
 
 
     return (

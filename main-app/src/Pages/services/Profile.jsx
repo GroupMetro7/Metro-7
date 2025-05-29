@@ -1,13 +1,12 @@
 import React from 'react'
 import '../../assets/css/pages/services/Profile.sass'
-import { ScreenWidth, Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 
 export default function StaffProfile() {
     Title('Profile')
     Body_addclass('Profile-Services-PAGE')
     const screenwidth = ScreenWidth()
-
     const {user} = useStateContext();
 
     return(
