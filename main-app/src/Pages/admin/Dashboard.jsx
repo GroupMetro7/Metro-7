@@ -6,13 +6,14 @@ import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import TopCategory from '../../hooks/graphs/pie'
 import SalesReport from '../../hooks/graphs/bar'
+import useFetchDashboardData from '../../hooks/admin/fetchData'
 
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
     // optimized
     // needs some updates
-    const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = useFetch();
+    const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = useFetchDashboardData();
     // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
@@ -51,9 +52,11 @@ export default function DashboardPage() {
                             </h3>
                         </Box>
                     </Group>
-                    <Group Class="charts" Wrap>
+                    <Group Class="charts">
                         <Box Title="Sales Status" Class="salesstatus" BoxCol><SalesReport/></Box>
                         <Box Title="Top Category" Class="topcategory" BoxCol><TopCategory/></Box>
+                    </Group>
+                    <Group Class="charts">
                         <Box Title="Demand Forecast" Class="demandforecast" BoxCol><img src="" /></Box>
                     </Group>
                 </Section>

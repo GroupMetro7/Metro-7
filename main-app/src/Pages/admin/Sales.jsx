@@ -3,6 +3,9 @@ import '../../assets/css/pages/admin/Sales.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
 import useMonthlySales from '../../hooks/fetch'
 import { saveAs } from 'file-saver';
+import SalesReport from '../../hooks/graphs/bar';
+import TopCategory from '../../hooks/graphs/pie';
+import useFetchDashboardData from '../../hooks/admin/fetchData';
 
 export default function SalesPage() {
     Title('Revenue')
@@ -10,7 +13,9 @@ export default function SalesPage() {
 
     // done & for review
 
-    const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
+    const { monthlyRevenue, mostSoldProduct } = useFetchDashboardData();
+
+    
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
@@ -55,8 +60,8 @@ export default function SalesPage() {
                         <Box Title={ <><DateText /><br /><TimeText /></> } Class='datetime' />
                     </Group>
                     <Group Class='charts'>
-                        <Box Title='Sales Status' Class='salesstatus' BoxCol><img src='' /></Box>
-                        <Box Title='Top Category' Class='topcategory' BoxCol><img src='' /></Box>
+                        <Box Title='Sales Status' Class='salesstatus' BoxCol><SalesReport/></Box>
+                        <Box Title='Top Category' Class='topcategory' BoxCol><TopCategory/></Box>
                     </Group>
                     <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>
                         <Table HeadRows={ revpermonthhead } DataRows={ revpermonthdata } />

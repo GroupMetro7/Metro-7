@@ -23,10 +23,8 @@ class OrderController extends Controller
 
 public function index()
 {
-    // You can adjust the number 10 to any items per page you want
     $orders = Order::with('tickets')->paginate(10);
     return response()->json($orders);
-
 }
 
       public function search(Request $request)
@@ -107,17 +105,18 @@ public function index()
     public function monthlyRevenue()
     {
 $monthlyRevenue = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, DATE_FORMAT(created_at, "%M") as month_name, SUM(amount) as revenue')
+    ->where('created_at', '>=', now()->subMonths(12))
     ->groupBy('year', 'month', 'month_name')
     ->orderBy('year', 'desc')
     ->orderBy('month', 'desc')
     ->get();
 
-    $mostSold = \DB::table('tickets')
-        ->select('product_id', 'product_name', \DB::raw('SUM(quantity) as total_quantity'))
-        ->groupBy('product_id', 'product_name')
-        ->orderByDesc('total_quantity')
-        ->take(5)
-        ->get();
+$mostSold = \DB::table('tickets')
+    ->select('product_id', 'product_name', \DB::raw('SUM(quantity) as total_quantity'))
+    ->groupBy('product_id', 'product_name')
+    ->orderByDesc('total_quantity')
+    ->limit(5) // Limit to top 5
+    ->get();
 
     return response()->json([
         'monthlyRevenue' => $monthlyRevenue,

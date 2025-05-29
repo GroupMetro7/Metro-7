@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController\RetrieveDataController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\CategoryController;
@@ -55,8 +56,8 @@ Route::post('/createCategory', [CategoryController::class, 'create']);
 Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'store']);
 Route::get('/orders', [OrderController::class, 'index']);
 
-Route::get('/monthlyRevenue', [OrderController::class, 'monthlyRevenue']);
-Route::get('/showExpenses', [StockManagementController::class, 'showExpense']);
+Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
+
 
 
 // service controls

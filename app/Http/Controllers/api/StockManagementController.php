@@ -108,17 +108,22 @@ class StockManagementController extends Controller
 
     public function showExpense()
 {
-    $totalExpense = stockLog::sum(\DB::raw('COALESCE(value, 0)'));
-    $totalStockValue = StockManagement::sum(\DB::raw('COALESCE(STOCK_VALUE, 0)'));
+    // Use DB facade for aggregation to avoid Eloquent overhead
+    $totalExpense = \DB::table('stock_logs')->sum('value');
+    $totalStockValue = \DB::table('stock_management')->sum('STOCK_VALUE');
 
-    $monthlyExpenses = stockLog::selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(COALESCE(value, 0)) as total")
-    ->groupBy('month')
-    ->orderBy('month', 'desc')
-    ->get();
+    // Use raw expressions and select only what you need
+    $monthlyExpenses = \DB::table('stock_logs')
+        ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(value) as total")
+        ->groupBy('month')
+        ->orderBy('month', 'desc')
+        ->get();
 
-    return response()->json(['total_expense' => $totalExpense,
-                            'total_stock_value' => $totalStockValue,
-                          'monthly_expenses' => $monthlyExpenses]);
+    return response()->json([
+        'total_expense' => $totalExpense ?? 0,
+        'total_stock_value' => $totalStockValue ?? 0,
+        'monthly_expenses' => $monthlyExpenses,
+    ]);
 }
 
     public function destroy($id)

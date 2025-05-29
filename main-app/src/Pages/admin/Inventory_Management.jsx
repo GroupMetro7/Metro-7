@@ -25,11 +25,13 @@ export default function Test() {
 
     // State variables
 
-    const { monthlyRevenue, mostSoldProduct } = useFetch();
+    const { monthlyRevenue, mostSoldProduct, expenses, totalStockValue } = useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
+    const showExpenses = expenses || 0;
+    const showStockValue = totalStockValue || 0
     // Most sold product info
     const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
@@ -95,10 +97,12 @@ export default function Test() {
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Group Class="kpis">
-                        <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
-                        <KPI Title="TOTAL REVENUE" Integer="23.8%" />
-                        <KPI Title="TOTAL REVENUE" Integer="₱34,106.00" Class="red2" />
-                        <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+                        <Group Class="kpis">
+                          <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
+                          <KPI Title="STOCK EXPENSES" Integer={`₱${Number(showExpenses).toLocaleString()}`}/>
+                          <KPI Title="STOCK VALUE" Integer={`₱${Number(showStockValue).toLocaleString()}`} Class="red2" />
+                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+                        </Group>
                     </Group>
                     <Box
                         Title="INVENTORY"
