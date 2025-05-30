@@ -43,9 +43,9 @@ export default function StaffLayout() {
         }
     };
 
-    // if (!token || user?.role !== "employee") {
-    //     return <Navigate to={"/welcome"} />;
-    // }
+    if (!token || user?.role !== "employee") {
+        return <Navigate to={"/welcome"} />;
+    }
 
 
     return (

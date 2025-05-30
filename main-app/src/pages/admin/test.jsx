@@ -1,123 +1,294 @@
-import React, { useState, useEffect } from "react";
-import axiosClient from "../../axiosClient";
+import "../../assets/css/pages/admin/Management.sass";
+import {
+  Title,
+  Body_addclass,
+  Group,
+  Main,
+  Box,
+  Inputbox,
+  Table,
+  Button,
+  Modal,
+  Form,
+  SubmitButton,
+  Selectionbox,
+  Outputfetch,
+  Pagination,
+  InsertFileButton,
+} from "../../exporter/component_exporter";
+import { editProduct } from "../../functions/MenuFunctions";
+import { DeleteLogo } from "../../Exporter/public_exporter";
+import useAddCategory from "../../hooks/add";
+import useAddProduct from "../../hooks/orders/addProduct";
+import useFetchOrder from "../../hooks/orders/fetchOrder";
+import { createWorker } from 'tesseract.js';
+export default function MenuManagementPage() {
+  Title("Menu List Management");
+  Body_addclass("Management-PAGE");
 
-export default function OrderSystem() {
-  const [menuItems, setMenuItems] = useState([]);
-  const [order, setOrder] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  // Custom hooks for managing product and category data
+  //1. useAddProduct for adding products
+  
+  const {
+    formData,
+    handleInputChange,
+    selects,
+    addSelectBox,
+    removeSelectBox,
+    handleIngredientChange,
+    handleAddProduct,
+  } = useAddProduct();
 
-  // Fetch menu items from the backend
-  useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        const response = await axiosClient.get("/menu");
-        setMenuItems(response.data);
-      } catch (error) {
-        console.error("Error fetching menu items:", error);
-      }
-    };
+  //2. useAddCategory for adding categories
+  const {
+    categoryName,
+    setCategoryName,
+    categoryDescription,
+    setCategoryDescription,
+    handleAddCategory,
+    error,
+    success,
+  } = useAddCategory();
 
-    fetchMenuItems();
-  }, []);
+  //3. useFetchOrder for fetching menu products, categories, and ingredients
+  const {
+    menuProduct,
+    categories,
+    ingredients,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = useFetchOrder();
 
-  // Add item to the order
-  const addItemToOrder = (item) => {
-    const existingItem = order.find((orderItem) => orderItem.id === item.id);
-    let updatedOrder;
-    if (existingItem) {
-      updatedOrder = order.map((orderItem) =>
-        orderItem.id === item.id
-          ? { ...orderItem, quantity: orderItem.quantity + 1 }
-          : orderItem
-      );
-    } else {
-      updatedOrder = [...order, { ...item, quantity: 1 }];
-    }
-    setOrder(updatedOrder);
-    calculateTotalPrice(updatedOrder);
+  // Function for handling page changes in pagination component
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
-  // Remove item from the order
-  const removeItemFromOrder = (itemId) => {
-    const updatedOrder = order
-      .map((orderItem) =>
-        orderItem.id === itemId && orderItem.quantity > 1
-          ? { ...orderItem, quantity: orderItem.quantity - 1 }
-          : orderItem
-      )
-      .filter((orderItem) => orderItem.quantity > 0);
-    setOrder(updatedOrder);
-    calculateTotalPrice(updatedOrder);
-  };
+  // table headers and rows for displaying products
+  const tbhead = ["ID", "Product Name", "Description", "Price", "Actions"];
+  const tbrows = menuProduct.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    description: product.description,
+    price: product.price,
+    edit: () => editProduct(product, setFormData),
+    delete: () => console.log(`Delete product with ID: ${product.id}`),
+  }));
 
-  // Calculate total price
-  const calculateTotalPrice = (updatedOrder) => {
-    const total = updatedOrder.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-    setTotalPrice(total);
-  };
-
-  // Submit the order
-  const submitOrder = async (e) => {
-    e.preventDefault(); // Prevent form submission from reloading the page
-    try {
-      const formattedOrder = {
-        status: 'pending',
-        tickets: order.map((item) => ({
-          product_id: item.id,
-          quantity: item.quantity,
-          unit_price: item.price,
-          total_price: item.price * item.quantity,
-        })),
-        total_price: totalPrice,
-      };
-
-      console.log("Submitting order:", formattedOrder);
-      await axiosClient.post("/orders", formattedOrder);
-      alert("Order submitted successfully!");
-      setOrder([]); // Clear the order
-      setTotalPrice(0); // Reset total price
-    } catch (error) {
-      console.error("Failed to submit order:", error);
-      alert("Failed to submit order. Please try again.");
-    }
-  };
 
   return (
-    <div className="order-system">
-      <h1>Menu</h1>
-      <div className="menu-items">
-        {menuItems.map((item) => (
-          <div key={item.id} className="menu-item">
-            <h3>{item.product_name}</h3>
-            <p>₱{item.price}</p>
-            <button onClick={() => addItemToOrder(item)}>Add to Order</button>
-          </div>
-        ))}
-      </div>
-      <form onSubmit={submitOrder}>
-        <h2>Order Summary</h2>
-        <div className="order-summary">
-          {order.length === 0 ? (
-            <p>No items in the order.</p>
-          ) : (
-            order.map((item) => (
-              <div key={item.id} className="order-item">
-                <h3>{item.product_name}</h3>
-                <p>
-                  ₱{item.price} x {item.quantity}
-                </p>
-                <button onClick={() => removeItemFromOrder(item.id)}>-</button>
-                <button onClick={() => addItemToOrder(item)}>+</button>
-              </div>
-            ))
-          )}
-        </div>
-        <h3>Total Price: ₱{totalPrice}</h3>
-        <button disabled={order.length === 0}>Submit Order</button>
-      </form>
-    </div>
+    <>
+      <Group>
+        <Main>
+          <Box Class="search">
+            <Inputbox Title="Search" Type="search" />
+            <Selectionbox Title="Filter" />
+          </Box>
+          <Box
+            Title="PRODUCT LIST"
+            UpperRight={
+              <Group>
+                <Button Title="ADD PRODUCT" OpenModal="AddProductModal" />
+                <Button Title="ADD CATEGORY " OpenModal="AddCategoryModal" />
+              </Group>
+            }
+            BoxCol
+          >
+            <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </Box>
+        </Main>
+      </Group>
+      <Modal Modal="AddProductModal">
+        <Form Title="ADD MENU" FormThreelayers OnSubmit={handleAddProduct}>
+          <Group Class="imageside">
+            <img
+              src={formData.image ? URL.createObjectURL(formData.image) : ""}
+              alt=""
+            />
+            <InsertFileButton
+              Title="ADD PICTURE"
+              BtnWhite
+              Accept={"image/*"}
+              Name="image"
+              OnChange={handleInputChange}
+            />
+          </Group>
+          <Group Class="inputside" Wrap>
+            <Inputbox
+              Title="Product Name"
+              Type="text"
+              InCol
+              InWhite
+              Name="product_name"
+              Value={formData.product_name}
+              onChange={handleInputChange}
+            />
+            <Inputbox
+              Title="Price"
+              Type="number"
+              InCol
+              InWhite
+              Name="price"
+              Value={formData.price}
+              onChange={handleInputChange}
+            />
+            <Selectionbox
+              Title="Category"
+              Name="category_id"
+              Value={formData.category_id}
+              Options={categories.map((cat) => ({
+                label: cat.name,
+                value: cat.id,
+              }))}
+              SltCol
+              SltWhite
+              OnChange={handleInputChange}
+            />
+            <Inputbox
+              Title="Description"
+              Type="text"
+              Class="textarea"
+              InCol
+              InWhite
+              Name="description"
+              Value={formData.description}
+              onChange={handleInputChange}
+            />
+            <Group Class="ingredients" Col>
+              <h4>Ingredients:</h4>
+              {selects.map(({ sku, quantity }, idx) => (
+                <Group key={idx}>
+                  <Selectionbox
+                    NoTitle
+                    Name="sku"
+                    Value={sku}
+                    Options={ingredients.map((comp) => ({
+                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
+                      value: comp.SKU_NUMBER,
+                    }))}
+                    SltCol
+                    SltWhite
+                    OnChange={(e) =>
+                      handleIngredientChange(idx, "sku", e.target.value)
+                    }
+                  />
+                  <Inputbox
+                    NoTitle
+                    Type="number"
+                    InCol
+                    InWhite
+                    Name="quantity"
+                    Value={quantity}
+                    onChange={(e) =>
+                      handleIngredientChange(idx, "quantity", e.target.value)
+                    }
+                  />
+                  <Button
+                    Icon={DeleteLogo}
+                    Onclick={() => removeSelectBox(idx)}
+                    BtnWhite
+                  />
+                </Group>
+              ))}
+            </Group>
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <Button Title="ADD INGREDIENTS" Onclick={addSelectBox} BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && <p style={{ color: "green" }}>{success}</p>}
+        </Form>
+      </Modal>
+      <Modal Modal="EditProductModal">
+        <Form Title="MODIFY MENU" FormThreelayers>
+          <Group Class="inputside" Wrap>
+            <Inputbox Title="No." Type="number" InCol InWhite />
+            <Inputbox Title="Name" Type="text" InCol InWhite />
+            <Inputbox Title="Category" Type="text" InCol InWhite />
+            <Inputbox Title="Amount" Type="number" InCol InWhite />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
+      <Modal Modal="DeleteProductModal">
+        <Form Title="DELETE EMPLOYEE" FormThreelayers>
+          <Group Class="outputfetch" Wrap>
+            <Outputfetch Title="Balance" Value="36548" OutCol OutWhite />
+            <Outputfetch
+              Title="First Name"
+              Value="Micheal Lance Kester"
+              OutCol
+              OutWhite
+            />
+            <Outputfetch Title="Last Name" Value="Li" OutCol OutWhite />
+            <Outputfetch
+              Title="Email"
+              Value="kesterli1998@gmail.com"
+              OutCol
+              OutWhite
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="DELETE" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
+      <Modal Modal="AddCategoryModal">
+        <Form Title="ADD CATEGORY" FormTwolayers OnSubmit={handleAddCategory}>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && <p style={{ color: "green" }}>{success}</p>}
+          <Group Class="inputside" Wrap>
+            <Inputbox
+              Title="Category Name"
+              Type="text"
+              InCol
+              InWhite
+              Value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+            />
+            <Inputbox
+              Title="Description"
+              Type="text"
+              InCol
+              InWhite
+              Value={categoryDescription}
+              onChange={(e) => setCategoryDescription(e.target.value)}
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
+<InsertFileButton
+  Title="ADD OCR PICTURE"
+  BtnWhite
+  Accept={"image/*"}
+  Name="image"
+  OnChange={async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const worker = await createWorker('eng');
+      const rectangle = { left: 0, top: 0, width: 1500, height: 1500 };
+      const { data: { text } } = await worker.recognize(file, { rectangle });
+      console.log(text);
+      await worker.terminate();
+    }
+  }}
+/>
+    </>
   );
 }

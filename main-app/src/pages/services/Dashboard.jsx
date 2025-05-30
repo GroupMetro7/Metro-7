@@ -7,7 +7,7 @@ export default function StaffDashboard() {
     Title("Metro 7");
     Body_addclass("Dashboard-Service-PAGE")
     const screenwidth = ScreenWidth()
-
+// this file is subject for optimization
     const [menuItems, setMenuItems] = useState([]);
     const [order, setOrder] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -16,18 +16,6 @@ export default function StaffDashboard() {
     const [diningOpt, setDiningOpt] = useState();
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-
-    // useEffect(() => {
-    //   const fetchMenuItems = async () => {
-    //     try {
-    //       const response = await axiosClient.get("/menu");
-    //       setMenuItems(response.data);
-    //     } catch (error) {
-    //       console.error("Error fetching menu items:", error);
-    //     }
-    //   };
-    //   fetchMenuItems();
-    // }, []);
 
     useEffect(() => {
         axiosClient.get("/categories").then(res => {
@@ -49,7 +37,6 @@ export default function StaffDashboard() {
         id: product.id,
         product_name: product.product_name,
         price: product.price,
-        image: product.image,
     }));
 
     const checkedorders = order.map((product) => ({

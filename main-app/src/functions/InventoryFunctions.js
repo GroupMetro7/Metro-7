@@ -22,7 +22,7 @@ export const deleteProduct = async (id, setError, setSuccess, products, setProdu
 
     try {
         await axiosClient.delete(`/products/${id}`);
-        setProducts(products.filter((product) => product.id !== id));
+        // setProducts(products.filter((product) => product.id !== id));
         setSuccess("Item deleted successfully");
     } catch (error) {
         console.error("Failed to delete product:", error);

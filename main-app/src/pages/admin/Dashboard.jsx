@@ -1,13 +1,15 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
-import useMonthlySales from '../../hooks/fetch'
+import useFetch from '../../hooks/fetch'
 
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
+    // optimized
+    // needs some updates
 
-    const { monthlyRevenue, mostSoldProduct } = useMonthlySales();
+    const { monthlyRevenue, mostSoldProduct, orders } = useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
@@ -16,14 +18,14 @@ export default function DashboardPage() {
     const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
 
-    const tbhead = ['ORDER NO.', 'ORDER DATE', 'CASHIER NAME', 'OPTIONS', 'AMOUNT']
-    const tbrows = [
-        [<>25569</>, <>2025-02-24 <br /> 02:27:25</>, <>Micheal Lance Kester Li</>, <>TAKE-OUT</>, <>₱559.00</>],
-        [<>12403</>, <>2025-02-22 <br /> 02:27:25</>, <>Eryck Del Fonso</>, <>DINE-IN</>, <>₱358.00</>],
-        [<>26891</>, <>2025-02-22 <br /> 02:27:25</>, <>Michael Angelo Lim</>, <>TAKE-OUT</>, <>₱358.00</>],
-        [<>12403</>, <>2025-02-22 <br /> 02:27:25</>, <>Eryck Del Fonso</>, <>TAKE-OUT</>, <>₱358.00</>],
-        [<>12403</>, <>2025-01-08 <br /> 03:33:03</>, <>Eryck Del Fonso</>, <>TAKE-OUT</>, <>₱1,258.00</>]
-    ]
+    const tbhead = ['ORDER NO.',  'CUSTOMER', 'AMOUNT', 'OPTION', 'STATUS']
+    const tbrows = orders.map((order) => ({
+      order_number: order.order_number,
+      order_date: order.name,
+      amount: '₱' + order.amount,
+      option: order.option,
+      status: order.status,
+    }))
 
     return(
         <>

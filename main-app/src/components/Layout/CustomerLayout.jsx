@@ -40,7 +40,7 @@ export default function CustomerLayout() {
     };
 
     if (!token) {
-        return <Navigate to={"/welcome"} />;
+        return <Navigate to={"/"} />;
     } else if (user.role === 'employee') {
         return <Navigate to={"/service"} />;
     } else if (user.role === 'admin') {

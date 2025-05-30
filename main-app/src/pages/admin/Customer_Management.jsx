@@ -4,6 +4,7 @@ import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal,
 import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
 
 export default function CustomerManagementPage() {
+  // this file is subject for optimization
   Title("Employee Management");
   Body_addclass("Management-PAGE");
   // variables for Employee table

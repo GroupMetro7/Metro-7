@@ -4,6 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(),
+
     VitePWA({
       devOptions: {
         enabled: true,
@@ -16,22 +17,11 @@ export default defineConfig({
         swDest: "dist/sw.js",
       },
       manifest: {
-        name: "Metro-7 ",
+        name: "Metro-7 App",
         short_name: "Metro-7",
-        description: "Metro-7 PWA",
         icons: [
           {
-            src: "/brand_logo/M7 48x48.png",
-            sizes: "64x64",
-            type: "image/png",
-          },
-          {
             src: "/brand_logo/M7 64x64.png",
-            sizes: "64x64",
-            type: "image/png",
-          },
-          {
-            src: "/brand_logo/M7 128x128.png",
             sizes: "64x64",
             type: "image/png",
           },
@@ -59,4 +49,7 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+  include: ['@popperjs/core', 'bootstrap']
+}
 })

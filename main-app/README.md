@@ -23,3 +23,6 @@ Added 64x64, 192x192, 180x180,192x192 icons inside brand_logo as per PWA require
 
  Upon deployment change based URL in sw.js to match domain.
 -->
+
+## Install Tesseract.js NPM Package
+<!-- npm install tesseract.js -->

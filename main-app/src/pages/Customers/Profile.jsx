@@ -5,6 +5,8 @@ import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
 export default function ProfilePage() {
+
+  // this file is subject for optimization
     const { user, setUser } = useStateContext();
     const [formData, setFormData] = useState({
         firstname: '',
@@ -62,10 +64,10 @@ export default function ProfilePage() {
         <>
             <Main>
                 <Section Title="My Profile" Class="myprofile">
-                    { screenwidth > 766 ? 
+                    { screenwidth > 766 ?
                         <Box Class='profile'>
                             <img />
-                            <article> 
+                            <article>
                                 <h2>{user?.firstname} {user?.lastname}</h2>
                                 <h4>{user?.email}</h4>
                                 <h4>{user?.contact}</h4>
@@ -77,7 +79,7 @@ export default function ProfilePage() {
                         <Box Class='profile' BoxWrap>
                             <img />
                             <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
-                            <article> 
+                            <article>
                                 <h2>{user?.firstname} {user?.lastname}</h2>
                                 <h4>{user?.email}</h4>
                                 <h4>{user?.contact}</h4>
@@ -131,7 +133,7 @@ export default function ProfilePage() {
                             onChange={handleInputChange}
                         />
                     </Group>
-                    { screenwidth > 766 ? 
+                    { screenwidth > 766 ?
                         <Group Class="buttonside">
                             <Button Title="CANCEL" CloseModal BtnWhite />
                             <SubmitButton Title="SUBMIT" BtnWhite />

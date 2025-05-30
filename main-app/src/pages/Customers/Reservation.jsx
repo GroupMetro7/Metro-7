@@ -6,7 +6,7 @@ export default function ReservationPage() {
     Title('Metro 7 | Reservation')
     Body_addclass('Reservation-PAGE')
     const screenwidth = ScreenWidth()
-
+//this file needs to be updated
     const user = "Micheal Lance Kester Li"
 
     return(
