@@ -2,10 +2,6 @@ import axios from "axios";
 
 const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
-    // baseURL: 'http://192.168.0.131:8000/api', // HOME
-    // baseURL: 'http://172.16.9.82:8000/api', // LIBRARY
-    // baseURL: 'http://172.16.9.120:8000/api', // LIBRARY
-    // baseURL: 'http://10.10.11.113:8000/api', // FLEX-CENTER
 });
 
 axiosClient.interceptors.request.use((config) => {

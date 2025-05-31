@@ -1,6 +1,6 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Footer, Main, Section, Box, Group, Button, GMap } from '../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Footer, Main, Section, Group, Button, GMap } from '../Exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
 import { useStateContext } from '../Contexts/ContextProvider'
 
@@ -47,41 +47,38 @@ export default function LandingPage() {
                 </Group>
             </Section>
             <Section Class='location' ID="loc">
-                { screenwidth > 766 ? 
-                <>
+                {screenwidth > 766 ?
+                    <>
                         <h2>OUR LOCATION</h2>
                         <Group>
                             <article>
                                 <h3>
-                                    Metrowalk Commercial Complex Meralco Ave., Pasig, Metro
-                                    Manila
+                                    Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila
                                 </h3>
                                 <h3>+63 9952332528</h3>
-                                <h3>Businessemail@email.com</h3>
+                                <h3>businessemail@email.com</h3>
                             </article>
                             <Group Class='map'>
                                 <GMap />
                             </Group>
                         </Group>
-                        </>
+                    </>
                     :
                     <>
-                    <h3>OUR LOCATION</h3>
-                    <Group Col>
-                        
-                        <Group Class='map'>
-                            <GMap />
+                        <h3>OUR LOCATION</h3>
+                        <Group Col>
+                            <Group Class='map'>
+                                <GMap />
+                            </Group>
+                            <article>
+                                <h3>
+                                    Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila
+                                </h3>
+                                <h3>+63 9952332528</h3>
+                                <h3>businessemail@email.com</h3>
+                            </article>
                         </Group>
-                        <article>
-                            <h3>
-                                Metrowalk Commercial Complex Meralco Ave., Pasig, Metro
-                                Manila
-                            </h3>
-                            <h3>+63 9952332528</h3>
-                            <h3>Businessemail@email.com</h3>
-                        </article>
-                        </Group>
-                        </>
+                    </>
                 }
             </Section>
         </Main>

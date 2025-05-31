@@ -1,29 +1,29 @@
 @use '../constant.sass' as v
 
-aside, aside * 
+aside, aside div, aside nav, aside a, aside img 
     display: flex !important
 
 @media only screen and (min-width: 1267px) 
 
     aside.sidebar 
         background-color: v.$header-footer !important
-        width: v.$sidebar-size !important
+        width: 75px !important
         height: 100vh !important
         position: fixed !important
         top: 0 !important
         transition: .33s !important
-        overflow: hidden
+        overflow: hidden !important
         z-index: 100 !important
 
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 37.5px !important
+            gap: 33px !important
             padding: 27.5px 13px !important
 
             > img 
                 height: 30px !important
-                justify-self: flex-start !important
+                align-self: flex-start !important
 
             > nav 
                 align-self: center !important

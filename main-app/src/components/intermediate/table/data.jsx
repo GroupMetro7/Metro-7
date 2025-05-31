@@ -22,13 +22,13 @@ export default function TBData({ Title, DataRows, ViewBtn, EditBtn, DeleteBtn })
                     {/* Render action buttons if enabled */}
                     { ( ViewBtn || EditBtn || DeleteBtn ) && 
                         <div className="tc tcbtn">
-                            {ViewBtn || DataRow.view && (
+                            {ViewBtn && DataRow.view && (
                                 <Button Icon={ViewLogo} OpenModal={ Title ? `ViewModal-${ Title }` : 'ViewModal' } Onclick={DataRow.view} />
                             )}
-                            { EditBtn || DataRow.edit && (
+                            { EditBtn && DataRow.edit && (
                                 <Button Icon={EditLogo} OpenModal={ Title ? `EditModal-${ Title }` : 'EditModal' } Onclick={DataRow.edit} />
                             )}
-                            { DeleteBtn || DataRow.delete && (
+                            { DeleteBtn && DataRow.delete && (
                                 <Button Icon={DeleteLogo} OpenModal={ Title ? `DeleteModal-${Title}` : 'DeleteModal' } Onclick={DataRow.delete} />
                             )}
                         </div>

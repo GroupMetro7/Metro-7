@@ -4,7 +4,7 @@ import '../../Assets/css/components/main.sass'
 export default function Main({ children, Class, Row }) {
     return(
         <main className={`${ Class }`}>
-            <div className={ Row ? 'row' : undefined }>
+            <div className={ Row && 'row' }>
                 { children }
             </div>
         </main>

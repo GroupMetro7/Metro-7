@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import '../assets/css/pages/Login.sass'
-import { useStateContext } from '../Contexts/ContextProvider'
+import { useStateContext } from '../Contexts/ContextProvider';
 import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Footer } from '../Exporter/component_exporter'
-import { useNavigate } from 'react-router-dom'
-import axiosClient from '../axiosClient'
+import { useNavigate } from 'react-router-dom';
+import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
     const { token, setUser, setToken } = useStateContext();
@@ -56,8 +56,8 @@ export default function LoginPage() {
     const screenwidth = ScreenWidth()
 
     const Inputboxes = [
-        { Title: 'Email', Type: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
-        { Title: 'Password', Type: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
+        { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
+        { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
     ]
 
     return(
@@ -68,7 +68,7 @@ export default function LoginPage() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
                     <Group Class='inputside' Col>
                         { Inputboxes.map((input, index) => (
-                            <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                            <Inputbox key={index} Title={input.Title} ID={input.ID} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
                         )) }
                     </Group>
                     <Group Class='buttonside' Col>
@@ -79,6 +79,8 @@ export default function LoginPage() {
             </Section>
         </Main>
         <Footer />
+
         </>
+
     )
 }

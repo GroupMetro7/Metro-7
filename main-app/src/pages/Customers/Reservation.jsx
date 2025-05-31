@@ -1,16 +1,30 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Reservation.sass'
-import { ScreenWidth, Title, Body_addclass, Header, Footer, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Footer, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/component_exporter'
 
 export default function ReservationPage() {
     Title('Metro 7 | Reservation')
     Body_addclass('Reservation-PAGE')
     const screenwidth = ScreenWidth()
+//this file needs to be updated
+
+    const restypeoption = [
+        { Birthday: 'Birthday' },
+        { Anniversary: 'Anniversary' },
+        { Wedding: 'Wedding' },
+        { Corporate: 'Corporate' },
+        { Meeting: 'Meeting' },
+        { Graduation: 'Graduation' },
+        { Baptismal: 'Baptismal' },
+        { Reunion: 'Reunion' },
+        { Other: 'Other' }
+    ]
 
     const Inputboxes = [
-        { Title: 'Party Size', Type: 'number', Class: 'partysize', InCol: true, InWhite: true },
-        { Title: 'Date', Type: 'date', InCol: true, InWhite: true },
-        { Title: 'Time', Type: 'time', InCol: true, InWhite: true }
+        { Selectionbox: true, Title: 'Reservation Type', Name: 'restype', Value: 'restype', Options: restypeoption, SltCol: true, SltWhite: true },
+        { Inputbox: true, Title: 'Party Size', Type: 'number', InCol: true, InWhite: true },
+        { Inputbox: true, Title: 'Date', Type: 'date', InCol: true, InWhite: true },
+        { Inputbox: true, Title: 'Time', Type: 'time', InCol: true, InWhite: true }
     ]
 
     return(
@@ -26,7 +40,11 @@ export default function ReservationPage() {
                         <hr />
                         <Group Class='inputside' { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
                             { Inputboxes.map((input, index) => (
-                                <Inputbox key={index} Title={input.Title} Type={input.Type} Class={input.Class} InCol={input.InCol} InWhite={input.InWhite} />
+                                input.Inputbox &&  
+                                <Inputbox key={index} Title={input.Title} Type={input.Type} Class={input.Class} MinLength={input.MinLength} InCol={input.InCol} InWhite={input.InWhite} /> 
+                                ||
+                                input.Selectionbox &&
+                                <Selectionbox key={index} Title={input.Title} Name={input.Name} Value={input.Value} Options={input.Options} SltCol={input.SltCol} SltWhite={input.SltWhite} />
                             ))}
                         </Group>
                     </Group>

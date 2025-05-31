@@ -4,6 +4,7 @@ import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal,
 import { modifyEmployee, editEmployee, fetchAllEmployees } from "../../Functions/EmployeeFunctions";
 
 export default function EmployeeManagementPage() {
+  // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
     // variables for Employee table
@@ -72,8 +73,8 @@ export default function EmployeeManagementPage() {
                         <Inputbox Title="Search" Type="search" />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
-                    <Box Title="EMPLOYEES" UpperRight={<Button Title="+" OpenModal="AddModal" />} BoxCol >
-                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
+                    <Box Title="EMPLOYEES" UpperRight={ <Button Title="+" OpenModal="AddModal" /> } BoxCol >
+                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
@@ -138,7 +139,7 @@ export default function EmployeeManagementPage() {
                     <Group Class="inputside" Wrap>
                         <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
                         <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
-                        <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} InCol InWhite OnChange={handleInputChange} />
+                        <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} OnChange={handleInputChange} />
                         <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
                         <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
                     </Group>

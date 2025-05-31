@@ -11,9 +11,8 @@ export default function Box({ children, Class, Title, UpperLeft, UpperRight, Box
                     { UpperRight ? <div className="right">{ UpperRight }</div> : <div className="right"></div> }
                 </div>
             ) : (
-                Title ? <h2>{ Title }</h2> : undefined
+                Title && <h2>{ Title }</h2>
             )}
-
             { children }
         </div>
     )

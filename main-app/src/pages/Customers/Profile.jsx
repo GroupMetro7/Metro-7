@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/pages/customers/Profile.sass';
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
 export default function ProfilePage() {
+
+  // this file is subject for optimization
     const { user, setUser } = useStateContext();
     const [formData, setFormData] = useState({
         firstname: '',
@@ -69,10 +71,10 @@ export default function ProfilePage() {
         <>
             <Main>
                 <Section Title="My Profile" Class="myprofile">
-                    { screenwidth > 766 ? 
+                    { screenwidth > 766 ?
                         <Box Class='profile'>
                             <img />
-                            <article> 
+                            <article>
                                 <h2>{user?.firstname} {user?.lastname}</h2>
                                 <h4>{user?.email}</h4>
                                 <h4>{user?.contact}</h4>
@@ -84,11 +86,11 @@ export default function ProfilePage() {
                         <Box Class='profile' BoxWrap>
                             <img />
                             <Button Title='EDIT PROFILE' OpenModal='EditProfile' />
-                            <article> 
-                                <h2>{ user?.firstname } { user?.lastname }</h2>
-                                <h4>{ user?.email }</h4>
-                                <h4>{ user?.contact }</h4>
-                                <h4>{ user?.loyalty }</h4>
+                            <article>
+                                <h2>{user?.firstname} {user?.lastname}</h2>
+                                <h4>{user?.email}</h4>
+                                <h4>{user?.contact}</h4>
+                                <h4>{user?.loyalty}</h4>
                             </article>
                         </Box>
                     }
@@ -100,16 +102,12 @@ export default function ProfilePage() {
             <Footer />
             <Modal Modal="EditProfile">
                 <Form Title="Edit Profile" FormTwolayers OnSubmit={handleSubmit}>
-                    <Group Class="imageside">
-                        <img src="" />
-                        <InsertFileButton Title="EDIT PICTURE" BtnWhite />
-                    </Group>
                     <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
                         { Inputboxes.map((input, index) => (
                             <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
                         )) }
                     </Group>
-                    { screenwidth > 766 ? 
+                    { screenwidth > 766 ?
                         <Group Class="buttonside">
                             <Button Title="CANCEL" CloseModal BtnWhite />
                             <SubmitButton Title="SUBMIT" BtnWhite />

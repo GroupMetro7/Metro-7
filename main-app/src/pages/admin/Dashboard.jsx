@@ -1,18 +1,20 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
-import { Title, Body_addclass, SideBar, Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
-import useFetch from '../../hooks/fetch'
+import { Title, Body_addclass,Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
+import TopCategory from '../../hooks/graphs/pie'
+import SalesReport from '../../hooks/graphs/bar'
+import useFetchDashboardData from '../../hooks/admin/fetchData'
 
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
-
-    const { monthlyRevenue, mostSoldProduct, orders } = useFetch();
-    // Get the latest month's revenue (assuming the first item is the latest)
+    // optimized
+    // needs some updates
+    const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = useFetchDashboardData();
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
-
-    // Most sold product info
+    const showExpenses = expenses || 0;
+    const showStockValue = totalStockValue || 0
     const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
 
@@ -25,6 +27,7 @@ export default function DashboardPage() {
       status: order.status,
     }))
 
+
     return(
         <>
         <Group>
@@ -32,10 +35,10 @@ export default function DashboardPage() {
                 <Section Title="Sales Revenue" Class="salesrevenue">
                     <Group Class="upper">
                         <Group Class="kpis">
-                            <KPI Title="TOTAL SALES" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
-                            <KPI Title="THIS MONTH" Integer="23.8%" />
-                            <KPI Title="TODAY" Integer="₱34,106.00" Class="red2" />
-                            <KPI Title="RATE" Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+                          <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} />
+                          <KPI Title="STOCK EXPENSES" Integer={`₱${Number(showExpenses).toLocaleString()}`}/>
+                          <KPI Title="STOCK VALUE" Integer={`₱${Number(showStockValue).toLocaleString()}`} />
+                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} />
                         </Group>
                         <Box Class="datetime" >
                             <h3>
@@ -45,9 +48,11 @@ export default function DashboardPage() {
                             </h3>
                         </Box>
                     </Group>
-                    <Group Class="charts" Wrap>
-                        <Box Title="Sales Status" Class="salesstatus" BoxCol><img src="" /></Box>
-                        <Box Title="Top Category" Class="topcategory" BoxCol><img src="" /></Box>
+                    <Group Class="charts">
+                        <Box Title="Sales Status" Class="salesstatus" BoxCol><SalesReport/></Box>
+                        <Box Title="Top Category" Class="topcategory" BoxCol><TopCategory/></Box>
+                    </Group>
+                    <Group Class="charts">
                         <Box Title="Demand Forecast" Class="demandforecast" BoxCol><img src="" /></Box>
                     </Group>
                 </Section>

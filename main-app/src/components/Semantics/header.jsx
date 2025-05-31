@@ -23,7 +23,7 @@ export default function Header({ AuthenticatedMode, Logout }) {
 
     return(
         <header>
-            <div className='dropdown'>
+            <div>
                 <img src={ TextLogo } />
                 { screenwidth > 766 ? 
                     <nav>

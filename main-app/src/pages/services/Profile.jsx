@@ -1,14 +1,20 @@
 import React from 'react'
 import '../../assets/css/pages/services/Profile.sass'
-import { ScreenWidth, Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 
 export default function StaffProfile() {
     Title('Profile')
     Body_addclass('Profile-Services-PAGE')
     const screenwidth = ScreenWidth()
-
-    const {user} = useStateContext();
+    const {user} = useStateContext()
+    
+    const Inputboxes = [
+        { Title: 'First Name', Type: 'text', Name: 'firstname', Value: null, InCol: true, InWhite: true, onChange: null },
+        { Title: 'Last Name', Type: 'text', Name: 'lastname', Value: null, InCol: true, InWhite: true, onChange: null },
+        { Title: 'Email', Type: 'email', Name: 'email', Value: null, InCol: true, InWhite: true, onChange: null },
+        { Title: 'Contact Number', Type: 'number', Name: 'contact', Value: null, InCol: true, InWhite: true, onChange: null }
+    ]
 
     return(
         <>
@@ -66,10 +72,9 @@ export default function StaffProfile() {
         <Modal Modal="EditProfile">
             <Form Title="Edit Profile" FormTwolayers>
                 <Group Class='inputside' Wrap>
-                    <Inputbox Title='First Name' Type='text' Value="" InCol InWhite />
-                    <Inputbox Title='Last Name' Type='text' Value="" InCol InWhite />
-                    <Inputbox Title='Email' Type='email' Value="" InCol InWhite />
-                    <Inputbox Title='Contact Number' Type='number' Value="" InCol InWhite />
+                    { Inputboxes.map((input, index) => (
+                        <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                    )) }
                 </Group>
                 <Group Class='buttonside'>
                     <Button Title="CANCEL" CloseModal BtnWhite />
