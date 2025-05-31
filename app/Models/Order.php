@@ -12,7 +12,9 @@ class Order extends Model
     'amount',
     'order_number',
     'option',
-    'discount'
+    'discount',
+    'downpayment',
+    'reference_Number',
   ];
 
   protected $casts = [

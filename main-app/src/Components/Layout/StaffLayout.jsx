@@ -22,13 +22,13 @@ export default function StaffLayout() {
             });
     }, []);
 
-    if (loading) {
-        return <div class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>; // Show a loading indicator while fetching user data
-    }
+    // if (loading) {
+    //     return <div class="text-center">
+    //         <div class="spinner-border" role="status">
+    //             <span class="visually-hidden">Loading...</span>
+    //         </div>
+    //     </div>; // Show a loading indicator while fetching user data
+    // }
 
 
 

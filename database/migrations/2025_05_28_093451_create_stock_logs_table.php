@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('stock_logs', function (Blueprint $table) {
             $table->id();
             $table->string('sku_number');
-            $table->foreign('sku_number')->references('SKU_NUMBER')->on('stock_management')->onDelete('cascade');
             $table->enum('type', ['in', 'out']);
-            $table->integer('quantity');
+            $table->float('quantity');
             $table->float('value')->default(0);
             $table->timestamps();
         });

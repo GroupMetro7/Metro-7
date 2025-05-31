@@ -19,6 +19,8 @@ return new class extends Migration
         $table->string('option')->nullable();
         $table->decimal('discount', 10, 2)->nullable();
         $table->string('status')->default('pending');
+        $table->string('reference_Number')->nullable();
+        $table->float('downpayment')->nullable();
         $table->timestamps();
     });
     }

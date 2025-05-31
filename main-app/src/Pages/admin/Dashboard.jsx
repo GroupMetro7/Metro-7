@@ -1,9 +1,6 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
 import { Title, Body_addclass,Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
-import useFetch from '../../hooks/fetch'
-import { Pie } from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import TopCategory from '../../hooks/graphs/pie'
 import SalesReport from '../../hooks/graphs/bar'
 import useFetchDashboardData from '../../hooks/admin/fetchData'
@@ -14,10 +11,8 @@ export default function DashboardPage() {
     // optimized
     // needs some updates
     const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = useFetchDashboardData();
-    // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
-
     const showExpenses = expenses || 0;
     const showStockValue = totalStockValue || 0
     const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';

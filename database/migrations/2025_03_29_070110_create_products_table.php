@@ -11,16 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-          $table->id();
-          $table->string('name')->unique();
-          $table->timestamps();
-        });
-        \DB::table('categories')->insert([
-            'name' => 'All',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+
 
         Schema::create('products', function (Blueprint $table) {
           $table->id();
@@ -32,6 +23,8 @@ return new class extends Migration
           $table->integer('stock')->default(0);
           $table->unsignedBigInteger('category_id')->nullable();
           $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+          $table->boolean('is_customizable')->default(false);
+          $table->boolean('is_available')->default(true);
           $table->timestamps();
         });
     }

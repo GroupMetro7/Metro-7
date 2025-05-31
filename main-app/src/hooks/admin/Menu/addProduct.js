@@ -1,5 +1,7 @@
 import { useState } from "react";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../../axiosClient";
+
+
 
 export default function useAddProduct() {
 
@@ -12,8 +14,8 @@ export default function useAddProduct() {
     category_id: '',
   });
   const [selects, setSelects] = useState([{ sku: "", quantity: "" }]);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [AddProductError, setError] = useState(null);
+  const [AddProductSuccess, setSuccess] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -100,8 +102,8 @@ export default function useAddProduct() {
     removeSelectBox,
     handleIngredientChange,
     handleAddProduct,
-    error,
-    success,
+    AddProductError,
+    AddProductSuccess,
     editProduct
   };
 }

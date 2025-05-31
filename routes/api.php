@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\serviceControls\orderListController;
 use App\Http\Controllers\serviceControls\serviceController;
 use App\Models\StockManagement;
 use Illuminate\Http\Request;
@@ -62,3 +63,4 @@ Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
 
 // service controls
 Route::get('/menuData', [serviceController::class, 'index']);
+Route::put('/orderList/{id}', [orderListController::class, 'update']);

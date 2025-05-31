@@ -21,13 +21,13 @@ export default function AdminLayout() {
             });
     }, []);
 
-    if (loading) {
-      return <div class="text-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>; // Show a loading indicator while fetching user data
-  }
+  //   if (loading) {
+  //     return <div class="text-center">
+  //     <div class="spinner-border" role="status">
+  //       <span class="visually-hidden">Loading...</span>
+  //     </div>
+  //   </div>; // Show a loading indicator while fetching user data
+  // }
 
       const onLogout = async (ev) => {
         ev.preventDefault();

@@ -13,6 +13,8 @@ export default function useFetchDashboardData() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetching admin dashboard data (KPI, Monthly Revenue, Expenses, Stock Value, Most Sold Product)
+
   useEffect(() => {
     axiosClient
       .get("/dashboard-data")
@@ -42,7 +44,9 @@ export default function useFetchDashboardData() {
     fetchOrder(currentPage);
   }, [currentPage]);
 
-  return {
+  //
+
+    return {
     monthlyRevenue,
     expenses,
     monthlyExpenses,
@@ -55,3 +59,6 @@ export default function useFetchDashboardData() {
     currentPage
   };
 }
+
+
+

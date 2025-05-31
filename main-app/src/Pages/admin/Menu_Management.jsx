@@ -18,22 +18,19 @@ import {
 } from "../../exporter/component_exporter";
 import { DeleteLogo } from "../../Exporter/public_exporter";
 import useAddCategory from "../../hooks/add";
-import useAddProduct from "../../hooks/orders/addProduct";
-import useFetchOrder from "../../hooks/orders/fetchOrder";
-import useDeleteProduct from "../../hooks/orders/delete";
+import useAddProduct from "../../hooks/admin/Menu/addProduct";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
+import useDeleteProduct from "../../hooks/admin/Menu/delete";
 import useSearchItem from "../../hooks/searchItem";
-import { useEffect, useState } from "react";
 
 export default function MenuManagementPage() {
   Title("Menu List Management");
   Body_addclass("Management-PAGE");
 
   //optimized
-  //needs some updates
-
+  //for update useSearchItem to search products
   // Custom hooks for managing product and category data
   //1. useAddProduct for adding products
-
   const {
     formData,
     handleInputChange,
@@ -43,6 +40,8 @@ export default function MenuManagementPage() {
     handleIngredientChange,
     handleAddProduct,
     editProduct,
+    AddProductError,
+    AddProductSuccess,
   } = useAddProduct();
 
   //2. useAddCategory for adding categories
@@ -52,8 +51,7 @@ export default function MenuManagementPage() {
     categoryDescription,
     setCategoryDescription,
     handleAddCategory,
-    error,
-    success,
+
   } = useAddCategory();
 
   //3. useFetchOrder for fetching menu products, categories, and ingredients
@@ -69,13 +67,14 @@ export default function MenuManagementPage() {
   const { deleteProduct } = useDeleteProduct();
 
 const { searchTerm, setSearchTerm, filteredItems } = useSearchItem("/products/search");
+
   // Function for handling page changes in pagination component
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   // table headers and rows for displaying products
-  const tbhead = ["ID", "Product Name", "Description", "Price", "Actions"];
+  const tbhead = ["ID", "Product Name", "Description", "Price"];
 const tbrows = (filteredItems && filteredItems.length > 0 ? filteredItems : menuProduct).map((product) => ({
     id: product.id,
     product_name: product.product_name,
@@ -120,6 +119,8 @@ const tbrows = (filteredItems && filteredItems.length > 0 ? filteredItems : menu
       </Group>
       <Modal Modal="AddProductModal">
         <Form Title="ADD MENU" FormThreelayers OnSubmit={handleAddProduct}>
+          {AddProductError && <p style={{ color: "red" }}>{AddProductError}</p>}
+          {AddProductSuccess && <p style={{ color: "green" }}>{AddProductSuccess}</p>}
           <Group Class="imageside">
             <img
               src={formData.image ? URL.createObjectURL(formData.image) : ""}
@@ -217,8 +218,6 @@ const tbrows = (filteredItems && filteredItems.length > 0 ? filteredItems : menu
             <Button Title="ADD INGREDIENTS" Onclick={addSelectBox} BtnWhite />
             <SubmitButton Title="SUBMIT" BtnWhite />
           </Group>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
         </Form>
       </Modal>
       <Modal Modal="EditModal">
@@ -284,8 +283,7 @@ const tbrows = (filteredItems && filteredItems.length > 0 ? filteredItems : menu
       </Modal>
       <Modal Modal="AddCategoryModal">
         <Form Title="ADD CATEGORY" FormTwolayers OnSubmit={handleAddCategory}>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
+
           <Group Class="inputside" Wrap>
             <Inputbox
               Title="Category Name"

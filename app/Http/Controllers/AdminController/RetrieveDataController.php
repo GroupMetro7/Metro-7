@@ -39,6 +39,7 @@ class RetrieveDataController extends Controller
 
     $orders = Order::with('tickets')->paginate(10);
 
+
     return response()->json([
         'orders' => $orders,
         'total_expense' => $totalExpense ?? 0,

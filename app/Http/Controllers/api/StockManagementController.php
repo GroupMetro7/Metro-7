@@ -36,11 +36,13 @@ class StockManagementController extends Controller
       $product = new StockManagement();
       $product->SKU_NUMBER = $this->generateSKUNumber();
       $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
-      $product->CATEGORY = $validated['CATEGORY'];
+      $product->category_id = $validated['category_id'];
       $product->STOCK = $validated['STOCK'];
       $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
+      $product->SOLD_BY = $validated['SOLD_BY'];
       $product->STOCK_VALUE = $validated['STOCK'] * $validated['COST_PER_UNIT'];
       $product->save();
+
 
       stockLog::create([
                 'sku_number' => $product->SKU_NUMBER,
@@ -64,9 +66,10 @@ class StockManagementController extends Controller
         $validated = $request->validate([
             'SKU_NUMBER' => 'sometimes|required|string|max:255',
             'ITEM_NAME' => 'sometimes|required|string|max:255',
-            'CATEGORY' => 'sometimes|required|string|max:255',
-            'STOCK' => 'sometimes|required|integer',
+            'category_id' => 'sometimes',
+            'STOCK' => 'sometimes|required',
             'COST_PER_UNIT' => 'sometimes|required|numeric',
+            'SOLD_BY' => 'required'
         ]);
 
         $product = StockManagement::findOrFail($id);
@@ -77,14 +80,17 @@ class StockManagementController extends Controller
         if (isset($validated['ITEM_NAME'])) {
             $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
         }
-        if (isset($validated['CATEGORY'])) {
-            $product->CATEGORY = $validated['CATEGORY'];
+        if (isset($validated['category_id'])) {
+            $product->category_id = $validated['category_id'];
         }
         if (isset($validated['STOCK'])) {
             $product->STOCK = $validated['STOCK'];
         }
         if (isset($validated['COST_PER_UNIT'])) {
             $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
+        }
+        if (isset($validated['SOLD_BY'])) {
+            $product->SOLD_BY = $validated['SOLD_BY'];
         }
 
         // Update the STOCK_VALUE based on the new STOCK and COST_PER_UNIT
@@ -101,6 +107,7 @@ class StockManagementController extends Controller
                 'sku_number' => $product->SKU_NUMBER,
                 'quantity' => $stockChange,
                 'type' => $stockChange > 0 ? 'in' : 'out',
+                'value' => abs($stockChange) * $product->COST_PER_UNIT,
             ]);
         }
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
@@ -130,6 +137,7 @@ class StockManagementController extends Controller
     {
         $product = StockManagement::findOrFail($id);
         $product->delete();
+
 
         return response()->json(['message' => 'Product deleted successfully']);
     }
