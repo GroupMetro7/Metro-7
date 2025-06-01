@@ -21,7 +21,7 @@ export default function LandingPage() {
                     :
                     <h2>Want to order in advance before you arrive?</h2>
                 }
-                <Button Title='PRE-ORDER NOW' Redirect={ token ? '/reservation' : '/login' } BtnWhite />
+                <Button Title='PRE-ORDER NOW' Redirect={ token ? '/customer/reservation' : '/login' } BtnWhite />
             </Section>
             <Section Class='about'>
                 { screenwidth > 1023 && (
@@ -82,7 +82,7 @@ export default function LandingPage() {
                 }
             </Section>
         </Main>
-        <Footer />
+        {/* <Footer /> */}
         </>
     )
 }

@@ -48,6 +48,10 @@ const router = createBrowserRouter([
 				element: <LandingPage />
 			},
 			{
+				path: 'menu',
+				element: <MenuPage />
+			},
+			{
 				path: 'login',
 				element: <LoginPage />
 			},
@@ -59,12 +63,16 @@ const router = createBrowserRouter([
 	},
 
 	{
-		path: '',
+		path: '/customer',
 		element: <CustomerLayout />,
 		children: [
 			{
-				path: 'welcome',
+				path: '',
 				element: <LandingPage />
+			},
+			{
+				path: 'menu',
+				element: <MenuPage />
 			},
 			{
 				path: 'profile',
@@ -84,10 +92,7 @@ const router = createBrowserRouter([
 	// 	path: '/location',
 	// 	element: <LocationPage />
 	// },
-  {
-    path: 'menu',
-    element: <MenuPage />
-  },
+
 	//Staff routing
 
 	{

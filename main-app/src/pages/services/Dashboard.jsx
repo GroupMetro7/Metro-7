@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import "../../assets/css/pages/services/Dashboard.sass";
-import { ScreenWidth, Title, Body_addclass, SideBar, Main, Section, Form, Group, Inputbox, Button, Box, Selectionbox, PrepOrder, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, DateText, TimeText, InsertFileButton, SubmitButton } from "../../Exporter/component_exporter";
+import { ScreenWidth, Title, Body_addclass, SideBar, Main, Section, Form, Group, Inputbox, Button, Box, Selectionbox, PrepOrder, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, DateText, TimeText, InsertFileButton, SubmitButton, CheckoutWidth } from "../../Exporter/component_exporter";
 import axiosClient from "../../axiosClient";
-
 
 export default function StaffDashboard() {
     Title("Metro 7");
@@ -144,6 +143,7 @@ export default function StaffDashboard() {
             ? highestPriceItem.price * 0.2
             : 0;
 
+    CheckoutWidth()
 
     // Calculate total with discount
     const totalWithDiscount = totalPrice - discountAmount;
@@ -217,13 +217,7 @@ export default function StaffDashboard() {
                 </Main>
             </Group>
             <Modal Modal="CheckoutModal">
-                <Form
-                    Title="CHECKOUT"
-                    {...(screenwidth > 1023
-                        ? { FormThreelayers: true }
-                        : { FormTwolayers: true })}
-                    OnSubmit={submitOrder}
-                >
+                <Form Title="CHECKOUT" {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder} >
                     <Group Class="outputfetch" Wrap>
                         <Outputfetch
                             Title="Customer Name"

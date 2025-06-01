@@ -76,6 +76,7 @@ aside, aside div, aside nav, aside a, aside img
         
     aside.sidebar 
         background-color: v.$header-footer !important
+        width: 75px !important
         height: 100vh !important
         position: fixed !important
         top: 0 !important
@@ -86,16 +87,17 @@ aside, aside div, aside nav, aside a, aside img
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 37.5px !important
+            gap: 33px !important
             padding: 27.5px 13px !important
 
             > img 
-                width: 50px !important
+                height: 30px !important
+                align-self: flex-start !important
 
             > nav 
                 align-self: center !important
                 flex-direction: column !important
-                gap: 17.5px !important
+                gap: 13px !important
 
                 > a 
                     gap: 7.5px !important
@@ -103,12 +105,12 @@ aside, aside div, aside nav, aside a, aside img
 
                     > div
                         background-color: v.$color-secondary !important
-                        width: 43px !important
+                        width: 40px !important
                         padding: 10px !important
                         border-radius: 100% !important
 
                         > img 
-                            width: 23px !important
+                            width: 20px !important
 
                     > span
                         text-transform: uppercase !important
@@ -120,7 +122,7 @@ aside, aside div, aside nav, aside a, aside img
             width: 200px !important
 
             nav 
-                margin-left: 3.4px !important
+                margin-left: 4px !important
                 
                 > a
                     width: 100% !important

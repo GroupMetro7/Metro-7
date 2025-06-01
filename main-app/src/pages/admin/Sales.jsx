@@ -1,11 +1,10 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Sales.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
-import useMonthlySales from '../../hooks/fetch'
+import { UseFetch } from '../../exporter/hook_exporter'
 import { saveAs } from 'file-saver';
 import SalesReport from '../../hooks/graphs/bar';
 import TopCategory from '../../hooks/graphs/pie';
-import useFetchDashboardData from '../../hooks/admin/fetchData';
 
 export default function SalesPage() {
     Title('Revenue')
@@ -13,7 +12,7 @@ export default function SalesPage() {
 
     // done & for review
 
-    const { monthlyRevenue, mostSoldProduct } = useFetchDashboardData();
+    const { monthlyRevenue, mostSoldProduct } = UseFetch();
 
     
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;

@@ -44,7 +44,7 @@ export default function StaffLayout() {
     };
 
     if (!token || user?.role !== "employee") {
-        return <Navigate to={"/welcome"} replace/>;
+        return <Navigate to={"/customer"} replace/>;
     }
 
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import '../../assets/css/components/inputbox & selectbox.sass'
 
-export default function Selectionbox({ Class, Title, Options, Value, Name, Multiple, AutoFocus, Disabled, Required, SltCol, SltWhite, OnChange, NoTitle }) {
+export default function Selectionbox({ Class, Title, Options, Value, Name, Multiple, AutoFocus, Disabled, Required, SltCol, SltWhite, OnChange }) {
 
     return(
         <label className={ `selectionbox ${ SltCol && 'sltcol' } ${ SltWhite && 'sltwhite' } ${ Class }` }>
-            { !NoTitle && <h4>{ Title }:</h4> }
+            { Title && <h4>{ Title }:</h4> }
             <select
             value={ Value }
             name={ Name }

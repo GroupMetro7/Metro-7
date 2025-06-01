@@ -30,7 +30,6 @@ export default function Footer() {
             { screenwidth > 1266 && (
             <nav>
                 <Href Title='HOME' Redirect='/' HrefWhite/>
-                <Href Title='LOCATION' Redirect='/location' HrefWhite/>
                 <Href Title='MENU' Redirect='/menu' HrefWhite/>
                 <Href Title='LOGIN' Redirect='/login' HrefWhite/>
             </nav>

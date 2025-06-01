@@ -78,7 +78,7 @@ export default function LoginPage() {
                 </Form>
             </Section>
         </Main>
-        <Footer />
+        {/* <Footer /> */}
 
         </>
 

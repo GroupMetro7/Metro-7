@@ -4,7 +4,8 @@ body.Dashboard-Service-PAGE
 
     main
     
-        > div
+        > div.row
+            padding: 13px calc( 23px + 23px + v.$checkoutsection-size ) 23px calc( 23px + v.$sidebar-size ) !important
 
             .menu
                 width: unset !important
@@ -34,13 +35,15 @@ body.Dashboard-Service-PAGE
                         grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
   
             .checkout
-                max-width: 27.344vw !important
-                max-height: calc( 100vh - 13px - 23px )  !important
-                align-items: flex-start !important
+                position: fixed !important
+                right: 23px !important
+                width: unset !important
+                max-height: calc( 100vh - 13px - 23px ) !important
+                overflow: auto !important
+                // align-items: flex-start !important
 
                 > .datetime
                     width: 100% !important
-                    flex: unset !important
                     gap: 13px !important
                     align-items: center !important
                     text-align: center !important
@@ -67,7 +70,7 @@ body.Dashboard-Service-PAGE
 
                 > .totalitem
                     flex-direction: column !important
-                    flex-grow: 1 !important
+                    flex-grow: 3 !important
                     overflow-x: auto !important
 
                     > .itemlist

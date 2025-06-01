@@ -71,7 +71,7 @@ export default function RegisterPage() {
                     </Form>
                 </Section>
             </Main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }

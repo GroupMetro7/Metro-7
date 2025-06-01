@@ -54,7 +54,7 @@ export default function ReservationPage() {
                 </Form>
             </Section>
         </Main>
-        <Footer />
+        {/* <Footer /> */}
         </>
     )
 }

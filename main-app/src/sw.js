@@ -2,7 +2,7 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
 
 // Define your API base URL as a constant
-const API_BASE_URL = 'http://localhost:8888/';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 workbox.precaching.cleanupOutdatedCaches();
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);

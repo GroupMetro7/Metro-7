@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/services/Management.sass";
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination } from '../../exporter/component_exporter'
-import useSearchItem from "../../hooks/searchItem";
-import useFetchOrder from "../../hooks/orders/fetchOrder";
+import { UseSearchItem, UseFetchOrder, UseModifyOrderList } from '../../exporter/hook_exporter'
 import { createWorker } from "tesseract.js";
-import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 
 export default function StaffOrderList() {
     Title("Order List");
     Body_addclass("Management-PAGE");
     // optimized, need to add pre orders tab
     const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages } =
-        useFetchOrder();
+        UseFetchOrder();
     const { searchTerm, setSearchTerm, filteredItems } =
-        useSearchItem("/order/search");
+        UseSearchItem("/order/search");
     const { formData, setFormData, handleUpdateOrder, error, success } =
-        useModifyOrderList(selectedOrder);
+        UseModifyOrderList(selectedOrder);
 
     const tbhead = [
         "ORDER NO.",
@@ -101,8 +99,9 @@ export default function StaffOrderList() {
             </Group>
 
             {/* Modal to display tickets for the selected order */}
-            {selectedOrder && (
+            
                 <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
+                {selectedOrder && (
                     <Form Title="EDIT ORDER" FormThreelayers>
                         { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                         success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
@@ -213,8 +212,9 @@ export default function StaffOrderList() {
                             <SubmitButton Title="SAVE" BtnWhite />
                         </Group>
                     </Form>
+                )}
                 </Modal>
-            )}
+            
         </>
     );
 }

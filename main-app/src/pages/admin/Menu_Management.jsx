@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
 import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, TBHead, Pagination, InsertFileButton } from '../../exporter/component_exporter'
+import { UseAddCategory, UseAddProduct, UseFetchOrderProducts, UseDeleteProduct, UseSearchItem } from '../../exporter/hook_exporter'
 import { DeleteLogo } from "../../Exporter/public_exporter";
-import useAddCategory from "../../hooks/add";
-import useAddProduct from "../../hooks/admin/Menu/addProduct";
-import useFetchOrder from "../../hooks/uni/fetchProducts";
-import useDeleteProduct from "../../hooks/admin/Menu/delete";
-import useSearchItem from "../../hooks/searchItem";
 
 export default function MenuManagementPage() {
     Title("Menu List Management");
     Body_addclass("Management-PAGE");
 
     //optimized
-    //for update useSearchItem to search products
+    //for update UseSearchItem to search products
     // Custom hooks for managing product and category data
-    //1. useAddProduct for adding products
+    //1. UseAddProduct for adding products
     const {
         formData,
         handleInputChange,
@@ -27,9 +23,9 @@ export default function MenuManagementPage() {
         editProduct,
         AddProductError,
         AddProductSuccess,
-    } = useAddProduct();
+    } = UseAddProduct();
 
-    //2. useAddCategory for adding categories
+    //2. UseAddCategory for adding categories
     const {
         categoryName,
         setCategoryName,
@@ -37,9 +33,9 @@ export default function MenuManagementPage() {
         setCategoryDescription,
         handleAddCategory,
 
-    } = useAddCategory();
+    } = UseAddCategory();
 
-    //3. useFetchOrder for fetching menu products, categories, and ingredients
+    //3. UseFetchOrderProducts for fetching menu products, categories, and ingredients
     const {
         menuProduct,
         categories,
@@ -47,11 +43,11 @@ export default function MenuManagementPage() {
         currentPage,
         setCurrentPage,
         totalPages,
-    } = useFetchOrder();
+    } = UseFetchOrderProducts();
 
-    const { deleteProduct } = useDeleteProduct();
+    const { deleteProduct } = UseDeleteProduct();
 
-    const { searchTerm, setSearchTerm, filteredItems } = useSearchItem("/products/search");
+    const { searchTerm, setSearchTerm, filteredItems } = UseSearchItem("/products/search");
 
     // Function for handling page changes in pagination component
     const handlePageChange = (page) => {
@@ -91,6 +87,8 @@ export default function MenuManagementPage() {
         </Group>
         <Modal Modal='AddModal-Product'>
             <Form Title='ADD MENU' FormThreelayers OnSubmit={handleAddProduct}>
+                { AddProductError && <Group Class="signalside"><p class="error">{ AddProductError }</p></Group> ||
+                AddProductSuccess && <Group Class="signalside"><p class="success">{ AddProductSuccess }</p></Group> }
                 <Group Class="imageside">
                     <img src={formData.image ? URL.createObjectURL(formData.image) : ""} alt="" />
                     <InsertFileButton Title="ADD PICTURE" BtnWhite Accept={"image/*"} Name="image" OnChange={handleInputChange} />
@@ -108,12 +106,12 @@ export default function MenuManagementPage() {
                         <h4>Ingredients:</h4>
                         {selects.map(({ sku, quantity }, idx) => (
                         <Group key={idx}>
-                            <Selectionbox NoTitle Name="sku" Value={sku}
+                            <Selectionbox Name="sku" Value={sku}
                                 Options={ingredients.map((comp) => ({
                                 label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
                                 value: comp.SKU_NUMBER,
                             }))} SltCol SltWhite OnChange={(e) => handleIngredientChange(idx, "sku", e.target.value) } />
-                            <Inputbox NoTitle Type="number" InCol InWhite Name="quantity" Value={quantity} onChange={(e) => handleIngredientChange(idx, "quantity", e.target.value) } />
+                            <Inputbox Type="number" InCol InWhite Name="quantity" Value={quantity} onChange={(e) => handleIngredientChange(idx, "quantity", e.target.value) } />
                             <Button Icon={DeleteLogo} Onclick={() => removeSelectBox(idx)} BtnWhite />
                         </Group>
                         ))}

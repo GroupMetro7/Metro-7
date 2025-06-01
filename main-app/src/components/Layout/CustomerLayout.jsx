@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { Header } from '../../exporter/component_exporter'
+import { Header, Footer } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 import axiosClient from '../../axiosClient'
 import { useEffect, useState } from 'react'
@@ -43,6 +43,7 @@ export default function CustomerLayout() {
         <>
             <Header AuthenticatedMode={ user.firstname } Logout={onLogout} />
             <Outlet />
+            <Footer />
         </>
     );
 }

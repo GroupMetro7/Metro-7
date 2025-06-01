@@ -30,11 +30,11 @@ export default function Header({ AuthenticatedMode, Logout }) {
                         { AuthenticatedMode ?
                             <>
                             { navitems.filter( item => item.CustItem && !item.DropDownItem ).map(( item, index ) => (
-                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } DropDown={ item.DropDown } />
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect && `/customer${item.Redirect}` } DropDown={ item.DropDown } />
                             ))}
                             <ul className="dropdown-menu dropdown-menu-end">
                                 { navitems.filter( item => item.CustItem && item.DropDownItem ).map(( item, index ) => (
-                                    <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } Onclick={ item.Onclick } />
+                                    <Href key={ index } Title={ item.Title } Redirect={ item.Redirect && `/customer${item.Redirect}` } Onclick={ item.Onclick } />
                                 ))}
                             </ul>
                             </>
@@ -58,7 +58,7 @@ export default function Header({ AuthenticatedMode, Logout }) {
                         { AuthenticatedMode ?
                             <>
                             { navitems.filter( item => item.CustItem && item.Title !== AuthenticatedMode ).map(( item, index ) => (
-                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } DropDown={ item.DropDown } Onclick={ item.Onclick }  />
+                                <Href key={ index } Title={ item.Title } Redirect={ `/customer${item.Redirect}` } DropDown={ item.DropDown } Onclick={ item.Onclick }  />
                             ))}
                             </>
                             :

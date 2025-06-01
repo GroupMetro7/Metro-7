@@ -41,7 +41,7 @@ export default function AdminLayout() {
     };
 
     if (!user || user?.role !== "admin") {
-        return <Navigate to={"/welcome"} replace/>;
+        return <Navigate to={"/"} replace/>;
     }
 
     return (
