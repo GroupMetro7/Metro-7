@@ -2,7 +2,7 @@ import React from 'react'
 import '../../assets/css/components/pagination.sass'
 import { Button } from '../../exporter/component_exporter'
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+export default function Pagination ({ currentPage, totalPages, onPageChange }) {
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             onPageChange(page);
@@ -32,5 +32,3 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         </div>
     )
 }
-
-export default Pagination;

@@ -21,22 +21,22 @@ export default defineConfig({
         short_name: "Metro-7",
         icons: [
           {
-            src: "/brand_logo/M7 64x64.png",
+            src: "/MipMap/M7 64x64.png",
             sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "/brand_logo/M7 192x192.png",
+            src: "/MipMap/M7 192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/brand_logo/M7 512x512.png",
+            src: "/MipMap/M7 512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/brand_logo/M7 512x512.png",
+            src: "/MipMap/M7 512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",

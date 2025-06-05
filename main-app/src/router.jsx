@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import GuestLayout from './components/Layout/GuestLayout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Customers/Register'
-import LocationPage from './pages/Customers/Location'
+// import LocationPage from './pages/Customers/Location'
 import ProfilePage from './pages/Customers/Profile'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
@@ -21,10 +21,17 @@ import InventoryManagementPage from './Pages/admin/Inventory_Management'
 import MenuPage from './Pages/Customers/Menu'
 import CustomerLayout from './Components/Layout/CustomerLayout'
 import Test from './Pages/admin/test'
+import NotFound from './Pages/404not_found'
 
 const router = createBrowserRouter([
+  //not found page
 
-  //testing
+  {
+    path: '*',
+    element: <NotFound />
+  },
+  
+  //tesing
 
   {
     path: 'test',
@@ -73,10 +80,10 @@ const router = createBrowserRouter([
 	//customer guest routing
 
 
-	{
-		path: '/location',
-		element: <LocationPage />
-	},
+	// {
+	// 	path: '/location',
+	// 	element: <LocationPage />
+	// },
   {
     path: 'menu',
     element: <MenuPage />

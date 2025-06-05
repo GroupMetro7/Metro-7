@@ -12,4 +12,9 @@ class Category extends Model
     {
       return $this->hasMany(product::class);
     }
+
+    public function inventory()
+    {
+      return $this->hasMany(StockManagement::class);
+    }
 }

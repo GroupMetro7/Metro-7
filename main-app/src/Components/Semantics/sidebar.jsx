@@ -6,29 +6,35 @@ import { M7Logo, DashboardLogo, OrderlistLogo, ProfileLogo, SalesLogo, Inventory
 export default function SideBar({ ServiceMode, AdminMode, Logout }) {
     SideBarWeight()
 
+    const navitems = [
+        { ServiceItem: true, Title: "Dashboard", Icon: DashboardLogo, Redirect: "/service" },
+        { ServiceItem: true, Title: "Order List", Icon: OrderlistLogo, Redirect: "/service/orderlist" },
+        { ServiceItem: true, Title: "Profile", Icon: ProfileLogo, Redirect: "/service/profile" },
+
+        { AdminItem: true, Title: "Dashboard", Icon: DashboardLogo, Redirect: "/admin" },
+        { AdminItem: true, Title: "Sales", Icon: SalesLogo, Redirect: "/admin/sales" },
+        { AdminItem: true, Title: "Product List", Icon: OrderlistLogo, Redirect: "/admin/menu_management" },
+        { AdminItem: true, Title: "Inventory", Icon: InventoryLogo, Redirect: "/admin/inventory_management" },
+        { AdminItem: true, Title: "Employee", Icon: EmployeeLogo, Redirect: "/admin/employee_management" },
+        { AdminItem: true, Title: "Customers", Icon: CustomerLogo, Redirect: "/admin/customer_management" },
+
+        { ServiceItem: true, AdminItem: true, Title: "Logout", Icon: LogoutLogo, Onclick: Logout }
+    ]
+
     return(
         <aside className="sidebar">
             <div>
                 <img src={ M7Logo }/>
                 <nav>
                     { ServiceMode && 
-                        <>
-                            <Href Title={ <span>Dashboard</span> } Icon={ DashboardLogo } Redirect="/service"></Href>
-                            <Href Title={ <span>Order List</span> } Icon={ OrderlistLogo } Redirect="/service/orderlist"></Href>
-                            <Href Title={ <span>Profile</span> } Icon={ ProfileLogo } Redirect="/service/profile"></Href>
-                            <Href Title={ <span>Logout</span> } Icon={ LogoutLogo } Onclick={ Logout } />
-                        </>
+                        navitems.filter( item => item.ServiceItem ).map(( item, index ) => (
+                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } Redirect={ item.Redirect } Onclick={ item.Onclick } />
+                        )) 
                     ||
                     AdminMode && 
-                        <>
-                            <Href Title={ <span>Dashboard</span> } Icon={ DashboardLogo } Redirect="/admin"/>
-                            <Href Title={ <span>Sales</span> } Icon={ SalesLogo } Redirect="/admin/sales"/>
-                            <Href Title={ <span>Product List</span> } Icon={ OrderlistLogo } Redirect="/admin/menu_management"/>
-                            <Href Title={ <span>Inventory</span> } Icon={ InventoryLogo } Redirect="/admin/inventory_management"/>
-                            <Href Title={ <span>Employee</span> } Icon={ EmployeeLogo } Redirect="/admin/employee_management"/>
-                            <Href Title={ <span>Customers</span> } Icon={ CustomerLogo } Redirect="/admin/customer_management"/>
-                            <Href Title={ <span>Logout</span> } Icon={ LogoutLogo } Onclick={ Logout } />
-                        </>
+                        navitems.filter( item => item.AdminItem ).map(( item, index ) => (
+                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } Redirect={ item.Redirect } Onclick={ item.Onclick } />
+                        ))
                     }
                 </nav>
             </div>

@@ -23,9 +23,10 @@ class AddProductRequest extends FormRequest
     {
         return [
             'ITEM_NAME' => 'required|string|max:55',
-            'CATEGORY' => 'required|string|max:15',
-            'STOCK' => 'required|integer',
+            'category_id' => 'required|string|max:15',
+            'STOCK' => 'required',
             'COST_PER_UNIT' => 'required|numeric',
+            'SOLD_BY' => 'required',
         ];
     }
 }

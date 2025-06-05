@@ -11,13 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+          });
+          \DB::table('categories')->insert([
+              'name' => 'All',
+              'created_at' => now(),
+              'updated_at' => now(),
+          ]);
+
         Schema::create('stock_management', function (Blueprint $table) {
             $table->id();
             $table->string('SKU_NUMBER', 20)->unique();
             $table->string('COMPOSITE_NAME', 55);
             $table->enum('SOLD_BY', ['each', 'weight'])->default('each');
-            $table->string('CATEGORY', 15);
-            $table->integer('STOCK');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            $table->float('STOCK');
             $table->float('COST_PER_UNIT');
             $table->float('STOCK_VALUE');
             $table->string('STATUS');

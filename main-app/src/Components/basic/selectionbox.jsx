@@ -4,7 +4,7 @@ import '../../assets/css/components/inputbox & selectbox.sass'
 export default function Selectionbox({ Class, Title, Options, Value, Name, Multiple, AutoFocus, Disabled, Required, SltCol, SltWhite, OnChange, NoTitle }) {
 
     return(
-        <label className={ `selectionbox ${ SltCol ? 'sltcol' : undefined } ${ SltWhite ? 'sltwhite' : undefined } ${ Class }` }>
+        <label className={ `selectionbox ${ SltCol && 'sltcol' } ${ SltWhite && 'sltwhite' } ${ Class }` }>
             { !NoTitle && <h4>{ Title }:</h4> }
             <select
             value={ Value }

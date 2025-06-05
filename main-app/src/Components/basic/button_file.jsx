@@ -3,7 +3,7 @@ import '../../assets/css/components/button.sass'
 
 export default function InsertFileButton({ Class, Title, BtnWhite, Accept, Name, OnChange }) {
     return(
-        <label className={ `btnfile ${BtnWhite ? 'btnwhite' : undefined} ${Class}` }>
+        <label className={ `btnfile ${BtnWhite && 'btnwhite' } ${Class}` }>
             <input type='file'
             accept= { Accept }
             name = { Name }

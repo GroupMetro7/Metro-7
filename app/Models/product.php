@@ -27,4 +27,9 @@ public function ingredients()
 {
   return $this->belongsToMany(StockManagement::class, 'product_ingredient', 'product_id', 'ingredient_id')->withPivot('quantity')->withTimestamps();
 }
+
+public function getImageUrlAttribute()
+{
+    return $this->image ? asset('storage/' . $this->image) : null;
+}
 }

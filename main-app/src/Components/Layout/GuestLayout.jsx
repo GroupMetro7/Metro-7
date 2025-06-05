@@ -20,11 +20,11 @@ export default function GuestLayout() {
 
 if(token){
   if (user.role === "employee") {
-    return <Navigate to={"/service"} />;
+    return <Navigate to={"/service"} replace/>;
 }else if (user.role === 'admin') {
-  return <Navigate to={"/admin"} />;
+  return <Navigate to={"/admin"} replace/>;
 } else if(user.role === 'customer'){
-    return <Navigate to={"/welcome"} />;
+    return <Navigate to={"/welcome"} replace/>;
 }
 }
 
