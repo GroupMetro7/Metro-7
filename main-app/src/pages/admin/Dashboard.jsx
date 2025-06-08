@@ -1,16 +1,16 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Dashboard.sass'
 import { Title, Body_addclass,Group, Main, Section, Box, KPI, DateText, TimeText, Table, Modal, Form, Outputfetch, Button, SubmitButton } from '../../exporter/component_exporter'
-import { UseFetch } from '../../exporter/hook_exporter'
 import TopCategory from '../../hooks/graphs/pie'
 import SalesReport from '../../hooks/graphs/bar'
+import useFetchDashboardData from '../../hooks/admin/fetchData'
 
 export default function DashboardPage() {
     Title('Dashboard')
     Body_addclass('Dashboard-Admin-PAGE')
     // optimized
     // needs some updates
-    const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = UseFetch();
+    const { monthlyRevenue, mostSoldProduct, orders, expenses, totalStockValue } = useFetchDashboardData();
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
     const showExpenses = expenses || 0;

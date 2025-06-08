@@ -4,7 +4,7 @@ label.inputbox:has(input[type="text"], input[type="password"], input[type="email
 label.selectionbox:has(select)
     width: v.$elem-w-size-primary
     align-items: center !important
-    gap: 13px !important
+    gap: v.$elem-sa-size-m !important
 
     > h4 
         font-style: italic !important
@@ -16,18 +16,18 @@ label.selectionbox:has(select)
         width: 100%
         height: v.$elem-h-size-secondary
         position: relative !important
-        padding: 0px 7.5px !important
-        font-size: 15px !important
+        padding: 0px v.$elem-sa-size-s !important
+        font-size: 15.5px !important
 
         &::-webkit-calendar-picker-indicator
             position: absolute !important
-            right: 13px !important
+            right: v.$elem-sa-size-m !important
 
     &.incol,
     &.sltcol
         flex-direction: column !important
         align-items: unset !important
-        gap: 4.3px !important
+        gap: v.$elem-sa-size-xs !important
         
     &.inwhite,
     &.sltwhite

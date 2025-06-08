@@ -22,6 +22,8 @@ import MenuPage from './Pages/Customers/Menu'
 import CustomerLayout from './Components/Layout/CustomerLayout'
 import Test from './Pages/admin/test'
 import NotFound from './Pages/404not_found'
+import OrderHistoryPage from './Pages/admin/Order_History'
+import ActivityLogsPage from './Pages/admin/Activity_Logs'
 
 const router = createBrowserRouter([
   //not found page
@@ -110,6 +112,10 @@ const router = createBrowserRouter([
 			{
 				path: 'Profile',
 				element: <StaffProfile />
+			},
+			{
+				path: 'order_history',
+				element: <OrderHistoryPage />
 			}
 		]
 	},
@@ -142,6 +148,14 @@ const router = createBrowserRouter([
 			{
 				path: 'customer_management',
 				element: <CustomerManagementPage />
+			},
+			{
+				path: 'order_history',
+				element: <OrderHistoryPage />
+			},
+			{
+				path: 'logs',
+				element: <ActivityLogsPage />
 			},
 
 		]

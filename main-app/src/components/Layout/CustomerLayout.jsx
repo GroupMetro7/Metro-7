@@ -5,8 +5,7 @@ import axiosClient from '../../axiosClient'
 import { useEffect, useState } from 'react'
 
 export default function CustomerLayout() {
-    const { token, setUser, setToken } = useStateContext();
-    const { user } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
 
     useEffect(() => {
         axiosClient.get("/user")
@@ -29,7 +28,7 @@ export default function CustomerLayout() {
         }
     };
 
-    if (!token) {
+    if (!user) {
         return <Navigate to={"/"} />;
     } else if (user.role === 'employee') {
         return <Navigate to={"/service"} replace/>;
@@ -37,11 +36,9 @@ export default function CustomerLayout() {
         return <Navigate to={"/admin"} replace/>;
     }
 
-
-
     return (
         <>
-            <Header AuthenticatedMode={ user.firstname } Logout={onLogout} />
+            <Header AuthenticatedMode={user.firstname} Logout={onLogout} />
             <Outlet />
             <Footer />
         </>

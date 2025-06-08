@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\serviceControls\orderListController;
 use App\Http\Controllers\serviceControls\serviceController;
 use App\Models\StockManagement;
@@ -47,6 +48,7 @@ Route::get('/customers', [AuthController::class, 'index_customer']);
 // Route::get('/menu', [ProductController::class, 'index']);
 Route::get('/adminmenu', [ProductController::class, 'adminindex']);
 Route::post('/menu', [ProductController::class, 'store']);
+Route::put('/menu/{id}', [ProductController::class, 'update']);
 Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/order/search', [OrderController::class, 'search']);
 Route::delete('/menu/{id}', [ProductController::class, 'destroy']);
@@ -64,3 +66,9 @@ Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
 // service controls
 Route::get('/menuData', [serviceController::class, 'index']);
 Route::put('/orderList/{id}', [orderListController::class, 'update']);
+
+//reservation
+Route::middleware('auth:sanctum')->post('/createReservation', [ReservationController::class, 'create']);
+// Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController::class, 'myReservations']);
+Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController::class, 'myReservations']);
+// Route::get('/myReservations', [ReservationController::class, 'myReservations']);

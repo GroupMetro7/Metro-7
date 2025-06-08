@@ -28,10 +28,10 @@ aside, aside div, aside nav, aside a, aside img
             > nav 
                 align-self: center !important
                 flex-direction: column !important
-                gap: 13px !important
+                gap: v.$elem-sa-size-m !important
 
                 > a 
-                    gap: 7.5px !important
+                    gap: v.$elem-sa-size-s !important
                     align-items: center !important
 
                     > div
@@ -51,15 +51,16 @@ aside, aside div, aside nav, aside a, aside img
                         visibility: hidden !important
 
         &:has(nav:hover)
-            width: calc( v.$sidebar-size * 2.9 ) !important
+            width: calc( v.$sidebar-size * 3 ) !important
 
             nav 
                 margin-left: 4px !important
                 
                 > a
                     width: 100% !important
+                    font-weight: 700 !important
                     justify-content: flex-start !important
-                    padding-inline-end: 7.5px !important
+                    padding-inline-end: v.$elem-sa-size-s !important
                     transition: .33s !important
                     
                     > span
@@ -101,6 +102,7 @@ aside, aside div, aside nav, aside a, aside img
 
                 > a 
                     gap: 7.5px !important
+                    font-weight: 700 !important
                     align-items: center !important
 
                     > div

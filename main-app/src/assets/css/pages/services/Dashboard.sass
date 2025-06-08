@@ -5,7 +5,7 @@ body.Dashboard-Service-PAGE
     main
     
         > div.row
-            padding: 13px calc( 23px + 23px + v.$checkoutsection-size ) 23px calc( 23px + v.$sidebar-size ) !important
+            padding: 13px 23px 23px calc( 23px + v.$sidebar-size ) !important
 
             .menu
                 width: unset !important
@@ -35,9 +35,10 @@ body.Dashboard-Service-PAGE
                         grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
   
             .checkout
-                position: fixed !important
+                position: sticky !important
+                top: v.$elem-sa-size-m
                 right: 23px !important
-                width: unset !important
+                width: v.$checkoutsection-size !important
                 max-height: calc( 100vh - 13px - 23px ) !important
                 overflow: auto !important
                 // align-items: flex-start !important
@@ -75,16 +76,15 @@ body.Dashboard-Service-PAGE
 
                     > .itemlist
                         width: 100% !important
-                        gap: 13px !important
+                        gap: v.$elem-sa-size-s !important
                         flex-direction: column !important
 
                 > .paymentsum
-                    gap: 23px !important
+                    gap: v.$elem-sa-size-m !important
 
                     > article
-                        gap: 8px !important
+                        gap: v.$elem-sa-size-s !important
                         flex-direction: column !important
-                        flex-grow: 1 !important
 
                         > div
                             width: 100% !important
@@ -112,4 +112,9 @@ body.Dashboard-Service-PAGE
                             > label
                                 flex: 1 !important
 
-                    
+                    &.formtwolayers
+
+                        > .inputside:nth-child(1)
+
+                            > label:nth-child(1)
+                                flex: 1 !important

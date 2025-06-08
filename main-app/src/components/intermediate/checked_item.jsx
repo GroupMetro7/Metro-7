@@ -8,14 +8,14 @@ export default function CheckedItem({ Class, List, addItemToOrder, removeItemFro
         <>
         {List.length === 0 ?(<h5>No Added Items</h5>):(List.map(( Menu ) => (
             <div className={`checkeditem ${ Class }`}>
-                <h3>{ Menu.product_name }</h3>
                 <div>
+                    <h3>{ Menu.product_name }</h3>
                     <h3>₱{ Menu.price }</h3>
-                    <div className="quantity">
-                        <Button Title="&lt;" Onclick={() => removeItemFromOrder(Menu.id)}/>
-                        <h3>x{Menu.quantity}</h3>
-                        <Button Title="&gt;"  Onclick={() => addItemToOrder(Menu)}/>
-                    </div>
+                </div>
+                <div>
+                    <Button Title="&lt;" Onclick={() => removeItemFromOrder(Menu.id)}/>
+                    <h3>x{Menu.quantity}</h3>
+                    <Button Title="&gt;"  Onclick={() => addItemToOrder(Menu)}/>
                 </div>
             </div>
         )))}

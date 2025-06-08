@@ -1,5 +1,11 @@
+import { useStateContext } from './Contexts/ContextProvider'
+import { ScreenWidth, PreOrderSectionHeight } from './Exporter/component_exporter'
+
 // AUTHENTICATED USER
-export const user = 'Micheal Lance Kester Li'
+export const { user, setUser, setToken } = useStateContext
+
+
+export const elementsizes = PreOrderSectionHeight
 
 // AUTHENTICATED USER RECENT ORDERS
 export const userrecorderstbhead = ['NO.', 'DATE', 'OPTIONS', 'AMOUNT', 'STATUS']

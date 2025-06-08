@@ -12,89 +12,69 @@ footer
     > img 
         width: 160px !important
 
-    > .contactside 
+    > div:nth-child(2) 
         width: 200px !important
         justify-content: center !important
         align-items: center !important
-        gap: 13px !important
+        gap: v.$elem-sa-size-m !important
 
         > div
             width: 100% !important
             justify-content: center !important
 
-        > .logos 
-            gap: 23px !important
-
-            > img 
-                width: 33px !important
-
-        > .contact 
-            flex-direction: column !important
-            gap: 7.5px !important
-
-            > figure 
-                align-items: center !important
-                gap: 13px !important
-                color: v.$input-white !important
+            &:nth-child(1) 
+                gap: v.$elem-sa-size-xl !important
 
                 > img 
-                    width: 15px !important
+                    width: 33px !important
 
-    > .privacytermsside 
-        width: 186px !important
+            &:nth-child(2) 
+                flex-direction: column !important
+                gap: v.$elem-sa-size-s !important
 
-        > div
-            flex-direction: column !important
-            gap: 7.5px !important
+                > figure 
+                    align-items: center !important
+                    gap: v.$elem-sa-size-m !important
+                    color: v.$input-white !important
 
-            > label
-                width: 100% !important
-
-            > p 
-                color: v.$input-white !important
-                font-size: 12px !important
+                    > img 
+                        width: 15px !important
 
     a
-        font-size: 15px !important
+        font-size: 15.5px !important
+        font-weight: 700 !important
 
 @media only screen and (min-width: 1267px) 
 
     footer 
         gap: 63px !important
-        padding: 43px 0 !important
+        padding-block: 33px !important
 
         > div, > nav
             flex-direction: column !important
 
         > nav 
-            width: 111px !important
-            gap: 7.5px !important
-            
-        > .privacytermsside 
-            gap: 23px !important
+            gap: v.$elem-sa-size-s !important
+
+            > a:nth-child(4)
+                margin-top: v.$elem-sa-size-l !important
             
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
     footer 
         gap: 33px !important
-        padding: 23px 0 !important
+        padding-block: v.$elem-sa-size-xl !important
 
         > div
             flex-direction: column !important
-            
-        > .privacytermsside 
-            gap: 7.5px !important
             
 @media only screen and (max-width: 766px) 
 
     footer 
         flex-direction: column !important
-        gap: 23px !important
-        padding: 23px 0 !important
+        gap: v.$elem-sa-size-xl !important
+        padding-block: v.$elem-sa-size-xl !important
 
         > div
             flex-direction: column !important
-
-        > .privacytermsside 
-            gap: 7.5px !important
             

@@ -8,9 +8,9 @@ export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, 
     return(
         <button type='button' className={ `${ BtnWhite && 'btnwhite' } ${ Class }` }
             onClick={(e) => {
-            if ( Onclick ) Onclick(e)
-            if ( Redirect ) navigate(`${Redirect}`)
-            if ( Pagination ) handlePageChange(Pagination)
+            ( Onclick ) && Onclick(e)
+            ( Redirect ) && navigate(`${Redirect}`)
+            ( Pagination ) && handlePageChange(Pagination)
             }}
             disabled = {Disabled}
             data-bs-target={ OpenModal && (`#${ OpenModal }`) }

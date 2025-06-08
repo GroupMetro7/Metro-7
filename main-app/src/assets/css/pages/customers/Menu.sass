@@ -36,8 +36,11 @@ body.Menu-PAGE
 
             .rightside
                 width: v.$checkoutsection-size !important
-                align-self: start !important
-                max-height: calc( 100vh - v.$header-size - 13px - 23px ) !important
+                position: sticky !important
+                top: calc( v.$header-size + v.$elem-sa-size-s ) !important
+                right: 23px !important
+                // align-self: start !important
+                max-height: calc( 100vh - v.$header-size - 13px - 13px ) !important
                 // gap: 7.5px !important
 
                 > .datetime

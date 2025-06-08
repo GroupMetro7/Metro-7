@@ -3,7 +3,7 @@ import axiosClient from "../../axiosClient";
 import { fetchMenu } from "../../functions/MenuFunctions";
 
 export default function useFetchOrder() {
-  const [menuProduct, setMenu ] =useState([]);1
+  const [menuProduct, setMenu ] =useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [ingredients, setIngredients] = useState([]);
@@ -13,7 +13,7 @@ export default function useFetchOrder() {
       useEffect(() => {
         const fetchMenu = (page) => {
             axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
-                setMenu(data.data);
+                setMenu(data.products);
                 setCurrentPage(data.current_page);
                 setTotalPages(data.last_page);
             });

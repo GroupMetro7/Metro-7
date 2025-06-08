@@ -1,10 +1,11 @@
 import React from 'react'
 import '../../assets/css/pages/admin/Sales.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Section, KPI, Selectionbox, DateText, TimeText } from '../../exporter/component_exporter'
-import { UseFetch } from '../../exporter/hook_exporter'
+import useMonthlySales from '../../hooks/fetch'
 import { saveAs } from 'file-saver';
 import SalesReport from '../../hooks/graphs/bar';
 import TopCategory from '../../hooks/graphs/pie';
+import useFetchDashboardData from '../../hooks/admin/fetchData';
 
 export default function SalesPage() {
     Title('Revenue')
@@ -12,9 +13,9 @@ export default function SalesPage() {
 
     // done & for review
 
-    const { monthlyRevenue, mostSoldProduct } = UseFetch();
+    const { monthlyRevenue, mostSoldProduct } = useFetchDashboardData();
 
-    
+
     const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
@@ -24,6 +25,13 @@ export default function SalesPage() {
     const revpermonthhead = ['Year', 'Month', 'Revenue']
 
     const revpermonthdata = monthlyRevenue.map((item) => [
+      item.year,
+      item.month_name,
+      `₱${Number(item.revenue).toLocaleString(undefined, {minimumFractionDigits: 2})}`
+    ])
+
+    const prodrev = ['Month', 'Product Name', 'Revenue ','Product Name', 'Revenue ', 'Total Revenue']
+    const prodrevData = monthlyRevenue.map((item) => [
       item.year,
       item.month_name,
       `₱${Number(item.revenue).toLocaleString(undefined, {minimumFractionDigits: 2})}`
@@ -42,35 +50,35 @@ export default function SalesPage() {
 
     return(
         <>
-        <Group>
-            <Main Row>
-                <Box Class='search'>
-                    <Selectionbox Title='Period' />
-                    <Inputbox Title='Date' Type='date' />
-                </Box>
-                <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV(revpermonthhead, revpermonthdata, 'sales_data.csv')}/> }>
-                    <Group Class='upper'>
-                        <Group Class='kpis'>
-                          <KPI Title="TOTAL SALES" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
-                          <KPI Title="THIS MONTH" Integer="23.8%" />
-                          <KPI Title="TODAY" Integer="₱34,106.00" Class="red2" />
-                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+            <Group>
+                <Main Row>
+                    <Box Class='search'>
+                        <Selectionbox Title='Period' />
+                        <Inputbox Title='Date' Type='date' />
+                    </Box>
+                    <Section Title="Sales Revenue" Class="salesrevenue" UpperRight={ <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV(revpermonthhead, revpermonthdata, 'sales_data.csv')}/> }>
+                        <Group Class='upper'>
+                            <Group Class='kpis'>
+                            <KPI Title="TOTAL SALES" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
+                            <KPI Title="THIS MONTH" Integer="23.8%" />
+                            <KPI Title="TODAY" Integer="₱34,106.00" Class="red2" />
+                            <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+                            </Group>
+                            <Box Title={ <><DateText /><br /><TimeText /></> } Class='datetime' />
                         </Group>
-                        <Box Title={ <><DateText /><br /><TimeText /></> } Class='datetime' />
-                    </Group>
-                    <Group Class='charts'>
-                        <Box Title='Sales Status' Class='salesstatus' BoxCol><SalesReport/></Box>
-                        <Box Title='Top Category' Class='topcategory' BoxCol><TopCategory/></Box>
-                    </Group>
-                    <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>
-                        <Table HeadRows={ revpermonthhead } DataRows={ revpermonthdata } />
-                    </Box>
-                    <Box Title="PRODUCT REVENUE PER MONTH" BoxCol>
-                        <Table HeadRows={ revpermonthhead } DataRows={ revpermonthdata } />
-                    </Box>
-                </Section>
-            </Main>
-        </Group>
+                        <Group Class='charts'>
+                            <Box Title='Sales Status' Class='salesstatus' BoxCol><SalesReport/></Box>
+                            <Box Title='Top Category' Class='topcategory' BoxCol><TopCategory/></Box>
+                        </Group>
+                        <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>
+                            <Table HeadRows={ revpermonthhead } DataRows={ revpermonthdata } />
+                        </Box>
+                        <Box Title="PRODUCT REVENUE PER MONTH" BoxCol>
+                            <Table HeadRows={ prodrev } DataRows={ prodrevData } />
+                        </Box>
+                    </Section>
+                </Main>
+            </Group>
         </>
     )
 }

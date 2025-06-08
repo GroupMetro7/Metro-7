@@ -16,6 +16,7 @@ export { default as SalesLogo } from '/Icons/sidebar/SALES LOGO.png'
 export { default as InventoryLogo } from '/Icons/sidebar/INVENTORY LOGO.png'
 export { default as EmployeeLogo } from '/Icons/sidebar/EMPLOYEE LOGO.png'
 export { default as CustomerLogo } from '/Icons/sidebar/CUSTOMER LOGO.png'
+export { default as OrderhistoryLogo } from '/Icons/sidebar/ORDERHISTORY LOGO.png'
 
 export { default as ViewLogo } from '/Icons/table/VIEW LOGO.png'
 export { default as EditLogo } from '/Icons/table/EDIT LOGO.png'

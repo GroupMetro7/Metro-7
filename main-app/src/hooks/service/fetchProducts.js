@@ -5,21 +5,25 @@ export default function useFetchProduct() {
     const [menuItems, setMenuItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
-        useEffect(() => {
-        const fetchMenu = (page) => {
-            axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
-                setMenuItems(data.data);
-            });
-        };
-        fetchMenu(currentPage);
-    }, [currentPage]);
+  useEffect(() => {
+    if (selectedCategory) {
+      axiosClient
+        .get(`/menuData?category_id=${selectedCategory}`)
+        .then((res) => setMenuItems(res.data.products));
+    } else {
+      axiosClient.get("/menuData").then((res) => setMenuItems(res.data.products));
+    }
+  }, [selectedCategory]);
 
     return {
         menuItems,
         currentPage,
         setCurrentPage,
         totalPages,
-        setTotalPages
+        setTotalPages,
+        selectedCategory,
+        setSelectedCategory
     };
 }

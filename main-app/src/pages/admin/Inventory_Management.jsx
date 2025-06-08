@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
 import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
-import { UseFetch, UseFetchData, UseModifyItem, UseFetchOrder } from '../../exporter/hook_exporter'
 // import { deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
+import useFetch from "../../hooks/fetch";
+import useFetchData from "../../hooks/admin/inv/fetchData";
+import useModifyItem from "../../hooks/admin/inv/modifyItem";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
 
 export default function Test() {
     // this file is subject for optimization
@@ -12,7 +15,7 @@ export default function Test() {
     // State variables
 
     const { monthlyRevenue, mostSoldProduct, expenses, totalStockValue } =
-        UseFetch();
+        useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)
     const latestMonth =
         monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
@@ -32,7 +35,7 @@ export default function Test() {
         error,
         success,
         deleteItem
-    } = UseModifyItem();
+    } = useModifyItem();
 
     const {
         products,
@@ -42,9 +45,9 @@ export default function Test() {
         currentPage,
         setCurrentPage,
         fetchProducts,
-    } = UseFetchData();
+    } = useFetchData();
 
-    const { categories } = UseFetchOrder();
+    const { categories } = useFetchOrder();
     const getCategoryName = (id) => {
         const cat = categories.find((c) => c.id === id);
         return cat ? cat.name : "Unknown";
@@ -57,7 +60,7 @@ export default function Test() {
     };
     // Reset form fields
     const resetForm = () => {
-        setFormData({ ITEM_NAME: "", CATEGORY: "", STOCK: "", COST_PER_UNIT: "" });
+        setFormData({ ITEM_NAME: "", category_id: "", STOCK: "", COST_PER_UNIT: "", SOLD_BY: "" });
         setCurrentProductId(null);
     };
     // Table headers and rows
@@ -76,9 +79,9 @@ export default function Test() {
         ITEMNAME: product.COMPOSITE_NAME,
         SOLDBY: product.SOLD_BY,
         CATEGORY: getCategoryName(product.category_id),
-        STOCK: product.STOCK,
-        COSTPERUNIT: product.COST_PER_UNIT,
-        STOCKVALUE: product.STOCK_VALUE,
+        STOCK: product.STOCK.toFixed(2),
+        COSTPERUNIT: product.COST_PER_UNIT.toFixed(2),
+        STOCKVALUE: product.STOCK_VALUE.toFixed(2),
         STATUS: product.STATUS,
         // lastUpdated: new Date(product.updated_at).toLocaleString(),
         edit: () => editProduct(product),

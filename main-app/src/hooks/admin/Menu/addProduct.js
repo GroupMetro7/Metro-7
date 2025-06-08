@@ -1,21 +1,20 @@
 import { useState } from "react";
 import axiosClient from "../../../axiosClient";
 
-
-
 export default function useAddProduct() {
-
   //variables
   const [formData, setFormData] = useState({
-    product_name: '',
-    description: '',
-    price: '',
-    image: null,
-    category_id: '',
+    id: "",
+    product_name: "",
+    description: "",
+    price: "",
+    image_url: null,
+    category_id: "",
   });
   const [selects, setSelects] = useState([{ sku: "", quantity: "" }]);
-  const [AddProductError, setError] = useState(null);
-  const [AddProductSuccess, setSuccess] = useState(null);
+  const [ProductError, setError] = useState(null);
+  const [ProductSuccess, setSuccess] = useState(null);
+  const [currentProductId, setCurrentProductId] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -66,30 +65,106 @@ export default function useAddProduct() {
     data.append("ingredients", JSON.stringify(ingredientsToSend));
 
     try {
-      await axiosClient.post('/menu', data);
-      setSuccess('Product added successfully');
+      await axiosClient.post("/menu", data);
+      setSuccess("Product added successfully");
       setFormData({
-        product_name: '',
-        description: '',
-        price: '',
+        product_name: "",
+        description: "",
+        price: "",
         image: null,
-        category_id: '',
+        category_id: "",
       });
       setSelects([{ sku: "", quantity: "" }]);
     } catch (err) {
-      setError('Failed to add product');
+      setError("Failed to add product, please try again.");
+    }
+  };
+
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    const data = new FormData();
+    data.append("product_name", formData.product_name);
+    data.append("description", formData.description);
+    data.append("price", formData.price);
+    data.append("category_id", formData.category_id);
+
+    // Only append image if it's a File (user selected a new one)
+    if (formData.image_url && formData.image_url instanceof File) {
+      data.append("image", formData.image_url);
+    }
+
+    const ingredientsToSend = selects
+      .filter((sel) => sel.sku && sel.quantity)
+      .map((sel) => ({
+        sku: sel.sku,
+        quantity: sel.quantity,
+      }));
+    data.append("ingredients", JSON.stringify(ingredientsToSend));
+
+    try {
+      await axiosClient.post(`/menu/${currentProductId}`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        params: { _method: "PUT" },
+      });
+      setSuccess("Product updated successfully");
+      setFormData({
+        order_number: "",
+        product_name: "",
+        description: "",
+        price: "",
+        image_url: null,
+        category_id: "",
+      });
+      setSelects([{ sku: "", quantity: "" }]);
+      setCurrentProductId(null);
+    } catch (err) {
+      setError("Failed to update product, please try again.");
     }
   };
 
   const editProduct = (product) => {
+    setCurrentProductId(product.id);
     setFormData({
+      id: product.id,
       product_name: product.product_name,
       description: product.description,
       price: product.price,
-      image: null, // Reset image to allow new upload
+      image_url: product.image_url || null,
       category_id: product.category_id,
+      ingredients: product.ingredients || [],
     });
-    setSelects(product.ingredients.map(ing => ({ sku: ing.sku, quantity: ing.quantity })));
+    setSelects(
+      (product.ingredients || []).map((ing) => ({
+        sku: ing.SKU_NUMBER || ing.sku,
+        quantity: ing.quantity,
+      }))
+    );
+  };
+
+  const deleteProduct = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await axiosClient.delete(`/menu/${currentProductId}`);
+      setSuccess("Item deletion successful");
+      setCurrentProductId(null);
+      setFormData({
+        product_name: "",
+        description: "",
+        price: "",
+        image_url: null,
+        category_id: "",
+      });
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      setError("Failed to delete item, please try again!");
+      return false;
+    }
   };
 
   return {
@@ -102,8 +177,10 @@ export default function useAddProduct() {
     removeSelectBox,
     handleIngredientChange,
     handleAddProduct,
-    AddProductError,
-    AddProductSuccess,
-    editProduct
+    ProductError,
+    ProductSuccess,
+    editProduct,
+    handleUpdateProduct,
+    deleteProduct,
   };
 }

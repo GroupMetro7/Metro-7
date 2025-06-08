@@ -2,36 +2,19 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
 import { menulistdata } from "../../constant"
 import { Title, Body_addclass, Header, Footer, Main, Section, Group, Box, Inputbox, Selectionbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, } from '../../Exporter/component_exporter'
-import CustomerLayout from "../../components/Layout/CustomerLayout";
 import { useStateContext } from "../../Contexts/ContextProvider";
-import GuestLayout from "../../components/Layout/GuestLayout";
-import axiosClient from "../../axiosClient";
 import { createWorker } from "tesseract.js";
+import useFetchProduct from "../../hooks/service/fetchProducts";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
 
 export default function MenuPage() {
     // this file is subject for optimization
     Title("Metro 7 | Menu");
     Body_addclass("Menu-PAGE");
     const { token } = useStateContext();
-    const [menuItems, setMenuItems] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-
-    useEffect(() => {
-        if (selectedCategory) {
-            axiosClient
-                .get(`/menuData?category_id=${selectedCategory}`)
-                .then((res) => setMenuItems(res.data));
-        } else {
-            axiosClient.get("/menuData").then((res) => setMenuItems(res.data));
-        }
-    }, [selectedCategory]);
-
-    useEffect(() => {
-        axiosClient.get("/categories").then((res) => {
-            setCategories(res.data);
-        });
-    }, []);
+    const {categories} = useFetchOrder();
+    const {selectedCategory, setSelectedCategory, menuItems} = useFetchProduct();
+    const [paymentOpt, setPaymentOpt] = useState();
 
     const menulistdata = menuItems.map((product) => ({
         id: product.id,
@@ -42,7 +25,6 @@ export default function MenuPage() {
 
     return (
         <>
-            {/* {token ? <CustomerLayout /> : <GuestLayout />} */}
         { token ?
             <Main Row>
                 <Group Class='leftside' Col>
@@ -53,19 +35,11 @@ export default function MenuPage() {
                             </Box>
                             <Group Class="filter">
                             {categories.map((cat) => (
-                                <Radio
-                                    key={cat.id}
-                                    Title={cat.name}
-                                    Value={cat.id}
-                                    RadioName="Category"
-                                    BtnWhite
-                                    Checked={selectedCategory === cat.id}
-                                    OnChange={() => setSelectedCategory(cat.id)}
-                                />
+                                <Radio key={cat.id} Title={cat.name} Value={cat.id} RadioName="Category" Checked={selectedCategory === cat.id} OnChange={() => setSelectedCategory(cat.id)} BtnWhite />
                             ))}
                             </Group>
                             <Group Class='items' Wrap>
-                                <ItemMenu List={ menulistdata } />
+                                <ItemMenu List={ menulistdata } auth/>
                             </Group>
                         </Group>
                     </Section>
@@ -85,8 +59,8 @@ export default function MenuPage() {
                     </Group>
                     <hr />
                     <Group Class='opts'>
-                        <Radio Title='CASH' RadioName='Payment' />
-                        <Radio Title='ONLINE' RadioName='Payment' />
+                        <Radio Title="CASH" RadioName="Payment" Value="CASH" Checked={ paymentOpt === "CASH"} OnChange={(e) => setPaymentOpt(e.target.value) } />
+                        <Radio Title="ONLINE" RadioName="Payment" Value="ONLINE" Checked={ paymentOpt === "ONLINE"} OnChange={(e) => setPaymentOpt(e.target.value) } />
                     </Group>
                     <Group Class='paymentsum' Col>
                         <article>
@@ -113,15 +87,7 @@ export default function MenuPage() {
                         </Box>
                         <Group Class="filter">
                             {categories.map((cat) => (
-                                <Radio
-                                    key={cat.id}
-                                    Title={cat.name}
-                                    Value={cat.id}
-                                    RadioName="Category"
-                                    BtnWhite
-                                    Checked={selectedCategory === cat.id}
-                                    OnChange={() => setSelectedCategory(cat.id)}
-                                />
+                                <Radio key={cat.id} Title={cat.name} Value={cat.id} RadioName="Category" Checked={selectedCategory === cat.id} OnChange={() => setSelectedCategory(cat.id)} BtnWhite />
                             ))}
                         </Group>
                         <Group Class="items" Wrap>
@@ -159,6 +125,7 @@ export default function MenuPage() {
                         <Outputfetch Title='Payment Mode' Value='ONLINE' OutCol OutWhite />
                         <Outputfetch Title='Down Payment Price' Value='₱475.00' OutCol OutWhite />
                     </Group>
+                    { paymentOpt === "ONLINE" && 
                     <Group Class='outputfetch' Col>
                         <Outputfetch Title="QR Code" OutWhite />
                         <Group >
@@ -231,6 +198,7 @@ export default function MenuPage() {
                             </Group>
                         </Group>
                     </Group>
+                    }
                     <Group Class='buttonside'>
                         <Button Title='CANCEL' CloseModal BtnWhite />
                         <Button Title='CHECKOUT' Redirect='/service/order_list' CloseModal BtnWhite />
@@ -238,41 +206,6 @@ export default function MenuPage() {
                 </Form>
             </Modal>
             }
-            {/* <Footer /> */}
-            
         </>
     );
 }
-
-            // <Main>
-            //     <Section Title="Menu Order" Class="menu">
-            //         <Group Col>
-            //             <Box Class="search">
-            //                 <Inputbox Title="Search" Type="search" />
-            //             </Box>
-            //             <Group Class="filter">
-            //                 {categories.map((cat) => (
-            //                     <Radio
-            //                         key={cat.id}
-            //                         Title={cat.name}
-            //                         Value={cat.id}
-            //                         RadioName="Category"
-            //                         BtnWhite
-            //                         Checked={selectedCategory === cat.id}
-            //                         OnChange={() => setSelectedCategory(cat.id)}
-            //                     />
-            //                 ))}
-            //             </Group>
-            //             {/* added auth parameter for authenticated one and no auth parameter for unauthenticated */}
-            //             {token ? (
-            //                 <Group Class="items" Wrap>
-            //                     <ItemMenu List={menulistdata} auth />
-            //                 </Group>
-            //             ) : (
-            //                 <Group Class="items" Wrap>
-            //                     <ItemMenu List={menulistdata} />
-            //                 </Group>
-            //             )}
-            //         </Group>
-            //     </Section>
-            // </Main>

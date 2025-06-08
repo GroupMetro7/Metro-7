@@ -6,8 +6,7 @@ import { useStateContext } from '../../Contexts/ContextProvider';
 
 
 export default function StaffLayout() {
-    const { token, setUser, setToken } = useStateContext();
-    const { user } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -43,9 +42,10 @@ export default function StaffLayout() {
         }
     };
 
-    if (!token || user?.role !== "employee") {
+    if (!user || user?.role !== "employee") {
         return <Navigate to={"/customer"} replace/>;
     }
+
 
 
     return (

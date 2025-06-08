@@ -1,14 +1,12 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Header, Footer } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
-import CustomerLayout from './CustomerLayout.jsx';
 import { useEffect } from 'react';
 import axiosClient from '../../axiosClient.js';
 
 export default function GuestLayout() {
-    const location = useLocation();
-    const { token } = useStateContext();
-    const { user, setUser } = useStateContext();
+    const location = useLocation()
+    const { user, setUser } = useStateContext()
 
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
@@ -16,7 +14,7 @@ export default function GuestLayout() {
         });
     }, []);
 
-    if (token) {
+    if (user) {
         if (user.role === "employee") {
             return <Navigate to={"/service"} replace />;
         } else if (user.role === 'admin') {
@@ -25,8 +23,6 @@ export default function GuestLayout() {
             return <Navigate to={"/customer"} replace />;
         }
     }
-
-
 
     return (
         <>

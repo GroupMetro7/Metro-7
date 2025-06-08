@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import '../../assets/css/pages/customers/Profile.sass';
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Footer, Modal, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
+import useFetchUserRes from '../../hooks/reservation/fetchUserRes';
 
 export default function ProfilePage() {
 
@@ -14,6 +15,8 @@ export default function ProfilePage() {
         email: '',
         contact: '',
     });
+
+    const {reservations} =useFetchUserRes();
 
     // Sync form data with user context
     useEffect(() => {
@@ -60,12 +63,14 @@ export default function ProfilePage() {
     ]
 
     // Table data
-    const tbhead = ['ORDER NO.', 'ORDER DATE', 'OPTIONS', 'AMOUNT', 'STATUS'];
-    const tbrows = [
-        [<>234567</>, <>2025-02-24 <br /> 02:27:25</>, <>TAKE OUT</>, <>₱559.00</>, 'PENDING'],
-        [<>181818</>, <>2025-02-22 <br /> 02:27:25</>, <>TAKE OUT</>, <>₱358.00</>, 'PAID'],
-        [<>176923</>, <>2025-01-08 <br /> 03:33:03</>, <>DINE-IN</>, <>₱1,258.00</>, 'PAID'],
-    ];
+    const tbhead = ['ID', 'TABLE TYPE', 'DATE', 'TIME', 'STATUS'];
+    const tbrows = reservations.map((res) => ({
+        id: res.id,
+        resType: res.reservation_type,
+        resDate: new Date(res.date).toLocaleDateString(),
+        resTime: res.time,
+        options: res.status
+    }));
 
     return (
         <>
@@ -99,13 +104,8 @@ export default function ProfilePage() {
                     </Box>
                 </Section>
             </Main>
-            {/* <Footer /> */}
             <Modal Modal="EditProfile">
                 <Form Title="Edit Profile" FormTwolayers OnSubmit={handleSubmit}>
-                    <Group Class="imageside">
-                        <img src="" />
-                        <InsertFileButton Title="EDIT PICTURE" BtnWhite />
-                    </Group>
                     <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
                         { Inputboxes.map((input, index) => (
                             <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
