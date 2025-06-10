@@ -1,31 +1,35 @@
 @use '../constant.sass' as v
 
+div.form, div.form *
+    display: flex !important
+
 div.form
     background-color: v.$container-red !important
     flex-direction: column !important
     align-items: center !important
-    gap: 18px
-    padding: 18px 43px 43px !important
-    border-radius: 10px !important
+    gap: v.$elem-sa-size-m !important
+    padding: v.$elem-sa-size-l 43px 43px !important
+    border-radius: v.$elem-br-size-l !important
     backdrop-filter: blur(13px) !important
 
     > h1
+        font-size: 25.5px !important
         color: v.$input-white !important
 
     > form
-        min-width: v.$elem-w-size-primary !important
+        width: v.$elem-w-size-primary !important
         flex-direction: column !important
         align-items: center !important
-        gap: 28px
+        gap: v.$elem-sa-size-l !important
 
         div.group
 
             &.col:has(label.outputfetch)
-                gap: 4.3px !important
+                gap: v.$elem-sa-size-xs !important
 
                 > label.outputfetch
                     width: unset !important
-                    gap: 3px !important
+                    gap: v.$elem-sa-size-xs !important
 
                 > div:has(label.outputfetch)
                     justify-content: space-between !important
@@ -34,10 +38,10 @@ div.form
                         width: unset !important
 
             &.wrap
-                gap: 8px 18px !important
+                gap: v.$elem-sa-size-s v.$elem-sa-size-m !important
 
             &.signalside
-                width: v.$elem-w-size-primary !important
+                text-align: justify !important
                 justify-content: center !important
 
                 p.success
@@ -47,7 +51,6 @@ div.form
                     color: red !important
 
             &.imageside
-                width: unset !important
                 align-items: center !important
                 justify-content: center !important
                 gap: 43px !important
@@ -60,18 +63,19 @@ div.form
 
                 label.btnfile:has(input[type="file"]):has(h3)
                     width: unset !important
-                    padding-inline: 13px !important
+                    padding-inline: v.$elem-sa-size-m !important
 
             &.buttonside
                 width: 100% !important
                 justify-content: center !important
-                gap: 18px !important
+                margin-top: v.$elem-sa-size-m !important
+                gap: v.$elem-sa-size-l !important
 
         &.formtwolayers
-            width: 526px !important
+            width: calc(( v.$elem-w-size-primary * 2 ) + v.$elem-sa-size-m) !important
 
         &.formthreelayers
-            width: 798px !important
+            width: calc(( v.$elem-w-size-primary * 3 )  + ( v.$elem-sa-size-m * 2 )) !important
 
         &.formtwolayers, &.formthreelayers
 
@@ -83,7 +87,7 @@ div.form
         label.inputbox, label.selectionbox, label.outputfetch
 
             > h4
-                font-size: 15px !important
+                font-size: 15.5px !important
 
         button, input[type="submit"], label.btnfile:has(input[type="file"]):has(h3)
             height: v.$elem-h-size-secondary !important

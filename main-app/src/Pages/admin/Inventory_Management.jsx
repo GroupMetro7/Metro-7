@@ -1,55 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
-import {
-    Title,
-    Body_addclass,
-    Group,
-    Main,
-    Box,
-    Inputbox,
-    KPI,
-    Table,
-    Button,
-    Modal,
-    Form,
-    SubmitButton,
-    Pagination,
-} from '../../exporter/component_exporter';
-import { fetchProducts, deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
-import useFetch from '../../hooks/fetch';
+import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
+// import { deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
+import useFetch from "../../hooks/fetch";
+import useFetchData from "../../hooks/admin/inv/fetchData";
+import useModifyItem from "../../hooks/admin/inv/modifyItem";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
 
 export default function Test() {
-  // this file is subject for optimization
-    Title('Inventory Management');
-    Body_addclass('Management-PAGE');
+    // this file is subject for optimization
+    Title("Inventory Management");
+    Body_addclass("Management-PAGE");
 
     // State variables
 
-    const { monthlyRevenue, mostSoldProduct } = useFetch();
+    const { monthlyRevenue, mostSoldProduct, expenses, totalStockValue } =
+        useFetch();
     // Get the latest month's revenue (assuming the first item is the latest)
-    const latestMonth = monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
+    const latestMonth =
+        monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
     const latestRevenue = latestMonth ? latestMonth.revenue : 0;
 
+    const showExpenses = expenses || 0;
+    const showStockValue = totalStockValue || 0;
     // Most sold product info
-    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : 'N/A';
+    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : "N/A";
     const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
-    const [formData, setFormData] = useState({
-        ITEM_NAME: '',
-        CATEGORY: '',
-        STOCK: '',
-        COST_PER_UNIT: '',
-    });
-    const [currentProductId, setCurrentProductId] = useState(null);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [products, setProducts] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
+    const {
+        formData,
+        setFormData,
+        saveProduct,
+        editProduct,
+        setCurrentProductId,
+        error,
+        success,
+        deleteItem
+    } = useModifyItem();
 
-    // Fetch products on component mount or page change
-    useEffect(() => {
-        fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
-    }, [currentPage]);
+    const {
+        products,
+        setProducts,
+        totalPages,
+        setTotalPages,
+        currentPage,
+        setCurrentPage,
+        fetchProducts,
+    } = useFetchData();
+
+    const { categories } = useFetchOrder();
+    const getCategoryName = (id) => {
+        const cat = categories.find((c) => c.id === id);
+        return cat ? cat.name : "Unknown";
+    };
+
     // Handle form input changes dynamically
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -57,35 +60,36 @@ export default function Test() {
     };
     // Reset form fields
     const resetForm = () => {
-        setFormData({ ITEM_NAME: '', CATEGORY: '', STOCK: '', COST_PER_UNIT: '' });
+        setFormData({ ITEM_NAME: "", category_id: "", STOCK: "", COST_PER_UNIT: "", SOLD_BY: "" });
         setCurrentProductId(null);
     };
     // Table headers and rows
     const tbhead = [
-        'SKU NO.',
-        'ITEM NAME',
-        'SOLD BY',
-        'CATEGORY',
-        'STOCK',
-        'UNIT COST',
-        'STOCK VALUE',
-        'STATUS',
-        'MODIFIED',
+        "SKU NO.",
+        "ITEM NAME",
+        "SOLD BY",
+        "CATEGORY",
+        "STOCK",
+        "UNIT COST",
+        "STOCK VALUE",
+        "STATUS",
     ];
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
         ITEMNAME: product.COMPOSITE_NAME,
         SOLDBY: product.SOLD_BY,
-        CATEGORY: product.CATEGORY,
-        STOCK: product.STOCK,
-        COSTPERUNIT: product.COST_PER_UNIT,
-        STOCKVALUE: product.STOCK_VALUE,
+        CATEGORY: getCategoryName(product.category_id),
+        STOCK: product.STOCK.toFixed(2),
+        COSTPERUNIT: product.COST_PER_UNIT.toFixed(2),
+        STOCKVALUE: product.STOCK_VALUE.toFixed(2),
         STATUS: product.STATUS,
-        lastUpdated: new Date(product.updated_at).toLocaleString(),
-        edit: () => editProduct(product, setFormData, setCurrentProductId),
-        delete: () => deleteProduct(product.id, setError, setSuccess, products, setProducts),
+        // lastUpdated: new Date(product.updated_at).toLocaleString(),
+        edit: () => editProduct(product),
+        delete: () =>
+            deleteItem(product.id),
     }));
 
+    const tbhead2 = ['ID', 'Category', 'Number of Products']
 
     return (
         <>
@@ -96,37 +100,31 @@ export default function Test() {
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Group Class="kpis">
-                        <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} Class="red1" />
-                        <KPI Title="TOTAL REVENUE" Integer="23.8%" />
-                        <KPI Title="TOTAL REVENUE" Integer="₱34,106.00" Class="red2" />
-                        <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} Class="red3" />
+                        <Group Class="kpis">
+                          <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} />
+                          <KPI Title="STOCK EXPENSES" Integer={`₱${Number(showExpenses).toLocaleString()}`}/>
+                          <KPI Title="STOCK VALUE" Integer={`₱${Number(showStockValue).toLocaleString()}`} />
+                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} />
+                        </Group>
                     </Group>
-                    <Box
-                        Title="INVENTORY"
-                        UpperRight={<Button Title="+" OpenModal="AddModal" />}
-                        BoxCol
-                    >
-                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                        />
+                    <Box Title="INVENTORY" UpperRight={<Button Title="+" OpenModal="AddModal-Inventory" />} BoxCol >
+                        <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                    </Box>
+                    <Box Title='CATEGORIES' UpperRight={ <Button Title='+ ' OpenModal='AddModal-Category' /> } BoxCol>
+                        <Table Title="Category" HeadRows={ tbhead2 } DataRows={ tbrows } EditBtn DeleteBtn />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={''} />
                     </Box>
                 </Main>
             </Group>
-            <Modal Modal="AddModal">
+            <Modal Modal="AddModal-Inventory">
                 <Form
                     Title="ADD ITEM"
                     FormThreelayers
                     OnSubmit={(e) =>
                         saveProduct(
                             e,
-                            formData,
-                            false,
-                            null,
-                            setError,
-                            setSuccess,
+                            false, // isEdit
                             resetForm,
                             fetchProducts,
                             currentPage,
@@ -136,45 +134,22 @@ export default function Test() {
                         )
                     }
                 >
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
+                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Item Name"
-                            Type="text"
-                            Name="ITEM_NAME"
-                            Value={formData.ITEM_NAME}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Category"
-                            Type="text"
-                            Name="CATEGORY"
-                            Value={formData.CATEGORY}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Stock"
-                            Type="number"
-                            Name="STOCK"
-                            Value={formData.STOCK}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Unit Cost"
-                            Type="number"
-                            Name="COST_PER_UNIT"
-                            Value={formData.COST_PER_UNIT}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
+                            Options={categories.map((cat) => ({
+                            label: cat.name,
+                            value: cat.id,
+                        }))} SltCol SltWhite OnChange={handleInputChange} />
+                        <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
+                            Options={[
+                            { label: "Each", value: "each" },
+                            { label: "Weight", value: "weight" }
+                        ]} SltCol SltWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -182,66 +157,39 @@ export default function Test() {
                     </Group>
                 </Form>
             </Modal>
-            <Modal Modal="EditModal">
+            <Modal Modal="EditModal-Inventory">
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
                     OnSubmit={(e) =>
-                        saveProduct(
-                            e,
-                            formData,
-                            true,
-                            currentProductId,
-                            setError,
-                            setSuccess,
-                            resetForm,
-                            fetchProducts,
-                            currentPage,
-                            setProducts,
-                            setCurrentPage,
-                            setTotalPages
+                    saveProduct(
+                        e,
+                        true, // isEdit
+                    resetForm,
+                    fetchProducts,
+                    currentPage,
+                    setProducts,
+                    setCurrentPage,
+                    setTotalPages
                         )
                     }
                 >
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
+                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox
-                            Title="Item Name"
-                            Type="text"
-                            Name="ITEM_NAME"
-                            Value={formData.ITEM_NAME}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Category"
-                            Type="text"
-                            Name="CATEGORY"
-                            Value={formData.CATEGORY}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Stock"
-                            Type="number"
-                            Name="STOCK"
-                            Value={formData.STOCK}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
-                        <Inputbox
-                            Title="Unit Cost"
-                            Type="number"
-                            Name="COST_PER_UNIT"
-                            Value={formData.COST_PER_UNIT}
-                            InCol
-                            InWhite
-                            onChange={handleInputChange}
-                        />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
+                            Options={categories.map((cat) => ({
+                            label: cat.name,
+                            value: cat.id,
+                        }))} SltCol SltWhite OnChange={handleInputChange} />
+                        <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
+                            Options={[
+                            { label: "Each", value: "each" },
+                            { label: "Weight", value: "weight" }
+                        ]} SltCol SltWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />

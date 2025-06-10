@@ -45,6 +45,15 @@ export default function RegisterPage() {
     Body_addclass("Register-PAGE")
     const screenwidth = ScreenWidth()
 
+    const Inputboxes = [
+        { Title: "First Name", Type: "text", InCol: true, InWhite: true, Value: firstname, onChange: (e) => setFirstName(e.target.value) },
+        { Title: "Last Name", Type: "text", InCol: true, InWhite: true, Value: lastname, onChange: (e) => setLastName(e.target.value) },
+        { Title: "Email", Type: "email", InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
+        { Title: "Contact Number", Type: "number", InCol: true, InWhite: true, Value: contact, onChange: (e) => setContact(e.target.value) },
+        { Title: "Password", Type: "password", InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) },
+        { Title: "Confirm Password", Type: "password", InCol: true, InWhite: true, Value: passwordConfirmation, onChange: (e) => setPasswordConfirmation(e.target.value) }
+    ]
+
     return (
         <>
             <Main>
@@ -52,12 +61,9 @@ export default function RegisterPage() {
                     <Form Title="REGISTER" { ...screenwidth > 766 && { FormTwolayers: true } } OnSubmit={handleSubmit}>
                         { error && <Group Class="errorside"><p>{ error }</p></Group> }
                         <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
-                            <Inputbox Title="First Name" Type="text" InCol InWhite Value={firstname} onChange={(e) => setFirstName(e.target.value)} />
-                            <Inputbox Title="Last Name" Type="text" InCol InWhite Value={lastname} onChange={(e) => setLastName(e.target.value)} />
-                            <Inputbox Title="Email" Type="email" InCol InWhite Value={email} onChange={(e) => setEmail(e.target.value)} />
-                            <Inputbox Title="Contact Number" Type="number" InCol InWhite Value={contact} onChange={(e) => setContact(e.target.value)} />
-                            <Inputbox Title="Password" Type="password" InCol InWhite Value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <Inputbox Title="Confirm Password" Type="password" InCol InWhite Value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                            { Inputboxes.map((input, index) => (
+                                <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                            )) }
                         </Group>
                         <Group Class="buttonside">
                             <SubmitButton Title="SUBMIT" BtnWhite />
@@ -65,7 +71,6 @@ export default function RegisterPage() {
                     </Form>
                 </Section>
             </Main>
-            <Footer />
         </>
-    );
+    )
 }

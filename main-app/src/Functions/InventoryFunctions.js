@@ -1,36 +1,36 @@
-import axiosClient from "../axiosClient";
+// import axiosClient from "../axiosClient";
 
-// Fetch Products
-export const fetchProducts = async (page, setProducts, setCurrentPage, setTotalPages) => {
-    try {
-        const { data } = await axiosClient.get(`/products?page=${page}`);
-        setProducts(data.data);
-        setCurrentPage(data.current_page);
-        setTotalPages(data.last_page);
-    } catch (error) {
-        console.error("Failed to fetch products:", error);
-    }
-};
+// // Fetch Products
+// // export const fetchProducts = async (page, setProducts, setCurrentPage, setTotalPages) => {
+// //     try {
+// //         const { data } = await axiosClient.get(`/products?page=${page}`);
+// //         setProducts(data.data);
+// //         setCurrentPage(data.current_page);
+// //         setTotalPages(data.last_page);
+// //     } catch (error) {
+// //         console.error("Failed to fetch products:", error);
+// //     }
+// // };
 
-// Delete Product
-export const deleteProduct = async (id, setError, setSuccess, products, setProducts) => {
-    setError(null);
-    setSuccess(null);
+// // Delete Product
+// export const deleteProduct = async (id, setError, setSuccess, products, setProducts) => {
+//     setError(null);
+//     setSuccess(null);
 
-    const isConfirmed = window.confirm("Are you sure you want to delete this item?");
-    if (!isConfirmed) return;
+//     const isConfirmed = window.confirm("Are you sure you want to delete this item?");
+//     if (!isConfirmed) return;
 
-    try {
-        await axiosClient.delete(`/products/${id}`);
-        // setProducts(products.filter((product) => product.id !== id));
-        setSuccess("Item deleted successfully");
-    } catch (error) {
-        console.error("Failed to delete product:", error);
-        setError("Failed to delete item, please try again!");
-    }
-};
+//     try {
+//         await axiosClient.delete(`/products/${id}`);
+//         // setProducts(products.filter((product) => product.id !== id));
+//         setSuccess("Item deleted successfully");
+//     } catch (error) {
+//         console.error("Failed to delete product:", error);
+//         setError("Failed to delete item, please try again!");
+//     }
+// };
 
-// Add or Modify Product
+// // Add or Modify Product
 export const saveProduct = async (e, formData, isEdit, id, setError, setSuccess, resetForm, fetchProducts, currentPage, setProducts, setCurrentPage, setTotalPages) => {
     e.preventDefault();
     setError(null);
@@ -50,7 +50,7 @@ export const saveProduct = async (e, formData, isEdit, id, setError, setSuccess,
     }
 };
 
-// Prefill Form for Editing
+// // Prefill Form for Editing
 export const editProduct = (product, setFormData, setCurrentProductId) => {
     setFormData({
         ITEM_NAME: product.COMPOSITE_NAME,

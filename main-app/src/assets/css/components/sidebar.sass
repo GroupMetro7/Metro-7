@@ -1,43 +1,47 @@
 @use '../constant.sass' as v
 
+aside, aside div, aside nav, aside a, aside img 
+    display: flex !important
+
 @media only screen and (min-width: 1267px) 
 
     aside.sidebar 
         background-color: v.$header-footer !important
-        width: v.$sidebar-size !important
+        width: 75px !important
         height: 100vh !important
         position: fixed !important
         top: 0 !important
         transition: .33s !important
-        overflow: hidden
+        overflow: hidden !important
         z-index: 100 !important
 
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 37.5px !important
+            gap: 33px !important
             padding: 27.5px 13px !important
 
             > img 
-                width: 50px !important
+                height: 30px !important
+                align-self: flex-start !important
 
             > nav 
                 align-self: center !important
                 flex-direction: column !important
-                gap: 17.5px !important
+                gap: v.$elem-sa-size-m !important
 
                 > a 
-                    gap: 7.5px !important
+                    gap: v.$elem-sa-size-s !important
                     align-items: center !important
 
                     > div
                         background-color: v.$color-secondary !important
-                        width: 43px !important
+                        width: 40px !important
                         padding: 10px !important
                         border-radius: 100% !important
 
                         > img 
-                            width: 23px !important
+                            width: 20px !important
 
                     > span  
                         white-space: nowrap !important
@@ -47,15 +51,16 @@
                         visibility: hidden !important
 
         &:has(nav:hover)
-            width: calc( v.$sidebar-size * 2.9 ) !important
+            width: calc( v.$sidebar-size * 3 ) !important
 
             nav 
-                margin-left: 3.4px !important
+                margin-left: 4px !important
                 
                 > a
                     width: 100% !important
+                    font-weight: 700 !important
                     justify-content: flex-start !important
-                    padding-inline-end: 7.5px !important
+                    padding-inline-end: v.$elem-sa-size-s !important
                     transition: .33s !important
                     
                     > span
@@ -72,6 +77,7 @@
         
     aside.sidebar 
         background-color: v.$header-footer !important
+        width: 75px !important
         height: 100vh !important
         position: fixed !important
         top: 0 !important
@@ -82,29 +88,31 @@
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 37.5px !important
+            gap: 33px !important
             padding: 27.5px 13px !important
 
             > img 
-                width: 50px !important
+                height: 30px !important
+                align-self: flex-start !important
 
             > nav 
                 align-self: center !important
                 flex-direction: column !important
-                gap: 17.5px !important
+                gap: 13px !important
 
                 > a 
                     gap: 7.5px !important
+                    font-weight: 700 !important
                     align-items: center !important
 
                     > div
                         background-color: v.$color-secondary !important
-                        width: 43px !important
+                        width: 40px !important
                         padding: 10px !important
                         border-radius: 100% !important
 
                         > img 
-                            width: 23px !important
+                            width: 20px !important
 
                     > span
                         text-transform: uppercase !important
@@ -116,7 +124,7 @@
             width: 200px !important
 
             nav 
-                margin-left: 3.4px !important
+                margin-left: 4px !important
                 
                 > a
                     width: 100% !important

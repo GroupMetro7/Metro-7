@@ -10,13 +10,13 @@ export default function Footer() {
     return(
         <footer>
             <img src={ Logo }/>
-            <div className='contactside'>
-                <div className='logos'>
+            <div>
+                <div>
                     <img src={ FBLogo }/>
                     <img src={ XLogo }/>
                     <img src={ IGLogo }/>
                 </div>
-                <div className='contact'>
+                <div>
                     <figure>
                         <img src={ PhoneLogo }/>
                         <figurecaption>+63 9952332528</figurecaption>
@@ -26,22 +26,16 @@ export default function Footer() {
                         <figurecaption>Metrowalk, Pasig City</figurecaption>
                     </figure>
                 </div>
+                { screenwidth < 1265 && <Href Title='PRIVACY & TERMS' HrefWhite/> }
             </div>
-            { screenwidth > 1266 && (
+            { screenwidth > 1266 &&
             <nav>
                 <Href Title='HOME' Redirect='/' HrefWhite/>
-                <Href Title='LOCATION' Redirect='/location' HrefWhite/>
                 <Href Title='MENU' Redirect='/menu' HrefWhite/>
                 <Href Title='LOGIN' Redirect='/login' HrefWhite/>
-            </nav>
-            ) }
-            <div className='privacytermsside'>
                 <Href Title='PRIVACY & TERMS' HrefWhite/>
-                <div>
-                    <Inputbox Title='Email' Type='email' InCol InWhite/>
-                    <p>Receive news from us!</p>
-                </div>
-            </div>
+            </nav>
+            }
         </footer>
     )
 }

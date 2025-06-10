@@ -5,8 +5,7 @@ import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
 export default function AdminLayout() {
-    const { token, setUser, setToken } = useStateContext();
-    const { user } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,7 +40,7 @@ export default function AdminLayout() {
     };
 
     if (!user || user?.role !== "admin") {
-        return <Navigate to={"/welcome"} />;
+        return <Navigate to={"/"} replace/>;
     }
 
     return (

@@ -7,6 +7,7 @@ export { default as FooterHeight } from '../Components/Others/get_footerheight'
 export { default as PreOrderSectionHeight } from '../Components/Others/get_preordersectionheight'
 export { default as SideBarWeight } from '../Components/Others/get_sidebarweight'
 export { default as ScreenWidth } from '../Components/Others/screen_width'
+export { default as CheckoutWidth } from '../Components/Others/get_divcheckoutwidth'
 
 export { default as LoadingSpinner } from '../Components/Others/loading_spinner'
 

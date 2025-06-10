@@ -6,21 +6,19 @@ export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, 
     const navigate = useNavigate();
 
     return(
-        <button type='button'
-            className={ `${ BtnWhite ? 'btnwhite' : undefined } ${ Class }` }
-        onClick={(e) => {
-          if ( Onclick ) Onclick(e);
-          if ( Redirect ) navigate(`${Redirect}`);
-          if ( Pagination ) handlePageChange(Pagination);
-        }}
-        disabled = {Disabled}
-            data-bs-target={ OpenModal ? (`#${ OpenModal }`) : undefined }
-            data-bs-toggle={ OpenModal ? 'modal' : undefined }
-            data-bs-dismiss={ CloseModal ? 'modal' : undefined }
+        <button type='button' className={ `${ BtnWhite && 'btnwhite' } ${ Class }` }
+            onClick={(e) => {
+            ( Onclick ) && Onclick(e)
+            ( Redirect ) && navigate(`${Redirect}`)
+            ( Pagination ) && handlePageChange(Pagination)
+            }}
+            disabled = {Disabled}
+            data-bs-target={ OpenModal && (`#${ OpenModal }`) }
+            data-bs-toggle={ OpenModal && 'modal' }
+            data-bs-dismiss={ CloseModal && 'modal' }
             key={ Key } >
-            { Icon ? <><img src={ Icon }/></> : undefined }
+            { Icon && <><img src={ Icon }/></> }
             { Title }
-
         </button>
     )
 }

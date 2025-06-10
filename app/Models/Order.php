@@ -11,7 +11,13 @@ class Order extends Model
     'status',
     'amount',
     'order_number',
-    'option'
+    'option',
+    'discount',
+    'downpayment',
+    'cashPayment',
+    'onlinePayment',
+    'reference_Number',
+    'user_id',
   ];
 
   protected $casts = [
