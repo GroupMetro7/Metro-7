@@ -40,6 +40,7 @@ class RetrieveDataController extends Controller
     $orders = Order::with('tickets')->paginate(10);
 
 
+
     return response()->json([
         'orders' => $orders,
         'total_expense' => $totalExpense ?? 0,
@@ -49,4 +50,8 @@ class RetrieveDataController extends Controller
         'most_sold_product' => $mostSold,
     ]);
 }
+  public function index(){
+    $completedOrders = Order::with('tickets')->where('status', 'completed')->paginate(10);
+    return response()->json($completedOrders);
+  }
 }

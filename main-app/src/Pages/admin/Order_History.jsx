@@ -5,16 +5,20 @@ import useSearchItem from "../../hooks/searchItem";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
+import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 
 export default function StaffOrderList() {
     Title("Order List");
     Body_addclass("Management-PAGE");
     // optimized, need to add pre orders tab
-    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages } =
+    const { selectedOrder, setSelectedOrder,  } =
         useFetchOrder();
 
     const { formData, setFormData, handleUpdateOrder, error, success } =
         useModifyOrderList(selectedOrder);
+
+    const { orderHistory, currentPage, totalPages, setCurrentPage } = useOrderHistory();
+
 
     const tbhead = [
         "ORDER NO.",
@@ -24,7 +28,8 @@ export default function StaffOrderList() {
         "OPTION",
         "STATUS",
     ];
-    const tbrowsOrders = orders.map((order) => ({
+
+    const tbrowsOrders = orderHistory.map((order) => ({
         orderId: order.order_number,
         name: order.name,
         amount: order.amount,
@@ -65,7 +70,7 @@ export default function StaffOrderList() {
             </Group>
 
             {/* Modal to display tickets for the selected order */}
-            
+
                 <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
                 {selectedOrder && (
                     <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
@@ -180,7 +185,7 @@ export default function StaffOrderList() {
                     </Form>
                 )}
                 </Modal>
-            
+
         </>
     );
 }
