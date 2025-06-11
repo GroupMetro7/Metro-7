@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddProductRequest;
 use App\Http\Requests\admin\UpdateProductRequest;
-use App\Models\product;
+use App\Models\Product;
 use App\Models\stockLog;
 use App\Models\StockManagement;
 use Illuminate\Http\Request;

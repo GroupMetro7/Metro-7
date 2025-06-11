@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\serviceControls;
 
 use App\Http\Controllers\Controller;
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class serviceController extends Controller
@@ -19,7 +19,7 @@ class serviceController extends Controller
         }
     }
 
-    $query = product::with('category');
+    $query = Product::with('category');
     if ($request->has('category_id') && $request->category_id != 1 && strtolower($request->category_id) != 'all') {
         $query->where('category_id', $request->category_id);
     } elseif (!$request->has('category_id') || $request->category_id == 1 || strtolower($request->category_id) == 'all') {
