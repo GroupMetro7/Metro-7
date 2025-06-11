@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddEmployeeRequest;
-use App\Http\Requests\admin\UpdateEmployeeRequest;
 use App\Models\employee;
 use App\Models\User;
 use Illuminate\Http\Request;

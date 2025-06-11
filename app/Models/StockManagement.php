@@ -46,7 +46,7 @@ protected static function boot()
 
 public function products()
 {
-  return $this->belongsToMany(product::class, 'product_ingredient', 'ingredient_id', 'product_id')->withPivot('quantity')->withTimestamps();
+  return $this->belongsToMany(Product::class, 'product_ingredient', 'ingredient_id', 'product_id')->withPivot('quantity')->withTimestamps();
 }
 
 public function category()
