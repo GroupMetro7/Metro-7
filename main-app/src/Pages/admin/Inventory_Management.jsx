@@ -111,10 +111,6 @@ export default function Test() {
                         <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
-                    <Box Title='CATEGORIES' UpperRight={ <Button Title='+ ' OpenModal='AddModal-Category' /> } BoxCol>
-                        <Table Title="Category" HeadRows={ tbhead2 } DataRows={ tbrows } EditBtn DeleteBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={''} />
-                    </Box>
                 </Main>
             </Group>
             <Modal Modal="AddModal-Inventory">

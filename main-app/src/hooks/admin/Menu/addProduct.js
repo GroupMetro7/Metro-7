@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axiosClient from "../../../axiosClient";
 
-export default function useAddProduct() {
+export default function useAddProduct(fetchMenu) {
   //variables
   const [formData, setFormData] = useState({
     id: "",
@@ -67,6 +67,7 @@ export default function useAddProduct() {
     try {
       await axiosClient.post("/menu", data);
       setSuccess("Product added successfully");
+      fetchMenu([]);
       setFormData({
         product_name: "",
         description: "",
@@ -110,6 +111,7 @@ export default function useAddProduct() {
         params: { _method: "PUT" },
       });
       setSuccess("Product updated successfully");
+      fetchMenu([]);
       setFormData({
         order_number: "",
         product_name: "",
@@ -152,14 +154,7 @@ export default function useAddProduct() {
     try {
       await axiosClient.delete(`/menu/${currentProductId}`);
       setSuccess("Item deletion successful");
-      setCurrentProductId(null);
-      setFormData({
-        product_name: "",
-        description: "",
-        price: "",
-        image_url: null,
-        category_id: "",
-      });
+      window.location.reload();
     } catch (error) {
       console.error("Failed to delete product:", error);
       setError("Failed to delete item, please try again!");

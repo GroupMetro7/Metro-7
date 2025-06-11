@@ -54,6 +54,8 @@ Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/order/search', [OrderController::class, 'search']);
 Route::delete('/menu/{id}', [ProductController::class, 'destroy']);
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);
 Route::get('/products/category/{categoryId}', [ProductController::class, 'byCategory']);
 Route::post('/createCategory', [CategoryController::class, 'create']);
 
