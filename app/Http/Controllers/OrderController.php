@@ -142,6 +142,8 @@ $mostSold = \DB::table('tickets')
           'downpayment' => 'nullable|numeric',
           'refNumber' => 'nullable',
           'status' => 'nullable|string',
+          'cashPayment' => 'nullable|numeric',
+          'discount' => 'nullable|numeric',
           'tickets' => 'required|array',
           'tickets.*.product_id' => 'required|integer|exists:products,id',
           'tickets.*.product_name' => 'required|string|max:255',
@@ -150,6 +152,8 @@ $mostSold = \DB::table('tickets')
           'tickets.*.total_price' => 'required|numeric|min:0',
       ]);
 
+
+      try {
       $orderNumber = $this->generateOrderNumber();
       // Create the order
       $order = Order::create([
@@ -162,6 +166,7 @@ $mostSold = \DB::table('tickets')
           'reference_Number' => $validated['refNumber'] ?? null,
           'downpayment' => $validated['downpayment'] ?? 0,
           'option' => $validated['option'],
+          'discount' => $validated['discount'],
           'user_id' => $user->id,
       ]);
 
@@ -195,8 +200,10 @@ $mostSold = \DB::table('tickets')
             ]);
         }
       }
-
-
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
+    } catch (\Exception $e) {
+        \Log::error($e);
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
   }
 }

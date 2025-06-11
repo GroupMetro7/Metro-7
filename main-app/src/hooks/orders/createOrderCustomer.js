@@ -58,30 +58,34 @@ export default function useCreateOrder() {
       return;
     }
 
-    const formattedOrder = {
-      amount: formData.totalPrice,
-      downpayment: formData.downpayment,
-      refNumber: formData.refNumber,
-      option: diningOpt,
-      status: "pending",
-      tickets: order.map((item) => ({
-        product_id: item.id,
-        product_name: item.product_name,
-        quantity: item.quantity,
-        unit_price: item.price,
-        total_price: item.price * item.quantity,
-      })),
-    };
-
+const formattedOrder = {
+  amount: formData.totalPrice,
+  downpayment: formData.downpayment,
+  refNumber: formData.refNumber,
+  option: diningOpt,
+  status: "pending",
+  discount: discount || 0,
+  cashPayment: 0,
+  
+  tickets: order.map((item) => ({
+    product_id: item.id,
+    product_name: item.product_name,
+    quantity: item.quantity,
+    unit_price: item.price,
+    total_price: item.price * item.quantity,
+  })),
+};
     try {
       await axiosClient.post("/create-order-Customer", formattedOrder);
       alert("Order submitted successfully!");
-      window.location.reload();
+      setOrder([]);
+      setFormData({
+        totalPrice: "",
+        downpayment: "",
+        refNumber: "",
+      });
     } catch (error) {
-      const msg =
-        error?.response?.data?.message ||
-        "Failed to submit order. Please try again.";
-      alert(`Failed to submit order: ${msg}`);
+      console.error("Error submitting order:", error);
     }
   };
   return {

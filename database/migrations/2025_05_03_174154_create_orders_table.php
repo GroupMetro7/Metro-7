@@ -15,14 +15,14 @@ return new class extends Migration
         $table->id();
         $table->string('name')->nullable();
         $table->string('order_number')->unique();
-        $table->float('cashPayment');
-        $table->float('onlinePayment');
+        $table->decimal('cashPayment', 10, 2);
+        $table->decimal('onlinePayment', 10, 2);
         $table->decimal('amount', 10, 2)->nullable();
         $table->string('option')->nullable();
         $table->decimal('discount', 10, 2)->nullable();
         $table->string('status')->default('pending');
         $table->string('reference_Number')->nullable();
-        $table->float('downpayment')->nullable();
+        $table->decimal('downpayment', 10, 2)->nullable();
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         $table->timestamps();
     });

@@ -68,7 +68,7 @@ export default function MenuPage() {
 
   return (
     <>
-      {token ? (
+      {user && user.id ? (
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
