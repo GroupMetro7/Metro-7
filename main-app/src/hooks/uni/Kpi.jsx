@@ -19,9 +19,9 @@ export default function UseKpi() {
 
   return (
     <>
-      <KPI Title="TOTAL REVENUE" Integer={monthlyRevenue} />
-      <KPI Title="STOCK EXPENSES" Integer={monthlyStockExpense} />
-      <KPI Title="STOCK VALUE" Integer={stockValue} />
+      <KPI Title="TOTAL REVENUE" Integer={'₱' + monthlyRevenue + ' ' + '/Month'} />
+      <KPI Title="STOCK EXPENSES" Integer={'₱' + monthlyStockExpense + ' ' + '/Month'} />
+      <KPI Title="STOCK VALUE" Integer={'₱' + stockValue} />
       <KPI Title="TOTAL SOLD" Integer={totalOrders} />
     </>
   );

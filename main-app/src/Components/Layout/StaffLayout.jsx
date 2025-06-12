@@ -42,9 +42,9 @@ export default function StaffLayout() {
         }
     };
 
-    // if (!user || user?.role !== "employee") {
-    //     return <Navigate to={"/customer"} replace/>;
-    // }
+    if (!user || user?.role !== "employee") {
+        return <Navigate to={"/customer"} replace/>;
+    }
 
 
 
