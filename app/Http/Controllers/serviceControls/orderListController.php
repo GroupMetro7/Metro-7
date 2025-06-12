@@ -11,8 +11,8 @@ class orderListController extends Controller
     public function update(Request $request, $id)
     {
         $validatedList = $request->validate([
-          'downpayment' => 'required',
-          'refNumber' => 'required',
+          'downpayment' => 'sometimes',
+          'refNumber' => 'sometimes',
           'status' => 'sometimes',
         ]);
 

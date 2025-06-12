@@ -40,11 +40,9 @@ export default function useFetchDashboardData() {
         setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
       });
-    }; 
+    };
     fetchOrder(currentPage);
   }, [currentPage]);
-
-  //
 
     return {
     monthlyRevenue,

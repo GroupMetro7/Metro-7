@@ -21,13 +21,15 @@ export default function useCreateReservation() {
 
   const handleCreateReservation = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
     const token = localStorage.getItem('ACCESS_TOKEN');
     if (!token) {
       setError('You need to be registered and logged in to make a reservation.');
       return;
     }
-    
+
     try {
       await axiosClient.post('/createReservation', formData);
       setSuccess('Reservation created successfully please wait for confirmation!');
@@ -37,9 +39,11 @@ export default function useCreateReservation() {
         date: '',
         time: ''
       });
+      setError(null);
     } catch (error) {
       console.error("Error creating reservation:", error);
       setError('Failed to create reservation, please try again later.');
+      setSuccess(null);
     }
   }
 

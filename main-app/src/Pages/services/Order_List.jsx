@@ -10,7 +10,7 @@ export default function StaffOrderList() {
     Title("Order List");
     Body_addclass("Management-PAGE");
     // optimized, need to add pre orders tab
-    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages } =
+    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages, handlePageChange } =
         useFetchOrder();
 
     const { formData, setFormData, handleUpdateOrder, error, success } =
@@ -36,9 +36,9 @@ export default function StaffOrderList() {
         },
     }));
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+    // const handlePageChange = (page) => {
+    //     setCurrentPage(page);
+    // };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,7 +61,7 @@ export default function StaffOrderList() {
             </Group>
 
             {/* Modal to display tickets for the selected order */}
-            
+
             <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
             {selectedOrder && (
                 <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
@@ -176,7 +176,7 @@ export default function StaffOrderList() {
                 </Form>
             )}
             </Modal>
-            
+
         </>
     );
 }

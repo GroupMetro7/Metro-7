@@ -20,11 +20,15 @@ class OrderController extends Controller
     return 'ORD-' . $newNumber;
 }
 
+
+//calling order lists
 public function index()
 {
-    $orders = Order::with('tickets')->paginate(10);
+    $orders = Order::with('tickets')->orderByRaw("FIELD(status, 'pending', 'completed', 'cancelled')")->orderBy('created_at', 'desc')->paginate(10);
     return response()->json($orders);
 }
+
+//search function for orders
 
       public function search(Request $request)
   {
@@ -32,6 +36,8 @@ public function index()
       $products = Order::where('order_number', 'like', '%' . $search . '%')->paginate(10);
       return response()->json($products);
   }
+
+  //store order function
 
     public function store(Request $request)
     {
@@ -128,6 +134,7 @@ $mostSold = \DB::table('tickets')
     ]);
     }
 
+    //customer create order function
         public function storeCustomerOrder(Request $request)
     {
 

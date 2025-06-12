@@ -340,7 +340,7 @@ export default function StaffDashboard() {
                 <Outputfetch Value={`x${product.quantity}`} OutWhite />
                 <Outputfetch Value={`₱${product.price}`} OutWhite />
                 <Outputfetch
-                  Value={`₱${totalPrice}`}
+                  Value={`₱${product.price * product.quantity}`}
                   OutWhite
                 />
               </div>
@@ -356,12 +356,6 @@ export default function StaffDashboard() {
             <Outputfetch
               Title="Discount"
               Value={`₱${discount}`}
-              OutCol
-              OutWhite
-            />
-            <Outputfetch
-              Title="Payment Mode"
-              Value={paymentOpt}
               OutCol
               OutWhite
             />

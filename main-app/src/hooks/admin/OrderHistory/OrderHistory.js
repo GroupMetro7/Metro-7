@@ -10,9 +10,9 @@ export default function useOrderHistory() {
       useEffect(() => {
     const fetchOrder = (page) => {
       axiosClient.get(`/completed-order?page=${page}`).then(({ data }) => {
-        setOrderHistory(data.data);
-        setCurrentPage(data.current_page);
-        setTotalPages(data.last_page);
+        setOrderHistory(data.completedOrders.data);
+        setCurrentPage(data.completedOrders.current_page);
+        setTotalPages(data.completedOrders.last_page);
       });
     };
     fetchOrder(currentPage);
@@ -22,6 +22,6 @@ export default function useOrderHistory() {
     orderHistory,
     currentPage,
     totalPages,
-    setCurrentPage
+    setCurrentPage,
   };
 }

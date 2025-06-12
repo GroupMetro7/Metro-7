@@ -225,7 +225,7 @@ export default function MenuPage() {
                 <Outputfetch Value={`x${product.quantity}`} OutWhite />
                 <Outputfetch Value={`₱${product.price}`} OutWhite />
                 <Outputfetch
-                  Value={`₱${Number(formData.totalPrice).toFixed(2)}`}
+                  Value={`₱${Number(product.price * product.quantity).toFixed(2)}`}
                   OutWhite
                 />
               </div>

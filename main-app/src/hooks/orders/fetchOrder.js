@@ -22,6 +22,11 @@ export default function useFetchOrder() {
     fetchOrder(currentPage);
   }, [currentPage]);
 
+
+      const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
   useEffect(() => {
     axiosClient
       .get("/ingredients")
@@ -52,5 +57,6 @@ export default function useFetchOrder() {
     orders,
     selectedOrder,
     setSelectedOrder,
+    handlePageChange
   };
 }
