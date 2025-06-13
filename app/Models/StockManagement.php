@@ -47,7 +47,7 @@ protected static function boot()
                 $product->is_available = false;
                 $product->save();
             }
-        } elseif ($model->STATUS === 'Available') {
+        } elseif ($model->STATUS !== 'Unavailable') {
           foreach ($model->products as $product) {
                 $product->is_available = true;
                 $product->save();

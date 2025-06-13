@@ -52,6 +52,7 @@ export default function MenuPage() {
     image: product.image_url,
     product_name: product.product_name,
     price: product.price,
+    is_available: product.is_available,
   }));
 
   const checkedorders = order.map((product) => ({
