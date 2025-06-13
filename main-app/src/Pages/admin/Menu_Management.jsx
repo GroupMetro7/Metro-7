@@ -85,12 +85,13 @@ export default function MenuManagementPage() {
   };
 
   // table headers and rows for displaying products
-  const tbhead = ["ID", "Product Name", "category", "Price"];
+  const tbhead = ["ID", "Product Name", "category", "Price", "Status"];
   const tbrows = menuProduct.map((product) => ({
     id: product.id,
     product_name: product.product_name,
     category: getCategoryName(product.category_id),
     price: product.price,
+    status: product.is_available ? "Available" : "Out of Stock",
     edit: () => editProduct(product, console.log(product.image)),
     delete: () => editProduct(product, console.log(product.id)),
   }));

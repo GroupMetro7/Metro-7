@@ -14,9 +14,14 @@ export default function ItemMenu({ Class, List, addItemToOrder, auth }) {
                         <h3>₱{Menu.price}</h3>
                     </article>
                     {/* Eryck, I added new exception here for authenticated and unauthenticated */}
-                    {auth && (
-                        <Button Title="ADD" Onclick={() => addItemToOrder(Menu)} />
+                    {Menu.is_available ? (
+                        auth ? (
+                            <Button Title="ADD" Onclick={() => addItemToOrder(Menu)} />
+                        ) : null
+                    ) : (
+                        <p>Unavailable</p>
                     )}
+
                 </div>
             ))}
         </>

@@ -35,6 +35,7 @@ class serviceController extends Controller
         $product->image_url = $product->image ? asset('storage/' . $product->image) : null;
     }
 
+
     return response()->json([
         'products' => $menuData,
     ]);

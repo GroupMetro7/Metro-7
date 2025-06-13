@@ -28,13 +28,13 @@ export default function CustomerLayout() {
         }
     };
 
-    if (!user) {
-        return <Navigate to={"/"} />;
-    } else if (user.role === 'employee') {
-        return <Navigate to={"/service"} replace/>;
-    } else if (user.role === 'admin') {
-        return <Navigate to={"/admin"} replace/>;
-    }
+    // if (!user) {
+    //     return <Navigate to={"/"} />;
+    // } else if (user.role === 'employee') {
+    //     return <Navigate to={"/service"} replace/>;
+    // } else if (user.role === 'admin') {
+    //     return <Navigate to={"/admin"} replace/>;
+    // }
 
     return (
         <>

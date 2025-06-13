@@ -40,6 +40,20 @@ protected static function boot()
         }
     });
 
+    static::saved(function ($model) {
+        // If the ingredient is unavailable, update related products
+        if ($model->STATUS === 'Unavailable') {
+            foreach ($model->products as $product) {
+                $product->is_available = false;
+                $product->save();
+            }
+        } elseif ($model->STATUS === 'Available') {
+          foreach ($model->products as $product) {
+                $product->is_available = true;
+                $product->save();
+          }
+        }
+    });
 }
 
 
