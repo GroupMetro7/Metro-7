@@ -1,4 +1,3 @@
-import React from "react";
 import "../../assets/css/pages/admin/Dashboard.sass";
 import {
   Title,
@@ -178,7 +177,7 @@ export default function DashboardPage() {
                                                       left: 0,
                                                       top: 0,
                                                       width: 1500,
-                                                      height: 1500,
+                                                      height: 3500,
                                                   };
                                                   const {
                                                       data: { text: rawText },
