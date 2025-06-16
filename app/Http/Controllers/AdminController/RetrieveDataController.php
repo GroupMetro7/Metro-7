@@ -52,6 +52,8 @@ class RetrieveDataController extends Controller
         'most_sold_product' => $mostSold,
     ]);
 }
+
+
   public function index(){
     $ordersQuery = Order::with('tickets')->where('status', 'completed');
     $completedOrders = (clone $ordersQuery)->paginate(5);
@@ -68,4 +70,21 @@ class RetrieveDataController extends Controller
       'totalExpense' => $totalExpense,
     ]);
   }
+
+public function getStockLogs(Request $request){
+    $query = StockLog::orderBy('created_at', 'desc');
+
+    if ($request->has('search') && trim($request->search)) {
+        $search = trim($request->search);
+        $query->where(function($q) use ($search) {
+            $q->where('type', 'like', "%{$search}%")
+              ->orWhere('value', 'like', "%{$search}%")
+              ->orWhere('sku_number', 'like', "%{$search}%")
+              ->orWhere('created_at', 'like', "%{$search}%");
+        });
+    }
+
+    $stocklogs = $query->paginate(20);
+    return response()->json($stocklogs);
+}
 }
