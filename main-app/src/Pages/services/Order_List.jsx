@@ -10,7 +10,7 @@ export default function StaffOrderList() {
     Title("Order List");
     Body_addclass("Management-PAGE");
     // optimized, need to add pre orders tab
-    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages, handlePageChange } =
+    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages, handlePageChange, setSearchItem } =
         useFetchOrder();
 
     const { formData, setFormData, handleUpdateOrder, error, success } =
@@ -50,8 +50,8 @@ export default function StaffOrderList() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
-                        <Inputbox Title="Filter" Type="text" />
+                        <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search Order number"/>
+                        <Inputbox Title="Filter" Type="text" Placeholder="Search by status"/>
                     </Box>
                     <Box Title="ORDER" BoxCol>
                         <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />

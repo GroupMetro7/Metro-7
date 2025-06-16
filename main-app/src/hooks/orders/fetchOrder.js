@@ -10,22 +10,26 @@ export default function useFetchOrder() {
   const [categories, setCategories] = useState([]);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [searchItem, setSearchItem] = useState("");
 
-  useEffect(() => {
-    const fetchOrder = (page) => {
-      axiosClient.get(`/orders?page=${page}`).then(({ data }) => {
-        setOrders(data.data);
-        setCurrentPage(data.current_page);
-        setTotalPages(data.last_page);
+useEffect(() => {
+    const fetchOrder = (page, search) => {
+      let url = `/orders?page=${page}`;
+      if (search) {
+        url += `&search=${encodeURIComponent(search)}`; // <-- FIXED
+      }
+      axiosClient.get(url).then(( data ) => {
+        setOrders(data.data.data);
+        setCurrentPage(data.data.current_page);
+        setTotalPages(data.data.last_page);
       });
     };
-    fetchOrder(currentPage);
-  }, [currentPage]);
+    fetchOrder(currentPage, searchItem);
+  }, [currentPage, searchItem]);
 
-
-      const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     axiosClient
@@ -57,6 +61,7 @@ export default function useFetchOrder() {
     orders,
     selectedOrder,
     setSelectedOrder,
-    handlePageChange
+    handlePageChange,
+    setSearchItem,
   };
 }

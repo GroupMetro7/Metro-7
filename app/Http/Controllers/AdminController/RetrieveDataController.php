@@ -71,7 +71,8 @@ class RetrieveDataController extends Controller
     ]);
   }
 
-public function getStockLogs(Request $request){
+public function getStockLogs(Request $request)
+{
     $query = StockLog::orderBy('created_at', 'desc');
 
     if ($request->has('search') && trim($request->search)) {

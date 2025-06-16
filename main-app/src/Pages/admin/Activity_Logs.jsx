@@ -46,7 +46,7 @@ export default function CustomerManagementPage() {
       <Group>
         <Main>
           <Box Class="search">
-            <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" />
+            <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
 
