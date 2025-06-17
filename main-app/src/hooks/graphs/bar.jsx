@@ -48,6 +48,6 @@ export default function SalesReport() {
   };
 
   return (
-    <Bar data={barData} options={barOptions} />
+    <Bar data={ barData } options={ barOptions } />
   );
 }

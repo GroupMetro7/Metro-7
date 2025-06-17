@@ -41,10 +41,12 @@ export const saveProduct = async (e, formData, isEdit, id, setError, setSuccess,
         const method = isEdit ? 'put' : 'post';
 
         await axiosClient[method](url, formData);
-        setSuccess(isEdit ? "Product updated successfully" : "Product added successfully");
+        alert(isEdit ? "Product updated successfully" : "Product added successfully");
         resetForm(); // Reset form fields
         fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
-    } catch (error) {
+        window.location.reload();
+    } 
+    catch (error) {
         console.error("Failed to save product:", error);
         setError(error.response?.data?.message || "Failed to save product, please try again!");
     }

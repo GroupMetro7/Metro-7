@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
-    const { token, setUser, setToken } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { user } = useStateContext();
+    
 
     useEffect(() => {
       axiosClient.get("/user")

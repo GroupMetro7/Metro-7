@@ -40,12 +40,10 @@ body.Dashboard-Service-PAGE
                 right: 23px !important
                 width: v.$checkoutsection-size !important
                 max-height: calc( 100vh - 13px - 23px ) !important
-                overflow: auto !important
-                // align-items: flex-start !important
 
                 > .datetime
                     width: 100% !important
-                    gap: 13px !important
+                    flex-grow: unset !important
                     align-items: center !important
                     text-align: center !important
                     text-transform: uppercase !important
@@ -62,17 +60,10 @@ body.Dashboard-Service-PAGE
                         width: unset !important
                         height: v.$elem-h-size-secondary !important
 
-                .inputbox
-                    width: 100% !important
-                    justify-content: space-between !important
-
-                    > input
-                        width: 65% !important
-
                 > .totalitem
                     flex-direction: column !important
-                    flex-grow: 3 !important
                     overflow-x: auto !important
+                    flex-grow: 10 !important
 
                     > .itemlist
                         width: 100% !important
@@ -83,12 +74,11 @@ body.Dashboard-Service-PAGE
                     gap: v.$elem-sa-size-m !important
 
                     > article
-                        gap: v.$elem-sa-size-s !important
-                        flex-direction: column !important
+                        justify-content: space-between !important
+                        flex-grow: 1 !important
 
-                        > div
+                        > div:has(> h3, > h4)
                             width: 100% !important
-                            justify-content: space-between !important
 
                     > button
                         width: 100% !important
@@ -112,7 +102,7 @@ body.Dashboard-Service-PAGE
                             > label
                                 flex: 1 !important
 
-                    &.formtwolayers
+                    &.formthreelayers
 
                         > .inputside:nth-child(1)
 

@@ -4,7 +4,6 @@ import { fetchMenu } from "../../functions/MenuFunctions";
 
 export default function useFetchOrder() {
   const [menuProduct, setMenu] = useState([]);
-  1;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [ingredients, setIngredients] = useState([]);
@@ -22,6 +21,11 @@ export default function useFetchOrder() {
     };
     fetchOrder(currentPage);
   }, [currentPage]);
+
+
+      const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
   useEffect(() => {
     axiosClient
@@ -53,5 +57,6 @@ export default function useFetchOrder() {
     orders,
     selectedOrder,
     setSelectedOrder,
+    handlePageChange
   };
 }

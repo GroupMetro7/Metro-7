@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController\RetrieveDataController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
@@ -53,6 +54,8 @@ Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/order/search', [OrderController::class, 'search']);
 Route::delete('/menu/{id}', [ProductController::class, 'destroy']);
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+Route::put('/categories/{id}', [CategoryController::class, 'updateCategory']);
 Route::get('/products/category/{categoryId}', [ProductController::class, 'byCategory']);
 Route::post('/createCategory', [CategoryController::class, 'create']);
 
@@ -60,6 +63,7 @@ Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'sto
 Route::get('/orders', [OrderController::class, 'index']);
 
 Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
+Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 
 
 
@@ -69,6 +73,14 @@ Route::put('/orderList/{id}', [orderListController::class, 'update']);
 
 //reservation
 Route::middleware('auth:sanctum')->post('/createReservation', [ReservationController::class, 'create']);
-// Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController::class, 'myReservations']);
 Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController::class, 'myReservations']);
-// Route::get('/myReservations', [ReservationController::class, 'myReservations']);
+
+
+
+//attendance
+Route::middleware('auth:sanctum')->get('/admin/staff-attendance-status', [AttendanceController::class, 'staffAttendanceStatus']);
+Route::middleware('auth:sanctum')->post('/attendance/time-in', [AttendanceController::class, 'timeIn']);
+Route::middleware('auth:sanctum')->post('/attendance/time-out', [AttendanceController::class, 'timeOut']);
+
+// customer order
+Route::middleware('auth:sanctum')->post('/create-order-Customer', [OrderController::class, 'storeCustomerOrder']);

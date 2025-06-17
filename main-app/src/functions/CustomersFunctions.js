@@ -40,10 +40,13 @@ export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuc
 
     setFormData(response.data.user);
 
-    setSuccess("User information updated successfully");
+    alert("User information updated successfully");
 
     fetchAllUsers(setUsers, setCurrentPage, setTotalPages,currentPage);
-  } catch (error) {
+
+    window.location.reload();
+  } 
+  catch (error) {
     console.error('Failed to update user details:', error);
 
     // Handle error and show an appropriate message

@@ -10,7 +10,7 @@ export default function StaffOrderList() {
     Title("Order List");
     Body_addclass("Management-PAGE");
     // optimized, need to add pre orders tab
-    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages } =
+    const { orders, selectedOrder, setSelectedOrder, currentPage, totalPages, handlePageChange, setSearchItem } =
         useFetchOrder();
 
     const { formData, setFormData, handleUpdateOrder, error, success } =
@@ -21,6 +21,7 @@ export default function StaffOrderList() {
         "CUSTOMER",
         "AMOUNT",
         "DISCOUNT",
+        "BALANCE",
         "OPTION",
         "STATUS",
     ];
@@ -29,6 +30,7 @@ export default function StaffOrderList() {
         name: order.name,
         amount: order.amount,
         discount: order.discount,
+        balance: order.unpaid_balance <= 0 ? "Paid" : order.unpaid_balance,
         option: order.option,
         status: order.status,
         edit: () => {
@@ -36,9 +38,9 @@ export default function StaffOrderList() {
         },
     }));
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+    // const handlePageChange = (page) => {
+    //     setCurrentPage(page);
+    // };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -50,8 +52,8 @@ export default function StaffOrderList() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
-                        <Inputbox Title="Filter" Type="text" />
+                        <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search Order number"/>
+                        <Inputbox Title="Filter" Type="text" Placeholder="Search by status"/>
                     </Box>
                     <Box Title="ORDER" BoxCol>
                         <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />
@@ -61,7 +63,7 @@ export default function StaffOrderList() {
             </Group>
 
             {/* Modal to display tickets for the selected order */}
-            
+
             <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
             {selectedOrder && (
                 <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
@@ -176,7 +178,7 @@ export default function StaffOrderList() {
                 </Form>
             )}
             </Modal>
-            
+
         </>
     );
 }

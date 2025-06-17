@@ -20,11 +20,15 @@ class OrderController extends Controller
     return 'ORD-' . $newNumber;
 }
 
+
+//calling order lists
 public function index()
 {
-    $orders = Order::with('tickets')->paginate(10);
+    $orders = Order::with('tickets')->orderByRaw("FIELD(status, 'pending', 'completed', 'cancelled')")->orderBy('created_at', 'desc')->paginate(10);
     return response()->json($orders);
 }
+
+//search function for orders
 
       public function search(Request $request)
   {
@@ -32,6 +36,8 @@ public function index()
       $products = Order::where('order_number', 'like', '%' . $search . '%')->paginate(10);
       return response()->json($products);
   }
+
+  //store order function
 
     public function store(Request $request)
     {
@@ -46,6 +52,8 @@ public function index()
           'option' => 'string|max:255',
           'amount' => 'numeric',
           'discount' => 'numeric',
+          'cashPayment' => 'nullable|numeric',
+          'onlinePayment' => 'nullable|numeric',
           'status' => 'nullable|string',
           'tickets' => 'required|array',
           'tickets.*.product_id' => 'required|integer|exists:products,id',
@@ -63,7 +71,10 @@ public function index()
           'status' => $validated['status'] ?? 'pending',
           'amount' => $validated['amount'],
           'discount' => $validated['discount'],
-          'option' => $validated['option']
+          'cashPayment' => $validated['cashPayment'] ?? 0,
+          'onlinePayment' => $validated['onlinePayment'] ?? 0,
+          'option' => $validated['option'],
+          'user_id' => $user->id,
       ]);
 
 
@@ -122,4 +133,84 @@ $mostSold = \DB::table('tickets')
         'mostSoldProduct' => $mostSold,
     ]);
     }
+
+    //customer create order function
+        public function storeCustomerOrder(Request $request)
+    {
+
+      $user= Auth::user();
+      if (!$user) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+      $validated = $request->validate([
+          'option' => 'string|max:255',
+          'amount' => 'numeric',
+          'downpayment' => 'nullable|numeric',
+          'refNumber' => 'nullable',
+          'status' => 'nullable|string',
+          'cashPayment' => 'nullable|numeric',
+          'discount' => 'nullable|numeric',
+          'tickets' => 'required|array',
+          'tickets.*.product_id' => 'required|integer|exists:products,id',
+          'tickets.*.product_name' => 'required|string|max:255',
+          'tickets.*.quantity' => 'required|integer|min:1',
+          'tickets.*.unit_price' => 'required|numeric|min:0',
+          'tickets.*.total_price' => 'required|numeric|min:0',
+      ]);
+
+
+      try {
+      $orderNumber = $this->generateOrderNumber();
+      // Create the order
+      $order = Order::create([
+          'name' => $user->firstname . ' ' . $user->lastname,
+          'order_number' => $orderNumber,
+          'status' => $validated['status'] ?? 'pending',
+          'amount' => $validated['amount'],
+          'cashPayment' => $validated['cashPayment'] ?? 0,
+          'onlinePayment' => $validated['downpayment'] ?? 0,
+          'reference_Number' => $validated['refNumber'] ?? null,
+          'downpayment' => $validated['downpayment'] ?? 0,
+          'option' => $validated['option'],
+          'discount' => $validated['discount'],
+          'user_id' => $user->id,
+      ]);
+
+
+
+      // Create the tickets associated with the order
+      foreach ($validated['tickets'] as $ticketData) {
+          Ticket::create([
+              'order_id' => $order->id,
+              'product_id' => $ticketData['product_id'],
+              'product_name' => $ticketData['product_name'],
+              'quantity' => $ticketData['quantity'],
+              'unit_price' => $ticketData['unit_price'],
+              'total_price' => $ticketData['total_price'],
+          ]);
+
+          $product = Product::with('ingredients')->find($ticketData['product_id']);
+
+          foreach ($product->ingredients as $ingredient) {
+            $decrementAmount = $ingredient->pivot->quantity * $ticketData['quantity'];
+            $ingredient->decrement('STOCK', $decrementAmount);
+
+                  // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
+            $ingredient->save();
+
+            StockLog::create([
+                'sku_number' => $ingredient->SKU_NUMBER,
+                'quantity' => -$decrementAmount,
+                'type' => 'out',
+                'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
+            ]);
+        }
+      }
+      return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
+    } catch (\Exception $e) {
+        \Log::error($e);
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+  }
 }

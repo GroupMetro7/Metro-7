@@ -6,6 +6,7 @@ import useFetch from "../../hooks/fetch";
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
+import UseKpi from '../../hooks/uni/Kpi';
 
 export default function Test() {
     // this file is subject for optimization
@@ -99,21 +100,12 @@ export default function Test() {
                         <Inputbox Title="Search" Type="search" />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
-                    <Group Class="kpis">
-                        <Group Class="kpis">
-                          <KPI Title="TOTAL REVENUE" Integer={`₱${Number(latestRevenue).toLocaleString()}`} />
-                          <KPI Title="STOCK EXPENSES" Integer={`₱${Number(showExpenses).toLocaleString()}`}/>
-                          <KPI Title="STOCK VALUE" Integer={`₱${Number(showStockValue).toLocaleString()}`} />
-                          <KPI Title={mostSoldName} Integer={mostSoldQty + ' ' + 'pcs'} />
-                        </Group>
-                    </Group>
+                <Group Class="kpis">
+                  <UseKpi />
+                </Group>
                     <Box Title="INVENTORY" UpperRight={<Button Title="+" OpenModal="AddModal-Inventory" />} BoxCol >
                         <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-                    </Box>
-                    <Box Title='CATEGORIES' UpperRight={ <Button Title='+ ' OpenModal='AddModal-Category' /> } BoxCol>
-                        <Table Title="Category" HeadRows={ tbhead2 } DataRows={ tbrows } EditBtn DeleteBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={''} />
                     </Box>
                 </Main>
             </Group>

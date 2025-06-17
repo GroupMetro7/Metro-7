@@ -14,7 +14,10 @@ class Order extends Model
     'option',
     'discount',
     'downpayment',
+    'cashPayment',
+    'onlinePayment',
     'reference_Number',
+    'user_id',
   ];
 
   protected $casts = [

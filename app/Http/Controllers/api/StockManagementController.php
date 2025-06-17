@@ -4,9 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\AddProductRequest;
-use App\Http\Requests\admin\UpdateProductRequest;
-use App\Models\product;
-use App\Models\stockLog;
+use App\Models\StockLog;
 use App\Models\StockManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +42,7 @@ class StockManagementController extends Controller
       $product->save();
 
 
-      stockLog::create([
+      StockLog::create([
                 'sku_number' => $product->SKU_NUMBER,
                 'quantity' => $product->STOCK,
                 'type' => 'in',
@@ -103,7 +101,7 @@ class StockManagementController extends Controller
 
         $stockChange = $product->STOCK - $originalStock;
         if ($stockChange != 0) {
-            stockLog::create([
+            StockLog::create([
                 'sku_number' => $product->SKU_NUMBER,
                 'quantity' => $stockChange,
                 'type' => $stockChange > 0 ? 'in' : 'out',

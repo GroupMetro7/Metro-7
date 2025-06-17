@@ -9,13 +9,15 @@ export default function ReservationPage() {
     Body_addclass("Reservation-PAGE");
     const screenwidth = ScreenWidth();
     //this file needs to be updated
-    const {
-        formData,
-        handleInputChange,
-        handleCreateReservation,
-        error,
-        success,
-    } = useCreateReservation();
+  const {
+    formData,
+    handleInputChange,
+    handleCreateReservation,
+    error,
+    success,
+  } = useCreateReservation();
+
+
     const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
   const [minDateTime, setMinDateTime] = useState('');
 
@@ -37,7 +39,7 @@ export default function ReservationPage() {
         <>
             <Main>
                 <Section Class="reservation">
-                    <Form Title='RESERVATION' { ...screenwidth > 766 && { FormTwolayers: true } }>
+                    <Form Title='RESERVATION' { ...screenwidth > 766 && { FormTwolayers: true } } OnSubmit={handleCreateReservation}>
                         { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                         success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                         <Group Col>

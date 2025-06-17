@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,13 +31,13 @@ class ProductController extends Controller
   public function search(Request $request)
   {
       $search = $request->input('q');
-      $products = product::where('product_name', 'like', '%' . $search . '%')->paginate(10);
+      $products = Product::where('product_name', 'like', '%' . $search . '%')->paginate(10);
       return response()->json($products);
   }
 
     public function byCategory($categoryId)
     {
-        $query = product::query();
+        $query = Product::query();
         if ($categoryId !== '1') {
             $query->where('category_id', $categoryId);
         }
@@ -59,7 +59,7 @@ public function store(Request $request)
 
     $imagePath = $request->file('image')->store('images', 'public');
 
-    $product = product::create([
+    $product = Product::create([
         'product_name' => $request->input('product_name'),
         'price' => $request->input('price'),
         'description' => $request->input('description', ''),
@@ -90,7 +90,7 @@ public function store(Request $request)
 
 public function update(Request $request, $id)
 {
-    $product = product::find($id);
+    $product = Product::find($id);
 
 // When returning a product, eager load the accessor if needed:
 $product->append('image_url');
@@ -147,7 +147,7 @@ $product->append('image_url');
 }
     public function destroy($id)
   {
-      $product = product::find($id);
+      $product = Product::find($id);
 
       if (!$product) {
           return response()->json(['message' => 'Product not found'], 404);

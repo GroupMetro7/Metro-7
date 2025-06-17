@@ -24,6 +24,7 @@ import Test from './Pages/admin/test'
 import NotFound from './Pages/404not_found'
 import OrderHistoryPage from './Pages/admin/Order_History'
 import ActivityLogsPage from './Pages/admin/Activity_Logs'
+import DemandForecastPage from './Pages/admin/Demand_Forecast'
 
 const router = createBrowserRouter([
   //not found page
@@ -157,7 +158,10 @@ const router = createBrowserRouter([
 				path: 'logs',
 				element: <ActivityLogsPage />
 			},
-
+			{
+				path: 'df',
+				element: <DemandForecastPage />
+			},
 		]
 	}
 ])

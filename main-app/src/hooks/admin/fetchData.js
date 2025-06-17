@@ -44,8 +44,6 @@ export default function useFetchDashboardData() {
     fetchOrder(currentPage);
   }, [currentPage]);
 
-  //
-
     return {
     monthlyRevenue,
     expenses,

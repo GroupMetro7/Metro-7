@@ -10,6 +10,8 @@ body.Dashboard-Admin-PAGE
         > .upper
 
             > .kpis
+                width: unset !important
+                flex-grow: 2 !important
 
                 > .kpi
 
@@ -26,9 +28,10 @@ body.Dashboard-Admin-PAGE
                         color: v.$color-white !important
 
             > .datetime
-                max-width: 27.344vw !important
+                width: unset !important
                 justify-content: center !important
                 align-items: center !important
+                flex-grow: 2.6 !important
 
                 > h3
                     text-align: center !important
@@ -36,19 +39,19 @@ body.Dashboard-Admin-PAGE
         > .charts
 
             > .salesstatus
-                width: unset !important
                 flex-grow: 1 !important
+                max-width: 743px !important
 
-                > img
-                    background-color: white !important
-                    width: 100% !important
-                    height: 344px !important
+                > canvas
+                    background-color: v.$color-white !important
+                    height: 100% !important
 
             > .topcategory
-                max-width: 390px !important
+                max-width: 392px !important
+                flex-grow: 2 !important
 
-                > img
-                    background-color: white !important
+                > canvas
+                    background-color: v.$color-white !important
                     width: 100% !important
                     aspect-ratio: 1 !important
 

@@ -39,13 +39,11 @@ body.Menu-PAGE
                 position: sticky !important
                 top: calc( v.$header-size + v.$elem-sa-size-s ) !important
                 right: 23px !important
-                // align-self: start !important
                 max-height: calc( 100vh - v.$header-size - 13px - 13px ) !important
-                // gap: 7.5px !important
 
                 > .datetime
                     width: 100% !important
-                    gap: 13px !important
+                    flex-grow: unset !important
                     align-items: center !important
                     text-align: center !important
                     text-transform: uppercase !important
@@ -64,25 +62,23 @@ body.Menu-PAGE
 
                 > .totalitem
                     flex-direction: column !important
-                    flex-grow: 3 !important
-                    // overflow-x: auto !important
+                    overflow-x: auto !important
+                    flex-grow: 10 !important
 
                     > .itemlist
                         width: 100% !important
-                        gap: 13px !important
+                        gap: v.$elem-sa-size-s !important
                         flex-direction: column !important
 
                 > .paymentsum
-                    gap: 23px !important
+                    gap: v.$elem-sa-size-m !important
 
                     > article
-                        gap: 8px !important
-                        flex-direction: column !important
+                        justify-content: space-between !important
                         flex-grow: 1 !important
 
                         > div:has(> h3, > h4)
                             width: 100% !important
-                            justify-content: space-between !important
 
                     > button
                         width: 100% !important

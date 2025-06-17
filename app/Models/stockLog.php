@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class stockLog extends Model
+class StockLog extends Model
 {
     protected $fillable = [
         'sku_number',

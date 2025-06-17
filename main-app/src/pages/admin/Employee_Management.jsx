@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from "../../exporter/component_exporter";
 import { modifyEmployee, editEmployee, fetchAllEmployees } from "../../Functions/EmployeeFunctions";
+import useAttendanceStatusAdmin from "../../hooks/admin/employee/attendanceStatus";
 
 export default function EmployeeManagementPage() {
   // this file is subject for optimization
@@ -21,6 +22,7 @@ export default function EmployeeManagementPage() {
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const { staff } = useAttendanceStatusAdmin();
 
     //table
     const tbhead = [
@@ -29,26 +31,31 @@ export default function EmployeeManagementPage() {
         "EMAIL",
         "PHONE",
         "ROLE",
-        "LAST LOGGED",
+        "STATUS",
     ];
-    const tbrows = users
-        .map((employee) => ({
-            first: employee.firstname,
-            second: employee.lastname,
-            third: employee.email,
-            fourth: employee.contact,
-            fifth: employee.role,
-            lastUpdated: new Date(employee.updated_at).toLocaleString(),
-            edit: () => editEmployee(employee, setFormData, setCurrentEmployeeId),
-            delete: () =>
-                removeEmployee(
-                    employee.id,
-                    setError,
-                    setSuccess,
-                    Employees,
-                    setEmployees
-                ),
-        }));
+    const tbrows = users.map((employee) => {
+
+      const staffStatus = staff.find((s) => s.id === employee.id);
+      const status = staffStatus && staffStatus.timed_in ? "Online" : "Offline";
+
+      return {
+        first: employee.firstname,
+        second: employee.lastname,
+        third: employee.email,
+        fourth: employee.contact,
+        fifth: employee.role,
+        sixth: status,
+        edit: () => editEmployee(employee, setFormData, setCurrentEmployeeId),
+        delete: () =>
+          removeEmployee(
+            employee.id,
+            setError,
+            setSuccess,
+            users,
+            setUsers
+          ),
+      };
+    });
 
     // fetch Employee table
     useEffect(() => {

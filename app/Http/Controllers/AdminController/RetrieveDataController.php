@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\StockLog;
+use App\Models\StockManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +42,7 @@ class RetrieveDataController extends Controller
     $orders = Order::with('tickets')->paginate(10);
 
 
+
     return response()->json([
         'orders' => $orders,
         'total_expense' => $totalExpense ?? 0,
@@ -49,4 +52,20 @@ class RetrieveDataController extends Controller
         'most_sold_product' => $mostSold,
     ]);
 }
+  public function index(){
+    $ordersQuery = Order::with('tickets')->where('status', 'completed');
+    $completedOrders = (clone $ordersQuery)->paginate(5);
+    $totalCompletedOrders = $completedOrders->total();
+    $actualSales = $ordersQuery->sum('amount');
+
+    $totalStockValue = StockManagement::sum('STOCK_VALUE');
+    $totalExpense = StockLog::sum('value');
+    return response()->json([
+      'completedOrders' => $completedOrders,
+      'totalCompletedOrders' => $totalCompletedOrders,
+      'actualSales' => $actualSales,
+      'totalStockValue' => $totalStockValue,
+      'totalExpense' => $totalExpense,
+    ]);
+  }
 }
