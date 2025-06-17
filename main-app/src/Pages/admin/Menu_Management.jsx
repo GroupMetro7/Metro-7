@@ -92,8 +92,8 @@ export default function MenuManagementPage() {
     category: getCategoryName(product.category_id),
     price: product.price,
     status: product.is_available ? "Available" : "Out of Stock",
-    edit: () => editProduct(product, console.log(product.image)),
-    delete: () => editProduct(product, console.log(product.id)),
+    edit: () => editProduct(product),
+    delete: () => editProduct(product),
   }));
 
   const tbhead2 = ["ID", "Category", "Number of Products"];

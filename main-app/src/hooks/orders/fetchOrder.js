@@ -13,7 +13,10 @@ export default function useFetchOrder() {
   const [searchItem, setSearchItem] = useState("");
 
 useEffect(() => {
-    const fetchOrder = (page, search) => {
+    fetchOrder(currentPage, searchItem);
+  }, [currentPage, searchItem]);
+
+    function fetchOrder(page, search) {
       let url = `/orders?page=${page}`;
       if (search) {
         url += `&search=${encodeURIComponent(search)}`; // <-- FIXED
@@ -24,8 +27,7 @@ useEffect(() => {
         setTotalPages(data.data.last_page);
       });
     };
-    fetchOrder(currentPage, searchItem);
-  }, [currentPage, searchItem]);
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -63,5 +65,6 @@ useEffect(() => {
     setSelectedOrder,
     handlePageChange,
     setSearchItem,
+    fetchOrder
   };
 }
