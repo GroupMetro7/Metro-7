@@ -21,6 +21,7 @@ export default function StaffOrderList() {
         "CUSTOMER",
         "AMOUNT",
         "DISCOUNT",
+        "BALANCE",
         "OPTION",
         "STATUS",
     ];
@@ -29,6 +30,7 @@ export default function StaffOrderList() {
         name: order.name,
         amount: order.amount,
         discount: order.discount,
+        balance: order.unpaid_balance <= 0 ? "Paid" : order.unpaid_balance,
         option: order.option,
         status: order.status,
         edit: () => {

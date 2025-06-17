@@ -170,7 +170,7 @@ public function index(Request $request)
       $orderNumber = $this->generateOrderNumber();
       // Create the order
       $order = Order::create([
-        'name' => $user->firstname . ' ' . $user->lastname,
+        'name' => $user->firstname . ' ' . $user->lastname . '(Online)',
         'order_number' => $orderNumber,
         'status' => $validated['status'] ?? 'pending',
         'amount' => $validated['amount'],

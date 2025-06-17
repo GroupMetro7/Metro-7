@@ -35,11 +35,13 @@ export default function DashboardPage() {
       const { formData, setFormData, handleUpdateOrder, error, success } =
           useModifyOrderList(selectedOrder);
 
-  const tbhead = ["ORDER NO.", "CUSTOMER", "AMOUNT", "OPTION", "STATUS"];
+  const tbhead = ["ORDER NO.", "CUSTOMER", "AMOUNT", "BALANCE", "DISCOUNT", "OPTION", "STATUS"];
   const tbrows = orders.map((order) => ({
     order_number: order.order_number,
     order_date: order.name,
     amount: "₱" + order.amount,
+    balance: "₱" + order.unpaid_balance,
+    discount: "₱" + order.discount,
     option: order.option,
     status: order.status,
     edit: () => {

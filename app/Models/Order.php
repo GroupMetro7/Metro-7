@@ -11,6 +11,7 @@ class Order extends Model
     'status',
     'amount',
     'order_number',
+    'unpaid_balance',
     'option',
     'discount',
     'downpayment',
