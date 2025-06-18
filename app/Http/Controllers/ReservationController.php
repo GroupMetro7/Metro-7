@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,14 @@ class ReservationController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    $reservations = Reservation::where('user_id', $user->id)->with('user')->get();
+    $reservations = Reservation::where('user_id', $user->id)->with('user')->orderBy('created_at', 'desc')->get();
 
-    return response()->json(['reserved' => $reservations]);
+    $preOrders = Order::with('tickets')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+
+    return response()->json([
+      'reserved' => $reservations,
+      'preOrders' => $preOrders,
+    ]);
     }
 
     public function create(Request $request)

@@ -93,18 +93,10 @@ export default function StaffDashboard() {
   const submitOrder = async (e) => {
     e.preventDefault();
 
-    // if (!customer || !paymentOpt || !diningOpt) {
-    //     alert(
-    //         "Please fill in all required fields: Customer, Payment Option, and Dining Option."
-    //     );
-    //     return;
-    // }
     if (!order.length) {
       alert("No items in the order. Please add items before submitting.");
       return;
     }
-
-
 
     const formattedOrder = {
       amount: totalPrice,
@@ -140,7 +132,6 @@ export default function StaffDashboard() {
         "Failed to submit order. Please try again.";
       alert(`Failed to submit order: ${msg}`);
     }
-
   };
 
 
@@ -151,7 +142,7 @@ export default function StaffDashboard() {
           <Section Title="MENU ORDER" Class="menu">
             <Group Col>
               <Box Class="search">
-                <Inputbox Title="Search" Type="search" />
+                <Inputbox Title="Search" Type="search" Placeholder="Search Product"/>
               </Box>
               <Group Class="filter">
                 {categories.map((cat) => (
@@ -219,9 +210,10 @@ export default function StaffDashboard() {
                   <h3>TOTAL:</h3>
                   <h3>₱{totalPrice.toFixed(2)}</h3>
               </article>
-              <Button Title="CHECKOUT" OpenModal="InputsModal" Disabled={ !diningOpt } />
+              <Button Title="CHECKOUT" OpenModal="InputsModal" />
             </Group>
-            </>}
+            </> 
+            }
           </Box>
         </Main>
       </Group>
@@ -260,7 +252,7 @@ export default function StaffDashboard() {
             />
           </Group>
           <Group Wrap>
-            <Group Class="inputside" Wrap>
+            <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Payment Amount"
                 Value={`₱${Number(cashPayment) + Number(onlinePayment) || 0}`}
@@ -278,7 +270,7 @@ export default function StaffDashboard() {
               Value={`₱${((totalPrice - Number(discount)) - (Number(cashPayment) + Number(onlinePayment)) ) || 0}`}
               OutCol
               OutWhite
-            />
+              />
             </Group>
           </Group>
           <Group Class="buttonside">

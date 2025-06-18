@@ -58,14 +58,14 @@ export default function useCreateOrder() {
       return;
     }
 
-  const formattedOrder = {
-    amount: formData.totalPrice,
-    downpayment: formData.downpayment,
-    refNumber: formData.refNumber,
-    option: diningOpt,
-    status: "pending",
-    discount: discount || 0,
-    cashPayment: 0,
+const formattedOrder = {
+  amount: formData.totalPrice,
+  downpayment: formData.downpayment,
+  refNumber: formData.refNumber,
+  option: diningOpt,
+  status: "pending",
+  discount: discount || 0,
+  cashPayment: 0,
   
   tickets: order.map((item) => ({
     product_id: item.id,
@@ -74,8 +74,6 @@ export default function useCreateOrder() {
     unit_price: item.price,
     total_price: item.price * item.quantity,
   })),
-
-  
 };
     try {
       await axiosClient.post("/create-order-Customer", formattedOrder);

@@ -1,25 +1,6 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
-import {
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Group,
-  Box,
-  Inputbox,
-  ItemMenu,
-  Modal,
-  Form,
-  Outputfetch,
-  InsertFileButton,
-  Button,
-  DateText,
-  TimeText,
-  Radio,
-  CheckedItem,
-  SubmitButton,
-} from "../../Exporter/component_exporter";
+import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { createWorker } from "tesseract.js";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -62,14 +43,14 @@ export default function MenuPage() {
     quantity: product.quantity,
   }));
 
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <>
-      { user.id ? 
+      { user && user.id ? 
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
@@ -177,13 +158,13 @@ export default function MenuPage() {
           </Section>
         </Main>
       }
-      { user.id && (
+      { user && user.id && (
         <Modal Modal="CheckoutModal">
           <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Customer Name"
-                Value={`${ user.firstname } ${ user.lastname }`}
+                Value={user.firstname + " " + user.lastname}
                 OutCol
                 OutWhite
               />
@@ -209,25 +190,27 @@ export default function MenuPage() {
                 OutWhite
               />
             </Group>
-          <Group Class="outputfetch" Col>
-            <div>
-              <Outputfetch Title="Items" OutWhite />
-              <Outputfetch Title="Quantity" OutWhite />
-              <Outputfetch Title="Unit Price" OutWhite />
-              <Outputfetch Title="Total Price" OutWhite />
-            </div>
-            {order.map((product, index) => (
-              <div key={index}>
-                <Outputfetch Value={product.product_name} OutWhite />
-                <Outputfetch Value={`x${product.quantity}`} OutWhite />
-                <Outputfetch Value={`₱${product.price}`} OutWhite />
-                <Outputfetch
-                  Value={`₱${Number(product.price * product.quantity).toFixed(2)}`}
-                  OutWhite
-                />
+            <Group Class="outputfetch" Col>
+              <div>
+                <Outputfetch Title="Items" OutWhite />
+                <Outputfetch Title="Quantity" OutWhite />
+                <Outputfetch Title="Unit Price" OutWhite />
+                <Outputfetch Title="Total Price" OutWhite />
               </div>
-            ))}
-          </Group>
+              {order.map((product, index) => (
+                <div key={index}>
+                  <Outputfetch Value={product.product_name} OutWhite />
+                  <Outputfetch Value={`x${product.quantity}`} OutWhite />
+                  <Outputfetch Value={`₱${product.price}`} OutWhite />
+                  <Outputfetch
+                    Value={`₱${Number(product.price * product.quantity).toFixed(
+                      2
+                    )}`}
+                    OutWhite
+                  />
+                </div>
+              ))}
+            </Group>
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Total Price"
@@ -235,7 +218,12 @@ export default function MenuPage() {
                 OutCol
                 OutWhite
               />
-              <Outputfetch Title="Discount" Value={`₱${discount.toFixed(2)}`} OutCol OutWhite />
+              <Outputfetch
+                Title="Discount"
+                Value={`₱${discount.toFixed(2)}`}
+                OutCol
+                OutWhite
+              />
               <Outputfetch
                 Title="Reference Number"
                 Value={formData.refNumber}
@@ -276,7 +264,7 @@ export default function MenuPage() {
                           left: 0,
                           top: 0,
                           width: 1500,
-                          height: 1500,
+                          height: 3500,
                         };
                         const {
                           data: { text: rawText },
@@ -329,10 +317,7 @@ export default function MenuPage() {
 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
-              <SubmitButton
-                Title="CHECKOUT"
-                BtnWhite
-              />
+              <SubmitButton Title="CHECKOUT" BtnWhite />
             </Group>
           </Form>
         </Modal>

@@ -14,10 +14,14 @@ class orderListController extends Controller
           'downpayment' => 'sometimes',
           'refNumber' => 'sometimes',
           'status' => 'sometimes',
+          'cashPayment' => 'sometimes',
+          'onlinePayment' => 'sometimes',
         ]);
 
         $orderListUpdate = Order::findOrFail($id);
         $orderListUpdate->downpayment = $validatedList['downpayment'];
+        $orderListUpdate->onlinePayment = $validatedList['downpayment'] + $validatedList['onlinePayment'];
+        $orderListUpdate->cashPayment = $validatedList['cashPayment'];
         $orderListUpdate->reference_Number = $validatedList['refNumber'];
         $orderListUpdate->status = $validatedList['status'];
         $orderListUpdate->update();

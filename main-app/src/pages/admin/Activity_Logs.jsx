@@ -1,81 +1,76 @@
-import React, { useEffect, useState } from 'react'
-import '../../assets/css/pages/admin/Management.sass'
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from '../../exporter/component_exporter'
-import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
+import "../../assets/css/pages/admin/Management.sass";
+import {
+  Title,
+  Body_addclass,
+  Group,
+  Main,
+  Box,
+  Inputbox,
+  Table,
+  Button,
+  Pagination,
+} from "../../exporter/component_exporter";
+import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 
 export default function CustomerManagementPage() {
-    // this file is subject for optimization
-    Title("Employee Management");
-    Body_addclass("Management-PAGE");
-    // variables for Employee table
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact: "",
-        role: "",
-        loyalty: "",
-        balance: "",
-        total_spent: "",
-    });
-    const [currentCustomerId, setCurrentCustomerId] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [users, setUsers] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+  // this file is subject for optimization
+  Title("Employee Management");
+  Body_addclass("Management-PAGE");
 
-    //table
-    const tbhead = [
-        "ACTIVITY ID",
-        "DATE",
-        "ACTION",
-        "DETAIL",
-        "ROLE"
-    ];
-    const tbrows = users
-        .map((customer) => ({
-            fullname: `${customer.firstname} ${customer.lastname}`,
-            email: customer.email,
-            phone: customer.contact,
-            loyalty: customer.loyalty,
-            role: customer.role,
-            balance: customer.balance,
-            total_spent: customer.total_spent,
-            edit: () => editCustomer(customer, setFormData, setCurrentCustomerId),
-            delete: () => removeCustomer(),
-        }));
+  const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
+  //table
+  const tbhead = ["ACTIVITY ID", "sku_number", "ACTION", "quantity", "value", "date"];
 
-    // fetch Employee table
-    useEffect(() => {
-        fetchAllUsers(setUsers, setError, setCurrentPage, setTotalPages, currentPage);
-    }, [currentPage]);
+  const tbrows = logs.map((log) => [
+    log.id,
+    log.sku_number,
+    log.type,
+    log.quantity,
+    log.type === "out" ? `-₱${log.value}` : `+₱${log.value}`,
+    new Date(log.created_at).toLocaleDateString()
+  ]);
 
-    // handle page change
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+    const exportTableAsCSV = (headers, data, filename = "table_data.csv") => {
+      const csvRows = [];
+      csvRows.push(headers.join(","));
+      data.forEach((row) => {
+        csvRows.push(row.join(","));
+      });
+      const csvString = csvRows.join("\n");
+      const blob = new Blob([csvString], { type: "text/csv" });
+      saveAs(blob, filename);
     };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+  return (
+    <>
+      <Group>
+        <Main>
+          <Box Class="search">
+            <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
+            <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
+          </Box>
 
-    return (
-        <>
-            <Group>
-                <Main>
-                    <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
-                        <Inputbox Title="Filter" Type="text" />
-                    </Box>
-                    <Box Title="ACTIVITY LOGS" BoxCol>
-                        <Table HeadRows={tbhead} DataRows={tbrows} />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                    </Box>
-                </Main>
-            </Group>
-            <Modal Modal="EditModal">
+          <Box Title="ACTIVITY LOGS" BoxCol>
+            <Button
+              Title="EXPORT AS FILE"
+              Onclick={() =>
+                exportTableAsCSV(
+                  tbhead,
+                  tbrows,
+                  "sales_data.csv"
+                )
+              }
+            />
+            <Table HeadRows={tbhead} DataRows={tbrows} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </Box>
+        </Main>
+      </Group>
+      {/* <Modal Modal="EditModal">
                 <Form
                     Title="EDIT CUSTOMER"
                     FormThreelayers
@@ -108,7 +103,7 @@ export default function CustomerManagementPage() {
                         <SubmitButton Title="SUBMIT" BtnWhite />
                     </Group>
                 </Form>
-            </Modal>
-        </>
-    );
+            </Modal> */}
+    </>
+  );
 }

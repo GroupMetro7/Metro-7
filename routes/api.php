@@ -84,3 +84,7 @@ Route::middleware('auth:sanctum')->post('/attendance/time-out', [AttendanceContr
 
 // customer order
 Route::middleware('auth:sanctum')->post('/create-order-Customer', [OrderController::class, 'storeCustomerOrder']);
+
+
+// stocklog
+Route::get('/stock-logs', [RetrieveDataController::class, 'getStockLogs']);

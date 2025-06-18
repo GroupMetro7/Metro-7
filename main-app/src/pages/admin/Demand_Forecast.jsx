@@ -8,10 +8,10 @@ export default function StaffOrderList() {
 
     const tbhead = [
         "ITEM",
-        "DS",
-        "YHAT",
-        "YHAT_UPPER",
-        "YHAT_LOWER",
+        "DATE",
+        "PREDICTION",
+        "HIGHEST PREDICTION",
+        "LOWEST PREDICTION",
     ];
 
     const [data, setData] = useState([]);
@@ -27,7 +27,12 @@ export default function StaffOrderList() {
     const tbrowsOrders = Object.keys(data).flatMap((itemName) =>
         data[itemName].map((entry) => ({
             item: itemName,
-            date: entry.ds,
+            date: `${new Date(entry.ds).getFullYear()}-${(new Date(entry.ds).getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}-${new Date(entry.ds)
+                .getDate()
+                .toString()
+                .padStart(2, "0")}`,
             yhat: entry.yhat.toFixed(2),
             yhat_upper: entry.yhat_upper.toFixed(2),
             yhat_lower: entry.yhat_lower.toFixed(2),

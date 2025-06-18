@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
 
-export default function useModifyOrderList(selectedOrder){
+export default function useModifyOrderList(selectedOrder, fetchOrder) {
   const [formData, setFormData] = useState({
-    downpayment: '',
-    refNumber: '',
-    status: '',
+    cashPayment: "",
+    onlinePayment: "",
+    downpayment: "",
+    refNumber: "",
+    status: "",
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  useEffect(() => {
+    if (selectedOrder) {
+      setFormData({
+        cashPayment: selectedOrder.cashPayment ?? "",
+        onlinePayment: selectedOrder.onlinePayment ?? "",
+        downpayment: selectedOrder.downpayment ?? "",
+        refNumber: selectedOrder.refNumber ?? "",
+        status: selectedOrder.status ?? "",
+      });
+    }
+  }, [selectedOrder]);
 
   const handleUpdateOrder = async (e) => {
     e.preventDefault();
@@ -17,27 +31,28 @@ export default function useModifyOrderList(selectedOrder){
 
     try {
       await axiosClient.put(`/orderList/${selectedOrder.id}`, {
-      downpayment: formData.downpayment,
-      refNumber: formData.refNumber,
-      status: formData.status,
+        cashPayment: formData.cashPayment,
+        onlinePayment: formData.onlinePayment,
+        downpayment: formData.downpayment,
+        refNumber: formData.refNumber,
+        status: formData.status,
       });
       setSuccess("Order updated successfully!");
+      fetchOrder();
     } catch (error) {
       setSuccess(null);
       setError(
-        error.response?.data?.message || "Failed to update order, please try again!"
+        error.response?.data?.message ||
+          "Failed to update order, please try again!"
       );
-
     }
-  }
-    return {
+  };
+
+  return {
     formData,
     setFormData,
     handleUpdateOrder,
     error,
-    success
+    success,
   };
-  }
-
-
-
+}

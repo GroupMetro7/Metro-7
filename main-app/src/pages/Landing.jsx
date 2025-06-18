@@ -1,6 +1,6 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Footer, Main, Section, Group, Button, GMap } from '../Exporter/component_exporter'
 import { Logo } from '../exporter/public_exporter'
 import { useStateContext } from "../Contexts/ContextProvider";
 

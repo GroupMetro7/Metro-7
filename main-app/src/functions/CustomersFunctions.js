@@ -37,13 +37,9 @@ export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuc
       lastname: formData.lastname,
       role: formData.role,
     });
-
     setFormData(response.data.user);
-
     alert("User information updated successfully");
-
     fetchAllUsers(setUsers, setCurrentPage, setTotalPages,currentPage);
-
     window.location.reload();
   } 
   catch (error) {

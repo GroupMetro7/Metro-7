@@ -48,6 +48,7 @@ export default function StaffOrderList() {
     "DISCOUNT",
     "OPTION",
     "STATUS",
+    "DATE"
   ];
 
   const tbrowsOrders = orderHistory.map((order) => ({
@@ -57,6 +58,7 @@ export default function StaffOrderList() {
     discount: order.discount,
     option: order.option,
     status: order.status,
+    date: new Date(order.created_at).toLocaleDateString(),
     edit: () => {
       setSelectedOrder(order);
     },

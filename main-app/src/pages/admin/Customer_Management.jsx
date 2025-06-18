@@ -93,9 +93,7 @@ export default function CustomerManagementPage() {
                             setCurrentPage,
                             setTotalPages,
                             currentPage,
-                            
                         )
-                        
                     }
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
