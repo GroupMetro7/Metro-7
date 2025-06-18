@@ -16,7 +16,7 @@ export default function ProfilePage() {
         contact: '',
     });
 
-    const {reservations} =useFetchUserRes();
+    const {reservations, preOrders} =useFetchUserRes();
 
     // Sync form data with user context
     useEffect(() => {
@@ -72,6 +72,16 @@ export default function ProfilePage() {
         options: res.status
     }));
 
+    const tbheadOrder = ['ID', 'OPTION', 'DATE', 'BALANCE', 'STATUS'];
+    const tbrowsOrder = preOrders.map((order) => ({
+        id: order.order_number,
+        option: order.option,
+        date: new Date(order.created_at).toLocaleDateString(),
+        balance: order.unpaid_balance <= 0 ? "Paid" : order.unpaid_balance,
+        status: order.status,
+        edit: () => {},
+    }));
+
     return (
         <>
             <Main>
@@ -100,7 +110,10 @@ export default function ProfilePage() {
                         </Box>
                     }
                     <Box Title="Order History" Class="orderhistory" BoxCol>
-                        <Table HeadRows={tbhead} DataRows={tbrows} ViewBtn />
+                        <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} EditBtn />
+                    </Box>
+                    <Box Title="My Reservations" Class="orderhistory" BoxCol>
+                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />
                     </Box>
                 </Section>
             </Main>
