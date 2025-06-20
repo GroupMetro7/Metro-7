@@ -19,6 +19,11 @@ label.btnradio:has(input[type="radio"]):has(h3)
         color: v.$color-white !important
         transition: .33s !important
 
+    &:disabled, &:disabled:hover
+        background-color: rgb(185, 185, 185) !important
+        color: v.$color-primary !important
+        cursor: unset !important
+
     > input[type="file"], > input[type="radio"]
         display: none !important
 
@@ -29,6 +34,11 @@ label.btnradio:has(input[type="radio"]):has(h3)
         &:hover
             background-color: v.$color-secondary !important
             color: v.$color-primary !important
+
+        &:disabled, &:disabled:hover
+            background-color: rgb(185, 185, 185) !important
+            color: v.$color-primary !important
+            cursor: unset !important
 
 label.btnradio:has(input[type="radio"]:checked),
 label.btnradio:has(input[type="radio"]:checked):hover,

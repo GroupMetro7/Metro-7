@@ -84,7 +84,9 @@ const formattedOrder = {
         downpayment: "",
         refNumber: "",
       });
-    } catch (error) {
+      window.location.reload();
+    } 
+    catch (error) {
       console.error("Error submitting order:", error);
     }
   };

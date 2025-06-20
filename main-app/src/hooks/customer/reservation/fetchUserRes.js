@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../../axiosClient";
 
 export default function useFetchUserRes() {
   const [reservations, setReservations] = useState([]);
@@ -20,4 +20,3 @@ export default function useFetchUserRes() {
     preOrders,
   };
 }
-

@@ -1,22 +1,6 @@
 import React from "react";
 import "../../assets/css/pages/admin/Management.sass";
-import {
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Box,
-  Inputbox,
-  Table,
-  Button,
-  Modal,
-  Form,
-  SubmitButton,
-  Selectionbox,
-  Outputfetch,
-  Pagination,
-  InsertFileButton,
-} from "../../exporter/component_exporter";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, Pagination, InsertFileButton, } from "../../exporter/component_exporter";
 import { DeleteLogo } from "../../Exporter/public_exporter";
 import useAddCategory from "../../hooks/add";
 import useAddProduct from "../../hooks/admin/Menu/addProduct";
@@ -418,9 +402,9 @@ export default function MenuManagementPage() {
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
+          <Group Class="buttonside" Col>
             <SubmitButton Title="SUBMIT" BtnWhite />
+            <Button Title="CANCEL" CloseModal BtnWhite />
           </Group>
         </Form>
       </Modal>
@@ -446,9 +430,9 @@ export default function MenuManagementPage() {
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
+          <Group Class="buttonside" Col>
             <SubmitButton Title="SUBMIT" BtnWhite />
+            <Button Title="CANCEL" CloseModal BtnWhite />
           </Group>
         </Form>
       </Modal>
@@ -462,9 +446,9 @@ export default function MenuManagementPage() {
               OutWhite
             />
           </Group>
-          <Group Class="buttonside">
+          <Group Class="buttonside" Col>
+            <SubmitButton Title="SUBMIT" BtnWhite />
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title="DELETE" BtnWhite />
           </Group>
         </Form>
       </Modal>

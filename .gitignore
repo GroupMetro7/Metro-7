@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/flask-ai/.venv
 .env
 .env.backup
 .env.production
@@ -21,3 +22,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+.venv
+

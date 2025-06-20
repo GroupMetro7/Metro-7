@@ -18,7 +18,8 @@ class User extends Authenticatable
     'email',
     'contact',
     'password',
-    'role'
+    'role',
+    'loyalty'
   ];
 
   protected $hidden = [
@@ -39,6 +40,7 @@ class User extends Authenticatable
   {
     return $this->role === 'admin';
   }
+
   public function attendances()
   {
     return $this->hasMany(Attendance::class);

@@ -28,7 +28,14 @@ export default function StaffProfile() {
                 <Group Class="leftside" Col>
                     <Section Title='My Profile' Class='myprofile'>
                         <Box Class="details">
-                            <img />
+                                          <img
+                src={
+                  user?.image
+                    ? user.image
+                    : "../../../public/Icons/profileIcon.jpg"
+                }
+                alt="Profile"
+              />
                             <article>
                                 <h2>{user.firstname} {user.lastname}</h2>
                                 <h4>{user.contact}</h4>

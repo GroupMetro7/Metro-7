@@ -124,7 +124,9 @@ export default function StaffDashboard() {
       setPaymentOpt("");
       setDiningOpt("");
       console.log("Order submitted:", formattedOrder);
-    } catch (error) {
+      window.location.reload();
+    } 
+    catch (error) {
       const msg =
         error?.response?.data?.message ||
         "Failed to submit order. Please try again.";
@@ -160,7 +162,7 @@ export default function StaffDashboard() {
                   List={orderlist}
                   addItemToOrder={addItemToOrder}
                   removeItemFromOrder={removeItemFromOrder}
-                  auth
+                  ServiceMode
                 />
               </Group>
             </Group>
@@ -201,26 +203,22 @@ export default function StaffDashboard() {
                 />
               </div>
             </Group>
+            { checkedorders != 0 && <>
             <hr />
             <Group Class="paymentsum" Col>
               <article>
-                <h3>PAYMENT SUMMARY</h3>
-                <div>
-                  <h3>TOTAL PRICE:</h3>
-                  <h4>₱{totalPrice.toFixed(2)}</h4>
-                </div>
-                {/* <div>
-                  <h3>DISCOUNT:</h3>
-                  <h4>₱{discountAmount.toFixed(2)}</h4>
-                </div> */}
+                  <h3>TOTAL:</h3>
+                  <h3>₱{totalPrice.toFixed(2)}</h3>
               </article>
               <Button Title="CHECKOUT" OpenModal="InputsModal" />
             </Group>
+            </> 
+            }
           </Box>
         </Main>
       </Group>
       <Modal Modal="InputsModal">
-        <Form Title="CHECKOUT" FormTwolayers OnSubmit={submitOrder}>
+        <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
           <Group Class="inputside">
             <Inputbox
               Title="Customer Name"
@@ -254,7 +252,7 @@ export default function StaffDashboard() {
             />
           </Group>
           <Group Wrap>
-            <Group Class="inputside">
+            <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Payment Amount"
                 Value={`₱${Number(cashPayment) + Number(onlinePayment) || 0}`}
@@ -264,19 +262,17 @@ export default function StaffDashboard() {
               <Outputfetch
                 Title="Total Price"
                 Value={`₱${(totalPrice - Number(discount)) || 0} `}
-
                 OutCol
                 OutWhite
               />
-            </Group>
-            <Outputfetch
+              <Outputfetch
               Title="Change"
               Value={`₱${((totalPrice - Number(discount)) - (Number(cashPayment) + Number(onlinePayment)) ) || 0}`}
               OutCol
               OutWhite
-            />
+              />
+            </Group>
           </Group>
-
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
             <Button Title="CHECKOUT" OpenModal="CheckoutModal" BtnWhite />
@@ -331,10 +327,7 @@ export default function StaffDashboard() {
                 <Outputfetch Value={product.product_name} OutWhite />
                 <Outputfetch Value={`x${product.quantity}`} OutWhite />
                 <Outputfetch Value={`₱${product.price}`} OutWhite />
-                <Outputfetch
-                  Value={`₱${product.price * product.quantity}`}
-                  OutWhite
-                />
+                <Outputfetch Value={`₱${product.price * product.quantity}`} OutWhite />
               </div>
             ))}
           </Group>
@@ -345,12 +338,14 @@ export default function StaffDashboard() {
               OutCol
               OutWhite
             />
+            { discount && 
             <Outputfetch
               Title="Discount"
               Value={`₱${discount}`}
               OutCol
               OutWhite
             />
+            }
             <Outputfetch
               Title="Down Payment Price"
               Value="₱0"

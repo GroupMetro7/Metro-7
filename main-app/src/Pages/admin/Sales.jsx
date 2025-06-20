@@ -91,16 +91,13 @@ export default function SalesPage() {
               <Group Class="kpis">
                 <UseKpi />
               </Group>
-              <Box
-                Title={
-                  <>
-                    <DateText />
-                    <br />
-                    <TimeText />
-                  </>
-                }
-                Class="datetime"
-              />
+              <Box Class="datetime">
+                <h3>
+                  <DateText />
+                  <br />
+                  <TimeText />
+                </h3>
+              </Box>
             </Group>
             <Group Class="charts">
               <Box Title="Sales Status" Class="salesstatus" BoxCol>

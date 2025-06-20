@@ -88,3 +88,6 @@ Route::middleware('auth:sanctum')->post('/create-order-Customer', [OrderControll
 
 // stocklog
 Route::get('/stock-logs', [RetrieveDataController::class, 'getStockLogs']);
+
+// AI
+Route::get('/FetchAIData', [RetrieveDataController::class, 'getTicketsData']);

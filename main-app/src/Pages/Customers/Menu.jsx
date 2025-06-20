@@ -1,25 +1,6 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
-import {
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Group,
-  Box,
-  Inputbox,
-  ItemMenu,
-  Modal,
-  Form,
-  Outputfetch,
-  InsertFileButton,
-  Button,
-  DateText,
-  TimeText,
-  Radio,
-  CheckedItem,
-  SubmitButton,
-} from "../../Exporter/component_exporter";
+import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { createWorker } from "tesseract.js";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -30,7 +11,7 @@ export default function MenuPage() {
   // this file is subject for optimization
   Title("Metro 7 | Menu");
   Body_addclass("Menu-PAGE");
-  const { token, user } = useStateContext();
+  const { user } = useStateContext();
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory } =
     useFetchProduct();
@@ -69,7 +50,7 @@ export default function MenuPage() {
 
   return (
     <>
-      {user && user.id ? (
+      { user && user.id ? 
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
@@ -95,7 +76,7 @@ export default function MenuPage() {
                     List={menulistdata}
                     addItemToOrder={addItemToOrder}
                     removeItemFromOrder={removeItemFromOrder}
-                    auth
+                    AuthenticatedMode={ user.id }
                   />
                 </Group>
               </Group>
@@ -110,7 +91,7 @@ export default function MenuPage() {
               </h3>
               <hr />
             </Group>
-            <Group Class="diningopts">
+            <Group Class="opts">
               <Radio
                 Title="DINE-IN"
                 RadioName="Options"
@@ -128,7 +109,7 @@ export default function MenuPage() {
             </Group>
             <hr />
             <Group Class="totalitem">
-              <h3>TOTAL ITEM</h3>
+              <h3>ORDER SUMMARY</h3>
               <div className="itemlist">
                 <CheckedItem
                   List={checkedorders}
@@ -137,24 +118,20 @@ export default function MenuPage() {
                 />
               </div>
             </Group>
+            { checkedorders != 0 && <>
             <hr />
             <Group Class="paymentsum" Col>
               <article>
-                <h3>PAYMENT SUMMARY</h3>
-                <div>
-                  <h3>TOTAL PRICE:</h3>
-                  <h4>₱{Number(formData.totalPrice).toFixed(2)}</h4>
-                </div>
-                {/* <div>
-                  <h3>DISCOUNT:</h3>
-                  <h4>₱{discountAmount.toFixed(2)}</h4>
-                </div> */}
+                  <h3>TOTAL:</h3>
+                  <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
               </article>
-              <Button Title="CHECKOUT" OpenModal="CheckoutModal" />
+              <Button Title="CHECKOUT" OpenModal="CheckoutModal" Disabled={ !diningOpt } />
             </Group>
+            </>
+            }
           </Box>
         </Main>
-      ) : (
+      : 
         <Main>
           <Section Title="Menu Order" Class="menu-notauth">
             <Group Col>
@@ -180,8 +157,8 @@ export default function MenuPage() {
             </Group>
           </Section>
         </Main>
-      )}
-      {token && (
+      }
+      { user && user.id && (
         <Modal Modal="CheckoutModal">
           <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
             <Group Class="outputfetch" Wrap>
