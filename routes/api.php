@@ -5,13 +5,11 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\serviceControls\orderListController;
 use App\Http\Controllers\serviceControls\serviceController;
-use App\Models\StockManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

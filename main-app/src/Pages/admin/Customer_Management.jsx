@@ -2,26 +2,16 @@ import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
 import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
+import useModifyCustomer from '../../hooks/admin/customer_management/modifyCustomer';
 
 export default function CustomerManagementPage() {
     // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
-    // variables for Employee table
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact: "",
-        role: "",
-        loyalty: "",
-    });
-    const [currentCustomerId, setCurrentCustomerId] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const { modifyCust, formData, updateCustomer, handleInputChange, error, success} = useModifyCustomer();
 
     //table
     const tbhead = [
@@ -38,13 +28,13 @@ export default function CustomerManagementPage() {
             phone: customer.contact,
             loyalty: customer.loyalty,
             role: customer.role,
-            edit: () => editCustomer(customer, setFormData, setCurrentCustomerId),
+            edit: () => modifyCust(customer),
             delete: () => removeCustomer(),
         }));
 
     // fetch Employee table
     useEffect(() => {
-        fetchAllUsers(setUsers, setError, setCurrentPage, setTotalPages, currentPage);
+        fetchAllUsers(setUsers, setCurrentPage, setTotalPages, currentPage);
     }, [currentPage]);
 
     // handle page change
@@ -52,10 +42,7 @@ export default function CustomerManagementPage() {
         setCurrentPage(page);
     };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+
 
     return (
         <>
@@ -75,20 +62,7 @@ export default function CustomerManagementPage() {
                 <Form
                     Title="EDIT CUSTOMER"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                        modify(
-                            e,
-                            currentCustomerId, // Pass the ID of the employee being edited
-                            formData,
-                            setFormData,
-                            fetchAllUsers,
-                            setSuccess,
-                            setError,
-                            setCurrentPage,
-                            setTotalPages,
-                            currentPage,
-                        )
-                    }
+                    OnSubmit={updateCustomer}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
