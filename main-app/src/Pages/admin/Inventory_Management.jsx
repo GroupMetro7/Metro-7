@@ -18,11 +18,11 @@ export default function Test() {
     const {
         formData,
         setFormData,
-        saveProduct,
         editProduct,
         error,
         success,
-        deleteItem
+        deleteItem,
+        addProduct
     } = useModifyItem();
 
     const {
@@ -92,12 +92,7 @@ export default function Test() {
                 <Form
                     Title="ADD ITEM"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                        saveProduct(
-                            e,
-                            false
-                        )
-                    }
+                    OnSubmit={addProduct}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
@@ -126,17 +121,12 @@ export default function Test() {
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                    saveProduct(
-                        e,
-                        true, // isEdit
-                        )
-                    }
+                    OnSubmit={addProduct}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,

@@ -24,31 +24,18 @@ export default function useModifyItem() {
     setCurrentProductId(product.id);
   };
 
-  const saveProduct = async (
-    e,
-    isEdit
-  ) => {
+  const addProduct = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null);
-
+    setSuccess(null)
     try {
-      const url = isEdit ? `/products/${currentProductId}` : "/products";
-      const method = isEdit ? "put" : "post";
-
-      await axiosClient[method](url, formData);
-      setError(null);
-      setSuccess(
-        isEdit ? "Product updated successfully" : "Product added successfully"
-      );
-    } catch (error) {
-      setSuccess(null);
-      setError(
-        error.response?.data?.message ||
-          "Failed to save product, please try again!"
-      );
+      const response = await axiosClient.post('/products', formData);
+      setSuccess("Item successfully added");
+    }catch (error) {
+      console.error('Failed to add Item:', error);
+      setError("Failed to add Item, please try again!");
     }
-  };
+  }
 
   const deleteItem = async (id) => {
     setError(null);
@@ -70,12 +57,12 @@ export default function useModifyItem() {
   return {
     formData,
     setFormData,
-    saveProduct,
     editProduct,
     currentProductId,
     setCurrentProductId,
     success,
     error,
-    deleteItem
+    deleteItem,
+    addProduct
   };
 }
