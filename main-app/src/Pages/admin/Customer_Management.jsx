@@ -42,8 +42,6 @@ export default function CustomerManagementPage() {
         setCurrentPage(page);
     };
 
-
-
     return (
         <>
             <Group>

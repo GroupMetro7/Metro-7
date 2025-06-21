@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from "../../exporter/component_exporter";
-import { modifyEmployee, editEmployee, fetchAllEmployees } from "../../Functions/EmployeeFunctions";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from "../../exporter/component_exporter";
+import { fetchAllEmployees } from "../../Functions/EmployeeFunctions";
 import useAttendanceStatusAdmin from "../../hooks/admin/employee/attendanceStatus";
+import useModifyEmployee from "../../hooks/admin/employee/modifyEmployee";
 
 export default function EmployeeManagementPage() {
   // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
-    // variables for Employee table
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact: "",
-        role: "",
-    });
-    const [currentEmployeeId, setCurrentEmployeeId] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const { modifyEmployee, formData, handleInputChange, updateEmployee, error, success } = useModifyEmployee();
     const { staff } = useAttendanceStatusAdmin();
 
     //table
@@ -45,21 +36,15 @@ export default function EmployeeManagementPage() {
         fourth: employee.contact,
         fifth: employee.role,
         sixth: status,
-        edit: () => editEmployee(employee, setFormData, setCurrentEmployeeId),
+        edit: () => modifyEmployee(employee),
         delete: () =>
-          removeEmployee(
-            employee.id,
-            setError,
-            setSuccess,
-            users,
-            setUsers
-          ),
+          removeEmployee(),
       };
     });
 
     // fetch Employee table
     useEffect(() => {
-        fetchAllEmployees(setUsers, setError, setCurrentPage, setTotalPages, currentPage);
+        fetchAllEmployees(setUsers, setCurrentPage, setTotalPages, currentPage);
     }, [currentPage]);
 
     // handle page change
@@ -67,10 +52,7 @@ export default function EmployeeManagementPage() {
         setCurrentPage(page);
     };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+
 
     return (
         <>
@@ -126,29 +108,17 @@ export default function EmployeeManagementPage() {
                 <Form
                     Title="EDIT EMPLOYEE"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                        modifyEmployee(
-                            e,
-                            currentEmployeeId, // Pass the ID of the employee being edited
-                            formData,
-                            setFormData,
-                            fetchAllEmployees,
-                            setSuccess,
-                            setError,
-                            setCurrentPage,
-                            currentPage,
-                            setTotalPages
-                        )
-                    }
+                    OnSubmit={updateEmployee}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
-                        <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
+                        <Outputfetch Title="Last Name" Name="lastname" Type="text"  Value={formData.lastname} onChange={handleInputChange} OutCol OutWhite/>
+                        <Outputfetch Title="First Name" Name="firstname" Type="text" Value={formData.firstname} onChange={handleInputChange} OutCol OutWhite/>
                         <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} OnChange={handleInputChange} />
-                        <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
-                        <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
+                        <Outputfetch Title="Email" Name="email" Type="email" Value={formData.email} onChange={handleInputChange} OutCol OutWhite/>
+                        <Outputfetch Title="Phone" Name="contact" Type="text" Value={formData.contact} onChange={handleInputChange} OutCol OutWhite/>
+                        <Selectionbox Title="Loyalty Status" Name="loyalty" Value={formData.loyalty} SltCol SltWhite Options={['New', 'Regular', 'VIP']} option_value={formData.loyalty} OnChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />

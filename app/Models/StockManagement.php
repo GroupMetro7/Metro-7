@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Mail\OutOfStockNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 class StockManagement extends Model
 {
@@ -38,6 +41,15 @@ protected static function boot()
         if (isset($model->SOLD_BY) && $model->SOLD_BY === 'each') {
             $model->STOCK = (int) $model->STOCK;
         }
+    });
+
+    static::updated(function ($stockItem){
+      if($stockItem->STOCK <= 0 && $stockItem->getOriginal('STOCK') > 0){
+        $admins = User::where('role', 'admin')->get();
+        foreach($admins as $admin){
+          Mail::to($admin->email)->send(new OutOfStockNotification($stockItem));
+        }
+      }
     });
 
     static::saved(function ($model) {

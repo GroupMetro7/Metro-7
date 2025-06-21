@@ -3,7 +3,7 @@ import axiosClient from "../../../axiosClient";
 
 export default function useModifyItem() {
   const [formData, setFormData] = useState({
-    ITEM_NAME: "",
+    COMPOSITE_NAME: "",
     category_id: "",
     STOCK: "",
     COST_PER_UNIT: "",
@@ -15,7 +15,7 @@ export default function useModifyItem() {
 
   const editProduct = (product) => {
     setFormData({
-      ITEM_NAME: product.COMPOSITE_NAME,
+      COMPOSITE_NAME: product.COMPOSITE_NAME,
       category_id: product.category_id,
       STOCK: product.STOCK,
       COST_PER_UNIT: product.COST_PER_UNIT,
@@ -26,13 +26,7 @@ export default function useModifyItem() {
 
   const saveProduct = async (
     e,
-    isEdit,
-    resetForm,
-    fetchProducts,
-    currentPage,
-    setProducts,
-    setCurrentPage,
-    setTotalPages
+    isEdit
   ) => {
     e.preventDefault();
     setError(null);
@@ -47,8 +41,6 @@ export default function useModifyItem() {
       setSuccess(
         isEdit ? "Product updated successfully" : "Product added successfully"
       );
-      resetForm();
-      fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
     } catch (error) {
       setSuccess(null);
       setError(

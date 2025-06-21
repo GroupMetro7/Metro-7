@@ -116,20 +116,14 @@ export default function Test() {
                     OnSubmit={(e) =>
                         saveProduct(
                             e,
-                            false, // isEdit
-                            resetForm,
-                            fetchProducts,
-                            currentPage,
-                            setProducts,
-                            setCurrentPage,
-                            setTotalPages
+                            false
                         )
                     }
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,
@@ -157,19 +151,13 @@ export default function Test() {
                     saveProduct(
                         e,
                         true, // isEdit
-                    resetForm,
-                    fetchProducts,
-                    currentPage,
-                    setProducts,
-                    setCurrentPage,
-                    setTotalPages
                         )
                     }
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,
