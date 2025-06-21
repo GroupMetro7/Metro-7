@@ -56,7 +56,7 @@ export default function Test() {
     ];
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
-        ITEMNAME: product.COMPOSITE_NAME,
+        COMPOSITE_NAME: product.COMPOSITE_NAME,
         SOLDBY: product.SOLD_BY,
         CATEGORY: getCategoryName(product.category_id),
         STOCK: product.STOCK.toFixed(2),
@@ -102,7 +102,7 @@ export default function Test() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,

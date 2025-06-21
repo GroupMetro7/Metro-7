@@ -33,7 +33,7 @@ class StockManagementController extends Controller
 
       $product = new StockManagement();
       $product->SKU_NUMBER = $this->generateSKUNumber();
-      $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
+      $product->COMPOSITE_NAME = $validated['COMPOSITE_NAME'];
       $product->category_id = $validated['category_id'];
       $product->STOCK = $validated['STOCK'];
       $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
@@ -63,7 +63,7 @@ class StockManagementController extends Controller
     {
         $validated = $request->validate([
             'SKU_NUMBER' => 'sometimes|required|string|max:255',
-            'ITEM_NAME' => 'sometimes|required|string|max:255',
+            'COMPOSITE_NAME' => 'sometimes|required|string|max:255',
             'category_id' => 'sometimes',
             'STOCK' => 'sometimes|required',
             'COST_PER_UNIT' => 'sometimes|required|numeric',
@@ -75,8 +75,8 @@ class StockManagementController extends Controller
         if (isset($validated['SKU_NUMBER'])) {
             $product->SKU_NUMBER = $validated['SKU_NUMBER'];
         }
-        if (isset($validated['ITEM_NAME'])) {
-            $product->COMPOSITE_NAME = $validated['ITEM_NAME'];
+        if (isset($validated['COMPOSITE_NAME'])) {
+            $product->COMPOSITE_NAME = $validated['COMPOSITE_NAME'];
         }
         if (isset($validated['category_id'])) {
             $product->category_id = $validated['category_id'];
