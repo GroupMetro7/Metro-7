@@ -8,6 +8,6 @@ export default function GoogleMapEmbed() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+        />
     )
 }

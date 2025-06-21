@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class product extends Model
+class Product extends Model
 {
   protected $table = 'products';
 
@@ -14,6 +14,7 @@ class product extends Model
     'description',
     'image',
     'category_id',
+    'composite_id',
 ];
 
 public function category()
@@ -24,6 +25,11 @@ public function category()
 
 public function ingredients()
 {
-  return $this->belongsToMany(StockManagement::class, 'product_ingredient', 'product_id', 'stock_management_id')->withPivot('quantity')->withTimestamps();
+  return $this->belongsToMany(StockManagement::class, 'product_ingredient', 'product_id', 'ingredient_id')->withPivot('quantity')->withTimestamps();
+}
+
+public function getImageUrlAttribute()
+{
+    return $this->image ? asset('storage/' . $this->image) : null;
 }
 }

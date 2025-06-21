@@ -73,11 +73,13 @@ class AuthController extends Controller
 
   public function updateUser(Request $request)
     {
+      $user = Auth::user();
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'contact' => 'required|integer',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
         ]);
 
         if ($validator->fails()) {
@@ -85,12 +87,13 @@ class AuthController extends Controller
         }
 
         // Get the authenticated user
-        $user = Auth::user();
+
 
         // Update the user's profile
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->contact = $request->contact;
+        $user->email = $request->email;
         $user->save();
 
         return response()->json([
@@ -109,6 +112,7 @@ class AuthController extends Controller
         'firstname' => 'required|string|max:255',
         'lastname' => 'required|string|max:255',
         'role' => 'required',
+        'loyalty' => 'required',
     ]);
 
     // Find the user to be updated

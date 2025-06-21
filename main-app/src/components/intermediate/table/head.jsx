@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../../assets/css/components/table.sass'
 
-export default function TBHead({ HeadRows, ViewBtn, EditBtn, Deletebtn }) {
+export default function TBHead({ HeadRows, ViewBtn, EditBtn, DeleteBtn }) {
     return (
         <div className='th'>
             {HeadRows.map((HeadRow, index) => (
@@ -9,11 +9,11 @@ export default function TBHead({ HeadRows, ViewBtn, EditBtn, Deletebtn }) {
                     <h3>{HeadRow}</h3>
                 </div>
             ))}
-            { ( ViewBtn || EditBtn || Deletebtn ) &&
+            { ( ViewBtn || EditBtn || DeleteBtn ) && 
                 <div className='tc tcbtn'>
-                    { ViewBtn ? <div></div> : undefined }
-                    { EditBtn ? <div></div> : undefined }
-                    { Deletebtn ? <div></div> : undefined }
+                    { ViewBtn && <div></div> }
+                    { EditBtn && <div></div> }
+                    { DeleteBtn && <div></div> }
                 </div>
             }
         </div>

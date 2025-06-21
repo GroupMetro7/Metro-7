@@ -6,12 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
-    const { token, setUser, setToken } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { user } = useStateContext();
 
     useEffect(() => {
       axiosClient.get("/user")
@@ -55,6 +54,11 @@ export default function LoginPage() {
     Body_addclass('Login-PAGE')
     const screenwidth = ScreenWidth()
 
+    const Inputboxes = [
+        { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
+        { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
+    ]
+
     return(
         <>
         <Main>
@@ -62,8 +66,9 @@ export default function LoginPage() {
                 <Form Title='LOGIN' OnSubmit={handleSubmit}>
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
                     <Group Class='inputside' Col>
-                        <Inputbox Title='Email' Type='email' InCol InWhite Value={email} onChange={(e)=> setEmail(e.target.value)}/>
-                        <Inputbox Title='Password' Type='password' InCol InWhite Value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        { Inputboxes.map((input, index) => (
+                            <Inputbox key={index} Title={input.Title} ID={input.ID} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                        )) }
                     </Group>
                     <Group Class='buttonside' Col>
                         <SubmitButton Title='LOGIN' BtnWhite />
@@ -72,9 +77,6 @@ export default function LoginPage() {
                 </Form>
             </Section>
         </Main>
-        <Footer />
-
         </>
-
     )
 }

@@ -22,10 +22,11 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ITEM_NAME' => 'required|string|max:55',
-            'CATEGORY' => 'required|string|max:15',
-            'STOCK' => 'required|integer',
+            'COMPOSITE_NAME' => 'required|string|max:55',
+            'category_id' => 'required|string|max:15',
+            'STOCK' => 'required',
             'COST_PER_UNIT' => 'required|numeric',
+            'SOLD_BY' => 'required',
         ];
     }
 }

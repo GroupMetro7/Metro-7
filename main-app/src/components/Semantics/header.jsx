@@ -8,6 +8,20 @@ export default function Header({ AuthenticatedMode, Logout }) {
     HeaderHeight()
     const screenwidth = ScreenWidth()
 
+    const navitems = [
+        { GuestItem: 1, CustItem: 1, Title: "HOME", Redirect: "/" },
+        
+        { GuestItem: 2, Title: "MENU", Redirect: "/menu" },
+
+        { CustItem: 2, Title: "PRE-ORDER", Redirect: "/menu" },
+        { CustItem: 3, Title: "RESERVATION", Redirect: "/reservation" },
+        { CustItem: 4 , Title: AuthenticatedMode, DropDown: true },
+        { CustItem: 999, DropDownItem: 1, Title: "PROFILE", Redirect: "/profile" },
+
+        { GuestItem: 999, Title: "LOGIN", Redirect: "/login" },
+        { CustItem: 999, DropDownItem: 999, Title: "LOGOUT", Onclick: Logout }
+    ]
+
     return(
         <header>
             <div>
@@ -16,22 +30,20 @@ export default function Header({ AuthenticatedMode, Logout }) {
                     <nav>
                         { AuthenticatedMode ?
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='PRE-ORDER' Redirect='/menu' />
-                                <Href Title='RESERVATION' Redirect='/reservation' />
-                                <Href Title={ AuthenticatedMode } DropDown />
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <Href Title='PROFILE' Redirect='/profile' />
-                                    <Href Title='LOGOUT' Onclick={ Logout } />
-                                </ul>
+                            { navitems.filter( item => item.CustItem && !item.DropDownItem ).sort((item1, item2) => item1.CustItem - item2.CustItem).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect && `/customer${item.Redirect}` } DropDown={ item.DropDown } />
+                            ))}
+                            <ul className="dropdown-menu dropdown-menu-end">
+                                { navitems.filter( item => item.CustItem && item.DropDownItem ).sort((item1, item2) => item1.DropDownItem - item2.DropDownItem).map(( item, index ) => (
+                                    <Href key={ index } Title={ item.Title } Redirect={ item.Redirect && `/customer${item.Redirect}` } Onclick={ item.Onclick } />
+                                ))}
+                            </ul>
                             </>
                             :
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='MENU' Redirect='/menu' />
-                                <Href Title='LOGIN' Redirect='/login' />
+                            { navitems.filter( item => item.GuestItem ).sort((item1, item2) => item1.GuestItem - item2.GuestItem).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } />
+                            ))}
                             </>
                         }
                     </nav>
@@ -46,19 +58,15 @@ export default function Header({ AuthenticatedMode, Logout }) {
                     <nav>
                         { AuthenticatedMode ?
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='PRE-ORDER' Redirect='/menu' />
-                                <Href Title='RESERVATION' Redirect='/reservation' />
-                                <Href Title='PROFILE' Redirect='/profile' />
-                                <Href Title='LOGOUT' Onclick={ Logout } />
+                            { navitems.filter( item => item.CustItem && item.Title !== AuthenticatedMode ).sort((a, b) => a.CustItem !== b.CustItem ? a.CustItem - b.CustItem : a.DropDownItem - b.DropDownItem).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ `/customer${item.Redirect}` } DropDown={ item.DropDown } Onclick={ item.Onclick }  />
+                            ))}
                             </>
                             :
                             <>
-                                <Href Title='HOME' Redirect='/' />
-                                <Href Title='LOCATION' Redirect='/location' />
-                                <Href Title='MENU' Redirect='/menu' />
-                                <Href Title='LOGIN' Redirect='/login' />
+                            { navitems.filter( item => item.GuestItem ).sort((item1, item2) => item1.GuestItem - item2.GuestItem).map(( item, index ) => (
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect } />
+                            ))}
                             </>
                         }
                     </nav>

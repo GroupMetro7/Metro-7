@@ -1,3 +1,4 @@
+import React from "react";
 import "../../assets/css/pages/admin/Management.sass";
 import {
   Title,
@@ -16,19 +17,20 @@ import {
   Pagination,
   InsertFileButton,
 } from "../../exporter/component_exporter";
-import { editProduct } from "../../functions/MenuFunctions";
 import { DeleteLogo } from "../../Exporter/public_exporter";
 import useAddCategory from "../../hooks/add";
-import useAddProduct from "../../hooks/orders/addProduct";
-import useFetchOrder from "../../hooks/orders/fetchOrder";
-import { createWorker } from 'tesseract.js';
+import useAddProduct from "../../hooks/admin/Menu/addProduct";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
+import useSearchItem from "../../hooks/searchItem";
+
 export default function MenuManagementPage() {
   Title("Menu List Management");
   Body_addclass("Management-PAGE");
 
+  //optimized
+  //for update useSearchItem to search products
   // Custom hooks for managing product and category data
   //1. useAddProduct for adding products
-  
   const {
     formData,
     handleInputChange,
@@ -37,6 +39,11 @@ export default function MenuManagementPage() {
     removeSelectBox,
     handleIngredientChange,
     handleAddProduct,
+    editProduct,
+    ProductError,
+    ProductSuccess,
+    handleUpdateProduct,
+    deleteProduct
   } = useAddProduct();
 
   //2. useAddCategory for adding categories
@@ -46,8 +53,6 @@ export default function MenuManagementPage() {
     categoryDescription,
     setCategoryDescription,
     handleAddCategory,
-    error,
-    success,
   } = useAddCategory();
 
   //3. useFetchOrder for fetching menu products, categories, and ingredients
@@ -60,42 +65,71 @@ export default function MenuManagementPage() {
     totalPages,
   } = useFetchOrder();
 
+  const { searchTerm, setSearchTerm, filteredItems } =
+    useSearchItem("/products/search");
+
   // Function for handling page changes in pagination component
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   // table headers and rows for displaying products
-  const tbhead = ["ID", "Product Name", "Description", "Price", "Actions"];
+  const tbhead = ["ID", "Product Name", "Description", "Price"];
   const tbrows = menuProduct.map((product) => ({
     id: product.id,
     product_name: product.product_name,
     description: product.description,
     price: product.price,
-    edit: () => editProduct(product, setFormData),
-    delete: () => console.log(`Delete product with ID: ${product.id}`),
+    edit: () => editProduct(product, console.log(product.image)),
+    delete: () => editProduct(product, console.log(product.id)),
   }));
 
+  const tbhead2 = ["ID", "Category", "Number of Products"];
 
   return (
     <>
       <Group>
         <Main>
           <Box Class="search">
-            <Inputbox Title="Search" Type="search" />
+            <Inputbox
+              Title="Search"
+              Type="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              Placeholder={"Search by Product Name"}
+            />
             <Selectionbox Title="Filter" />
           </Box>
           <Box
             Title="PRODUCT LIST"
-            UpperRight={
-              <Group>
-                <Button Title="ADD PRODUCT" OpenModal="AddProductModal" />
-                <Button Title="ADD CATEGORY " OpenModal="AddCategoryModal" />
-              </Group>
-            }
+            UpperRight={<Button Title="+" OpenModal="AddModal-Product" />}
             BoxCol
           >
-            <Table HeadRows={tbhead} DataRows={tbrows} EditBtn Deletebtn />
+            <Table
+              Title="Product"
+              HeadRows={tbhead}
+              DataRows={tbrows}
+              EditBtn
+              DeleteBtn
+            />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </Box>
+          <Box
+            Title="CATEGORIES"
+            UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
+            BoxCol
+          >
+            <Table
+              Title="Category"
+              HeadRows={tbhead2}
+              DataRows={tbrows}
+              EditBtn
+              DeleteBtn
+            />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -104,13 +138,22 @@ export default function MenuManagementPage() {
           </Box>
         </Main>
       </Group>
-      <Modal Modal="AddProductModal">
+      <Modal Modal="AddModal-Product">
         <Form Title="ADD MENU" FormThreelayers OnSubmit={handleAddProduct}>
+          {ProductError && (
+            <p className="error" style={{ color: "red" }}>
+              {ProductError}
+            </p>
+          )}
+          {ProductSuccess && (
+            <p className="success" style={{ color: "green" }}>
+              {ProductSuccess}
+            </p>
+          )}
           <Group Class="imageside">
-            <img
-              src={formData.image ? URL.createObjectURL(formData.image) : ""}
-              alt=""
-            />
+            {formData.image && (
+              <img src={URL.createObjectURL(formData.image)} alt="" />
+            )}
             <InsertFileButton
               Title="ADD PICTURE"
               BtnWhite
@@ -203,41 +246,129 @@ export default function MenuManagementPage() {
             <Button Title="ADD INGREDIENTS" Onclick={addSelectBox} BtnWhite />
             <SubmitButton Title="SUBMIT" BtnWhite />
           </Group>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
         </Form>
       </Modal>
-      <Modal Modal="EditProductModal">
-        <Form Title="MODIFY MENU" FormThreelayers>
+      <Modal Modal="EditModal-Product">
+        <Form
+          Title="MODIFY MENU"
+          FormThreelayers
+          OnSubmit={handleUpdateProduct}
+        >
+          {ProductError && (
+            <p className="error" style={{ color: "red" }}>
+              {ProductError}
+            </p>
+          )}
+          {ProductSuccess && (
+            <p className="success" style={{ color: "green" }}>
+              {ProductSuccess}
+            </p>
+          )}
+          <Group Class="imageside">
+            {formData.image_url && (
+              <img src={formData.image_url} alt="Product" />
+            )}
+            <InsertFileButton
+              Title="ADD PICTURE"
+              BtnWhite
+              Accept={"image/*"}
+              Name="image"
+              OnChange={handleInputChange}
+            />
+          </Group>
           <Group Class="inputside" Wrap>
-            <Inputbox Title="No." Type="number" InCol InWhite />
-            <Inputbox Title="Name" Type="text" InCol InWhite />
-            <Inputbox Title="Category" Type="text" InCol InWhite />
-            <Inputbox Title="Amount" Type="number" InCol InWhite />
+            <Inputbox
+              Title="Product Name"
+              Type="text"
+              InCol
+              InWhite
+              Name="product_name"
+              Value={formData.product_name}
+              onChange={handleInputChange}
+            />
+            <Selectionbox
+              Title="Category"
+              Name="category_id"
+              Value={formData.category_id}
+              Options={categories.map((cat) => ({
+                label: cat.name,
+                value: cat.id,
+              }))}
+              SltCol
+              SltWhite
+              OnChange={handleInputChange}
+            />
+            <Inputbox
+              Title="Price"
+              Type="number"
+              InCol
+              InWhite
+              Name="price"
+              Value={formData.price}
+              onChange={handleInputChange}
+            />
+            <Group Class="ingredients" Col>
+              <h4>Ingredients:</h4>
+              {selects.map(({ sku, quantity }, idx) => (
+                <Group key={idx}>
+                  <Selectionbox
+                    NoTitle
+                    Name="sku"
+                    Value={sku}
+                    Options={ingredients.map((comp) => ({
+                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
+                      value: comp.SKU_NUMBER,
+                    }))}
+                    SltCol
+                    SltWhite
+                    OnChange={(e) =>
+                      handleIngredientChange(idx, "sku", e.target.value)
+                    }
+                  />
+                  <Inputbox
+                    NoTitle
+                    Type="number"
+                    InCol
+                    InWhite
+                    Name="quantity"
+                    Value={quantity}
+                    onChange={(e) =>
+                      handleIngredientChange(idx, "quantity", e.target.value)
+                    }
+                  />
+                  <Button
+                    Icon={DeleteLogo}
+                    Onclick={() => removeSelectBox(idx)}
+                    BtnWhite
+                  />
+                </Group>
+              ))}
+            </Group>
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
+            <Button Title="ADD INGREDIENTS" Onclick={addSelectBox} BtnWhite />
             <SubmitButton Title="SUBMIT" BtnWhite />
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="DeleteProductModal">
-        <Form Title="DELETE EMPLOYEE" FormThreelayers>
+      <Modal Modal="DeleteModal-Product">
+        <Form Title="DELETE EMPLOYEE" FormThreelayers OnSubmit={deleteProduct}>
           <Group Class="outputfetch" Wrap>
-            <Outputfetch Title="Balance" Value="36548" OutCol OutWhite />
-            <Outputfetch
-              Title="First Name"
-              Value="Micheal Lance Kester"
+                        <Outputfetch
+              Title="Product ID"
+              Value={formData.id}
               OutCol
               OutWhite
             />
-            <Outputfetch Title="Last Name" Value="Li" OutCol OutWhite />
             <Outputfetch
-              Title="Email"
-              Value="kesterli1998@gmail.com"
+              Title="Product Name"
+              Value={formData.product_name}
               OutCol
               OutWhite
             />
+            <Outputfetch Title="Product price" Value={formData.price} OutCol OutWhite />
+
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
@@ -245,10 +376,8 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="AddCategoryModal">
+      <Modal Modal="AddModal-Category">
         <Form Title="ADD CATEGORY" FormTwolayers OnSubmit={handleAddCategory}>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
           <Group Class="inputside" Wrap>
             <Inputbox
               Title="Category Name"
@@ -273,22 +402,56 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-<InsertFileButton
-  Title="ADD OCR PICTURE"
-  BtnWhite
-  Accept={"image/*"}
-  Name="image"
-  OnChange={async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const worker = await createWorker('eng');
-      const rectangle = { left: 0, top: 0, width: 1500, height: 1500 };
-      const { data: { text } } = await worker.recognize(file, { rectangle });
-      console.log(text);
-      await worker.terminate();
-    }
-  }}
-/>
+      <Modal Modal="EditModal-Category">
+        <Form Title="EDIT CATEGORY" FormTwolayers OnSubmit={handleAddCategory}>
+          <Group Class="inputside" Wrap>
+            <Inputbox
+              Title="Category Name"
+              Type="text"
+              InCol
+              InWhite
+              Value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+            />
+            <Inputbox
+              Title="Description"
+              Type="text"
+              InCol
+              InWhite
+              Value={categoryDescription}
+              onChange={(e) => setCategoryDescription(e.target.value)}
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
+      <Modal Modal="DeleteModal-Category">
+        <Form Title="DELETE CATEGORY" FormThreelayers>
+          <Group Class="outputfetch" Wrap>
+            <Outputfetch Title="Balance" Value="36548" OutCol OutWhite />
+            <Outputfetch
+              Title="First Name"
+              Value="Micheal Lance Kester"
+              OutCol
+              OutWhite
+            />
+            <Outputfetch Title="Last Name" Value="Li" OutCol OutWhite />
+            <Outputfetch
+              Title="Email"
+              Value="kesterli1998@gmail.com"
+              OutCol
+              OutWhite
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="DELETE" BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
     </>
   );
 }

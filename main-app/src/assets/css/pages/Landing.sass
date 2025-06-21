@@ -1,7 +1,7 @@
 @use '../constant.sass' as v
 
 body.Landing-PAGE 
-    background-image: url('/background-image/BG.png') !important
+    background-image: url('/Background-Image/BG.svg') !important
     background-size: cover !important
     background-position: center !important
     background-attachment: fixed !important
@@ -31,6 +31,8 @@ body.Landing-PAGE
                     color: v.$color-secondary !important
         
             .about
+                flex-direction: row !important
+                align-items: stretch !important
                 gap: 0 !important
 
                 > div:has( > img )
@@ -43,6 +45,33 @@ body.Landing-PAGE
                 > .description
                     background-color: v.$color-secondary !important
                     color:  v.$color-primary !important
+                    text-align: justify !important
+
+            .location
+                background-color: v.$container-red !important
+                backdrop-filter: blur(13px) !important
+                scroll-margin-top: 80px !important
+
+                > h2, h3
+                    color: v.$color-secondary !important
+
+                > div.group
+                    justify-content: space-between !important
+
+                    > article
+                        flex-direction: column !important
+
+                        > h3, > h4
+                            font-weight: 500 !important
+                            text-transform: capitalize !important
+                            color: v.$color-secondary !important
+
+                        > h4:nth-child(3)
+                            text-transform: lowercase !important
+
+                    > .map
+                        border-radius: 10px !important
+
 
 @media only screen and (min-width: 1267px) 
 
@@ -54,8 +83,7 @@ body.Landing-PAGE
 
                 .pre-order
                     gap: 0 !important
-                    
-                    padding: 43px 130px !important
+                    padding: 33px 123px !important
 
                     > button
                         align-self: flex-end !important
@@ -67,11 +95,24 @@ body.Landing-PAGE
                 .about
 
                     > div:has( > img )
-                        padding: 50px 100px !important
+                        padding: 33px 100px !important
                         
                     > .description
                         gap: 23px !important
-                        padding: 53px 53px 0 !important
+                        padding: 43px 83px 0 43px !important
+
+                .location
+                    padding: 23px 83px !important
+                    gap: 23px !important
+
+                    > div.group
+
+                        > article
+                            gap: 13px !important
+
+                        > .map
+                            width: 533px !important
+                            height: 283px !important
 
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
 
@@ -84,7 +125,7 @@ body.Landing-PAGE
 
                 .pre-order  
                     gap: 0 !important
-                    padding: 20px 43px !important
+                    padding: 23px 43px !important
 
                     > button
                         align-self: flex-end !important
@@ -101,6 +142,23 @@ body.Landing-PAGE
                     > .description
                         gap: 13px !important
                         padding: 23px !important
+
+                        > h2
+                            justify-content: center !important
+
+                .location
+                    padding: 23px !important
+                    gap: 23px !important
+
+                    > div.group
+                        gap: 33px !important
+
+                        > article
+                            gap: 13px !important
+
+                        > .map
+                            width: 443px !important
+                            height: 254px !important
 
 @media only screen and (max-width: 766px) 
 
@@ -127,4 +185,24 @@ body.Landing-PAGE
                     > .description
                         gap: 7.5px !important
                         padding: 23px !important
+
+                        > h3
+                            justify-content: center !important
+
+                .location
+                    padding: 23px !important
+                    gap: 13px !important
+
+                    > div.group
+                        gap: 23px !important
+
+                        > h3
+                            justify-content: center !important
+
+                        > .map
+                            width: 100% !important
+                            height: 254px !important
+
+                        > article
+                            gap: 7.5px !important
 

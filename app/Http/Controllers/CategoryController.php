@@ -9,7 +9,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json(Category::all());
+        $categories = Category::withCount('products')->get();
+        return response()->json($categories);
     }
 
     //create category
@@ -17,16 +18,27 @@ class CategoryController extends Controller
     {
       $validated = $request->validate([
           'name' => 'required|string|max:255|unique:categories,name',
-          'description' => 'nullable'
       ]);
 
       $category = Category::create([
         'name' => $validated['name'],
-        'description' => $validated['description'],
       ]);
 
       return response()->json($category);
     }
+
+public function updateCategory(Request $request, $id)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255|unique:categories,name,' . $id,
+    ]);
+
+    $category = Category::findOrFail($id);
+    $category->name = $validated['name'];
+    $category->save();
+
+    return response()->json($category);
+}
 
     //delete category
     public function destroy($id)

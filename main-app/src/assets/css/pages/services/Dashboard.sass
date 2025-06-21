@@ -3,8 +3,9 @@
 body.Dashboard-Service-PAGE
 
     main
-
-        > div
+    
+        > div.row
+            padding: 13px 23px 23px calc( 23px + v.$sidebar-size ) !important
 
             .menu
                 width: unset !important
@@ -34,11 +35,15 @@ body.Dashboard-Service-PAGE
                         grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
   
             .checkout
-                max-width: 27.344vw !important
+                position: sticky !important
+                top: v.$elem-sa-size-m
+                right: 23px !important
+                width: v.$checkoutsection-size !important
+                max-height: calc( 100vh - 13px - 23px ) !important
 
                 > .datetime
                     width: 100% !important
-                    gap: 13px !important
+                    flex-grow: unset !important
                     align-items: center !important
                     text-align: center !important
                     text-transform: uppercase !important
@@ -55,33 +60,51 @@ body.Dashboard-Service-PAGE
                         width: unset !important
                         height: v.$elem-h-size-secondary !important
 
-                > .inputbox
-                    width: 100% !important
-
-                    > input
-                        flex-grow: 1 !important
-
                 > .totalitem
                     flex-direction: column !important
+                    overflow-x: auto !important
+                    flex-grow: 10 !important
 
                     > .itemlist
                         width: 100% !important
-                        gap: 13px !important
+                        gap: v.$elem-sa-size-s !important
                         flex-direction: column !important
 
                 > .paymentsum
-                    gap: 23px !important
+                    gap: v.$elem-sa-size-m !important
 
                     > article
-                        gap: 8px !important
-                        flex-direction: column !important
+                        justify-content: space-between !important
                         flex-grow: 1 !important
 
-                        > div
+                        > div:has(> h3, > h4)
                             width: 100% !important
-                            justify-content: space-between !important
 
                     > button
                         width: 100% !important
                         height: 37px !important
 
+    .modal
+
+        > .modal-dialog
+
+            > div.form
+
+                > form
+
+                    > div.group.outputfetch:has( div )
+
+                        > div
+
+                            > label:nth-child(1)
+                                flex: 4 !important
+
+                            > label
+                                flex: 1 !important
+
+                    &.formthreelayers
+
+                        > .inputside:nth-child(1)
+
+                            > label:nth-child(1)
+                                flex: 1 !important

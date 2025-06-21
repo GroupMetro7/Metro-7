@@ -3,7 +3,7 @@ import '../../../assets/css/components/table.sass'
 import { Button } from '../../../exporter/component_exporter'
 import { ViewLogo, EditLogo, DeleteLogo } from '../../../exporter/public_exporter'
 
-export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
+export default function TBData({ Title, DataRows, ViewBtn, EditBtn, DeleteBtn }) {
     return (
         <>
             {DataRows.map((DataRow, RowIndex) => (
@@ -17,21 +17,22 @@ export default function TBData({ DataRows, ViewBtn, EditBtn, Deletebtn }) {
                                 </div>
                             );
                         }
-                        return null;
                     })}
 
                     {/* Render action buttons if enabled */}
-                    <div className="tc tcbtn">
-                        {ViewBtn && DataRow.view && (
-                            <Button Icon={ViewLogo} Onclick={DataRow.view} />
-                        )}
-                        {EditBtn && DataRow.edit && (
-                            <Button Icon={EditLogo} OpenModal="EditModal" Onclick={DataRow.edit} />
-                        )}
-                        {Deletebtn && DataRow.delete && (
-                            <Button Icon={DeleteLogo} OpenModal="DeleteModal" Onclick={DataRow.delete} />
-                        )}
-                    </div>
+                    { ( ViewBtn || EditBtn || DeleteBtn ) && 
+                        <div className="tc tcbtn">
+                            {ViewBtn && DataRow.view && (
+                                <Button Icon={ViewLogo} OpenModal={ Title ? `ViewModal-${ Title }` : 'ViewModal' } Onclick={DataRow.view} />
+                            )}
+                            { EditBtn && DataRow.edit && (
+                                <Button Icon={EditLogo} OpenModal={ Title ? `EditModal-${ Title }` : 'EditModal' } Onclick={DataRow.edit} />
+                            )}
+                            { DeleteBtn && DataRow.delete && (
+                                <Button Icon={DeleteLogo} OpenModal={ Title ? `DeleteModal-${Title}` : 'DeleteModal' } Onclick={DataRow.delete} />
+                            )}
+                        </div>
+                    }
                 </div>
             ))}
         </>

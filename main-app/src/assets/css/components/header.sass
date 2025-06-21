@@ -1,5 +1,8 @@
 @use '../constant.sass' as v
 
+header, header *:not( ul ):not( div.collapse, div.collapsing )
+    display: flex !important
+
 header 
     background-color: v.$header-footer !important
     width: 100% !important
@@ -14,30 +17,17 @@ header
         margin-inline: auto !important
 
         > img 
-            width: 150px !important
+            height: 30px !important
 
         > nav 
             justify-content: flex-end !important
-            gap: 13px !important
 
             a
-                font-size: 18px !important
+                font-weight: 700 !important
                 text-transform: uppercase !important
                 text-decoration: none !important
                 transition: .23s !important
-                padding: 13px !important
-
-    > div.collapse, > div.collapsing
-
-        > nav
-            flex-direction: column !important
-            padding-inline: 20px !important
-
-            > a
-                font-size: 18px !important
-                text-transform: uppercase !important
-                text-decoration: none !important
-                padding: 7.5px !important
+                padding: v.$elem-sa-size-m v.$elem-sa-size-xl !important
 
 @media only screen and (min-width: 1267px) 
 
@@ -45,7 +35,7 @@ header
 
         > div:nth-child(1)
             max-width: 1263px !important
-            padding: 14.5px 60px 14.5px 80px !important
+            padding: v.$elem-sa-size-m 53px v.$elem-sa-size-m 73px !important
                 
             > nav 
 
@@ -60,7 +50,7 @@ header
     header 
 
         > div:nth-child(1)
-            padding: 14.5px 30px 14.5px 20px !important
+            padding: v.$elem-sa-size-m 33px !important
 
             > nav 
 
@@ -76,11 +66,22 @@ header
         flex-direction: column !important
 
         > div:nth-child(1)
-            padding: 13px 20px !important
+            padding: v.$elem-sa-size-m v.$elem-sa-size-xl !important
 
             > .burger
                 width: 33px !important
 
                 > input[type="checkbox"]
                     width: 100% !important
+                    
+        > div.collapse, > div.collapsing
+
+            > nav
+                flex-direction: column !important
+
+                > a
+                    font-weight: 700 !important
+                    text-transform: uppercase !important
+                    text-decoration: none !important
+                    padding: v.$elem-sa-size-s v.$elem-sa-size-xl !important
 

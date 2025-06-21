@@ -1,81 +1,327 @@
-import React, { useEffect, useState } from 'react'
-import '../../assets/css/pages/customers/Menu.sass'
-import { menulistdata } from '../../constant'
-import { Title, Body_addclass, Header, Footer, Main, Section, Group, Box, Inputbox, Selectionbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, } from '../../Exporter/component_exporter'
-import CustomerLayout from '../../components/Layout/CustomerLayout'
-import { useStateContext } from '../../Contexts/ContextProvider'
-import GuestLayout from '../../components/Layout/GuestLayout'
-import axiosClient from '../../axiosClient'
+import { useState } from "react";
+import "../../assets/css/pages/customers/Menu.sass";
+import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
+import { useStateContext } from "../../Contexts/ContextProvider";
+import { createWorker } from "tesseract.js";
+import useFetchProduct from "../../hooks/service/fetchProducts";
+import useFetchOrder from "../../hooks/uni/fetchProducts";
+import useCreateOrder from "../../hooks/orders/createOrderCustomer";
 
 export default function MenuPage() {
   // this file is subject for optimization
-    Title('Metro 7 | Menu')
-    Body_addclass('Menu-PAGE')
-    const { token} = useStateContext();
-    const [menuItems, setMenuItems] = useState([]);
-    const [order, setOrder] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [customer, setCustomer] = useState();
-    const [paymentOpt, setPaymentOpt] = useState();
-    const [diningOpt, setDiningOpt] = useState();
-    const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+  Title("Metro 7 | Menu");
+  Body_addclass("Menu-PAGE");
+  const { user } = useStateContext();
+  const { categories } = useFetchOrder();
+  const { menuItems, selectedCategory, setSelectedCategory } =
+    useFetchProduct();
 
-        useEffect(() => {
-        axiosClient.get("/categories").then(res => {
-            setCategories(res.data);
-            if (res.data.length > 0) setSelectedCategory(res.data[0].id);
-        });
-    }, []);
+  const {
+    order,
+    diningOpt,
+    setDiningOpt,
+    discount,
+    addItemToOrder,
+    removeItemFromOrder,
+    submitOrder,
+    formData,
+    setFormData,
+  } = useCreateOrder();
 
-    useEffect(() => {
-        if (selectedCategory) {
-            axiosClient.get(`/products/category/${selectedCategory}`).then(res => {
-                setMenuItems(res.data);
-            });
-        }
-    }, [selectedCategory]);
+  const menulistdata = menuItems.map((product) => ({
+    id: product.id,
+    image: product.image_url,
+    product_name: product.product_name,
+    price: product.price,
+    is_available: product.is_available,
+  }));
 
-        const menulistdata = menuItems.map((product) => ({
-        id: product.id,
-        image: product.image,
-        product_name: product.product_name,
-        price: product.price,
-    }));
+  const checkedorders = order.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    price: product.price,
+    quantity: product.quantity,
+  }));
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    return(
-        <>
-        {token ? (
-                  <CustomerLayout />
-                ):(
-                  <GuestLayout />
-                )}
-        <Main>
-            <Section Title='Menu Order' Class='menu'>
-                <Group Col>
-                    <Box Class='search'>
-                        <Inputbox Title='Search' Type='search' />
-                    </Box>
-                    <Group Class='filter'>
-                        <Radio Title='Meal' Value='Meal' RadioName='Category' BtnWhite />
-                        <Radio Title='Liquor' Value='Meal' RadioName='Category' BtnWhite />
-                        <Radio Title='Deserts' Value='Meal' RadioName='Category' BtnWhite />
-                        <Radio Title='Breakfast' Value='Meal' RadioName='Category' BtnWhite />
-                    </Group>
-                    {/* added auth parameter for authenticated one and no auth parameter for unauthenticated */}
-                    {token ?
-                    (<Group Class='items' Wrap>
-                        <ItemMenu List={ menulistdata } auth/>
-                    </Group>)
-                    :
-                    (<Group Class='items' Wrap>
-                        <ItemMenu List={ menulistdata }/>
-                    </Group>)}
+  return (
+    <>
+      { user && user.id ? 
+        <Main Row>
+          <Group Class="leftside" Col>
+            <Section Title="Menu Order" Class="menu">
+              <Group Col>
+                <Box Class="search">
+                  <Inputbox Title="Search" Type="search" />
+                </Box>
+                <Group Class="filter">
+                  {categories.map((cat) => (
+                    <Radio
+                      key={cat.id}
+                      Title={cat.name}
+                      Value={cat.id}
+                      RadioName="Category"
+                      Checked={selectedCategory === cat.id}
+                      OnChange={() => setSelectedCategory(cat.id)}
+                      BtnWhite
+                    />
+                  ))}
                 </Group>
+                <Group Class="items" Wrap>
+                  <ItemMenu
+                    List={menulistdata}
+                    addItemToOrder={addItemToOrder}
+                    removeItemFromOrder={removeItemFromOrder}
+                    AuthenticatedMode={ user.id }
+                  />
+                </Group>
+              </Group>
             </Section>
+          </Group>
+          <Box Class="rightside" BoxCol>
+            <Group Class="datetime" Col>
+              <h3>
+                <DateText />
+                <br />
+                <TimeText />
+              </h3>
+              <hr />
+            </Group>
+            <Group Class="opts">
+              <Radio
+                Title="DINE-IN"
+                RadioName="Options"
+                Value="DINE-IN"
+                Checked={diningOpt === "DINE-IN"}
+                OnChange={(e) => setDiningOpt(e.target.value)}
+              />
+              <Radio
+                Title="TAKE-OUT"
+                RadioName="Options"
+                Value="TAKE-OUT"
+                Checked={diningOpt === "TAKE-OUT"}
+                OnChange={(e) => setDiningOpt(e.target.value)}
+              />
+            </Group>
+            <hr />
+            <Group Class="totalitem">
+              <h3>ORDER SUMMARY</h3>
+              <div className="itemlist">
+                <CheckedItem
+                  List={checkedorders}
+                  addItemToOrder={addItemToOrder}
+                  removeItemFromOrder={removeItemFromOrder}
+                />
+              </div>
+            </Group>
+            { checkedorders != 0 && <>
+            <hr />
+            <Group Class="paymentsum" Col>
+              <article>
+                  <h3>TOTAL:</h3>
+                  <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
+              </article>
+              <Button Title="CHECKOUT" OpenModal="CheckoutModal" Disabled={ !diningOpt } />
+            </Group>
+            </>
+            }
+          </Box>
         </Main>
-        <Footer />
-        </>
-    )
+      : 
+        <Main>
+          <Section Title="Menu Order" Class="menu-notauth">
+            <Group Col>
+              <Box Class="search">
+                <Inputbox Title="Search" Type="search" />
+              </Box>
+              <Group Class="filter">
+                {categories.map((cat) => (
+                  <Radio
+                    key={cat.id}
+                    Title={cat.name}
+                    Value={cat.id}
+                    RadioName="Category"
+                    Checked={selectedCategory === cat.id}
+                    OnChange={() => setSelectedCategory(cat.id)}
+                    BtnWhite
+                  />
+                ))}
+              </Group>
+              <Group Class="items" Wrap>
+                <ItemMenu List={menulistdata} />
+              </Group>
+            </Group>
+          </Section>
+        </Main>
+      }
+      { user && user.id && (
+        <Modal Modal="CheckoutModal">
+          <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Customer Name"
+                Value={user.firstname + " " + user.lastname}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Date"
+                Value={`${new Date().getFullYear()}-${(
+                  new Date().getMonth() + 1
+                )
+                  .toString()
+                  .padStart(2, "0")}-${new Date()
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
+                  timeStyle: "short",
+                })}`}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Order Options"
+                Value={diningOpt}
+                OutCol
+                OutWhite
+              />
+            </Group>
+            <Group Class="outputfetch" Col>
+              <div>
+                <Outputfetch Title="Items" OutWhite />
+                <Outputfetch Title="Quantity" OutWhite />
+                <Outputfetch Title="Unit Price" OutWhite />
+                <Outputfetch Title="Total Price" OutWhite />
+              </div>
+              {order.map((product, index) => (
+                <div key={index}>
+                  <Outputfetch Value={product.product_name} OutWhite />
+                  <Outputfetch Value={`x${product.quantity}`} OutWhite />
+                  <Outputfetch Value={`₱${product.price}`} OutWhite />
+                  <Outputfetch
+                    Value={`₱${Number(product.price * product.quantity).toFixed(
+                      2
+                    )}`}
+                    OutWhite
+                  />
+                </div>
+              ))}
+            </Group>
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Total Price"
+                Value={`₱${Number(formData.totalPrice).toFixed(2)}`}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Discount"
+                Value={`₱${discount.toFixed(2)}`}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Reference Number"
+                Value={formData.refNumber}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Down Payment Price"
+                Value={`₱${formData.downpayment}`}
+                OutCol
+                OutWhite
+              />
+            </Group>
+            <Group Class="outputfetch" Col>
+              <Outputfetch Title="QR Code" OutWhite />
+              <Group>
+                <img />
+                <Group Col>
+                  <p>
+                    Please pay a 50% DOWNPAYMENT. Orders without a payment
+                    receipt will remain pending. Failure to pay on time will
+                    result in cancellation.
+                  </p>
+                  <InsertFileButton
+                    Title="ADD OCR PICTURE"
+                    BtnWhite
+                    Accept={"image/*"}
+                    Name="image"
+                    OnChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const worker = await createWorker("eng");
+                        await worker.setParameters({
+                          tessedit_char_whitelist:
+                            "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
+                        });
+                        const rectangle = {
+                          left: 0,
+                          top: 0,
+                          width: 1500,
+                          height: 3500,
+                        };
+                        const {
+                          data: { text: rawText },
+                        } = await worker.recognize(file, { rectangle });
+
+                        // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
+                        const text = rawText.replace(
+                          /(₱|Amount\s*[:\-]?)\s*4(?=[\d,]+\.\d{2})/g,
+                          "$1+"
+                        );
+
+                        // Extract reference number (example: 10+ digits or alphanumeric)
+                        const refMatch =
+                          text.match(
+                            /(?:Reference\s*No\.?:?\s*|Ref(?:erence)?\s*#?:?\s*No\.?:?\s*)/i
+                          ) || text.match(/([0-9]{13,})/i);
+                        const referenceNumber = refMatch
+                          ? refMatch[1]
+                          : "Not found";
+
+                        // Extract amount (example: ₱+1234.56 or Amount: +1234.56)
+                        const amountMatch =
+                          text.match(/₱\s*([+-]?[\d,]+\.\d{2})/) ||
+                          text.match(/Amount\s*[:\-]?\s*([+-]?[\d,]+\.\d{2})/i);
+                        const amount = amountMatch
+                          ? amountMatch[1]
+                          : "Not found";
+
+                        const parsedAmount =
+                          amount !== "Not found"
+                            ? parseFloat(amount.replace(/,/g, ""))
+                            : "";
+
+                        console.log("Reference Number:", referenceNumber);
+                        console.log("Amount:", parsedAmount);
+
+                        await worker.terminate();
+
+                        setFormData((prev) => ({
+                          ...prev,
+                          refNumber: referenceNumber,
+                          downpayment: parsedAmount,
+                        }));
+                      }
+                    }}
+                  />
+                </Group>
+              </Group>
+            </Group>
+
+            <Group Class="buttonside">
+              <Button Title="CANCEL" CloseModal BtnWhite />
+              <SubmitButton Title="CHECKOUT" BtnWhite />
+            </Group>
+          </Form>
+        </Modal>
+      )}
+    </>
+  );
 }

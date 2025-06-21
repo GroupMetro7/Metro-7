@@ -6,8 +6,7 @@ import { useStateContext } from '../../Contexts/ContextProvider';
 
 
 export default function StaffLayout() {
-    const { token, setUser, setToken } = useStateContext();
-    const { user } = useStateContext();
+    const { user, setUser, setToken } = useStateContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -30,8 +29,6 @@ export default function StaffLayout() {
         </div>; // Show a loading indicator while fetching user data
     }
 
-
-
     const onLogout = async (ev) => {
         ev.preventDefault();
         try {
@@ -43,10 +40,9 @@ export default function StaffLayout() {
         }
     };
 
-    if (!token || user?.role !== "employee") {
-        return <Navigate to={"/welcome"} />;
+    if (!user || user?.role !== "employee") {
+        return <Navigate to={"/customer"} replace/>;
     }
-
 
     return (
         <Group>

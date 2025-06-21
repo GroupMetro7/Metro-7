@@ -22,6 +22,7 @@ export const editCustomer = (customer, setFormData, setCurrentCustomerId) => {
     email: customer.email,
     contact: customer.contact,
     role: customer.role,
+    loyalty: customer.loyalty,
   });
   setCurrentCustomerId(customer.id);
 };
@@ -33,17 +34,15 @@ export const modify = async (e, id, formData, setFormData, fetchAllUsers, setSuc
 
   try {
     const response = await axiosClient.put(`/updateUserByAdmin/${id}`, {
-      firstname: formData.firstname,
-      lastname: formData.lastname,
+      loyalty: formData.loyalty,
       role: formData.role,
     });
-
     setFormData(response.data.user);
-
-    setSuccess("User information updated successfully");
-
+    alert("User information updated successfully");
     fetchAllUsers(setUsers, setCurrentPage, setTotalPages,currentPage);
-  } catch (error) {
+    window.location.reload();
+  }
+  catch (error) {
     console.error('Failed to update user details:', error);
 
     // Handle error and show an appropriate message

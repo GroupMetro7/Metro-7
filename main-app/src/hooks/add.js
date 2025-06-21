@@ -1,22 +1,29 @@
 import { useState } from "react";
 import axiosClient from "../axiosClient";
+import useFetchOrder from "./uni/fetchProducts";
 
-const useAddCategory = () => {
+const useAddCategory = (fetchCategories) => {
   const [categoryName, setCategoryName] = useState('');
-  const [categoryDescription, setCategoryDescription] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [addCategoryError, setError] = useState(null);
+  const [AddCategorySuccess, setSuccess] = useState(null);
+  const [currentCategoryId, setCurrentCategoryId] = useState(null);
+
+    const editCategory =(category) => {
+    setCurrentCategoryId(category.id);
+    setCategoryName(category.name);
+  }
 
   const handleAddCategory = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
     try {
       await axiosClient.post('/createCategory', {
         name: categoryName,
-        description: categoryDescription,
       });
       setSuccess('Category added successfully');
+      fetchCategories([]);
       setCategoryName('');
-      setCategoryDescription('');
       setError(null);
     } catch (err) {
       setError('Failed to add category');
@@ -24,14 +31,51 @@ const useAddCategory = () => {
     }
   };
 
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await axiosClient.put(`/categories/${currentCategoryId}`, {
+        name: categoryName,
+      });
+      setSuccess('Category updated successfully');
+      fetchCategories([]);
+      setCategoryName('');
+      setCurrentCategoryId(null);
+      setError(null);
+    }catch(error) {
+      setSuccess(null);
+      setError('Failed to update category, please try again!');
+    }
+  }
+
+  const deleteCategory = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await axiosClient.delete(`/categories/${currentCategoryId}`);
+      setSuccess('Category deleted successfully');
+      window.location.reload();
+    }catch(error) {
+      setError('Failed to delete category, please try again!');
+    }
+  }
+
+
+
   return {
     categoryName,
     setCategoryName,
-    categoryDescription,
-    setCategoryDescription,
     handleAddCategory,
-    error,
-    success,
+    addCategoryError,
+    AddCategorySuccess,
+    editCategory,
+    deleteCategory,
+    handleUpdateCategory,
   };
 };
 

@@ -28,9 +28,11 @@ export const modifyEmployee = async (e, id, formData, setFormData, fetchAllEmplo
       role: formData.role,
     });
     setFormData(response.data.user);
-    setSuccess("User information updated successfully");
+    alert("User information updated successfully");
     fetchAllEmployees(setUsers, setCurrentPage, setTotalPages, currentPage);
-  } catch (error) {
+    window.location.reload();
+  } 
+  catch (error) {
     console.error('Failed to update user details:', error);
 
     // Handle error and show an appropriate message

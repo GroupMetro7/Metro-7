@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import GuestLayout from './components/Layout/GuestLayout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Customers/Register'
-import LocationPage from './pages/Customers/Location'
+// import LocationPage from './pages/Customers/Location'
 import ProfilePage from './pages/Customers/Profile'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
@@ -21,10 +21,20 @@ import InventoryManagementPage from './Pages/admin/Inventory_Management'
 import MenuPage from './Pages/Customers/Menu'
 import CustomerLayout from './Components/Layout/CustomerLayout'
 import Test from './Pages/admin/test'
+import NotFound from './Pages/404not_found'
+import OrderHistoryPage from './Pages/admin/Order_History'
+import ActivityLogsPage from './Pages/admin/Activity_Logs'
+import DemandForecastPage from './Pages/admin/Demand_Forecast'
 
 const router = createBrowserRouter([
+  //not found page
 
-  //testing
+  {
+    path: '*',
+    element: <NotFound />
+  },
+  
+  //tesing
 
   {
     path: 'test',
@@ -41,6 +51,10 @@ const router = createBrowserRouter([
 				element: <LandingPage />
 			},
 			{
+				path: 'menu',
+				element: <MenuPage />
+			},
+			{
 				path: 'login',
 				element: <LoginPage />
 			},
@@ -52,12 +66,16 @@ const router = createBrowserRouter([
 	},
 
 	{
-		path: '',
+		path: '/customer',
 		element: <CustomerLayout />,
 		children: [
 			{
-				path: 'welcome',
+				path: '',
 				element: <LandingPage />
+			},
+			{
+				path: 'menu',
+				element: <MenuPage />
 			},
 			{
 				path: 'profile',
@@ -73,14 +91,11 @@ const router = createBrowserRouter([
 	//customer guest routing
 
 
-	{
-		path: '/location',
-		element: <LocationPage />
-	},
-  {
-    path: 'menu',
-    element: <MenuPage />
-  },
+	// {
+	// 	path: '/location',
+	// 	element: <LocationPage />
+	// },
+
 	//Staff routing
 
 	{
@@ -98,6 +113,10 @@ const router = createBrowserRouter([
 			{
 				path: 'Profile',
 				element: <StaffProfile />
+			},
+			{
+				path: 'order_history',
+				element: <OrderHistoryPage />
 			}
 		]
 	},
@@ -131,7 +150,18 @@ const router = createBrowserRouter([
 				path: 'customer_management',
 				element: <CustomerManagementPage />
 			},
-
+			{
+				path: 'order_history',
+				element: <OrderHistoryPage />
+			},
+			{
+				path: 'logs',
+				element: <ActivityLogsPage />
+			},
+			{
+				path: 'df',
+				element: <DemandForecastPage />
+			},
 		]
 	}
 ])
