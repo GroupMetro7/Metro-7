@@ -40,6 +40,7 @@ export default function StaffDashboard() {
   const [cashPayment, setCashPayment] = useState(0);
   const [onlinePayment, setOnlinePayment] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const orderlist = menuItems.map((product) => ({
     ...product,
@@ -92,6 +93,7 @@ export default function StaffDashboard() {
 
   const submitOrder = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!order.length) {
       alert("No items in the order. Please add items before submitting.");
@@ -125,12 +127,14 @@ export default function StaffDashboard() {
       setDiningOpt("");
       console.log("Order submitted:", formattedOrder);
       window.location.reload();
-    } 
+    }
     catch (error) {
       const msg =
         error?.response?.data?.message ||
         "Failed to submit order. Please try again.";
       alert(`Failed to submit order: ${msg}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -212,7 +216,7 @@ export default function StaffDashboard() {
               </article>
               <Button Title="CHECKOUT" OpenModal="InputsModal" />
             </Group>
-            </> 
+            </>
             }
           </Box>
         </Main>
@@ -338,7 +342,7 @@ export default function StaffDashboard() {
               OutCol
               OutWhite
             />
-            { discount && 
+            { discount &&
             <Outputfetch
               Title="Discount"
               Value={`₱${discount}`}

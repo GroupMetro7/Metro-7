@@ -15,24 +15,11 @@ export default function Test() {
 
     // State variables
 
-    const { monthlyRevenue, mostSoldProduct, expenses, totalStockValue } =
-        useFetch();
-    // Get the latest month's revenue (assuming the first item is the latest)
-    const latestMonth =
-        monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
-    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
-
-    const showExpenses = expenses || 0;
-    const showStockValue = totalStockValue || 0;
-    // Most sold product info
-    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : "N/A";
-    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
     const {
         formData,
         setFormData,
         saveProduct,
         editProduct,
-        setCurrentProductId,
         error,
         success,
         deleteItem
@@ -40,12 +27,9 @@ export default function Test() {
 
     const {
         products,
-        setProducts,
         totalPages,
-        setTotalPages,
         currentPage,
         setCurrentPage,
-        fetchProducts,
     } = useFetchData();
 
     const { categories } = useFetchOrder();
@@ -58,11 +42,6 @@ export default function Test() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-    // Reset form fields
-    const resetForm = () => {
-        setFormData({ ITEM_NAME: "", category_id: "", STOCK: "", COST_PER_UNIT: "", SOLD_BY: "" });
-        setCurrentProductId(null);
     };
     // Table headers and rows
     const tbhead = [
