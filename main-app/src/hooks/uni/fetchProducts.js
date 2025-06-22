@@ -9,29 +9,30 @@ export default function useFetchOrder() {
   const [ingredients, setIngredients] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [searchItem, setSearchItem] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
 
     useEffect(() => {
-    fetchMenu(currentPage);
-  }, [currentPage]);
+    fetchMenu(currentPage, searchItem, selectedCategory);
+  }, [currentPage, searchItem, selectedCategory]);
 
-  function fetchMenu(page) {
-      axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
-        setMenu(data.products);
+  function fetchMenu(page, search, categoryId) {
+    let url = `/adminmenu?page=${page}`;
+    if(search){
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+    if(categoryId){
+      url += `&category_id=${(categoryId)}`;
+    }
+
+      axiosClient.get(url).then(({ data }) => {
+        setMenu(data.data);
         setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
       });
   }
 
-  // useEffect(() => {
-  //   const fetchMenu = (page) => {
-  //     axiosClient.get(`/adminmenu?page=${page}`).then(({ data }) => {
-  //       setMenu(data.products);
-  //       setCurrentPage(data.current_page);
-  //       setTotalPages(data.last_page);
-  //     });
-  //   };
-  //   fetchMenu(currentPage);
-  // }, [currentPage]);
 
   useEffect(() => {
     axiosClient
@@ -54,12 +55,6 @@ export default function useFetchOrder() {
     });
   }
 
-  // useEffect(() => {
-  //   axiosClient.get("/categories").then((res) => {
-  //     setCategories(res.data);
-  //   });
-  // }, []);
-
   return {
     menuProduct,
     setMenu,
@@ -74,5 +69,7 @@ export default function useFetchOrder() {
     setSelectedOrder,
     fetchCategories,
     fetchMenu,
+    setSearchItem,
+    setSelectedCategory,
   };
 }

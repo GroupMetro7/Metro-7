@@ -55,9 +55,15 @@ class RetrieveDataController extends Controller
   }
 
 
-  public function index()
+  public function index(Request $request)
   {
     $ordersQuery = Order::with('tickets')->where('status', 'completed');
+        if ($request->has('search') && trim($request->search)) {
+      $search = trim($request->search);
+      $ordersQuery->where(function ($q) use ($search) {
+        $q->where('order_number', 'like', "%{$search}%");
+      });
+    }
     $completedOrders = (clone $ordersQuery)->paginate(5);
     $totalCompletedOrders = $completedOrders->total();
     $actualSales = $ordersQuery->sum('amount');

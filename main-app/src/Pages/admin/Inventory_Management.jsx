@@ -14,7 +14,14 @@ export default function Test() {
     Body_addclass("Management-PAGE");
 
     // State variables
-
+    const {
+        products,
+        totalPages,
+        currentPage,
+        setCurrentPage,
+        setSearchItem,
+        fetchProducts
+    } = useFetchData();
     const {
         formData,
         setFormData,
@@ -22,15 +29,11 @@ export default function Test() {
         error,
         success,
         deleteItem,
-        addProduct
-    } = useModifyItem();
+        addProduct,
+        modifyProduct
+    } = useModifyItem(fetchProducts);
 
-    const {
-        products,
-        totalPages,
-        currentPage,
-        setCurrentPage,
-    } = useFetchData();
+
 
     const { categories } = useFetchOrder();
     const getCategoryName = (id) => {
@@ -76,8 +79,8 @@ export default function Test() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
-                        <Inputbox Title="Filter" Type="text" />
+                        <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
+                        <Selectionbox Title="Filter"  Type="text" onChange={(e) => setSearchItem(e.target.value)} Options={[{label: 'Warning', value: 'Warning'}, {label: 'Out of Stock', value: 'Out of Stock'}]}  />
                     </Box>
                 <Group Class="kpis">
                   <UseKpi />
@@ -109,7 +112,8 @@ export default function Test() {
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
+                        <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
+                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -121,7 +125,7 @@ export default function Test() {
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
-                    OnSubmit={addProduct}
+                    OnSubmit={modifyProduct}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }

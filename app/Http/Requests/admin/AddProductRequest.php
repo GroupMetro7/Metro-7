@@ -25,7 +25,7 @@ class AddProductRequest extends FormRequest
             'COMPOSITE_NAME' => 'required|string|max:55',
             'category_id' => 'required|string|max:15',
             'STOCK' => 'required',
-            'COST_PER_UNIT' => 'required|numeric',
+            'STOCK_VALUE' => 'required|numeric',
             'SOLD_BY' => 'required',
         ];
     }

@@ -6,8 +6,6 @@ import axiosClient from '../../axiosClient';
 
 export default function RegisterPage() {
 
-  // this file is subject for optimization
-    //registration variables
     const [lastname, setLastName] = useState("");
     const [firstname, setFirstName] = useState("");
     const [email, setEmail] = useState("");

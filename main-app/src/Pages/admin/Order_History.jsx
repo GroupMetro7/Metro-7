@@ -3,7 +3,6 @@ import "../../assets/css/pages/admin/Management.sass";
 import {
   Title,
   Body_addclass,
-  SideBar,
   Group,
   Main,
   Box,
@@ -17,7 +16,6 @@ import {
   Selectionbox,
   InsertFileButton,
   Pagination,
-  KPI,
 } from "../../exporter/component_exporter";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
@@ -39,6 +37,7 @@ export default function StaffOrderList() {
     currentPage,
     totalPages,
     setCurrentPage,
+    setSearchItem
   } = useOrderHistory();
 
   const tbhead = [
@@ -81,9 +80,9 @@ export default function StaffOrderList() {
             <Inputbox
               Title="Search"
               Type="search"
+              onChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Order No."}
             />
-            <Inputbox Title="Filter" Type="text" />
           </Box>
           <Group Class="upper">
             <Group Class="kpis">
@@ -91,7 +90,7 @@ export default function StaffOrderList() {
             </Group>
           </Group>
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrowsOrders} />
+            <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn/>
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
