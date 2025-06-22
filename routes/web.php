@@ -1,21 +1,11 @@
 <?php
-
-use App\Mail\OutOfStockNotification;
-use App\Models\StockManagement;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\api\AuthController;
 
 
-Route::get('/test-email', function () {
-    $product = StockManagement::first(); // or mock a new product object
-    if ($product) {
-        Mail::to('m.lim271999@gmail.com')->send(new OutOfStockNotification($product));
-        return 'Test email sent!';
-    }
-
-    return 'No product found.';
-});
+Auth::routes();
+Route::get('/authverify-email/{verification_code}', [AuthController::class, 'verify_email'])
+    ->name('verify_email');

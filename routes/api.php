@@ -89,3 +89,6 @@ Route::get('/stock-logs', [RetrieveDataController::class, 'getStockLogs']);
 
 // AI
 Route::get('/FetchAIData', [RetrieveDataController::class, 'getTicketsData']);
+
+
+

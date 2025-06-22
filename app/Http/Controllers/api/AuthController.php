@@ -10,7 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\URL;
+use Mail;
+use Illuminate\Support\Str;
+use App\Mail\EmailVerificationMail;
 class AuthController extends Controller
 {
   public function index()
@@ -55,18 +60,28 @@ class AuthController extends Controller
               'email' => $data['email'],
               'contact' => $data['contact'],
               'password' => bcrypt($data['password']),
+              'email_verification_code' => Str::random(40)
           ]);
 
+          Mail::to($user->email)->send(new EmailVerificationMail($user));
+
+          
           $token = $user->createToken('main')->plainTextToken;
 
           return response()->json([
               'user' => $user,
-              'token' => $token
-          ]);
+              'token' => $token,
+              'alert' => 'Registration successful. Please check your email for verification.',
+              
+          ], 201);
+
+          
+
       } catch (\Exception $e) {
           Log::error('Error during registration: ' . $e->getMessage());
           return response()->json([
-              'message' => 'Registration failed, please try again.'
+              'message' => 'Registration failed, please try again.',
+              'error' => $e->getMessage()
           ], 500);
       }
   }
@@ -140,6 +155,20 @@ class AuthController extends Controller
       return response()->json(['message' => 'Logged out successfully'], 200);
   }
 
+  public function verify_email($verification_code)
+  {
+      $user = User::where('email_verification_code', $verification_code)->first();
+    if(!$user){
+      return redirect()->route ('login')->with('error', 'Invalid verification code.');
+    }else{
+      if($user->email_verified_at){
+        return redirect()->route('login')->with('message', 'Email already verified.');
+    }else{
+      $user->update([
+        'email_verified_at' => now(),
+      ]);
+      return redirect()->route('login')->with('message', 'Email verified successfully.');
+    }
+  }
 }
-
-
+}

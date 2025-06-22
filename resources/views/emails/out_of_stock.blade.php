@@ -1,10 +1,15 @@
+{{-- filepath: resources/views/emails/verify_email.blade.php --}}
 @component('mail::message')
-# Out of Stock Notification
+# Verify Your Email Address
 
-The Item from inventory **{{ $StockItem->COMPOSITE_NAME }}** is currently out of stock.
+BOBO KA CLICK MO TO!
 
-Please take the necessary actions to replenish the stock.
+@component('mail::button', ['url' => $verificationUrl])
+Verify Email
+@endcomponent
 
-Thanks,
-Your Metro 7 Inventory
+If you did not create an account, no further action is required.
+
+Thanks,<br>
+{{ config('app.name') }}
 @endcomponent
