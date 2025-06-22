@@ -42,6 +42,10 @@ class AuthController extends Controller
 
       /** @var User $user */
       $user = Auth::user();
+            if (is_null($user->email_verified_at)) {
+    // Email not verified
+    return response()->json(['message' => 'Please verify your email before logging in.'], 403);
+}
       $token = $user->createToken('main')->plainTextToken;
 
       return response()->json([
@@ -66,14 +70,14 @@ class AuthController extends Controller
           Mail::to($user->email)->send(new EmailVerificationMail($user));
 
           
-          $token = $user->createToken('main')->plainTextToken;
+          // $token = $user->createToken('main')->plainTextToken;
 
-          return response()->json([
-              'user' => $user,
-              'token' => $token,
-              'alert' => 'Registration successful. Please check your email for verification.',
+          // return response()->json([
+          //     'user' => $user,
+          //     'token' => $token,
+
               
-          ], 201);
+          // ], 201);
 
           
 
@@ -155,20 +159,22 @@ class AuthController extends Controller
       return response()->json(['message' => 'Logged out successfully'], 200);
   }
 
-  public function verify_email($verification_code)
-  {
-      $user = User::where('email_verification_code', $verification_code)->first();
-    if(!$user){
-      return redirect()->route ('login')->with('error', 'Invalid verification code.');
-    }else{
-      if($user->email_verified_at){
-        return redirect()->route('login')->with('message', 'Email already verified.');
-    }else{
-      $user->update([
-        'email_verified_at' => now(),
-      ]);
-      return redirect()->route('login')->with('message', 'Email verified successfully.');
+public function verify_email($verification_code)
+{
+    $user = User::where('email_verification_code', $verification_code)->first();
+
+    if (!$user) {
+        return redirect('/login')->with('error', 'Invalid verification code.');
     }
-  }
+
+    if ($user->email_verified_at) {
+        return redirect('/login')->with('message', 'Email already verified.');
+    }
+
+    // Mark the email as verified
+    $user->email_verified_at = now();
+    $user->save();
+
+    return redirect('/login')->with('message', 'Email verified successfully.');
 }
 }
