@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'sto
 Route::get('/orders', [OrderController::class, 'index']);
 
 Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
+Route::get('/sales-product-revenue', [RetrieveDataController::class, 'salesProductRevenue']);
 Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 
 

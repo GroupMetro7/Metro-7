@@ -10,21 +10,17 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class RetrieveDataController extends Controller
 {
   public function AdminData()
   {
-    // Use DB facade for aggregation to avoid Eloquent overhead
-    $totalExpense = \DB::table('stock_logs')->sum('value');
-    $totalStockValue = \DB::table('stock_management')->sum('STOCK_VALUE');
-
     // Use raw expressions and select only what you need
     $monthlyExpenses = \DB::table('stock_logs')
       ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(value) as total")
       ->groupBy('month')
       ->orderBy('month', 'desc')
       ->get();
-
 
     $monthlyRevenue = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, DATE_FORMAT(created_at, "%M") as month_name, SUM(amount) as revenue')
       ->where('created_at', '>=', now()->subMonths(12))
@@ -37,22 +33,32 @@ class RetrieveDataController extends Controller
       ->select('product_id', 'product_name', \DB::raw('SUM(quantity) as total_quantity'))
       ->groupBy('product_id', 'product_name')
       ->orderByDesc('total_quantity')
-      ->limit(5) // Limit to top 5
+      ->limit(5)
       ->get();
 
     $orders = Order::with('tickets')->paginate(10);
 
-
-
     return response()->json([
       'orders' => $orders,
-      'total_expense' => $totalExpense ?? 0,
-      'total_stock_value' => $totalStockValue ?? 0,
       'monthly_expenses' => $monthlyExpenses,
       'monthly_revenue' => $monthlyRevenue,
       'most_sold_product' => $mostSold,
     ]);
   }
+
+public function salesProductRevenue()
+{
+    try {
+        $salesData = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
+            ->groupBy('product_id', 'product_name', 'month')
+            ->orderBy('total_product_sales', 'desc')
+            ->get();
+
+        return response()->json($salesData);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
 
 
   public function index(Request $request)
