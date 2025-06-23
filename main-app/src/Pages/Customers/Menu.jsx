@@ -1,6 +1,25 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
-import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
+import {
+  Title,
+  Body_addclass,
+  Main,
+  Section,
+  Group,
+  Box,
+  Inputbox,
+  ItemMenu,
+  Modal,
+  Form,
+  Outputfetch,
+  InsertFileButton,
+  Button,
+  DateText,
+  TimeText,
+  Radio,
+  CheckedItem,
+  SubmitButton,
+} from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { createWorker } from "tesseract.js";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -50,13 +69,17 @@ export default function MenuPage() {
 
   return (
     <>
-      { user && user.id ?
+      {user && user.id ? (
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
               <Group Col>
                 <Box Class="search">
-                  <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)}/>
+                  <Inputbox
+                    Title="Search"
+                    Type="search"
+                    onChange={(e) => setSearchItem(e.target.value)}
+                  />
                 </Box>
                 <Group Class="filter">
                   {categories.map((cat) => (
@@ -76,7 +99,7 @@ export default function MenuPage() {
                     List={menulistdata}
                     addItemToOrder={addItemToOrder}
                     removeItemFromOrder={removeItemFromOrder}
-                    AuthenticatedMode={ user.id }
+                    AuthenticatedMode={user.id}
                   />
                 </Group>
               </Group>
@@ -118,20 +141,25 @@ export default function MenuPage() {
                 />
               </div>
             </Group>
-            { checkedorders != 0 && <>
-            <hr />
-            <Group Class="paymentsum" Col>
-              <article>
-                  <h3>TOTAL:</h3>
-                  <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
-              </article>
-              <Button Title="CHECKOUT" OpenModal="CheckoutModal" Disabled={ !diningOpt } />
-            </Group>
-            </>
-            }
+            {checkedorders != 0 && (
+              <>
+                <hr />
+                <Group Class="paymentsum" Col>
+                  <article>
+                    <h3>TOTAL:</h3>
+                    <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
+                  </article>
+                  <Button
+                    Title="CHECKOUT"
+                    OpenModal="CheckoutModal"
+                    Disabled={!diningOpt}
+                  />
+                </Group>
+              </>
+            )}
           </Box>
         </Main>
-      :
+      ) : (
         <Main>
           <Section Title="Menu Order" Class="menu-notauth">
             <Group Col>
@@ -157,8 +185,8 @@ export default function MenuPage() {
             </Group>
           </Section>
         </Main>
-      }
-      { user && user.id && (
+      )}
+      {user && user.id && (
         <Modal Modal="CheckoutModal">
           <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
             <Group Class="outputfetch" Wrap>
@@ -260,15 +288,9 @@ export default function MenuPage() {
                           tessedit_char_whitelist:
                             "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
                         });
-                        const rectangle = {
-                          left: 0,
-                          top: 0,
-                          width: 1500,
-                          height: 3500,
-                        };
                         const {
                           data: { text: rawText },
-                        } = await worker.recognize(file, { rectangle });
+                        } = await worker.recognize(file);
 
                         // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
                         const text = rawText.replace(
@@ -279,8 +301,8 @@ export default function MenuPage() {
                         // Extract reference number (example: 10+ digits or alphanumeric)
                         const refMatch =
                           text.match(
-                            /(?:Reference\s*No\.?:?\s*|Ref(?:erence)?\s*#?:?\s*No\.?:?\s*)/i
-                          ) || text.match(/([0-9]{13,})/i);
+                            /(?:Reference\s*No\.?|Ref(?:erence)?\s*#?\s*No\.?)\s*[:\-]?\s*([A-Za-z0-9]{8,})/i
+                          ) || text.match(/([0-9]{13,})/);
                         const referenceNumber = refMatch
                           ? refMatch[1]
                           : "Not found";

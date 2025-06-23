@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
-import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
-// import { deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
-import useFetch from "../../hooks/fetch";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
@@ -80,7 +77,7 @@ export default function Test() {
                 <Main>
                     <Box Class="search">
                         <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
-                        <Selectionbox Title="Filter"  Type="text" onChange={(e) => setSearchItem(e.target.value)} Options={[{label: 'Warning', value: 'Warning'}, {label: 'Out of Stock', value: 'Out of Stock'}]}  />
+                        <Selectionbox Title="Filter"  Type="text" onChange={(e) => setSearchItem(e.target.value)} Options={[{label: 'Warning', value: 'Warning'}, {label: 'Unavailable', value: 'Unavailable'}]}  />
                     </Box>
                 <Group Class="kpis">
                   <UseKpi />
