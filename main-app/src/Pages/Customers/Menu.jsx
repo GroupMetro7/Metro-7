@@ -13,7 +13,7 @@ export default function MenuPage() {
   Body_addclass("Menu-PAGE");
   const { user } = useStateContext();
   const { categories } = useFetchOrder();
-  const { menuItems, selectedCategory, setSelectedCategory } =
+  const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();
 
   const {
@@ -50,13 +50,13 @@ export default function MenuPage() {
 
   return (
     <>
-      { user && user.id ? 
+      { user && user.id ?
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
               <Group Col>
                 <Box Class="search">
-                  <Inputbox Title="Search" Type="search" />
+                  <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)}/>
                 </Box>
                 <Group Class="filter">
                   {categories.map((cat) => (
@@ -131,7 +131,7 @@ export default function MenuPage() {
             }
           </Box>
         </Main>
-      : 
+      :
         <Main>
           <Section Title="Menu Order" Class="menu-notauth">
             <Group Col>

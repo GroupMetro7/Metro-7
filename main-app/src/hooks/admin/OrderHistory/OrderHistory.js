@@ -9,7 +9,6 @@ export default function useOrderHistory() {
 
   useEffect(() => {
     fetchOrder(currentPage, searchItem);
-
   }, [currentPage, searchItem]);
 
 

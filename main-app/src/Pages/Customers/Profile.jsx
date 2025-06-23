@@ -19,36 +19,16 @@ import {
 import { useStateContext } from "../../Contexts/ContextProvider";
 import axiosClient from "../../axiosClient";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
+import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { user, setUser } = useStateContext();
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    contact: "",
-  });
+  const { formData, user, setUser, handleInputChange } = useModifyData();
 
   const { reservations, preOrders } = useFetchUserRes();
 
-  // Sync form data with user context
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        firstname: user.firstname || "",
-        lastname: user.lastname || "",
-        email: user.email || "",
-        contact: user.contact || "",
-      });
-    }
-  }, [user]);
-
   // Update form data on input change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -80,16 +60,21 @@ export default function ProfilePage() {
     resDate: new Date(res.date).toLocaleDateString(),
     resTime: res.time,
     options: res.status,
+    edit: () => {
+      editData(res)
+    },
   }));
 
   const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
-  const tbrowsOrder = preOrders.map((order) => ({
-    id: order.order_number,
-    option: order.option,
-    date: new Date(order.created_at).toLocaleDateString(),
-    balance: order.unpaid_balance <= 0 ? "Paid" : order.unpaid_balance,
-    status: order.status,
-    edit: () => {},
+  const tbrowsOrder = preOrders.map((res) => ({
+    id: res.order_number,
+    option: res.option,
+    date: new Date(res.created_at).toLocaleDateString(),
+    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
+    status: res.status,
+    view: () => {
+      editData(res)
+    }
   }));
 
   return (
@@ -131,7 +116,7 @@ export default function ProfilePage() {
             </Box>
           )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
-            <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} EditBtn />
+            <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
           </Box>
           <Box Title="My Reservations" Class="orderhistory" BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />

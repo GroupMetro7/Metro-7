@@ -30,7 +30,7 @@ export default function StaffDashboard() {
   const screenwidth = ScreenWidth();
   // this file is subject for optimization
   const { categories } = useFetchOrder();
-  const { menuItems, selectedCategory, setSelectedCategory } =
+  const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -127,8 +127,7 @@ export default function StaffDashboard() {
       setDiningOpt("");
       console.log("Order submitted:", formattedOrder);
       window.location.reload();
-    }
-    catch (error) {
+    } catch (error) {
       const msg =
         error?.response?.data?.message ||
         "Failed to submit order. Please try again.";
@@ -138,7 +137,6 @@ export default function StaffDashboard() {
     }
   };
 
-
   return (
     <>
       <Group>
@@ -146,7 +144,11 @@ export default function StaffDashboard() {
           <Section Title="MENU ORDER" Class="menu">
             <Group Col>
               <Box Class="search">
-                <Inputbox Title="Search" Type="search" Placeholder="Search Product"/>
+                <Inputbox
+                  Title="Search"
+                  Type="search"
+                  onChange={(e) => setSearchItem(e.target.value)}
+                />{" "}
               </Box>
               <Group Class="filter">
                 {categories.map((cat) => (
@@ -207,17 +209,18 @@ export default function StaffDashboard() {
                 />
               </div>
             </Group>
-            { checkedorders != 0 && <>
-            <hr />
-            <Group Class="paymentsum" Col>
-              <article>
-                  <h3>TOTAL:</h3>
-                  <h3>₱{totalPrice.toFixed(2)}</h3>
-              </article>
-              <Button Title="CHECKOUT" OpenModal="InputsModal" />
-            </Group>
-            </>
-            }
+            {checkedorders != 0 && (
+              <>
+                <hr />
+                <Group Class="paymentsum" Col>
+                  <article>
+                    <h3>TOTAL:</h3>
+                    <h3>₱{totalPrice.toFixed(2)}</h3>
+                  </article>
+                  <Button Title="CHECKOUT" OpenModal="InputsModal" />
+                </Group>
+              </>
+            )}
           </Box>
         </Main>
       </Group>
@@ -265,15 +268,19 @@ export default function StaffDashboard() {
               />
               <Outputfetch
                 Title="Total Price"
-                Value={`₱${(totalPrice - Number(discount)) || 0} `}
+                Value={`₱${totalPrice - Number(discount) || 0} `}
                 OutCol
                 OutWhite
               />
               <Outputfetch
-              Title="Change"
-              Value={`₱${((totalPrice - Number(discount)) - (Number(cashPayment) + Number(onlinePayment)) ) || 0}`}
-              OutCol
-              OutWhite
+                Title="Change"
+                Value={`₱${
+                  totalPrice -
+                    Number(discount) -
+                    (Number(cashPayment) + Number(onlinePayment)) || 0
+                }`}
+                OutCol
+                OutWhite
               />
             </Group>
           </Group>
@@ -331,25 +338,28 @@ export default function StaffDashboard() {
                 <Outputfetch Value={product.product_name} OutWhite />
                 <Outputfetch Value={`x${product.quantity}`} OutWhite />
                 <Outputfetch Value={`₱${product.price}`} OutWhite />
-                <Outputfetch Value={`₱${product.price * product.quantity}`} OutWhite />
+                <Outputfetch
+                  Value={`₱${product.price * product.quantity}`}
+                  OutWhite
+                />
               </div>
             ))}
           </Group>
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Total Price"
-              Value={`₱${(totalPrice - discount)}`}
+              Value={`₱${totalPrice - discount}`}
               OutCol
               OutWhite
             />
-            { discount &&
-            <Outputfetch
-              Title="Discount"
-              Value={`₱${discount}`}
-              OutCol
-              OutWhite
-            />
-            }
+            {discount && (
+              <Outputfetch
+                Title="Discount"
+                Value={`₱${discount}`}
+                OutCol
+                OutWhite
+              />
+            )}
             <Outputfetch
               Title="Down Payment Price"
               Value="₱0"

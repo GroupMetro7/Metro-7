@@ -2,28 +2,50 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
 
 export default function useFetchProduct() {
-    const [menuItems, setMenuItems] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchItem, setSearchItem] = useState("");
 
   useEffect(() => {
-    if (selectedCategory) {
-      axiosClient
-        .get(`/menuData?category_id=${selectedCategory}`)
-        .then((res) => setMenuItems(res.data.products));
-    } else {
-      axiosClient.get("/menuData").then((res) => setMenuItems(res.data.products));
-    }
-  }, [selectedCategory]);
+    fetchMenuData(selectedCategory, searchItem);
+  }, [selectedCategory, searchItem]);
 
-    return {
-        menuItems,
-        currentPage,
-        setCurrentPage,
-        totalPages,
-        setTotalPages,
-        selectedCategory,
-        setSelectedCategory
-    };
+  const fetchMenuData = (category, search) => {
+    let url = `/menuData`;
+  const params = new URLSearchParams();
+
+  if (category) {
+    params.append('category_id', category);
+  }
+  if (search) {
+    params.append('search', search);
+  }
+
+  if (params.toString()) {
+    url += `?${params.toString()}`;
+  }
+  
+    axiosClient
+      .get(url)
+      .then((data) => {
+        setMenuItems(data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching menu data:", error);
+      });
+  };
+
+
+  return {
+    menuItems,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    setTotalPages,
+    selectedCategory,
+    setSelectedCategory,
+    setSearchItem
+  };
 }

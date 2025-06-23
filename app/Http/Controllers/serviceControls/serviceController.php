@@ -27,6 +27,10 @@ class serviceController extends Controller
     } else {
         $query->where('category_id', '!=', 1);
     }
+    if ($request->has('search')) {
+      $search = $request->search;
+        $query->where('product_name', 'LIKE', "%{$search}%");
+    }
 
     $menuData = $query->get();
 
@@ -36,8 +40,6 @@ class serviceController extends Controller
     }
 
 
-    return response()->json([
-        'products' => $menuData,
-    ]);
+    return response()->json($menuData);
 }
 }
