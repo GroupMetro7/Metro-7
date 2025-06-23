@@ -18,14 +18,20 @@ aside, aside div, aside nav, aside a, aside img
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 33px !important
+            gap: 43px !important
             padding: 27.5px 13px !important
 
             > img 
                 height: 30px !important
                 align-self: flex-start !important
 
-            > nav 
+            > nav:has( > div )
+
+                > div
+                    overflow: hidden !important
+                    max-height: calc( 100% - ( 40px + 13px ) * 6 ) !important
+
+            > nav, > nav > div
                 align-self: center !important
                 flex-direction: column !important
                 gap: v.$elem-sa-size-m !important
@@ -53,9 +59,11 @@ aside, aside div, aside nav, aside a, aside img
         &:has(nav:hover)
             width: calc( v.$sidebar-size * 3 ) !important
 
-            nav 
+            nav
                 margin-left: 4px !important
                 
+            nav, nav > div
+
                 > a
                     width: 100% !important
                     font-weight: 700 !important

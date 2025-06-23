@@ -2,10 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../../assets/css/components/href.sass'
 
-export default function Href({ Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, Scroll, HrefWhite }) {
+export default function Href({ ID, Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, Scroll, HrefWhite }) {
     return(
         Redirect ? (
             <Link className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
+                id={ ID }
                 to={ Redirect }>
                 { Icon && <div><img src={ Icon }/></div> }
                 { Title }
@@ -14,6 +15,7 @@ export default function Href({ Class, Title, Icon, Redirect, Onclick, OpenModal,
         : (
             <a className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
                 href={ `#${ Scroll }` }
+                id={ ID }
                 onClick={ Onclick }
                 data-bs-toggle={ OpenModal && 'modal' || DropDown && 'dropdown' }
                 data-bs-target={ OpenModal && '#Modal' }

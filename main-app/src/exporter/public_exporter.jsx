@@ -8,6 +8,8 @@ export { default as IGLogo } from '/Icons/footer/IG LOGO.png'
 export { default as PhoneLogo } from '/Icons/footer/PHONE LOGO.png'
 export { default as LocationLogo } from '/Icons/footer/LOC LOGO.png'
 
+export { default as PrevLogo } from '/Icons/sidebar/PREV LOGO.png'
+export { default as NextLogo } from '/Icons/sidebar/NEXT LOGO.png'
 export { default as LogoutLogo } from '/Icons/sidebar/LOGOUT LOGO.png'
 export { default as DashboardLogo } from '/Icons/sidebar/DASHBOARD LOGO.png'
 export { default as OrderlistLogo } from '/Icons/sidebar/ORDERLIST LOGO.png'
