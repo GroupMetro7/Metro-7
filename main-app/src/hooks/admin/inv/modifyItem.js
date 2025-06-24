@@ -29,10 +29,19 @@ export default function useModifyItem(fetchProducts) {
   const addProduct = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null)
+    setSuccess(null);
+
     try {
       const response = await axiosClient.post('/products', formData);
       setSuccess("Item successfully added");
+      setFormData({
+      COMPOSITE_NAME: "",
+      category_id: "",
+      STOCK: "",
+      STOCK_VALUE: "",
+      SOLD_BY: "",
+      COST_PER_UNIT: "",
+    });
       fetchProducts();
     }catch (error) {
       console.error('Failed to add Item:', error);

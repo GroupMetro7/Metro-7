@@ -16,7 +16,8 @@ class StockManagementController extends Controller
      */
     public function index(Request $request)
     {
-      $products = StockManagement::orderBy('SKU_NUMBER', 'desc');
+      $filter = $request->input('filterStock') ?? 'asc';
+      $products = StockManagement::orderBy('STOCK', $filter);
 
       if($request->has('search') && trim($request->search)){
         $search = trim($request->search);
@@ -46,7 +47,7 @@ class StockManagementController extends Controller
       $product = new StockManagement();
       $product->SKU_NUMBER = $this->generateSKUNumber();
       $product->COMPOSITE_NAME = $validated['COMPOSITE_NAME'];
-      $product->category_id = $validated['category_id'];
+      $product->category_id = $validated['category_id'] || 1;
       $product->STOCK_VALUE = $validated['STOCK_VALUE'];
       $product->STOCK = $validated['STOCK'];
       $product->COST_PER_UNIT = $validated['STOCK_VALUE'] / $validated['STOCK'];

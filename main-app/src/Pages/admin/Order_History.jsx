@@ -22,6 +22,7 @@ import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 import UseKpi from "../../hooks/uni/Kpi";
+import { useStateContext } from "../../Contexts/ContextProvider";
 
 export default function StaffOrderList() {
   Title("Order List");
@@ -37,8 +38,10 @@ export default function StaffOrderList() {
     currentPage,
     totalPages,
     setCurrentPage,
-    setSearchItem
+    setSearchItem,
   } = useOrderHistory();
+
+  const { user } = useStateContext();
 
   const tbhead = [
     "ORDER NO.",
@@ -47,7 +50,7 @@ export default function StaffOrderList() {
     "DISCOUNT",
     "OPTION",
     "STATUS",
-    "DATE"
+    "DATE",
   ];
 
   const tbrowsOrders = orderHistory.map((order) => ({
@@ -72,6 +75,7 @@ export default function StaffOrderList() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   return (
     <>
       <Group>
@@ -84,13 +88,15 @@ export default function StaffOrderList() {
               Placeholder={"Search by Order No."}
             />
           </Box>
-          <Group Class="upper">
-            <Group Class="kpis">
-              <UseKpi />
+          {user && user.role === "admin" && (
+            <Group Class="upper">
+              <Group Class="kpis">
+                <UseKpi />
+              </Group>
             </Group>
-          </Group>
+          )}
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn/>
+            <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

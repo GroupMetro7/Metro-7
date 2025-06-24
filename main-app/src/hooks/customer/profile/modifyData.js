@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStateContext } from "../../../Contexts/ContextProvider";
+import axiosClient from "../../../axiosClient";
 
 export default function useModifyData() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ export default function useModifyData() {
     contact: "",
   });
   const { user, setUser } = useStateContext();
+
+
 
     useEffect(() => {
       if (user) {
@@ -26,10 +29,28 @@ export default function useModifyData() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+    const handleUpdateUser = async (e) => {
+      e.preventDefault();
+    try {
+      const response = await axiosClient.put(`/user`, {
+        ...formData,
+        contact: Number(formData.contact),
+      });
+      setUser(response.data);
+      alert("Profile updated successfully!");
+      window.location.reload();
+    }catch(error) {
+      alert(
+        "Failed to update profile. Please try again."
+      )
+    }
+  }
+
     return {
       formData,
       user,
       setUser,
-      handleInputChange
+      handleInputChange,
+      handleUpdateUser
     }
 }

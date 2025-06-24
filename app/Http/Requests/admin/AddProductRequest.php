@@ -23,7 +23,7 @@ class AddProductRequest extends FormRequest
     {
         return [
             'COMPOSITE_NAME' => 'required|string|max:55',
-            'category_id' => 'required|string|max:15',
+            'category_id' => 'nullable|string|max:15',
             'STOCK' => 'required',
             'STOCK_VALUE' => 'required|numeric',
             'SOLD_BY' => 'required',

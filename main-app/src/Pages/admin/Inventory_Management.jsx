@@ -17,7 +17,8 @@ export default function Test() {
         currentPage,
         setCurrentPage,
         setSearchItem,
-        fetchProducts
+        fetchProducts,
+        setFilterStock
     } = useFetchData();
     const {
         formData,
@@ -71,13 +72,14 @@ export default function Test() {
 
     const tbhead2 = ['ID', 'Category', 'Number of Products']
 
+
     return (
         <>
             <Group>
                 <Main>
                     <Box Class="search">
                         <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
-                        <Selectionbox Title="Filter"  Type="text" onChange={(e) => setSearchItem(e.target.value)} Options={[{label: 'Warning', value: 'Warning'}, {label: 'Unavailable', value: 'Unavailable'}]}  />
+                        <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
                     </Box>
                 <Group Class="kpis">
                   <UseKpi />

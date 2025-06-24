@@ -7,15 +7,20 @@ export default function useFetchData(){
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchItem, setSearchItem] = useState("");
+  const [filterStock, setFilterStock] = useState('');
 
   useEffect(() => {
-  fetchProducts(currentPage, searchItem);
-}, [currentPage, searchItem]);
+  fetchProducts(currentPage, searchItem, filterStock);
+  console.log("test", filterStock)
+}, [currentPage, searchItem, filterStock]);
 
-    const fetchProducts = (page, search) => {
+    const fetchProducts = (page, search, filterStock) => {
       let url = `/products?page=${page}`;
       if(search) {
         url += `&search=${encodeURIComponent(search)}`;
+      }
+      if(filterStock){
+        url += `&filterStock=${encodeURIComponent(filterStock)}`;
       }
         axiosClient.get(url).then(({ data }) => {
         setProducts(data.data);
@@ -32,6 +37,7 @@ export default function useFetchData(){
     totalPages,
     setTotalPages,
     setSearchItem,
-    fetchProducts
+    fetchProducts,
+    setFilterStock
   };
 }

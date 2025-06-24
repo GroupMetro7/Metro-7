@@ -83,11 +83,6 @@ export default function StaffOrderList() {
               Type="search"
               Placeholder="Search Order number"
             />
-            <Inputbox
-              Title="Filter"
-              Type="text"
-              Placeholder="Search by status"
-            />
           </Box>
           <Box Title="ORDER" BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />

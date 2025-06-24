@@ -53,9 +53,7 @@ export default function RegisterPage() {
         err.response.data.message || "Registration failed, please try again."
       );
     } finally {
-      setTimeout(() => {
       setIsLoading(false);
-      }, 2000);
     }
   };
   Title("Metro 7 | Register");
@@ -159,19 +157,6 @@ export default function RegisterPage() {
           </Form>
         </Section>
       </Main>
-
-{isLoading && (
-<>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-<h1>test</h1>
-</>
-)}
 
     </>
   );
