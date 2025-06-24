@@ -39,9 +39,9 @@ export default function AdminLayout() {
         }
     };
 
-    if (!user || user?.role !== "admin") {
-        return <Navigate to={"/"} replace/>;
-    }
+    // if (!user || user?.role !== "admin") {
+    //     return <Navigate to={"/"} replace/>;
+    // }
 
     return (
         <Group>

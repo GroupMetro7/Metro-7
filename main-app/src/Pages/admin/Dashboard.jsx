@@ -277,7 +277,7 @@ export default function DashboardPage() {
                     result in cancellation.
                   </p>
                   <InsertFileButton
-                    Title="ADD OCR PICTURE"
+                    Title="UPLOAD GCASH RECEIPT"
                     BtnWhite
                     Accept={"image/*"}
                     Name="image"

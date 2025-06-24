@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservationEmail;
 use App\Models\Order;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -47,6 +49,7 @@ class ReservationController extends Controller
             'reservation_type' => $validated['reservationType'],
         ]);
 
+        Mail::to($user->email)->send(new ReservationEmail($user, $validated));
         return response()->json(['message' => 'Reservation created successfully', 'reservation' => $validated], 201);
     }
 }

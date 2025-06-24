@@ -276,7 +276,7 @@ export default function MenuPage() {
                     result in cancellation.
                   </p>
                   <InsertFileButton
-                    Title="ADD OCR PICTURE"
+                    Title="UPLOAD GCASH RECEIPT"
                     BtnWhite
                     Accept={"image/*"}
                     Name="image"

@@ -16,7 +16,8 @@ export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, 
             data-bs-target={ OpenModal && (`#${ OpenModal }`) }
             data-bs-toggle={ OpenModal && 'modal' }
             data-bs-dismiss={ CloseModal && 'modal' }
-            key={ Key } >
+            key={ Key }
+            >
             { Icon && <><img src={ Icon }/></> }
             { Title }
         </button>

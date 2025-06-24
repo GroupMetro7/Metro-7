@@ -38,7 +38,7 @@ class EmailVerificationMail extends Mailable
       public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Out Of Stock Notification',
+            subject: 'Welcome to Metro 7',
         );
     }
 
