@@ -5,13 +5,11 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\serviceControls\orderListController;
 use App\Http\Controllers\serviceControls\serviceController;
-use App\Models\StockManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +61,7 @@ Route::middleware('auth:sanctum')->post('/orders', [OrderController::class, 'sto
 Route::get('/orders', [OrderController::class, 'index']);
 
 Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
+Route::get('/sales-product-revenue', [RetrieveDataController::class, 'salesProductRevenue']);
 Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 
 
@@ -88,3 +87,6 @@ Route::middleware('auth:sanctum')->post('/create-order-Customer', [OrderControll
 
 // stocklog
 Route::get('/stock-logs', [RetrieveDataController::class, 'getStockLogs']);
+
+// AI
+Route::get('/FetchAIData', [RetrieveDataController::class, 'getTicketsData']);

@@ -85,7 +85,7 @@ body.Menu-PAGE
                         height: 37px !important
 
 
-            .menu-notauth
+            .menu-oneside
 
                 > div.group
 
@@ -163,13 +163,20 @@ body.Menu-PAGE
 
 //             > div
 
-// @media only screen and (max-width: 766px) 
+@media only screen and (max-width: 766px) 
 
-//     body.Menu-PAGE
+    body.Menu-PAGE
 
-//         main
+        main
 
-//             > div
+            > div
+
+                .menu-oneside
+
+                    > div.title:has( h1 ):has( .right )
+
+                        > .left
+                            width: unset !important
 
 
 

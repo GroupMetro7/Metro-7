@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox } from '../../exporter/component_exporter'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
 import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
+import useModifyCustomer from '../../hooks/admin/customer_management/modifyCustomer';
 
 export default function CustomerManagementPage() {
     // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
-    // variables for Employee table
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact: "",
-        role: "",
-        loyalty: "",
-        balance: "",
-        total_spent: "",
-    });
-    const [currentCustomerId, setCurrentCustomerId] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const { modifyCust, formData, updateCustomer, handleInputChange, error, success} = useModifyCustomer();
 
     //table
     const tbhead = [
@@ -32,8 +20,6 @@ export default function CustomerManagementPage() {
         "PHONE",
         "LOYALTY",
         "ROLE",
-        "BALANCE",
-        "TOTAL SPENT",
     ];
     const tbrows = users
         .map((customer) => ({
@@ -42,25 +28,18 @@ export default function CustomerManagementPage() {
             phone: customer.contact,
             loyalty: customer.loyalty,
             role: customer.role,
-            balance: customer.balance,
-            total_spent: customer.total_spent,
-            edit: () => editCustomer(customer, setFormData, setCurrentCustomerId),
+            edit: () => modifyCust(customer),
             delete: () => removeCustomer(),
         }));
 
     // fetch Employee table
     useEffect(() => {
-        fetchAllUsers(setUsers, setError, setCurrentPage, setTotalPages, currentPage);
+        fetchAllUsers(setUsers, setCurrentPage, setTotalPages, currentPage);
     }, [currentPage]);
 
     // handle page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (
@@ -81,29 +60,17 @@ export default function CustomerManagementPage() {
                 <Form
                     Title="EDIT CUSTOMER"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                        modify(
-                            e,
-                            currentCustomerId, // Pass the ID of the employee being edited
-                            formData,
-                            setFormData,
-                            fetchAllUsers,
-                            setSuccess,
-                            setError,
-                            setCurrentPage,
-                            setTotalPages,
-                            currentPage,
-                        )
-                    }
+                    OnSubmit={updateCustomer}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
-                        <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
+                        <Outputfetch Title="Last Name" Name="lastname" Type="text"  Value={formData.lastname} onChange={handleInputChange} OutCol OutWhite/>
+                        <Outputfetch Title="First Name" Name="firstname" Type="text" Value={formData.firstname} onChange={handleInputChange} OutCol OutWhite/>
                         <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} OnChange={handleInputChange} />
-                        <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
-                        <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
+                        <Outputfetch Title="Email" Name="email" Type="email" Value={formData.email} onChange={handleInputChange} OutCol OutWhite/>
+                        <Outputfetch Title="Phone" Name="contact" Type="text" Value={formData.contact} onChange={handleInputChange} OutCol OutWhite/>
+                        <Selectionbox Title="Loyalty Status" Name="loyalty" Value={formData.loyalty} SltCol SltWhite Options={['New', 'Regular', 'VIP']} option_value={formData.loyalty} OnChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />

@@ -6,8 +6,6 @@ import axiosClient from '../../axiosClient';
 
 export default function RegisterPage() {
 
-  // this file is subject for optimization
-    //registration variables
     const [lastname, setLastName] = useState("");
     const [firstname, setFirstName] = useState("");
     const [email, setEmail] = useState("");
@@ -59,7 +57,7 @@ export default function RegisterPage() {
             <Main>
                 <Section Class="register">
                     <Form Title="REGISTER" { ...screenwidth > 766 && { FormTwolayers: true } } OnSubmit={handleSubmit}>
-                        { error && <Group Class="errorside"><p>{ error }</p></Group> }
+                        { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
                         <Group Class="inputside" { ...screenwidth > 766 ? { Wrap: true } : { Col: true } }>
                             { Inputboxes.map((input, index) => (
                                 <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />

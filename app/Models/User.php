@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
   use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,7 +18,9 @@ class User extends Authenticatable
     'email',
     'contact',
     'password',
-    'role'
+    'email_verification_code',
+    'role',
+    'loyalty'
   ];
 
   protected $hidden = [
@@ -39,6 +41,7 @@ class User extends Authenticatable
   {
     return $this->role === 'admin';
   }
+
   public function attendances()
   {
     return $this->hasMany(Attendance::class);

@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
 import '../../assets/css/pages/admin/Management.sass';
-import { Title, Body_addclass, Group, Main, Box, Inputbox, KPI, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
-// import { deleteProduct, saveProduct, editProduct } from '../../Functions/InventoryFunctions';
-import useFetch from "../../hooks/fetch";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
@@ -14,39 +11,26 @@ export default function Test() {
     Body_addclass("Management-PAGE");
 
     // State variables
-
-    const { monthlyRevenue, mostSoldProduct, expenses, totalStockValue } =
-        useFetch();
-    // Get the latest month's revenue (assuming the first item is the latest)
-    const latestMonth =
-        monthlyRevenue && monthlyRevenue.length > 0 ? monthlyRevenue[0] : null;
-    const latestRevenue = latestMonth ? latestMonth.revenue : 0;
-
-    const showExpenses = expenses || 0;
-    const showStockValue = totalStockValue || 0;
-    // Most sold product info
-    const mostSoldName = mostSoldProduct ? mostSoldProduct.product_name : "N/A";
-    const mostSoldQty = mostSoldProduct ? mostSoldProduct.total_quantity : 0;
+    const {
+        products,
+        totalPages,
+        currentPage,
+        setCurrentPage,
+        setSearchItem,
+        fetchProducts
+    } = useFetchData();
     const {
         formData,
         setFormData,
-        saveProduct,
         editProduct,
-        setCurrentProductId,
         error,
         success,
-        deleteItem
-    } = useModifyItem();
+        deleteItem,
+        addProduct,
+        modifyProduct
+    } = useModifyItem(fetchProducts);
 
-    const {
-        products,
-        setProducts,
-        totalPages,
-        setTotalPages,
-        currentPage,
-        setCurrentPage,
-        fetchProducts,
-    } = useFetchData();
+
 
     const { categories } = useFetchOrder();
     const getCategoryName = (id) => {
@@ -58,11 +42,6 @@ export default function Test() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-    // Reset form fields
-    const resetForm = () => {
-        setFormData({ ITEM_NAME: "", category_id: "", STOCK: "", COST_PER_UNIT: "", SOLD_BY: "" });
-        setCurrentProductId(null);
     };
     // Table headers and rows
     const tbhead = [
@@ -77,7 +56,7 @@ export default function Test() {
     ];
     const tbrows = products.map((product) => ({
         SKU: product.SKU_NUMBER,
-        ITEMNAME: product.COMPOSITE_NAME,
+        COMPOSITE_NAME: product.COMPOSITE_NAME,
         SOLDBY: product.SOLD_BY,
         CATEGORY: getCategoryName(product.category_id),
         STOCK: product.STOCK.toFixed(2),
@@ -97,8 +76,8 @@ export default function Test() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
-                        <Inputbox Title="Filter" Type="text" />
+                        <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
+                        <Selectionbox Title="Filter"  Type="text" onChange={(e) => setSearchItem(e.target.value)} Options={[{label: 'Warning', value: 'Warning'}, {label: 'Unavailable', value: 'Unavailable'}]}  />
                     </Box>
                 <Group Class="kpis">
                   <UseKpi />
@@ -113,23 +92,12 @@ export default function Test() {
                 <Form
                     Title="ADD ITEM"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                        saveProduct(
-                            e,
-                            false, // isEdit
-                            resetForm,
-                            fetchProducts,
-                            currentPage,
-                            setProducts,
-                            setCurrentPage,
-                            setTotalPages
-                        )
-                    }
+                    OnSubmit={addProduct}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,
@@ -141,7 +109,8 @@ export default function Test() {
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
+                        <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
+                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -153,23 +122,12 @@ export default function Test() {
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
-                    OnSubmit={(e) =>
-                    saveProduct(
-                        e,
-                        true, // isEdit
-                    resetForm,
-                    fetchProducts,
-                    currentPage,
-                    setProducts,
-                    setCurrentPage,
-                    setTotalPages
-                        )
-                    }
+                    OnSubmit={modifyProduct}
                 >
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="ITEM_NAME" Value={formData.ITEM_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,

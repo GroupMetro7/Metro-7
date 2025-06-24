@@ -6,21 +6,23 @@ export default function useFetchData(){
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchItem, setSearchItem] = useState("");
 
   useEffect(() => {
-    const fetchProducts = (page) => {
-        axiosClient.get(`/products?page=${page}`).then(({ data }) => {
+  fetchProducts(currentPage, searchItem);
+}, [currentPage, searchItem]);
+
+    const fetchProducts = (page, search) => {
+      let url = `/products?page=${page}`;
+      if(search) {
+        url += `&search=${encodeURIComponent(search)}`;
+      }
+        axiosClient.get(url).then(({ data }) => {
         setProducts(data.data);
         setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
     });
   };
-  fetchProducts(currentPage);
-}, [currentPage]);
-
-useEffect(() => {
-  //
-})
 
   return {
     products,
@@ -28,6 +30,8 @@ useEffect(() => {
     currentPage,
     setCurrentPage,
     totalPages,
-    setTotalPages
+    setTotalPages,
+    setSearchItem,
+    fetchProducts
   };
 }

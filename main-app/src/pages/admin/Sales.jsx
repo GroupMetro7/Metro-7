@@ -10,12 +10,10 @@ import {
   Table,
   Button,
   Section,
-  KPI,
   Selectionbox,
   DateText,
   TimeText,
 } from "../../exporter/component_exporter";
-import useMonthlySales from "../../hooks/fetch";
 import { saveAs } from "file-saver";
 import SalesReport from "../../hooks/graphs/bar";
 import TopCategory from "../../hooks/graphs/pie";
@@ -26,7 +24,7 @@ export default function SalesPage() {
   Title("Revenue");
   Body_addclass("Sales-PAGE");
   // done & for review
-  const { monthlyRevenue } = useFetchDashboardData();
+  const { monthlyRevenue, productRevenue } = useFetchDashboardData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [
     item.year,
@@ -37,20 +35,17 @@ export default function SalesPage() {
   ]);
 
   const prodrev = [
+    "Product Name",
+    "Revenue",
     "Month",
-    "Product Name",
-    "Revenue ",
-    "Product Name",
-    "Revenue ",
-    "Total Revenue",
+    "TOTAL SOLD"
   ];
-  const prodrevData = monthlyRevenue.map((item) => [
-    item.year,
-    item.month_name,
-    `₱${Number(item.revenue).toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-    })}`,
-  ]);
+  const prodrevData = productRevenue.map((item) => ({
+    productName: item.product_name,
+    revenue: item.total_product_sales,
+    month: item.month,
+    totalSold: item.total_quantity_sold
+  }));
 
   const exportTableAsCSV = (headers, data, filename = "table_data.csv") => {
     const csvRows = [];

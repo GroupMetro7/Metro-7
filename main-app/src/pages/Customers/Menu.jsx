@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
-import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { createWorker } from "tesseract.js";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -12,8 +12,9 @@ export default function MenuPage() {
   Title("Metro 7 | Menu");
   Body_addclass("Menu-PAGE");
   const { user } = useStateContext();
+  const screenwidth = ScreenWidth()
   const { categories } = useFetchOrder();
-  const { menuItems, selectedCategory, setSelectedCategory } =
+  const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();
 
   const {
@@ -34,6 +35,7 @@ export default function MenuPage() {
     product_name: product.product_name,
     price: product.price,
     is_available: product.is_available,
+    quantity: product.quantity || 0,
   }));
 
   const checkedorders = order.map((product) => ({
@@ -50,13 +52,14 @@ export default function MenuPage() {
 
   return (
     <>
-      { user && user.id ? 
+      { user && user.id ?
+        screenwidth > 766 ?
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
               <Group Col>
                 <Box Class="search">
-                  <Inputbox Title="Search" Type="search" />
+                  <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)}/>
                 </Box>
                 <Group Class="filter">
                   {categories.map((cat) => (
@@ -125,15 +128,64 @@ export default function MenuPage() {
                   <h3>TOTAL:</h3>
                   <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
               </article>
-              <Button Title="CHECKOUT" OpenModal="CheckoutModal" Disabled={ !diningOpt } />
+              <Button Title="CHECKOUT" OpenModal="CheckoutModal" />
             </Group>
             </>
             }
           </Box>
         </Main>
-      : 
+        :
         <Main>
-          <Section Title="Menu Order" Class="menu-notauth">
+          <Section Title="Menu Order" Class="menu-oneside" UpperRight={<><Button Title={`CHECKOUT${checkedorders != 0 ? ` (₱${Number(formData.totalPrice).toFixed(2)})` : ""}`} OpenModal="CheckoutModal" /></>}>
+            <Group Col>
+              <Group Class="opts">
+                <Radio
+                  Title="DINE-IN"
+                  RadioName="Options"
+                  Value="DINE-IN"
+                  Checked={diningOpt === "DINE-IN"}
+                  OnChange={(e) => setDiningOpt(e.target.value)}
+                  BtnWhite
+                />
+                <Radio
+                  Title="TAKE-OUT"
+                  RadioName="Options"
+                  Value="TAKE-OUT"
+                  Checked={diningOpt === "TAKE-OUT"}
+                  OnChange={(e) => setDiningOpt(e.target.value)}
+                  BtnWhite
+                />
+              </Group>
+              <Box Class="search">
+                <Inputbox Title="Search" Type="search" />
+              </Box>
+              <Group Class="filter">
+                {categories.map((cat) => (
+                  <Radio
+                    key={cat.id}
+                    Title={cat.name}
+                    Value={cat.id}
+                    RadioName="Category"
+                    Checked={selectedCategory === cat.id}
+                    OnChange={() => setSelectedCategory(cat.id)}
+                    BtnWhite
+                  />
+                ))}
+              </Group>
+              <Group Class="items" Wrap>
+                <ItemMenu
+                  List={menulistdata}
+                  addItemToOrder={addItemToOrder}
+                  removeItemFromOrder={removeItemFromOrder}
+                  AuthenticatedMode={ user.id }
+                />
+              </Group>
+            </Group>
+          </Section>
+        </Main>
+      :
+        <Main>
+          <Section Title="Menu Order" Class="menu-oneside">
             <Group Col>
               <Box Class="search">
                 <Inputbox Title="Search" Type="search" />

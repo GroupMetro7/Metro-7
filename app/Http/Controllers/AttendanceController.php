@@ -11,7 +11,6 @@ class AttendanceController extends Controller
 {
 public function staffAttendanceStatus()
 {
-    // Only get users with the 'employee' role
     $users = User::where('role', 'employee')
         ->with(['attendances' => function($q) {
             $q->whereDate('time_in', now()->toDateString());
@@ -25,7 +24,6 @@ public function staffAttendanceStatus()
             'id' => $user->id,
             'name' => $user->firstname . ' ' . $user->lastname,
             'timed_in' => $timedIn,
-            // add other fields as needed
         ];
     });
 

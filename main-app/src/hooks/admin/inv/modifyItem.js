@@ -1,13 +1,14 @@
 import { useState } from "react";
 import axiosClient from "../../../axiosClient";
 
-export default function useModifyItem() {
+export default function useModifyItem(fetchProducts) {
   const [formData, setFormData] = useState({
-    ITEM_NAME: "",
+    COMPOSITE_NAME: "",
     category_id: "",
     STOCK: "",
-    COST_PER_UNIT: "",
-    SOLD_BY: ""
+    STOCK_VALUE: "",
+    SOLD_BY: "",
+    COST_PER_UNIT: ""
   });
   const [currentProductId, setCurrentProductId] = useState(null);
   const [error, setError] = useState(null);
@@ -15,48 +16,43 @@ export default function useModifyItem() {
 
   const editProduct = (product) => {
     setFormData({
-      ITEM_NAME: product.COMPOSITE_NAME,
+      COMPOSITE_NAME: product.COMPOSITE_NAME,
       category_id: product.category_id,
       STOCK: product.STOCK,
+      STOCK_VALUE: product.STOCK_VALUE,
+      SOLD_BY: product.SOLD_BY,
       COST_PER_UNIT: product.COST_PER_UNIT,
-      SOLD_BY: product.SOLD_BY
     });
     setCurrentProductId(product.id);
   };
 
-  const saveProduct = async (
-    e,
-    isEdit,
-    resetForm,
-    fetchProducts,
-    currentPage,
-    setProducts,
-    setCurrentPage,
-    setTotalPages
-  ) => {
+  const addProduct = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null);
-
+    setSuccess(null)
     try {
-      const url = isEdit ? `/products/${currentProductId}` : "/products";
-      const method = isEdit ? "put" : "post";
-
-      await axiosClient[method](url, formData);
-      setError(null);
-      setSuccess(
-        isEdit ? "Product updated successfully" : "Product added successfully"
-      );
-      resetForm();
-      fetchProducts(currentPage, setProducts, setCurrentPage, setTotalPages);
-    } catch (error) {
-      setSuccess(null);
-      setError(
-        error.response?.data?.message ||
-          "Failed to save product, please try again!"
-      );
+      const response = await axiosClient.post('/products', formData);
+      setSuccess("Item successfully added");
+      fetchProducts();
+    }catch (error) {
+      console.error('Failed to add Item:', error);
+      setError("Failed to add Item, please try again!");
     }
-  };
+  }
+
+    const modifyProduct = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null)
+    try {
+      const response = await axiosClient.put(`/products/${currentProductId}`, formData);
+      setSuccess("Item successfully modified");
+      fetchProducts();
+    }catch (error) {
+      console.error('Failed to modify Item:', error);
+      setError("Failed to modify Item, please try again!");
+    }
+  }
 
   const deleteItem = async (id) => {
     setError(null);
@@ -78,12 +74,13 @@ export default function useModifyItem() {
   return {
     formData,
     setFormData,
-    saveProduct,
     editProduct,
     currentProductId,
     setCurrentProductId,
     success,
     error,
-    deleteItem
+    deleteItem,
+    addProduct,
+    modifyProduct
   };
 }

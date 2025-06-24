@@ -1,8 +1,10 @@
-import React from 'react';
-import '../../assets/css/components/item_menu.sass';
-import { Button } from '../../exporter/component_exporter';
+import React from 'react'
+import '../../assets/css/components/item_menu.sass'
+import { ScreenWidth, Button } from '../../exporter/component_exporter'
 
 export default function ItemMenu({ Class, List, AuthenticatedMode, ServiceMode, addItemToOrder }) {
+    const screenwidth = ScreenWidth()
+
     return (
         <>
             { List.map((Menu, index) => (
@@ -14,9 +16,16 @@ export default function ItemMenu({ Class, List, AuthenticatedMode, ServiceMode, 
                     </article>
                     {( AuthenticatedMode || ServiceMode ) && (
                         Menu.is_available ? 
-                        <Button Title="ADD" Onclick={() => addItemToOrder(Menu)} />
-                        : 
-                        <h3>Unavailable</h3>
+                            screenwidth > 766 ?
+                                <Button Title="ADD" Onclick={() => addItemToOrder(Menu)} />
+                                :
+                                <div>
+                                    <Button Title="&lt;" Onclick={() => removeItemFromOrder(Menu.id)}/>
+                                    <h3>x{Menu.quantity}</h3>
+                                    <Button Title="&gt;"  Onclick={() => addItemToOrder(Menu)}/>
+                                </div>
+                            : 
+                            <h3>Unavailable</h3>
                     )}
                 </div>
             ))}

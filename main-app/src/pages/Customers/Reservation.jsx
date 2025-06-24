@@ -1,7 +1,8 @@
 import {React , useState, useEffect} from 'react'
 import '../../assets/css/pages/customers/Reservation.sass'
 import { ScreenWidth, Title, Body_addclass, Footer, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/component_exporter'
-import useCreateReservation from "../../hooks/reservation/createReservation";
+import useCreateReservation from '../../hooks/customer/reservation/createReservation';
+
 
 
 export default function ReservationPage() {
