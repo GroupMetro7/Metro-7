@@ -1,19 +1,36 @@
 import React, { use, useEffect, useState } from "react";
 import "../../assets/css/pages/customers/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
-import { useStateContext } from "../../Contexts/ContextProvider";
+import {
+  ScreenWidth,
+  Title,
+  Body_addclass,
+  Main,
+  Section,
+  Box,
+  Button,
+  Table,
+  Outputfetch,
+  Modal,
+  Form,
+  Group,
+  Inputbox,
+  SubmitButton,
+  InsertFileButton,
+} from "../../Exporter/component_exporter";
 import axiosClient from "../../axiosClient";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
+import { createWorker } from "tesseract.js";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { formData, user, setUser, handleInputChange } = useModifyData();
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const { formData, user, setUser, handleInputChange, setOrderData, orderData, handleOrderInputChange, handleUpdatePayment } = useModifyData(selectedOrder);
+
 
   const { reservations, preOrders } = useFetchUserRes();
 
   // Update form data on input change
-
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -32,6 +49,7 @@ export default function ProfilePage() {
     }
   };
 
+
   // Page title and body class
   Title("Metro 7");
   Body_addclass("Profile-Customer-PAGE");
@@ -46,7 +64,7 @@ export default function ProfilePage() {
     resTime: res.time,
     options: res.status,
     edit: () => {
-      editData(res)
+      setSelectedOrder(res);
     },
   }));
 
@@ -57,9 +75,9 @@ export default function ProfilePage() {
     date: new Date(res.created_at).toLocaleDateString(),
     balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
     status: res.status,
-    view: () => {
-      editData(res)
-    }
+    edit: () => {
+      setSelectedOrder(res);
+    },
   }));
 
   return (
@@ -101,10 +119,21 @@ export default function ProfilePage() {
             </Box>
           )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
-            <Table Title="OHistory" HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
+            <Table
+              Title="OHistory"
+              HeadRows={tbheadOrder}
+              DataRows={tbrowsOrder}
+              EditBtn
+            />
           </Box>
           <Box Title="My Reservations" Class="orderhistory" BoxCol>
-            <Table Title="Reservations" HeadRows={tbhead} DataRows={tbrows} EditBtn CancelBtn />
+            <Table
+              Title="Reservations"
+              HeadRows={tbhead}
+              DataRows={tbrows}
+              EditBtn
+              CancelBtn
+            />
           </Box>
         </Section>
       </Main>
@@ -155,17 +184,17 @@ export default function ProfilePage() {
               InWhite
             />
           </Group>
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ? (
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title="SUBMIT" BtnWhite />
             </Group>
-          : 
+          ) : (
             <Group Class="buttonside" Col>
               <SubmitButton Title="SUBMIT" BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
-          }
+          )}
         </Form>
       </Modal>
       <Modal Modal="CancelModal-Reservations">
@@ -179,9 +208,7 @@ export default function ProfilePage() {
             />
             <Outputfetch
               Title="Date"
-              Value={`${new Date().getFullYear()}-${(
-                new Date().getMonth() + 1
-              )
+              Value={`${new Date().getFullYear()}-${(new Date().getMonth() + 1)
                 .toString()
                 .padStart(2, "0")}-${new Date()
                 .getDate()
@@ -192,18 +219,147 @@ export default function ProfilePage() {
               OutCol
               OutWhite
             />
-            <Outputfetch
-              Title="Type"
-              Value="Solo"
-              OutCol
-              OutWhite
-            />
+            <Outputfetch Title="Type" Value="Solo" OutCol OutWhite />
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
             <SubmitButton Title="SUBMIT" BtnWhite />
           </Group>
         </Form>
+      </Modal>
+
+      <Modal Modal="EditModal-OHistory" onClose={() => setSelectedOrder(null)}>
+        {selectedOrder && (
+          <Form Title="Order Details" FormThreelayers OnSubmit={handleUpdatePayment}>
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Order Number"
+                Value={selectedOrder.order_number}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Option"
+                Value={selectedOrder.option}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Date"
+                Value={new Date(selectedOrder.created_at).toLocaleDateString()}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Balance"
+                Value={
+                  selectedOrder.unpaid_balance <= 0
+                    ? "Paid"
+                    : selectedOrder.unpaid_balance
+                }
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Status"
+                Value={selectedOrder.status}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Reference No."
+                Name="refNumber"
+                Value={orderData.refNumber || selectedOrder.reference_Number}
+                onChange={handleOrderInputChange}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Payment amount"
+                Name="downpayment"
+                Value={orderData.downpayment || selectedOrder.downpayment}
+                onChange={handleOrderInputChange}
+                OutCol
+                OutWhite
+              />
+            </Group>
+            { selectedOrder.unpaid_balance > 0 ? <Group Class="outputfetch" Col>
+              <Outputfetch Title="QR Code" OutWhite />
+              <Group>
+                <img />
+                <Group Col>
+                  <p>
+                    Please pay a 50% DOWNPAYMENT. Orders without a payment
+                    receipt will remain pending. Failure to pay on time will
+                    result in cancellation.
+                  </p>
+                  <InsertFileButton
+                    Title="UPLOAD GCASH RECEIPT"
+                    BtnWhite
+                    Accept={"image/*"}
+                    Name="image"
+                    OnChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const worker = await createWorker("eng");
+                        await worker.setParameters({
+                          tessedit_char_whitelist:
+                            "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
+                        });
+                        const {
+                          data: { text: rawText },
+                        } = await worker.recognize(file);
+
+                        // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
+                        const text = rawText.replace(
+                          /(₱|Amount\s*[:\-]?)\s*4(?=[\d,]+\.\d{2})/g,
+                          "$1+"
+                        );
+
+                        // Extract reference number (example: 10+ digits or alphanumeric)
+                        const refMatch =
+                          text.match(
+                            /(?:Reference\s*No\.?|Ref(?:erence)?\s*#?\s*No\.?)\s*[:\-]?\s*([A-Za-z0-9]{8,})/i
+                          ) || text.match(/([0-9]{13,})/);
+                        const referenceNumber = refMatch
+                          ? refMatch[1]
+                          : "Not found";
+
+                        // Extract amount (example: ₱+1234.56 or Amount: +1234.56)
+                        const amountMatch =
+                          text.match(/₱\s*([+-]?[\d,]+\.\d{2})/) ||
+                          text.match(/Amount\s*[:\-]?\s*([+-]?[\d,]+\.\d{2})/i);
+                        const amount = amountMatch
+                          ? amountMatch[1]
+                          : "Not found";
+
+                        const parsedAmount =
+                          amount !== "Not found"
+                            ? parseFloat(amount.replace(/,/g, ""))
+                            : "";
+
+                        console.log("Reference Number:", referenceNumber);
+                        console.log("Amount:", parsedAmount);
+
+                        await worker.terminate();
+                        setOrderData((prev) => ({
+                          ...prev,
+                          refNumber: referenceNumber,
+                          downpayment: parsedAmount,
+                        }));
+                      }
+                    }}
+                  />
+                </Group>
+              </Group>
+            </Group> : null}
+
+            <Group Class="buttonside">
+              <Button Title="CLOSE" CloseModal BtnWhite />
+              <SubmitButton Title="SUBMIT" BtnWhite />
+            </Group>
+          </Form>
+        )}
       </Modal>
     </>
   );

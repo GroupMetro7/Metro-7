@@ -16,11 +16,9 @@ export default function LoginPage() {
       axiosClient.get("/user")
           .then(({ data }) => {
               setUser(data);
-              setLoading(false); // Stop loading once user data is fetched
           })
           .catch((error) => {
               console.error("Failed to fetch user:", error);
-              setLoading(false); // Stop loading even if the request fails
           });
   }, []);
 

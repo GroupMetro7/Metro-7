@@ -28,4 +28,21 @@ class orderListController extends Controller
 
         return response()->json(['message' => 'Order updated successfully', 'Order' => $orderListUpdate]);
     }
+
+        public function updatePayment(Request $request, $id)
+    {
+        $validatedList = $request->validate([
+          'downpayment' => 'sometimes',
+          'refNumber' => 'sometimes',
+          'onlinePayment' => 'sometimes',
+        ]);
+
+        $orderListUpdate = Order::findOrFail($id);
+        $orderListUpdate->downpayment = $validatedList['downpayment'];
+        $orderListUpdate->reference_Number = $validatedList['refNumber'];
+        $orderListUpdate->onlinePayment = $validatedList['downpayment'];
+        $orderListUpdate->update();
+
+        return response()->json(['message' => 'Order updated successfully', 'Order' => $orderListUpdate]);
+    }
 }

@@ -69,6 +69,7 @@ Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 // service controls
 Route::get('/menuData', [serviceController::class, 'index']);
 Route::put('/orderList/{id}', [orderListController::class, 'update']);
+Route::put('/updatePayment/{id}', [orderListController::class, 'updatePayment']);
 
 //reservation
 Route::middleware('auth:sanctum')->post('/createReservation', [ReservationController::class, 'create']);
