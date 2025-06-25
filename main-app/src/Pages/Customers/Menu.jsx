@@ -1,25 +1,6 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Menu.sass";
-import {
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Group,
-  Box,
-  Inputbox,
-  ItemMenu,
-  Modal,
-  Form,
-  Outputfetch,
-  InsertFileButton,
-  Button,
-  DateText,
-  TimeText,
-  Radio,
-  CheckedItem,
-  SubmitButton,
-} from "../../Exporter/component_exporter";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { createWorker } from "tesseract.js";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -30,6 +11,7 @@ export default function MenuPage() {
   // this file is subject for optimization
   Title("Metro 7 | Menu");
   Body_addclass("Menu-PAGE");
+  const screenwidth = ScreenWidth()
   const { user } = useStateContext();
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
@@ -69,7 +51,8 @@ export default function MenuPage() {
 
   return (
     <>
-      {user && user.id ? (
+      {user && user.id ? 
+        screenwidth > 766 ?
         <Main Row>
           <Group Class="leftside" Col>
             <Section Title="Menu Order" Class="menu">
@@ -159,12 +142,61 @@ export default function MenuPage() {
             )}
           </Box>
         </Main>
-      ) : (
+        :
         <Main>
-          <Section Title="Menu Order" Class="menu-notauth">
+          <Section Title="Menu Order" Class="menu-oneside" UpperRight={<><Button Title={`CHECKOUT${checkedorders != 0 ? ` (₱${Number(formData.totalPrice).toFixed(2)})` : ""}`} OpenModal="CheckoutModal" BtnWhite /></>}>
+            <Group Col>
+              <Group Class="opts">
+                <Radio
+                  Title="DINE-IN"
+                  RadioName="Options"
+                  Value="DINE-IN"
+                  Checked={diningOpt === "DINE-IN"}
+                  OnChange={(e) => setDiningOpt(e.target.value)}
+                  BtnWhite
+                />
+                <Radio
+                  Title="TAKE-OUT"
+                  RadioName="Options"
+                  Value="TAKE-OUT"
+                  Checked={diningOpt === "TAKE-OUT"}
+                  OnChange={(e) => setDiningOpt(e.target.value)}
+                  BtnWhite
+                />
+              </Group>
+              <Box Class="search">
+                  <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)} />
+              </Box>
+              <Group Class="filter">
+                {categories.map((cat) => (
+                  <Radio
+                    key={cat.id}
+                    Title={cat.name}
+                    Value={cat.id}
+                    RadioName="Category"
+                    Checked={selectedCategory === cat.id}
+                    OnChange={() => setSelectedCategory(cat.id)}
+                    BtnWhite
+                  />
+                ))}
+              </Group>
+              <Group Class="items" Wrap>
+                <ItemMenu
+                  List={menulistdata}
+                  addItemToOrder={addItemToOrder}
+                  removeItemFromOrder={removeItemFromOrder}
+                  AuthenticatedMode={ user.id }
+                />
+              </Group>
+            </Group>
+          </Section>
+        </Main>
+      : 
+        <Main>
+          <Section Title="Menu Order" Class="menu-oneside">
             <Group Col>
               <Box Class="search">
-                <Inputbox Title="Search" Type="search" />
+                  <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)} />
               </Box>
               <Group Class="filter">
                 {categories.map((cat) => (
@@ -185,10 +217,18 @@ export default function MenuPage() {
             </Group>
           </Section>
         </Main>
-      )}
+      }
       {user && user.id && (
         <Modal Modal="CheckoutModal">
-          <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
+          <Form
+            Title="CHECKOUT"
+            {...(screenwidth > 1023
+              ? { FormThreelayers: true }
+              : screenwidth > 766
+              ? { FormTwolayers: true }
+              : { Col: true })}
+            OnSubmit={submitOrder}
+          >
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Customer Name"
@@ -267,7 +307,7 @@ export default function MenuPage() {
             </Group>
             <Group Class="outputfetch" Col>
               <Outputfetch Title="QR Code" OutWhite />
-              <Group>
+              <Group {...(screenwidth < 767 ? { Col: true } : {})}>
                 <img />
                 <Group Col>
                   <p>
@@ -275,6 +315,7 @@ export default function MenuPage() {
                     receipt will remain pending. Failure to pay on time will
                     result in cancellation.
                   </p>
+                  {screenwidth > 766 &&
                   <InsertFileButton
                     Title="UPLOAD GCASH RECEIPT"
                     BtnWhite
@@ -333,14 +374,79 @@ export default function MenuPage() {
                       }
                     }}
                   />
+                  }
                 </Group>
               </Group>
             </Group>
-
+          {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title="CHECKOUT" BtnWhite />
             </Group>
+            :
+            <Group Class="buttonside" Col>
+              <InsertFileButton
+                Title="UPLOAD GCASH RECEIPT"
+                BtnWhite
+                Accept={"image/*"}
+                Name="image"
+                OnChange={async (e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const worker = await createWorker("eng");
+                    await worker.setParameters({
+                      tessedit_char_whitelist:
+                        "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
+                    });
+                    const {
+                      data: { text: rawText },
+                    } = await worker.recognize(file);
+
+                    // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
+                    const text = rawText.replace(
+                      /(₱|Amount\s*[:\-]?)\s*4(?=[\d,]+\.\d{2})/g,
+                      "$1+"
+                    );
+
+                    // Extract reference number (example: 10+ digits or alphanumeric)
+                    const refMatch =
+                      text.match(
+                        /(?:Reference\s*No\.?|Ref(?:erence)?\s*#?\s*No\.?)\s*[:\-]?\s*([A-Za-z0-9]{8,})/i
+                      ) || text.match(/([0-9]{13,})/);
+                    const referenceNumber = refMatch
+                      ? refMatch[1]
+                      : "Not found";
+
+                    // Extract amount (example: ₱+1234.56 or Amount: +1234.56)
+                    const amountMatch =
+                      text.match(/₱\s*([+-]?[\d,]+\.\d{2})/) ||
+                      text.match(/Amount\s*[:\-]?\s*([+-]?[\d,]+\.\d{2})/i);
+                    const amount = amountMatch
+                      ? amountMatch[1]
+                      : "Not found";
+
+                    const parsedAmount =
+                      amount !== "Not found"
+                        ? parseFloat(amount.replace(/,/g, ""))
+                        : "";
+
+                    console.log("Reference Number:", referenceNumber);
+                    console.log("Amount:", parsedAmount);
+
+                    await worker.terminate();
+
+                    setFormData((prev) => ({
+                      ...prev,
+                      refNumber: referenceNumber,
+                      downpayment: parsedAmount,
+                    }));
+                  }
+                }}
+              />
+              <SubmitButton Title="CHECKOUT" BtnWhite />
+              <Button Title="CANCEL" CloseModal BtnWhite />
+            </Group>
+          }
           </Form>
         </Modal>
       )}

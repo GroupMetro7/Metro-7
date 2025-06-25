@@ -104,16 +104,16 @@ export default function MenuManagementPage() {
               Placeholder={"Search by Product Name"}
             />
 
-<Selectionbox
-  Title="Category"
-  Type="search"
-  OnChange={(e) => setSelectedCategory(Number(e.target.value)) }
-  Options={[...categories.map((cat) => ({
-      label: cat.name,
-      value: cat.id,
-  }))
-  ]}
-/>
+          <Selectionbox
+            Title="Category"
+            Type="search"
+            OnChange={(e) => setSelectedCategory(Number(e.target.value)) }
+            Options={[...categories.map((cat) => ({
+                label: cat.name,
+                value: cat.id,
+            }))
+            ]}
+          />
 
           </Box>
           <Box
@@ -134,7 +134,7 @@ export default function MenuManagementPage() {
               onPageChange={handlePageChange}
             />
           </Box>
-          <Box
+          {/* <Box
             Title="CATEGORIES"
             UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
             BoxCol
@@ -151,7 +151,7 @@ export default function MenuManagementPage() {
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </Box>
+          </Box> */}
         </Main>
       </Group>
       <Modal Modal="AddModal-Product">

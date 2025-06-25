@@ -1,19 +1,6 @@
 import { useState } from "react";
 import "../../assets/css/pages/customers/Register.sass";
-import {
-  ScreenWidth,
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Form,
-  Group,
-  Inputbox,
-  SubmitButton,
-  Footer,
-  Modal,
-  Button,
-} from "../../Exporter/component_exporter";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/component_exporter'
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 

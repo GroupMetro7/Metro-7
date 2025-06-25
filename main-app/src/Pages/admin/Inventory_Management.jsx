@@ -1,6 +1,7 @@
 import '../../assets/css/pages/admin/Management.sass';
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
+import useAddCategory from "../../hooks/add";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
 import UseKpi from '../../hooks/uni/Kpi';
@@ -17,6 +18,7 @@ export default function Test() {
         currentPage,
         setCurrentPage,
         setSearchItem,
+        fetchCategories,
         fetchProducts,
         setFilterStock
     } = useFetchData();
@@ -31,7 +33,16 @@ export default function Test() {
         modifyProduct
     } = useModifyItem(fetchProducts);
 
-
+    const {
+        categoryName,
+        setCategoryName,
+        handleAddCategory,
+        AddCategorySuccess,
+        addCategoryError,
+        editCategory,
+        deleteCategory,
+        handleUpdateCategory,
+    } = useAddCategory(fetchCategories);
 
     const { categories } = useFetchOrder();
     const getCategoryName = (id) => {
@@ -44,6 +55,11 @@ export default function Test() {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
     // Table headers and rows
     const tbhead = [
         "SKU NO.",
@@ -70,7 +86,17 @@ export default function Test() {
             deleteItem(product.id),
     }));
 
-    const tbhead2 = ['ID', 'Category', 'Number of Products']
+      const tbhead2 = ["ID", "Category", "Number of Products"];
+
+        const tbrows2 = categories.map((category) => ({
+            id: category.id,
+            name: category.name,
+            products_count: category.products_count ?? 0,
+            edit: () => editCategory(category),
+            delete: () => editCategory(category),
+        }));
+
+    // const tbhead2 = ['ID', 'Category', 'Number of Products']
 
 
     return (
@@ -88,6 +114,24 @@ export default function Test() {
                         <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
+                    {/* <Box
+                    Title="CATEGORIES"
+                    UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
+                    BoxCol
+                    >
+                    <Table
+                        Title="Category"
+                        HeadRows={tbhead2}
+                        DataRows={tbrows2}
+                        EditBtn
+                        DeleteBtn
+                    />
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                    </Box> */}
                 </Main>
             </Group>
             <Modal Modal="AddModal-Inventory">
@@ -111,8 +155,7 @@ export default function Test() {
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
-                        <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
-                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -148,6 +191,78 @@ export default function Test() {
                         <SubmitButton Title="SUBMIT" BtnWhite />
                     </Group>
                 </Form>
+            </Modal>
+            <Modal Modal="AddModal-Category">
+            <Form Title="ADD CATEGORY" OnSubmit={handleAddCategory}>
+                {(addCategoryError && (
+                <Group Class="signalside">
+                    <p class="error">{addCategoryError}</p>
+                </Group>
+                )) ||
+                (AddCategorySuccess && (
+                    <Group Class="signalside">
+                    <p class="success">{AddCategorySuccess}</p>
+                    </Group>
+                ))}
+                <Group Class="inputside" Wrap>
+                <Inputbox
+                    Title="Category Name"
+                    Type="text"
+                    InCol
+                    InWhite
+                    Value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                />
+                </Group>
+                <Group Class="buttonside" Col>
+                <SubmitButton Title="SUBMIT" BtnWhite />
+                <Button Title="CANCEL" CloseModal BtnWhite />
+                </Group>
+            </Form>
+            </Modal>
+            <Modal Modal="EditModal-Category">
+            <Form Title="EDIT CATEGORY" OnSubmit={handleUpdateCategory}>
+                {(addCategoryError && (
+                <Group Class="signalside">
+                    <p class="error">{addCategoryError}</p>
+                </Group>
+                )) ||
+                (AddCategorySuccess && (
+                    <Group Class="signalside">
+                    <p class="success">{AddCategorySuccess}</p>
+                    </Group>
+                ))}
+                <Group Class="inputside" Wrap>
+                <Inputbox
+                    Title="Category Name"
+                    Type="text"
+                    InCol
+                    InWhite
+                    Value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                />
+                </Group>
+                <Group Class="buttonside" Col>
+                <SubmitButton Title="SUBMIT" BtnWhite />
+                <Button Title="CANCEL" CloseModal BtnWhite />
+                </Group>
+            </Form>
+            </Modal>
+            <Modal Modal="DeleteModal-Category">
+            <Form Title="DELETE CATEGORY" OnSubmit={deleteCategory}>
+                <Group Class="outputfetch" Wrap>
+                <Outputfetch
+                    Title="Category Name"
+                    Value={categoryName}
+                    OutCol
+                    OutWhite
+                />
+                </Group>
+                <Group Class="buttonside" Col>
+                <SubmitButton Title="SUBMIT" BtnWhite />
+                <Button Title="CANCEL" CloseModal BtnWhite />
+                </Group>
+            </Form>
             </Modal>
         </>
     );

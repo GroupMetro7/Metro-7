@@ -1,21 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import "../../assets/css/pages/customers/Profile.sass";
-import {
-  ScreenWidth,
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Box,
-  Button,
-  Table,
-  Footer,
-  Modal,
-  Form,
-  Group,
-  Inputbox,
-  SubmitButton,
-} from "../../Exporter/component_exporter";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
 import { useStateContext } from "../../Contexts/ContextProvider";
 import axiosClient from "../../axiosClient";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
@@ -23,7 +8,7 @@ import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { formData, user, setUser, handleInputChange, editData } = useModifyData();
+  const { formData, user, setUser, handleInputChange } = useModifyData();
 
   const { reservations, preOrders } = useFetchUserRes();
 
@@ -53,19 +38,6 @@ export default function ProfilePage() {
   const screenwidth = ScreenWidth();
 
   // Table data
-    const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
-  const tbrowsOrder = preOrders.map((res) => ({
-    id: res.order_number,
-    option: res.option,
-    date: new Date(res.created_at).toLocaleDateString(),
-    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
-    status: res.status,
-    edit: () => {
-      editData(res)
-    }
-  }));
-
-
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];
   const tbrows = reservations.map((res) => ({
     id: res.id,
@@ -78,7 +50,17 @@ export default function ProfilePage() {
     },
   }));
 
-
+  const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
+  const tbrowsOrder = preOrders.map((res) => ({
+    id: res.order_number,
+    option: res.option,
+    date: new Date(res.created_at).toLocaleDateString(),
+    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
+    status: res.status,
+    view: () => {
+      editData(res)
+    }
+  }));
 
   return (
     <>
@@ -119,15 +101,19 @@ export default function ProfilePage() {
             </Box>
           )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
-            <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} EditBtn />
+            <Table Title="OHistory" HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
           </Box>
           <Box Title="My Reservations" Class="orderhistory" BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />
+            <Table Title="Reservations" HeadRows={tbhead} DataRows={tbrows} EditBtn CancelBtn />
           </Box>
         </Section>
       </Main>
       <Modal Modal="EditProfile">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleSubmit}>
+          <Group Class="imageside">
+            <img src="" />
+            <InsertFileButton Title="EDIT PICTURE" BtnWhite />
+          </Group>
           <Group
             Class="inputside"
             {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
@@ -169,17 +155,54 @@ export default function ProfilePage() {
               InWhite
             />
           </Group>
-          {screenwidth > 766 ? (
+          {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title="SUBMIT" BtnWhite />
             </Group>
-          ) : (
+          : 
             <Group Class="buttonside" Col>
               <SubmitButton Title="SUBMIT" BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
-          )}
+          }
+        </Form>
+      </Modal>
+      <Modal Modal="CancelModal-Reservations">
+        <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit={""}>
+          <Group Class="outputfetch" Wrap>
+            <Outputfetch
+              Title="Customer Name"
+              Value={`${user.firstname} ${user.lastname}`}
+              OutCol
+              OutWhite
+            />
+            <Outputfetch
+              Title="Date"
+              Value={`${new Date().getFullYear()}-${(
+                new Date().getMonth() + 1
+              )
+                .toString()
+                .padStart(2, "0")}-${new Date()
+                .getDate()
+                .toString()
+                .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
+                timeStyle: "short",
+              })}`}
+              OutCol
+              OutWhite
+            />
+            <Outputfetch
+              Title="Type"
+              Value="Solo"
+              OutCol
+              OutWhite
+            />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title="SUBMIT" BtnWhite />
+          </Group>
         </Form>
       </Modal>
     </>
