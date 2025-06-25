@@ -23,7 +23,7 @@ import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { formData, user, setUser, handleInputChange } = useModifyData();
+  const { formData, user, setUser, handleInputChange, editData } = useModifyData();
 
   const { reservations, preOrders } = useFetchUserRes();
 
@@ -53,6 +53,19 @@ export default function ProfilePage() {
   const screenwidth = ScreenWidth();
 
   // Table data
+    const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
+  const tbrowsOrder = preOrders.map((res) => ({
+    id: res.order_number,
+    option: res.option,
+    date: new Date(res.created_at).toLocaleDateString(),
+    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
+    status: res.status,
+    edit: () => {
+      editData(res)
+    }
+  }));
+
+
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];
   const tbrows = reservations.map((res) => ({
     id: res.id,
@@ -65,17 +78,7 @@ export default function ProfilePage() {
     },
   }));
 
-  const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
-  const tbrowsOrder = preOrders.map((res) => ({
-    id: res.order_number,
-    option: res.option,
-    date: new Date(res.created_at).toLocaleDateString(),
-    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
-    status: res.status,
-    view: () => {
-      editData(res)
-    }
-  }));
+
 
   return (
     <>
@@ -116,7 +119,7 @@ export default function ProfilePage() {
             </Box>
           )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
-            <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
+            <Table HeadRows={tbheadOrder} DataRows={tbrowsOrder} EditBtn />
           </Box>
           <Box Title="My Reservations" Class="orderhistory" BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />

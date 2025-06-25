@@ -11,7 +11,14 @@ export default function useModifyData() {
   });
   const { user, setUser } = useStateContext();
 
-
+  const editData = (res) => {
+    setFormData({
+      firstname: res.firstname,
+      lastname: res.lastname,
+      email: res.email,
+      contact: res.contact,
+    })
+  }
 
     useEffect(() => {
       if (user) {
@@ -51,6 +58,7 @@ export default function useModifyData() {
       user,
       setUser,
       handleInputChange,
-      handleUpdateUser
+      handleUpdateUser,
+      editData
     }
 }
