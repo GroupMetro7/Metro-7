@@ -40,9 +40,9 @@ export default function StaffLayout() {
         }
     };
 
-    if (!user || user?.role !== "admin") {
-        return <Navigate to={"/"} replace/>;
-    }
+    // if (!user || user?.role !== "employee") {
+    //     return <Navigate to={"/"} replace/>;
+    // }
 
     return (
         <Group>
