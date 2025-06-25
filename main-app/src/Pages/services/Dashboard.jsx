@@ -217,7 +217,7 @@ export default function StaffDashboard() {
                     <h3>TOTAL:</h3>
                     <h3>₱{totalPrice.toFixed(2)}</h3>
                   </article>
-                  <Button Title="CHECKOUT" OpenModal="InputsModal" />
+                  <Button Title="CHECKOUT" OpenModal="InputsModal" Disabled={!diningOpt} />
                 </Group>
               </>
             )}

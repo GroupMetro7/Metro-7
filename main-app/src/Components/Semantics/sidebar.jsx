@@ -77,9 +77,9 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
             <div>
                 <img src={ M7Logo }/>
                 <nav>
-                    { showScrollButtons && (
+                    {/* { showScrollButtons && (
                         <Href Title={ <span>Previous</span> } Icon={ PrevLogo } Onclick={handlePrev} />
-                    )}
+                    )} */}
                     <div ref={navWrapperRef}>
                         { ServiceMode && 
                             navitems.filter( item => item.ServiceItem ).sort((item1, item2) => item1.ServiceItem - item2.ServiceItem).map(( item, index ) => (
@@ -92,9 +92,9 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
                             )) 
                         }
                     </div>
-                    {showScrollButtons && (
+                    {/* {showScrollButtons && (
                         <Href Title={ <span>Next</span> } Icon={ NextLogo } Onclick={handleNext} />
-                    )}
+                    )} */}
                 </nav>
             </div>
         </aside>
