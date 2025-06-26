@@ -24,7 +24,7 @@ body.Dashboard-Service-PAGE
 
                     > .filter
                         display: grid !important
-                        grid-template-columns: repeat(auto-fit, minmax( 135px, 1fr)) !important
+                        grid-template-columns: repeat(auto-fit, minmax( 190px, 1fr)) !important
 
                         > label
                             width: unset !important
@@ -101,9 +101,21 @@ body.Dashboard-Service-PAGE
                             > label
                                 flex: 1 !important
 
-                    &.formthreelayers
+                    &.formthreelayers, &.formtwolayers
 
                         > .inputside:nth-child(1)
 
                             > label:nth-child(1)
                                 flex: 1 !important
+
+@media only screen and (min-width: 767px) and (max-width: 1023px) 
+
+    body.Dashboard-Service-PAGE
+
+        main
+        
+            > div.row
+
+                .menu
+                    width: 300px !important
+

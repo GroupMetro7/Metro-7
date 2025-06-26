@@ -225,7 +225,7 @@ export default function StaffDashboard() {
         </Main>
       </Group>
       <Modal Modal="InputsModal">
-        <Form Title="CHECKOUT" FormThreelayers OnSubmit={submitOrder}>
+        <Form Title="CHECKOUT" {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
           <Group Class="inputside">
             <Inputbox
               Title="Customer Name"

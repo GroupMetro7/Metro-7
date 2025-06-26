@@ -72,8 +72,14 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
         (AdminMode && navitems.filter(item => item.AdminItem).length >= 7) ||
         (ServiceMode && navitems.filter(item => item.ServiceItem).length >= 7);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsExpanded(prev => !prev);
+    };
+
     return(
-        <aside className="sidebar">
+        <aside className={`sidebar ${isExpanded ? 'expanded' : ''}`} onClick={toggleSidebar}>
             <div>
                 <img src={ M7Logo }/>
                 <nav>

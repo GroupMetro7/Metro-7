@@ -8,6 +8,8 @@ use App\Models\StockLog;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\OrderNotification;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -181,7 +183,9 @@ public function index(Request $request)
         'option' => $validated['option'],
         'discount' => $validated['discount'],
         'user_id' => $user->id,
+        // 'unpaid_balance' => $validated['amount'] - ($validated['downpayment'] ?? 0)
       ]);
+      $order->load('tickets');
 
 
 
@@ -212,6 +216,8 @@ public function index(Request $request)
             'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
           ]);
         }
+              // notify the user about the order creation
+      Mail::to($user->email)->send(new OrderNotification($user, $order));
       }
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
     } catch (\Exception $e) {

@@ -29,17 +29,6 @@ export default function CustomerManagementPage() {
     new Date(log.created_at).toLocaleDateString()
   ]);
 
-  const tbheadAI = ["ACTIVITY ID", "ITEM_NAME", "ACTION", "Order", "value", "date"];
-    const tbrowsAI = logs.map((log) => [
-    log.id,
-    log.sku_number,
-    log.type,
-    log.quantity,
-    log.type,
-    new Date(log.created_at).toLocaleDateString()
-  ]);
-
-
     const exportTableAsCSV = (headers, data, filename = "table_data.csv") => {
       const csvRows = [];
       csvRows.push(headers.join(","));

@@ -16,6 +16,7 @@ export default function MenuPage() {
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();
+    
 
   const {
     order,
@@ -27,6 +28,7 @@ export default function MenuPage() {
     submitOrder,
     formData,
     setFormData,
+    isLoading
   } = useCreateOrder();
 
   const menulistdata = menuItems.map((product) => ({
@@ -52,7 +54,7 @@ export default function MenuPage() {
 
   return (
     <>
-      {user && user.id ?
+      {user && user.id ? 
         screenwidth > 766 ?
         <Main Row>
           <Group Class="leftside" Col>
@@ -192,7 +194,7 @@ export default function MenuPage() {
             </Group>
           </Section>
         </Main>
-      :
+      : 
         <Main>
           <Section Title="Menu Order" Class="menu-oneside">
             <Group Col>
@@ -379,10 +381,10 @@ export default function MenuPage() {
                 </Group>
               </Group>
             </Group>
-          {screenwidth > 766 ?
+          {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
-              <SubmitButton Title="CHECKOUT" BtnWhite />
+              <SubmitButton Title={isLoading ? "SUBMITTING..." : "CHECKOUT"} disabled={isLoading} BtnWhite />  
             </Group>
             :
             <Group Class="buttonside" Col>
@@ -444,7 +446,7 @@ export default function MenuPage() {
                   }
                 }}
               />
-              <SubmitButton Title="CHECKOUT" BtnWhite />
+              <SubmitButton Title={isLoading ? "SUBMITTING..." : "CHECKOUT"} disabled={isLoading} BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
           }

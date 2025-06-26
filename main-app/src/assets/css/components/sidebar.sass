@@ -3,59 +3,63 @@
 aside, aside div, aside nav, aside a, aside img 
     display: flex !important
 
+aside.sidebar 
+    background-color: v.$header-footer !important
+    width: 75px !important
+    height: 100vh !important
+    position: fixed !important
+    top: 0 !important
+    transition: .33s !important
+    overflow: hidden !important
+    z-index: 100 !important
+
+    > div
+        height: 100% !important
+        flex-direction: column !important
+        padding: 27.5px 13px !important
+
+        > img 
+            height: 30px !important
+            align-self: flex-start !important
+
+        > nav:has( > div )
+            height: calc( 100% - ( 40px  * 2 ) ) !important
+
+            > div
+                overflow: auto !important
+                scrollbar-width: none
+
+        > nav, > nav > div
+            align-self: center !important
+            flex-direction: column !important
+            gap: v.$elem-sa-size-m !important
+
+            > a 
+                gap: v.$elem-sa-size-s !important
+                align-items: center !important
+
+                > div
+                    background-color: v.$color-secondary !important
+                    width: 40px !important
+                    padding: 10px !important
+                    border-radius: 100% !important
+
+                    > img 
+                        width: 20px !important
+
+                > span
+                    white-space: nowrap !important
+                    text-transform: uppercase !important
+                    display: none !important
+                    opacity: 0 !important
+                    visibility: hidden !important
+
 @media only screen and (min-width: 1267px) 
 
     aside.sidebar 
-        background-color: v.$header-footer !important
-        width: 75px !important
-        height: 100vh !important
-        position: fixed !important
-        top: 0 !important
-        transition: .33s !important
-        overflow: hidden !important
-        z-index: 100 !important
 
         > div
-            height: 100% !important
-            flex-direction: column !important
             gap: 43px !important
-            padding: 27.5px 13px !important
-
-            > img 
-                height: 30px !important
-                align-self: flex-start !important
-
-            > nav:has( > div )
-                height: calc( 100% - ( 40px  *2 ) ) !important
-
-                > div
-                    overflow: auto !important
-                    scrollbar-width: none
-
-            > nav, > nav > div
-                align-self: center !important
-                flex-direction: column !important
-                gap: v.$elem-sa-size-m !important
-
-                > a 
-                    gap: v.$elem-sa-size-s !important
-                    align-items: center !important
-
-                    > div
-                        background-color: v.$color-secondary !important
-                        width: 40px !important
-                        padding: 10px !important
-                        border-radius: 100% !important
-
-                        > img 
-                            width: 20px !important
-
-                    > span  
-                        white-space: nowrap !important
-                        text-transform: uppercase !important
-                        display: none !important
-                        opacity: 0 !important
-                        visibility: hidden !important
 
         &:has(nav:hover)
             width: calc( v.$sidebar-size * 3 ) !important
@@ -85,60 +89,12 @@ aside, aside div, aside nav, aside a, aside img
 @media only screen and (min-width: 767px) and (max-width: 1266px) 
         
     aside.sidebar 
-        background-color: v.$header-footer !important
-        width: 75px !important
-        height: 100vh !important
-        position: fixed !important
-        top: 0 !important
-        transition: .33s !important
-        overflow: hidden
-        z-index: 100 !important
 
         > div
-            height: 100% !important
-            flex-direction: column !important
             gap: 33px !important
-            padding: 27.5px 13px !important
 
-            > img 
-                height: 30px !important
-                align-self: flex-start !important
-
-            > nav:has( > div )
-                height: calc( 100% - ( 40px  *2 ) ) !important
-
-                > div
-                    overflow: auto !important
-                    scrollbar-width: none
-
-            > nav, > nav > div
-                align-self: center !important
-                flex-direction: column !important
-                gap: v.$elem-sa-size-m !important
-
-                > a 
-                    gap: 7.5px !important
-                    font-weight: 700 !important
-                    align-items: center !important
-
-                    > div
-                        background-color: v.$color-secondary !important
-                        width: 40px !important
-                        padding: 10px !important
-                        border-radius: 100% !important
-
-                        > img 
-                            width: 20px !important
-
-                    > span
-                        white-space: nowrap !important
-                        text-transform: uppercase !important
-                        display: none !important
-                        opacity: 0 !important
-                        visibility: hidden !important
-
-        &:active
-            width: calc( v.$sidebar-size * 3.3 ) !important
+        &.expanded
+            width: calc( v.$sidebar-size * 3 ) !important
 
             nav 
                 margin-left: 4px !important

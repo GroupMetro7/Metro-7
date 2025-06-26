@@ -11,6 +11,7 @@ export default function useCreateOrder() {
   const [order, setOrder] = useState([]);
   const [diningOpt, setDiningOpt] = useState();
   const [discount, setDiscount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   //function
   const addItemToOrder = (item) => {
@@ -53,6 +54,7 @@ export default function useCreateOrder() {
 
   const submitOrder = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!order.length) {
       alert("No items in the order. Please add items before submitting.");
       return;
@@ -84,10 +86,14 @@ const formattedOrder = {
         downpayment: "",
         refNumber: "",
       });
+      setIsLoading(false);
       window.location.reload();
     } 
     catch (error) {
       console.error("Error submitting order:", error);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
   return {
@@ -101,5 +107,6 @@ const formattedOrder = {
     submitOrder,
     formData,
     setFormData,
+    isLoading
   };
 }

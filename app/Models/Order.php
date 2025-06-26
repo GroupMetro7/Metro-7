@@ -22,7 +22,6 @@ class Order extends Model
     'user_id',
   ];
 
-
   protected $casts = [
     'tickets' => 'array',
   ];

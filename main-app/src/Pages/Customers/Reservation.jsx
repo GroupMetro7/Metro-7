@@ -9,11 +9,13 @@ export default function ReservationPage() {
     Title("Metro 7 | Reservation");
     Body_addclass("Reservation-PAGE");
     const screenwidth = ScreenWidth();
+
     //this file needs to be updated
   const {
     formData,
     handleInputChange,
     handleCreateReservation,
+    isLoading,
     error,
     success,
   } = useCreateReservation();
@@ -98,7 +100,7 @@ export default function ReservationPage() {
                             </Group>
                         </Group>
                         <Group Class="buttonside">
-                            <SubmitButton Title="SUBMIT" BtnWhite />
+                            <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} disabled={isLoading} BtnWhite />
                         </Group>
                     </Form>
                 </Section>
