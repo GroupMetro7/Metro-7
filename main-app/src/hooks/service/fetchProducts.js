@@ -26,7 +26,7 @@ export default function useFetchProduct() {
   if (params.toString()) {
     url += `?${params.toString()}`;
   }
-  
+
     axiosClient
       .get(url)
       .then((data) => {

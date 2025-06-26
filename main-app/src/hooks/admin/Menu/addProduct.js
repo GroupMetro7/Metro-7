@@ -154,12 +154,26 @@ export default function useAddProduct(fetchMenu) {
     try {
       await axiosClient.delete(`/menu/${currentProductId}`);
       setSuccess("Item deletion successful");
-      window.location.reload();
+      fetchMenu();
     } catch (error) {
       console.error("Failed to delete product:", error);
       setError("Failed to delete item, please try again!");
       return false;
     }
+  };
+
+    const ResetForm = (e) => {
+    e.preventDefault();
+    setFormData({
+      id: null,
+      product_name: "",
+      description: "",
+      price: "",
+      image_url: null,
+      category_id: "",
+    });
+    setSelects([{ sku: "", quantity: "" }]);
+    setCurrentProductId(null);
   };
 
   return {
@@ -177,5 +191,6 @@ export default function useAddProduct(fetchMenu) {
     editProduct,
     handleUpdateProduct,
     deleteProduct,
+    ResetForm
   };
 }

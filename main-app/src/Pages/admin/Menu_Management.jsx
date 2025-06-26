@@ -43,6 +43,7 @@ export default function MenuManagementPage() {
     ProductSuccess,
     handleUpdateProduct,
     deleteProduct,
+    ResetForm
   } = useAddProduct(fetchMenu);
 
   //3. useFetchOrder for fetching menu products, categories, and ingredients
@@ -58,9 +59,6 @@ export default function MenuManagementPage() {
     handleUpdateCategory,
   } = useAddCategory(fetchCategories);
 
-  const { searchTerm, setSearchTerm, filteredItems } =
-    useSearchItem("/products/search");
-
   // Function for handling page changes in pagination component
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -69,6 +67,8 @@ export default function MenuManagementPage() {
     const cat = categories.find((c) => c.id === id);
     return cat ? cat.name : "Unknown";
   };
+
+
 
   // table headers and rows for displaying products
   const tbhead = ["ID", "Product Name", "category", "Price", "Status"];
@@ -146,11 +146,11 @@ export default function MenuManagementPage() {
               EditBtn
               DeleteBtn
             />
-            <Pagination
+            {/* <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
-            />
+            /> */}
           </Box>
         </Main>
       </Group>
@@ -358,7 +358,7 @@ export default function MenuManagementPage() {
             </Group>
           </Group>
           <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
+            <Button Title="CANCEL" CloseModal BtnWhite Onclick={ResetForm} />
             <Button Title="ADD INGREDIENTS" Onclick={addSelectBox} BtnWhite />
             <SubmitButton Title="SUBMIT" BtnWhite />
           </Group>
@@ -369,7 +369,7 @@ export default function MenuManagementPage() {
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Product ID"
-              Value={formData.category_id}
+              Value={formData.id}
               OutCol
               OutWhite
             />
@@ -387,7 +387,7 @@ export default function MenuManagementPage() {
             />
           </Group>
           <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
+            <Button Title="CANCEL" CloseModal BtnWhite Onclick={ResetForm}/>
             <SubmitButton Title="DELETE" BtnWhite />
           </Group>
         </Form>
