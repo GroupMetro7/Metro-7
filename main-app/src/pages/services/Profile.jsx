@@ -2,21 +2,21 @@ import React from 'react'
 import '../../assets/css/pages/services/Profile.sass'
 import { ScreenWidth, Title, Body_addclass, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton } from '../../Exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
-import axiosClient from '../../axiosClient'
 import useAttendanceStaff from '../../hooks/service/attendance'
+import useModifyData from '../../hooks/customer/profile/modifyData'
 
 export default function StaffProfile() {
     Title('Profile')
     Body_addclass('Profile-Services-PAGE')
-    const screenwidth = ScreenWidth()
-    const {user} = useStateContext()
+    const screenwidth = ScreenWidth();
     const { handleTimeInClick, handleTimeOutClick } = useAttendanceStaff();
+    const { formData, user, handleInputChange, handleUpdateUser } = useModifyData();
 
     const Inputboxes = [
-        { Title: 'First Name', Type: 'text', Name: 'firstname', Value: null, InCol: true, InWhite: true, onChange: null },
-        { Title: 'Last Name', Type: 'text', Name: 'lastname', Value: null, InCol: true, InWhite: true, onChange: null },
-        { Title: 'Email', Type: 'email', Name: 'email', Value: null, InCol: true, InWhite: true, onChange: null },
-        { Title: 'Contact Number', Type: 'number', Name: 'contact', Value: null, InCol: true, InWhite: true, onChange: null }
+        { Title: 'First Name', Type: 'text', Name: 'firstname', Value: formData.firstname, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: 'Last Name', Type: 'text', Name: 'lastname', Value: formData.lastname, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: 'Email', Type: 'email', Name: 'email', Value: formData.email, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: 'Contact Number', Type: 'number', Name: 'contact', Value: formData.contact, InCol: true, InWhite: true, OnChange: handleInputChange }
     ]
 
 
@@ -81,10 +81,10 @@ export default function StaffProfile() {
             }
         </Group>
         <Modal Modal="EditProfile">
-            <Form Title="Edit Profile" FormTwolayers>
+            <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>
                 <Group Class='inputside' Wrap>
                     { Inputboxes.map((input, index) => (
-                        <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
+                        <Inputbox key={index} Title={input.Title} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.OnChange } Name={input.Name}/>
                     )) }
                 </Group>
                 <Group Class='buttonside'>

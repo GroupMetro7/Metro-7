@@ -24,6 +24,8 @@ export default function MenuManagementPage() {
     totalPages,
     fetchCategories,
     fetchMenu,
+    setSearchItem,
+    setSelectedCategory,
   } = useFetchOrder();
 
   //2. useAddCategory for adding categories
@@ -98,11 +100,21 @@ export default function MenuManagementPage() {
             <Inputbox
               Title="Search"
               Type="search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Product Name"}
             />
-            <Selectionbox Title="Filter" />
+
+          <Selectionbox
+            Title="Category"
+            Type="search"
+            OnChange={(e) => setSelectedCategory(Number(e.target.value)) }
+            Options={[...categories.map((cat) => ({
+                label: cat.name,
+                value: cat.id,
+            }))
+            ]}
+          />
+
           </Box>
           <Box
             Title="PRODUCT LIST"
@@ -122,7 +134,7 @@ export default function MenuManagementPage() {
               onPageChange={handlePageChange}
             />
           </Box>
-          <Box
+          {/* <Box
             Title="CATEGORIES"
             UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
             BoxCol
@@ -139,7 +151,7 @@ export default function MenuManagementPage() {
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </Box>
+          </Box> */}
         </Main>
       </Group>
       <Modal Modal="AddModal-Product">

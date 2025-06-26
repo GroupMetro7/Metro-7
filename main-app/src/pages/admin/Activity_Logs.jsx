@@ -59,18 +59,9 @@ export default function CustomerManagementPage() {
             <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
-
-          <Box Title="ACTIVITY LOGS" BoxCol>
-            <Button
-              Title="EXPORT AS FILE"
-              Onclick={() =>
-                exportTableAsCSV(
-                  tbheadAI,
-                  tbrowsAI,
-                  "sales_data.csv"
-                )
-              }
-            />
+          <Box Title="ACTIVITY LOGS" UpperRight={ 
+              <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV( tbhead, tbrows, "sales_data.csv" )}/> 
+            } BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrows} />
             <Pagination
               currentPage={currentPage}
@@ -80,40 +71,6 @@ export default function CustomerManagementPage() {
           </Box>
         </Main>
       </Group>
-      {/* <Modal Modal="EditModal">
-                <Form
-                    Title="EDIT CUSTOMER"
-                    FormThreelayers
-                    OnSubmit={(e) =>
-                        modify(
-                            e,
-                            currentCustomerId, // Pass the ID of the employee being edited
-                            formData,
-                            setFormData,
-                            fetchAllUsers,
-                            setSuccess,
-                            setError,
-                            setCurrentPage,
-                            setTotalPages,
-                            currentPage,
-                        )
-                    }
-                >
-                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
-                    success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
-                    <Group Class="inputside" Wrap>
-                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
-                        <Inputbox Title="First Name" Name="firstname" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
-                        <Selectionbox Title="Role" Name="role" Value={formData.role} SltCol SltWhite Options={['customer', 'employee', 'admin']} option_value={formData.role} OnChange={handleInputChange} />
-                        <Inputbox Title="Email" Name="email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
-                        <Inputbox Title="Phone" Name="contact" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
-                    </Group>
-                    <Group Class="buttonside">
-                        <Button Title="CANCEL" CloseModal BtnWhite />
-                        <SubmitButton Title="SUBMIT" BtnWhite />
-                    </Group>
-                </Form>
-            </Modal> */}
     </>
   );
 }

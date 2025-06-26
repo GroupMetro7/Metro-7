@@ -9,13 +9,6 @@ import {
   Inputbox,
   Table,
   Button,
-  Modal,
-  Form,
-  Outputfetch,
-  SubmitButton,
-  Selectionbox,
-  InsertFileButton,
-  Pagination,
 } from "../../exporter/component_exporter";
 import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI";
 
@@ -92,7 +85,8 @@ export default function StaffOrderList() {
             <Inputbox Title="Search" Type="search" />
             <Inputbox Title="Filter" Type="text" />
           </Box>
-          <Button
+          <Box Title="DEMAND FORECASTS" UpperRight={
+            <Button
             Title="SEND TO MODEL"
             Onclick={() =>
               sendDataToForecastModel(
@@ -103,8 +97,7 @@ export default function StaffOrderList() {
                 }))
               )
             }
-          />
-          <Box Title="ACTIVITY LOGS" BoxCol>
+          /> } BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrowsOrders} />
             {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} /> */}
           </Box>

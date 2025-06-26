@@ -3,7 +3,6 @@ import "../../assets/css/pages/admin/Management.sass";
 import {
   Title,
   Body_addclass,
-  SideBar,
   Group,
   Main,
   Box,
@@ -17,13 +16,13 @@ import {
   Selectionbox,
   InsertFileButton,
   Pagination,
-  KPI,
 } from "../../exporter/component_exporter";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 import UseKpi from "../../hooks/uni/Kpi";
+import { useStateContext } from "../../Contexts/ContextProvider";
 
 export default function StaffOrderList() {
   Title("Order List");
@@ -39,7 +38,10 @@ export default function StaffOrderList() {
     currentPage,
     totalPages,
     setCurrentPage,
+    setSearchItem,
   } = useOrderHistory();
+
+  const { user } = useStateContext();
 
   const tbhead = [
     "ORDER NO.",
@@ -48,7 +50,7 @@ export default function StaffOrderList() {
     "DISCOUNT",
     "OPTION",
     "STATUS",
-    "DATE"
+    "DATE",
   ];
 
   const tbrowsOrders = orderHistory.map((order) => ({
@@ -73,6 +75,7 @@ export default function StaffOrderList() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   return (
     <>
       <Group>
@@ -81,17 +84,19 @@ export default function StaffOrderList() {
             <Inputbox
               Title="Search"
               Type="search"
+              onChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Order No."}
             />
-            <Inputbox Title="Filter" Type="text" />
           </Box>
-          <Group Class="upper">
-            <Group Class="kpis">
-              <UseKpi />
+          {user && user.role === "admin" && (
+            <Group Class="upper">
+              <Group Class="kpis">
+                <UseKpi />
+              </Group>
             </Group>
-          </Group>
+          )}
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrowsOrders} />
+            <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

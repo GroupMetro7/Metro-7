@@ -8,6 +8,8 @@ use App\Models\StockLog;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\OrderNotification;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -182,7 +184,9 @@ public function index(Request $request)
         'discount' => $validated['discount'],
         'user_id' => $user->id,
       ]);
-
+      $order->load('tickets');
+      // notify the user about the order creation
+      Mail::to($user->email)->send(new OrderNotification($user, $order));
 
 
       // Create the tickets associated with the order

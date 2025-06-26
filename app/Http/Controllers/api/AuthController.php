@@ -69,17 +69,17 @@ class AuthController extends Controller
 
           Mail::to($user->email)->send(new EmailVerificationMail($user));
 
-          
+
           // $token = $user->createToken('main')->plainTextToken;
 
           // return response()->json([
           //     'user' => $user,
           //     'token' => $token,
 
-              
+
           // ], 201);
 
-          
+
 
       } catch (\Exception $e) {
           Log::error('Error during registration: ' . $e->getMessage());
@@ -159,22 +159,23 @@ class AuthController extends Controller
       return response()->json(['message' => 'Logged out successfully'], 200);
   }
 
+
 public function verify_email($verification_code)
 {
     $user = User::where('email_verification_code', $verification_code)->first();
 
-    if (!$user) {
-        return redirect('/login')->with('error', 'Invalid verification code.');
+    if (!$user && !$user->email_verification_code) {
+        return redirect(env('FRONTEND_URL') . '/login?error=invalid_verification_code');
     }
 
-    if ($user->email_verified_at) {
-        return redirect('/login')->with('message', 'Email already verified.');
-    }
-
-    // Mark the email as verified
+    // Verify the email
     $user->email_verified_at = now();
+    $user->email_verification_code = null;
     $user->save();
 
-    return redirect('/login')->with('message', 'Email verified successfully.');
+    // Redirect to frontend login page with success message
+    return redirect(env('FRONTEND_URL') . '/login?message=email_verified');
 }
 }
+
+

@@ -18,14 +18,21 @@ aside, aside div, aside nav, aside a, aside img
         > div
             height: 100% !important
             flex-direction: column !important
-            gap: 33px !important
+            gap: 43px !important
             padding: 27.5px 13px !important
 
             > img 
                 height: 30px !important
                 align-self: flex-start !important
 
-            > nav 
+            > nav:has( > div )
+                height: calc( 100% - ( 40px  *2 ) ) !important
+
+                > div
+                    overflow: auto !important
+                    scrollbar-width: none
+
+            > nav, > nav > div
                 align-self: center !important
                 flex-direction: column !important
                 gap: v.$elem-sa-size-m !important
@@ -53,9 +60,11 @@ aside, aside div, aside nav, aside a, aside img
         &:has(nav:hover)
             width: calc( v.$sidebar-size * 3 ) !important
 
-            nav 
+            nav
                 margin-left: 4px !important
                 
+            nav, nav > div
+
                 > a
                     width: 100% !important
                     font-weight: 700 !important
@@ -95,10 +104,17 @@ aside, aside div, aside nav, aside a, aside img
                 height: 30px !important
                 align-self: flex-start !important
 
-            > nav 
+            > nav:has( > div )
+                height: calc( 100% - ( 40px  *2 ) ) !important
+
+                > div
+                    overflow: auto !important
+                    scrollbar-width: none
+
+            > nav, > nav > div
                 align-self: center !important
                 flex-direction: column !important
-                gap: 13px !important
+                gap: v.$elem-sa-size-m !important
 
                 > a 
                     gap: 7.5px !important
@@ -115,21 +131,25 @@ aside, aside div, aside nav, aside a, aside img
                             width: 20px !important
 
                     > span
+                        white-space: nowrap !important
                         text-transform: uppercase !important
                         display: none !important
                         opacity: 0 !important
                         visibility: hidden !important
 
         &:active
-            width: 200px !important
+            width: calc( v.$sidebar-size * 3.3 ) !important
 
             nav 
                 margin-left: 4px !important
                 
+            nav, nav > div
+
                 > a
                     width: 100% !important
+                    font-weight: 700 !important
                     justify-content: flex-start !important
-                    padding-inline-end: 7.5px !important
+                    padding-inline-end: v.$elem-sa-size-s !important
                     transition: .33s !important
                     
                     > span

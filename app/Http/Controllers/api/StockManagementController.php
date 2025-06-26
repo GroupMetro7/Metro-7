@@ -14,10 +14,23 @@ class StockManagementController extends Controller
     /**
      * Display a listing of the inventory table.
      */
-    public function index()
+    public function index(Request $request)
     {
-      $products = StockManagement::paginate(10);
-      return response()->json($products);
+      $filter = $request->input('filterStock') ?? 'asc';
+      $products = StockManagement::orderBy('STOCK', $filter);
+
+      if($request->has('search') && trim($request->search)){
+        $search = trim($request->search);
+        // $search = preg_replace('/[^\w\s-]/u', '', $search);
+        $products->where(function($q) use ($search){
+          $q->where('COMPOSITE_NAME', 'LIKE', "%{$search}%")
+            ->orWhere('SKU_NUMBER', 'LIKE', "%{$search}%")
+            ->orWhere('STATUS', 'LIKE', "%{$search}%");
+        });
+      }
+
+      $stocks = $products->paginate(10);
+      return response()->json($stocks);
     }
 
         public function Ingredients()
@@ -34,11 +47,11 @@ class StockManagementController extends Controller
       $product = new StockManagement();
       $product->SKU_NUMBER = $this->generateSKUNumber();
       $product->COMPOSITE_NAME = $validated['COMPOSITE_NAME'];
-      $product->category_id = $validated['category_id'];
+      $product->category_id = $validated['category_id'] || 1;
+      $product->STOCK_VALUE = $validated['STOCK_VALUE'];
       $product->STOCK = $validated['STOCK'];
-      $product->COST_PER_UNIT = $validated['COST_PER_UNIT'];
+      $product->COST_PER_UNIT = $validated['STOCK_VALUE'] / $validated['STOCK'];
       $product->SOLD_BY = $validated['SOLD_BY'];
-      $product->STOCK_VALUE = $validated['STOCK'] * $validated['COST_PER_UNIT'];
       $product->save();
 
 

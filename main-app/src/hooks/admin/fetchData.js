@@ -6,10 +6,9 @@ export default function useFetchDashboardData() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [monthlyRevenue, setMonthlyRevenue] = useState([]);
-  const [expenses, setExpenses] = useState(0);
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
-  const [totalStockValue, setTotalStockValue] = useState(0);
   const [mostSoldProduct, setMostSoldProduct] = useState(null);
+  const [productRevenue, setProductRevenue] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,11 +19,23 @@ export default function useFetchDashboardData() {
       .get("/dashboard-data")
       .then((response) => {
         setMonthlyRevenue(response.data.monthly_revenue);
-        setExpenses(response.data.total_expense || 0);
         setMonthlyExpenses(response.data.monthly_expenses || []);
-        setTotalStockValue(response.data.total_stock_value || 0);
         setMostSoldProduct(response.data.most_sold_product || null);
         setLoading(false);
+        console.log('Product Revenue Data:', productRevenue);
+      })
+
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    axiosClient
+      .get("/sales-product-revenue")
+      .then((data) => {
+        setProductRevenue(data.data);
       })
       .catch((error) => {
         setError(error);
@@ -32,8 +43,7 @@ export default function useFetchDashboardData() {
       });
   }, []);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchOrder = (page) => {
       axiosClient.get(`/orders?page=${page}`).then(({ data }) => {
         setOrders(data.data);
@@ -44,19 +54,15 @@ export default function useFetchDashboardData() {
     fetchOrder(currentPage);
   }, [currentPage]);
 
-    return {
+  return {
     monthlyRevenue,
-    expenses,
     monthlyExpenses,
-    totalStockValue,
     mostSoldProduct,
     loading,
     error,
     orders,
     totalPages,
-    currentPage
+    currentPage,
+    productRevenue,
   };
 }
-
-
-

@@ -5,6 +5,7 @@ body.Menu-PAGE
     main
 
         > div
+            gap: v.$elem-sa-size-m !important
 
             .leftside
                 width: unset !important
@@ -35,10 +36,9 @@ body.Menu-PAGE
                             grid-template-columns: repeat(auto-fill, minmax(145.5px, 1fr)) !important
 
             .rightside
-                width: v.$checkoutsection-size !important
+                max-width: v.$checkoutsection-size !important
                 position: sticky !important
                 top: calc( v.$header-size + v.$elem-sa-size-s ) !important
-                right: 23px !important
                 max-height: calc( 100vh - v.$header-size - 13px - 13px ) !important
 
                 > .datetime
@@ -85,7 +85,7 @@ body.Menu-PAGE
                         height: 37px !important
 
 
-            .menu-notauth
+            .menu-oneside
 
                 > div.group
 
@@ -155,27 +155,78 @@ body.Menu-PAGE
 
 //             > div
 
-// @media only screen and (min-width: 767px) and (max-width: 1266px) 
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
 
-//     body.Menu-PAGE
+    body.Menu-PAGE
 
-//         main
+        main
 
-//             > div
-
-// @media only screen and (max-width: 766px) 
-
-//     body.Menu-PAGE
-
-//         main
-
-//             > div
+            > div
 
 
+        .modal
+
+            > .modal-dialog
+
+                > div.form
+
+                    > form
+
+                        > div.group.outputfetch:has( div )
+
+                            > div
+
+                                > label:nth-child(1)
+                                    flex-grow: 3 !important
+
+                                > label
+                                    flex-grow: 1 !important
+
+                        > div.group.outputfetch:nth-child(4)
+                            width: unset !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Menu-PAGE
+
+        main
+
+            > div
+
+                .menu-oneside
+
+                    > div.title:has( h1 ):has( .right )
+
+                        > .left
+                            width: unset !important
+
+                    > div.group
+
+                        > .opts
+                            width: 100% !important
+                            display: grid !important
+                            grid-template-columns: repeat(auto-fit, minmax( 114.3px, 1fr)) !important
+
+                            > .btnradio
+                                width: unset !important
+                                height: v.$elem-h-size-secondary !important
 
 
 
+        .modal
 
+            > .modal-dialog
 
+                > div.form
 
+                    > form
 
+                        > div.group.outputfetch:nth-child(4)
+                            width: unset !important
+
+                            > div.group
+                                height: unset !important
+                                gap: 23px !important
+
+                                > img
+                                    width: 100% !important

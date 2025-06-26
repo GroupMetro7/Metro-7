@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/services/Management.sass";
-import { Title, Body_addclass, SideBar, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination } from '../../exporter/component_exporter'
+import {
+  Title,
+  Body_addclass,
+  SideBar,
+  Group,
+  Main,
+  Box,
+  Inputbox,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Outputfetch,
+  SubmitButton,
+  Selectionbox,
+  InsertFileButton,
+  Pagination,
+} from "../../exporter/component_exporter";
 import useSearchItem from "../../hooks/searchItem";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
@@ -18,7 +35,7 @@ export default function StaffOrderList() {
     totalPages,
     handlePageChange,
     setSearchItem,
-    fetchOrder
+    fetchOrder,
   } = useFetchOrder();
 
   const { formData, setFormData, handleUpdateOrder, error, success } =
@@ -65,11 +82,6 @@ export default function StaffOrderList() {
               onChange={(e) => setSearchItem(e.target.value)}
               Type="search"
               Placeholder="Search Order number"
-            />
-            <Inputbox
-              Title="Filter"
-              Type="text"
-              Placeholder="Search by status"
             />
           </Box>
           <Box Title="ORDER" BoxCol>
@@ -224,7 +236,7 @@ export default function StaffOrderList() {
                     result in cancellation.
                   </p>
                   <InsertFileButton
-                    Title="ADD OCR PICTURE"
+                    Title="UPLOAD GCASH RECEIPT"
                     BtnWhite
                     Accept={"image/*"}
                     Name="image"
@@ -272,11 +284,11 @@ export default function StaffOrderList() {
                         console.log("Amount:", parsedAmount);
 
                         await worker.terminate();
-setFormData((prev) => ({
-  ...prev,
-  refNumber: referenceNumber,
-  downpayment: parsedAmount,
-}));
+                        setFormData((prev) => ({
+                          ...prev,
+                          refNumber: referenceNumber,
+                          downpayment: parsedAmount,
+                        }));
                       }
                     }}
                   />

@@ -15,13 +15,13 @@ export default function UseKpi() {
       setStockValue(data.totalStockValue);
       setMonthlyStockExpense(data.totalExpense);
     });
-  });
+  }, []);
 
   return (
     <>
       <KPI Title="TOTAL REVENUE" Integer={'₱' + monthlyRevenue + ' ' + '/Month'} />
-      <KPI Title="STOCK EXPENSES" Integer={'₱' + monthlyStockExpense + ' ' + '/Month'} />
-      <KPI Title="STOCK VALUE" Integer={'₱' + stockValue} />
+      <KPI Title="STOCK EXPENSES" Integer={'₱' + monthlyStockExpense.toFixed(2) + ' ' + '/Month'} />
+      <KPI Title="STOCK VALUE" Integer={'₱' + stockValue.toFixed(2) } />
       <KPI Title="TOTAL SOLD" Integer={totalOrders} />
     </>
   );
