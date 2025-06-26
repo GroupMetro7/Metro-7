@@ -134,7 +134,7 @@ export default function MenuManagementPage() {
               onPageChange={handlePageChange}
             />
           </Box>
-          {/* <Box
+          <Box
             Title="CATEGORIES"
             UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
             BoxCol
@@ -151,7 +151,7 @@ export default function MenuManagementPage() {
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </Box> */}
+          </Box>
         </Main>
       </Group>
       <Modal Modal="AddModal-Product">

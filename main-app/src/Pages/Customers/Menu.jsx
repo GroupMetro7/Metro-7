@@ -33,6 +33,7 @@ export default function MenuPage() {
     id: product.id,
     image: product.image_url,
     product_name: product.product_name,
+    quantity: order.find((item) => item.id === product.id)?.quantity || 0,
     price: product.price,
     is_available: product.is_available,
   }));
@@ -51,7 +52,7 @@ export default function MenuPage() {
 
   return (
     <>
-      {user && user.id ? 
+      {user && user.id ?
         screenwidth > 766 ?
         <Main Row>
           <Group Class="leftside" Col>
@@ -191,7 +192,7 @@ export default function MenuPage() {
             </Group>
           </Section>
         </Main>
-      : 
+      :
         <Main>
           <Section Title="Menu Order" Class="menu-oneside">
             <Group Col>
@@ -378,7 +379,7 @@ export default function MenuPage() {
                 </Group>
               </Group>
             </Group>
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title="CHECKOUT" BtnWhite />

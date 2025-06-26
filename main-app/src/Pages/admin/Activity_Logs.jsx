@@ -25,7 +25,7 @@ export default function CustomerManagementPage() {
     log.sku_number,
     log.type,
     log.quantity,
-    log.type === "out" ? `-₱${log.value}` : `+₱${log.value}`,
+    log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
     new Date(log.created_at).toLocaleDateString()
   ]);
 
@@ -59,8 +59,8 @@ export default function CustomerManagementPage() {
             <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
-          <Box Title="ACTIVITY LOGS" UpperRight={ 
-              <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV( tbhead, tbrows, "sales_data.csv" )}/> 
+          <Box Title="ACTIVITY LOGS" UpperRight={
+              <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV( tbhead, tbrows, "sales_data.csv" )}/>
             } BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrows} />
             <Pagination
