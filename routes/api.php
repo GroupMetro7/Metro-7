@@ -31,9 +31,9 @@ Route::middleware('auth:sanctum')->put('/user', [AuthController::class, 'updateU
 //Stock Management
 Route::get('/products', [StockManagementController::class, 'index']);
 Route::get('/ingredients', [StockManagementController::class, 'ingredients']);
-Route::post('/products', [StockManagementController::class, 'AddProduct']);
-Route::delete('/products/{id}', [StockManagementController::class, 'destroy']);
-Route::put('/products/{id}', [StockManagementController::class, 'update']);
+Route::middleware('auth:sanctum')->post('/products', [StockManagementController::class, 'AddProduct']);
+Route::middleware('auth:sanctum')->delete('/products/{id}', [StockManagementController::class, 'destroy']);
+Route::middleware('auth:sanctum')->put('/products/{id}', [StockManagementController::class, 'update']);
 
 
 //Employee Management

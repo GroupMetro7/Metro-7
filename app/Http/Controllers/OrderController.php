@@ -108,10 +108,12 @@ public function index(Request $request)
         $ingredient->save();
 
         StockLog::create([
+          'item_name' => $ingredient->COMPOSITE_NAME,
           'sku_number' => $ingredient->SKU_NUMBER,
           'quantity' => -$decrementAmount,
           'type' => 'out',
           'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
+          'user_name' => $user->firstname . ' ' . $user->lastname,
         ]);
       }
     }
@@ -210,10 +212,12 @@ public function index(Request $request)
           $ingredient->save();
 
           StockLog::create([
+            'item_name' => $ingredient->COMPOSITE_NAME,
             'sku_number' => $ingredient->SKU_NUMBER,
             'quantity' => -$decrementAmount,
             'type' => 'out',
             'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
+            'user_name' => $user->firstname . ' ' . $user->lastname . " (Online)",
           ]);
         }
               // notify the user about the order creation

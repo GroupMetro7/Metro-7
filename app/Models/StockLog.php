@@ -11,5 +11,8 @@ class StockLog extends Model
         'quantity',
         'type',
         'value',
+        'item_name',
+        'user_name',
+        'remarks'
     ];
 }
