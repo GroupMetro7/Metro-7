@@ -35,7 +35,7 @@ class StockManagementController extends Controller
 
         public function Ingredients()
     {
-      $products = StockManagement::paginate();
+      $products = StockManagement::all();
       return response()->json($products);
     }
 

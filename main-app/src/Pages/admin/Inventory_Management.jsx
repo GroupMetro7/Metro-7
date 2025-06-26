@@ -155,7 +155,8 @@ export default function Test() {
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
+                        <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
+                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
