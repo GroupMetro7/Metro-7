@@ -26,9 +26,13 @@ class Order extends Model
     'tickets' => 'array',
   ];
 
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class, 'order_id', 'id');
-    }
+  public function tickets()
+  {
+    return $this->hasMany(Ticket::class, 'order_id', 'id');
+  }
 }

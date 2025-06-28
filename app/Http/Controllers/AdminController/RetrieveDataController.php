@@ -63,7 +63,7 @@ public function salesProductRevenue()
 
   public function index(Request $request)
   {
-    $ordersQuery = Order::with('tickets')->where('status', 'completed');
+    $ordersQuery = Order::with('tickets', 'user')->where('status', 'completed')->orderBy('created_at', 'desc');
         if ($request->has('search') && trim($request->search)) {
       $search = trim($request->search);
       $ordersQuery->where(function ($q) use ($search) {

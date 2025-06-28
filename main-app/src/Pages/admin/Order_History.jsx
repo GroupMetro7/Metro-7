@@ -51,7 +51,9 @@ export default function StaffOrderList() {
     "OPTION",
     "STATUS",
     "DATE",
+    "USER'S NAME"
   ];
+
 
   const tbrowsOrders = orderHistory.map((order) => ({
     orderId: order.order_number,
@@ -61,6 +63,7 @@ export default function StaffOrderList() {
     option: order.option,
     status: order.status,
     date: new Date(order.created_at).toLocaleDateString(),
+    userName: order.user.firstname + " " + order.user.lastname,
     edit: () => {
       setSelectedOrder(order);
     },
