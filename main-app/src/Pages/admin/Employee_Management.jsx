@@ -27,7 +27,7 @@ export default function EmployeeManagementPage() {
     const tbrows = users.map((employee) => {
 
       const staffStatus = staff.find((s) => s.id === employee.id);
-      const status = staffStatus && staffStatus.timed_in ? "Online" : "Offline";
+      const attendanceStatus = staffStatus && staffStatus.timed_in ? "At Work" : "Not at Work";
 
       return {
         first: employee.firstname,
@@ -35,7 +35,7 @@ export default function EmployeeManagementPage() {
         third: employee.email,
         fourth: employee.contact,
         fifth: employee.role,
-        sixth: status,
+        sixth: attendanceStatus,
         edit: () => modifyEmployee(employee),
         delete: () =>
           removeEmployee(),

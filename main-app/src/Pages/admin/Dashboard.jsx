@@ -50,8 +50,10 @@ export default function DashboardPage() {
     "AMOUNT",
     "BALANCE",
     "DISCOUNT",
-    "OPTION",
+    "TIME",
     "STATUS",
+    "OPTION",
+    "DATE"
   ];
   const tbrows = orders.map((order) => ({
     order_number: order.order_number,
@@ -59,8 +61,10 @@ export default function DashboardPage() {
     amount: "₱" + order.amount,
     balance: "₱" + order.unpaid_balance,
     discount: "₱" + order.discount,
-    option: order.option,
+    time: new Date(order.created_at).toLocaleTimeString([], { timeStyle: "short" }),
     status: order.status,
+    option: order.option,
+    date: new Date(order.created_at).toLocaleDateString(),
     edit: () => {
       setSelectedOrder(order);
     },
@@ -92,7 +96,7 @@ export default function DashboardPage() {
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
                 <SalesReport />
               </Box>
-              <Box Title="Top Category" Class="topcategory" BoxCol>
+              <Box Title="Most Sold Products" Class="topcategory" BoxCol>
                 <TopCategory />
               </Box>
             </Group>

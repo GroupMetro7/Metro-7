@@ -98,7 +98,7 @@ export default function SalesPage() {
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
                 <SalesReport />
               </Box>
-              <Box Title="Top Category" Class="topcategory" BoxCol>
+              <Box Title="Most Sold Products" Class="topcategory" BoxCol>
                 <TopCategory />
               </Box>
             </Group>

@@ -26,7 +26,9 @@ class Order extends Model
     'tickets' => 'array',
   ];
 
-  public function tickets(){
-    return $this->hasMany(Ticket::class);
-  }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'order_id', 'id');
+    }
 }

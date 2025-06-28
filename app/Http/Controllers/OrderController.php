@@ -97,25 +97,6 @@ public function index(Request $request)
         'unit_price' => $ticketData['unit_price'],
         'total_price' => $ticketData['total_price'],
       ]);
-
-      $product = Product::with('ingredients')->find($ticketData['product_id']);
-
-      foreach ($product->ingredients as $ingredient) {
-        $decrementAmount = $ingredient->pivot->quantity * $ticketData['quantity'];
-        $ingredient->decrement('STOCK', $decrementAmount);
-
-        // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
-        $ingredient->save();
-
-        StockLog::create([
-          'item_name' => $ingredient->COMPOSITE_NAME,
-          'sku_number' => $ingredient->SKU_NUMBER,
-          'quantity' => -$decrementAmount,
-          'type' => 'out',
-          'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
-          'user_name' => $user->firstname . ' ' . $user->lastname,
-        ]);
-      }
     }
 
 
@@ -189,9 +170,6 @@ public function index(Request $request)
       ]);
       $order->load('tickets');
 
-
-
-      // Create the tickets associated with the order
       foreach ($validated['tickets'] as $ticketData) {
         Ticket::create([
           'order_id' => $order->id,
@@ -202,25 +180,6 @@ public function index(Request $request)
           'total_price' => $ticketData['total_price'],
         ]);
 
-        $product = Product::with('ingredients')->find($ticketData['product_id']);
-
-        foreach ($product->ingredients as $ingredient) {
-          $decrementAmount = $ingredient->pivot->quantity * $ticketData['quantity'];
-          $ingredient->decrement('STOCK', $decrementAmount);
-
-          // Calculate STOCK_VALUE if STOCK or COST_PER_UNIT is updated
-          $ingredient->save();
-
-          StockLog::create([
-            'item_name' => $ingredient->COMPOSITE_NAME,
-            'sku_number' => $ingredient->SKU_NUMBER,
-            'quantity' => -$decrementAmount,
-            'type' => 'out',
-            'value' => $ingredient->COST_PER_UNIT * $decrementAmount,
-            'user_name' => $user->firstname . ' ' . $user->lastname . " (Online)",
-          ]);
-        }
-              // notify the user about the order creation
       Mail::to($user->email)->send(new OrderNotification($user, $order));
       }
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
@@ -229,4 +188,6 @@ public function index(Request $request)
       return response()->json(['error' => $e->getMessage()], 500);
     }
   }
+
+
 }

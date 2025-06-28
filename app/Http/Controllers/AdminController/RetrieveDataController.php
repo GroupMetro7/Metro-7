@@ -70,7 +70,7 @@ public function salesProductRevenue()
         $q->where('order_number', 'like', "%{$search}%");
       });
     }
-    $completedOrders = (clone $ordersQuery)->paginate(5);
+    $completedOrders = (clone $ordersQuery)->paginate(15);
     $totalCompletedOrders = $completedOrders->total();
     $actualSales = $ordersQuery->sum('amount');
 

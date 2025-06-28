@@ -9,50 +9,60 @@ use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
-public function staffAttendanceStatus()
-{
+  public function staffAttendanceStatus()
+  {
     $users = User::where('role', 'employee')
-        ->with(['attendances' => function($q) {
-            $q->whereDate('time_in', now()->toDateString());
-        }])
-        ->get();
+      ->with(['attendances' => function ($q) {
+        $q->whereDate('time_in', now()->toDateString())
+          ->latest();
+      }])
+      ->get();
 
-    // Map users to include attendance status
-    $data = $users->map(function($user) {
-        $timedIn = $user->attendances->isNotEmpty() && $user->attendances->last()->time_out === null;
-        return [
-            'id' => $user->id,
-            'name' => $user->firstname . ' ' . $user->lastname,
-            'timed_in' => $timedIn,
-        ];
+    $data = $users->map(function ($user) {
+      $todayAttendance = $user->attendances->first();
+
+      // Check if user timed in today and hasn't timed out yet
+      $timedIn = $todayAttendance &&
+        $todayAttendance->time_in &&
+        $todayAttendance->time_out === null;
+
+      return [
+        'id' => $user->id,
+        'name' => $user->firstname . ' ' . $user->lastname,
+        'timed_in' => $timedIn,
+        'attendance_today' => $todayAttendance ? [
+          'time_in' => $todayAttendance->time_in,
+          'time_out' => $todayAttendance->time_out,
+        ] : null,
+      ];
     });
 
     return response()->json($data);
-}
+  }
 
-public function timeIn()
-{
+  public function timeIn()
+  {
     $user = Auth::user();
     if (!$user) {
-        return response()->json(['error' => 'Unauthorized'], 401);
+      return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     // Check if the user has already timed in today
     $alreadyTimedIn = Attendance::where('user_id', $user->id)
-        ->whereDate('time_in', now()->toDateString())
-        ->exists();
+      ->whereDate('time_in', now()->toDateString())
+      ->exists();
 
     if ($alreadyTimedIn) {
-        return response()->json(['error' => 'You have already timed in today.'], 409);
+      return response()->json(['error' => 'You have already timed in today.'], 409);
     }
 
     $attendance = Attendance::create([
-        'user_id' => $user->id,
-        'time_in' => now(),
+      'user_id' => $user->id,
+      'time_in' => now(),
     ]);
 
     return response()->json(['message' => 'Time in recorded', 'attendance' => $attendance]);
-}
+  }
   public function timeOut()
   {
     $user = Auth::user();
