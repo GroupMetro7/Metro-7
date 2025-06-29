@@ -8,7 +8,8 @@ export default function useModifyItem(fetchProducts) {
     STOCK: "",
     STOCK_VALUE: "",
     SOLD_BY: "",
-    COST_PER_UNIT: ""
+    COST_PER_UNIT: "",
+    remarks: "",
   });
   const [currentProductId, setCurrentProductId] = useState(null);
   const [error, setError] = useState(null);
@@ -41,6 +42,7 @@ export default function useModifyItem(fetchProducts) {
       STOCK_VALUE: "",
       SOLD_BY: "",
       COST_PER_UNIT: "",
+      remarks: "",
     });
       fetchProducts();
     }catch (error) {

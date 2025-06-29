@@ -39,6 +39,7 @@ export default function StaffOrderList() {
     totalPages,
     setCurrentPage,
     setSearchItem,
+    setFilterDate
   } = useOrderHistory();
 
   const { user } = useStateContext();
@@ -92,7 +93,12 @@ export default function StaffOrderList() {
               Title="Search"
               Type="search"
               onChange={(e) => setSearchItem(e.target.value)}
-              Placeholder={"Search by Order No."}
+              Placeholder={"Search by Order No. / user's name"}
+            />
+            <Inputbox
+              Title="Date"
+              Type="date"
+              onChange={(e) => setFilterDate(e.target.value)}
             />
           </Box>
           {user && user.role === "admin" && (

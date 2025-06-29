@@ -46,28 +46,38 @@ class RetrieveDataController extends Controller
     ]);
   }
 
-public function salesProductRevenue()
-{
+  public function salesProductRevenue()
+  {
     try {
-        $salesData = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
-            ->groupBy('product_id', 'product_name', 'month')
-            ->orderBy('total_product_sales', 'desc')
-            ->get();
+      $salesData = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
+        ->groupBy('product_id', 'product_name', 'month')
+        ->orderBy('total_product_sales', 'desc')
+        ->get();
 
-        return response()->json($salesData);
+      return response()->json($salesData);
     } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+      return response()->json(['error' => $e->getMessage()], 500);
     }
-}
+  }
 
 
   public function index(Request $request)
   {
     $ordersQuery = Order::with('tickets', 'user')->where('status', 'completed')->orderBy('created_at', 'desc');
-        if ($request->has('search') && trim($request->search)) {
+    if ($request->has('search') && trim($request->search)) {
       $search = trim($request->search);
       $ordersQuery->where(function ($q) use ($search) {
-        $q->where('order_number', 'like', "%{$search}%");
+        $q->where('order_number', 'like', "%{$search}%")
+          ->orWhereHas('user', function ($uq) use ($search) {
+            $uq->where('firstname', 'like', "%{$search}%")
+              ->orWhere('lastname', 'like', "%{$search}%");
+          });
+      });
+    }
+    if ($request->has('filterDate') && trim($request->filterDate)){
+      $filterDate = trim($request->filterDate);
+      $ordersQuery->where(function ($q) use ($filterDate) {
+        $q->whereDate('created_at', 'like', "%{$filterDate}%");
       });
     }
     $completedOrders = (clone $ordersQuery)->paginate(15);

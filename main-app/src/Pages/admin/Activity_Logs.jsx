@@ -19,7 +19,7 @@ export default function CustomerManagementPage() {
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
   //table
-  const tbhead = ["ITEM NAME", "sku_number", "ACTION", "quantity", "value", "date", "user's name"];
+  const tbhead = ["ITEM NAME", "sku_number", "ACTION", "quantity", "value", "date", "user's name", "remarks"];
     const tbrows = logs.map((log) => [
     log.item_name || "N/A",
     log.sku_number,
@@ -28,6 +28,7 @@ export default function CustomerManagementPage() {
     log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
     new Date(log.created_at).toLocaleDateString(),
     log.user_name || "N/A",
+    log.remarks || "N/A"
   ]);
 
     const exportTableAsCSV = (headers, data, filename = "table_data.csv") => {

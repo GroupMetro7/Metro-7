@@ -34,14 +34,7 @@ export default function Test() {
     } = useModifyItem(fetchProducts);
 
     const {
-        categoryName,
-        setCategoryName,
-        handleAddCategory,
-        AddCategorySuccess,
-        addCategoryError,
         editCategory,
-        deleteCategory,
-        handleUpdateCategory,
     } = useAddCategory(fetchCategories);
 
     const { categories } = useFetchOrder();
@@ -167,84 +160,13 @@ export default function Test() {
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
                         <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Remarks" Type="text" Name="remarks" Value={formData.remarks} InCol InWhite onChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
                         <SubmitButton Title="SUBMIT" BtnWhite />
                     </Group>
                 </Form>
-            </Modal>
-            <Modal Modal="AddModal-Category">
-            <Form Title="ADD CATEGORY" OnSubmit={handleAddCategory}>
-                {(addCategoryError && (
-                <Group Class="signalside">
-                    <p class="error">{addCategoryError}</p>
-                </Group>
-                )) ||
-                (AddCategorySuccess && (
-                    <Group Class="signalside">
-                    <p class="success">{AddCategorySuccess}</p>
-                    </Group>
-                ))}
-                <Group Class="inputside" Wrap>
-                <Inputbox
-                    Title="Category Name"
-                    Type="text"
-                    InCol
-                    InWhite
-                    Value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                />
-                </Group>
-                <Group Class="buttonside" Col>
-                <SubmitButton Title="SUBMIT" BtnWhite />
-                <Button Title="CANCEL" CloseModal BtnWhite />
-                </Group>
-            </Form>
-            </Modal>
-            <Modal Modal="EditModal-Category">
-            <Form Title="EDIT CATEGORY" OnSubmit={handleUpdateCategory}>
-                {(addCategoryError && (
-                <Group Class="signalside">
-                    <p class="error">{addCategoryError}</p>
-                </Group>
-                )) ||
-                (AddCategorySuccess && (
-                    <Group Class="signalside">
-                    <p class="success">{AddCategorySuccess}</p>
-                    </Group>
-                ))}
-                <Group Class="inputside" Wrap>
-                <Inputbox
-                    Title="Category Name"
-                    Type="text"
-                    InCol
-                    InWhite
-                    Value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                />
-                </Group>
-                <Group Class="buttonside" Col>
-                <SubmitButton Title="SUBMIT" BtnWhite />
-                <Button Title="CANCEL" CloseModal BtnWhite />
-                </Group>
-            </Form>
-            </Modal>
-            <Modal Modal="DeleteModal-Category">
-            <Form Title="DELETE CATEGORY" OnSubmit={deleteCategory}>
-                <Group Class="outputfetch" Wrap>
-                <Outputfetch
-                    Title="Category Name"
-                    Value={categoryName}
-                    OutCol
-                    OutWhite
-                />
-                </Group>
-                <Group Class="buttonside" Col>
-                <SubmitButton Title="SUBMIT" BtnWhite />
-                <Button Title="CANCEL" CloseModal BtnWhite />
-                </Group>
-            </Form>
             </Modal>
         </>
     );

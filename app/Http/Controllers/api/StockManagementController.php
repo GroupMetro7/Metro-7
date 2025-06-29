@@ -95,7 +95,8 @@ class StockManagementController extends Controller
       'category_id' => 'sometimes',
       'STOCK' => 'sometimes|required',
       'COST_PER_UNIT' => 'sometimes|required|numeric',
-      'SOLD_BY' => 'required'
+      'SOLD_BY' => 'required',
+      'remarks' => 'sometimes|string|max:255'
     ]);
 
     $product = StockManagement::findOrFail($id);
@@ -136,6 +137,7 @@ class StockManagementController extends Controller
         'type' => $stockChange > 0 ? 'in' : 'out',
         'value' => abs($stockChange) * $product->COST_PER_UNIT,
         'user_name' => $admin->firstname . ' ' . $admin->lastname,
+        'remarks' => $validated['remarks'] ?? null,
       ]);
     }
     return response()->json(['message' => 'Product updated successfully', 'product' => $product]);

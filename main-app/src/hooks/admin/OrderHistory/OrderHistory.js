@@ -6,16 +6,20 @@ export default function useOrderHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchItem, setSearchItem] = useState("");
+  const [filterDate, setFilterDate] = useState('');
 
   useEffect(() => {
-    fetchOrder(currentPage, searchItem);
-  }, [currentPage, searchItem]);
+    fetchOrder(currentPage, searchItem, filterDate);
+  }, [currentPage, searchItem, filterDate]);
 
 
-  const fetchOrder = (page, search) => {
+  const fetchOrder = (page, search, filterDate) => {
     let url = `/completed-order?page=${page}`;
     if (search) {
       url += `&search=${search}`;
+    }
+    if (filterDate) {
+      url += `&filterDate=${encodeURIComponent(filterDate)}`;
     }
     axiosClient.get(url).then(({ data }) => {
       setOrderHistory(data.completedOrders.data);
@@ -29,6 +33,7 @@ export default function useOrderHistory() {
     currentPage,
     totalPages,
     setCurrentPage,
-    setSearchItem
+    setSearchItem,
+    setFilterDate
   };
 }
