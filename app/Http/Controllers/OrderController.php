@@ -166,7 +166,6 @@ public function index(Request $request)
         'option' => $validated['option'],
         'discount' => $validated['discount'],
         'user_id' => $user->id,
-        // 'unpaid_balance' => $validated['amount'] - ($validated['downpayment'] ?? 0)
       ]);
       $order->load('tickets');
 

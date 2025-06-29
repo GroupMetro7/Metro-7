@@ -40,22 +40,35 @@ export default function StaffDashboard() {
   const [cashPayment, setCashPayment] = useState(0);
   const [onlinePayment, setOnlinePayment] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [mealStub, setMealStub] = useState("");
   const [loading, setLoading] = useState(false);
+  const [freeItemsRemaining, setFreeItemsRemaining] = useState(0);
+
+
 
   const orderlist = menuItems.map((product) => ({
     ...product,
   }));
 
-  const checkedorders = order.map((product) => ({
-    id: product.id,
-    product_name: product.product_name,
-    price: product.price,
-    quantity: product.quantity,
-  }));
+const checkedorders = order.map((product, index) => ({
+  id: product.id,
+  product_name: product.is_free_item
+    ? `${product.product_name} (FREE)`
+    : product.product_name,
+  price: product.price,
+  quantity: product.quantity,
+  is_free_item: product.is_free_item || false,
+  unique_key: `${product.id}_${product.is_free_item ? 'free' : 'paid'}_${index}` // For React keys
+}));
 
-  const addItemToOrder = (item) => {
-    const existingItem = order.find((orderItem) => orderItem.id === item.id);
-    let updatedOrder;
+const addItemToOrder = (item) => {
+  const existingItem = order.find((orderItem) => orderItem.id === item.id);
+  const existingFreeItem = order.find((orderItem) => orderItem.id === item.id && orderItem.is_free_item === true);
+  const existingPaidItem = order.find((orderItem) => orderItem.id === item.id && !orderItem.is_free_item);
+  let updatedOrder;
+
+  if (item.is_customizable === 1) {
+    // Handle customizable items (buckets)
     if (existingItem) {
       updatedOrder = order.map((orderItem) =>
         orderItem.id === item.id
@@ -65,9 +78,34 @@ export default function StaffDashboard() {
     } else {
       updatedOrder = [...order, { ...item, quantity: 1 }];
     }
-    setOrder(updatedOrder);
-    calculateTotalPrice(updatedOrder);
-  };
+  } else if (freeItemsRemaining > 0 && item.category_id === 3) {
+    // Add as free item
+    if (existingFreeItem) {
+      updatedOrder = order.map((orderItem) =>
+        orderItem.id === item.id && orderItem.is_free_item === true
+          ? { ...orderItem, quantity: orderItem.quantity + 1 }
+          : orderItem
+      );
+    } else {
+      updatedOrder = [...order, { ...item, quantity: 1, price: 0, is_free_item: true }];
+    }
+  } else {
+    // Add as paid item (regular price)
+    if (existingPaidItem) {
+      updatedOrder = order.map((orderItem) =>
+        orderItem.id === item.id && !orderItem.is_free_item
+          ? { ...orderItem, quantity: orderItem.quantity + 1 }
+          : orderItem
+      );
+    } else {
+      updatedOrder = [...order, { ...item, quantity: 1, is_free_item: false }];
+    }
+  }
+
+  setOrder(updatedOrder);
+  calculateTotalPrice(updatedOrder);
+  updateFreeItemsRemaining(updatedOrder);
+};
 
   const calculateTotalPrice = (updatedOrder) => {
     const total = updatedOrder.reduce(
@@ -77,19 +115,61 @@ export default function StaffDashboard() {
     setTotalPrice(total);
   };
 
-  const removeItemFromOrder = (itemId) => {
-    const updatedOrder = order
-      .map((orderItem) =>
-        orderItem.id === itemId && orderItem.quantity > 1
-          ? { ...orderItem, quantity: orderItem.quantity - 1 }
-          : orderItem.id === itemId
-          ? null
-          : orderItem
-      )
+const updateFreeItemsRemaining = (currentOrder) => {
+  // Count total customizable items and their quantities
+  const totalCustomizableItems = currentOrder
+    .filter(item => item.is_customizable === 1)
+    .reduce((total, item) => total + item.quantity, 0);
+
+  // Count used free items
+  const usedFreeItems = currentOrder
+    .filter(item => item.is_free_item === true)
+    .reduce((total, item) => total + item.quantity, 0);
+
+  // Calculate remaining free items (6 per customizable item)
+  const totalAllowedFreeItems = totalCustomizableItems * 6;
+  const remainingFreeItems = Math.max(0, totalAllowedFreeItems - usedFreeItems);
+
+  setFreeItemsRemaining(remainingFreeItems);
+};
+
+const removeItemFromOrder = (itemId, isFreeItem = null) => {
+  let updatedOrder;
+
+  if (isFreeItem !== null) {
+    // When called with specific free item status
+    updatedOrder = order
+      .map((orderItem) => {
+        if (orderItem.id === itemId && (orderItem.is_free_item || false) === isFreeItem) {
+          if (orderItem.quantity > 1) {
+            return { ...orderItem, quantity: orderItem.quantity - 1 };
+          } else {
+            return null; // Remove item completely
+          }
+        }
+        return orderItem;
+      })
       .filter((orderItem) => orderItem !== null);
-    setOrder(updatedOrder);
-    calculateTotalPrice(updatedOrder);
-  };
+  } else {
+    // When called with just itemId (backward compatibility)
+    updatedOrder = order
+      .map((orderItem) => {
+        if (orderItem.id === itemId) {
+          if (orderItem.quantity > 1) {
+            return { ...orderItem, quantity: orderItem.quantity - 1 };
+          } else {
+            return null; // Remove item completely
+          }
+        }
+        return orderItem;
+      })
+      .filter((orderItem) => orderItem !== null);
+  }
+
+  setOrder(updatedOrder);
+  calculateTotalPrice(updatedOrder);
+  updateFreeItemsRemaining(updatedOrder);
+};
 
   const submitOrder = async (e) => {
     e.preventDefault();
@@ -201,6 +281,11 @@ export default function StaffDashboard() {
             <hr />
             <Group Class="totalitem">
               <h3>TOTAL ITEM</h3>
+              {freeItemsRemaining > 0 && (
+                <p style={{ color: 'green', fontSize: '14px' }}>
+                  {freeItemsRemaining} free items remaining
+                </p>
+              )}
               <div className="itemlist">
                 <CheckedItem
                   List={checkedorders}
@@ -369,7 +454,7 @@ export default function StaffDashboard() {
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title="CHECKOUT" BtnWhite />
+            <SubmitButton Title="CHECKOUT" BtnWhite  disabled={loading}/>
           </Group>
         </Form>
       </Modal>

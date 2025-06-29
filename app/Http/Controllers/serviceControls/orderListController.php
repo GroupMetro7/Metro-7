@@ -71,7 +71,7 @@ private function processStockDeductionRaw($orderId, $tickets)
             $decrementAmount = $ingredient->pivot->quantity * $ticket->quantity;
 
             $ingredient->decrement('STOCK', $decrementAmount);
-            $ingredient->refresh();
+            $ingredient->save();
 
                 StockLog::create([
                     'item_name' => $ingredient->COMPOSITE_NAME ?? 'Unknown Item',

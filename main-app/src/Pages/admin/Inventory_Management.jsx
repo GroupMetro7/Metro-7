@@ -96,7 +96,6 @@ export default function Test() {
             delete: () => editCategory(category),
         }));
 
-    // const tbhead2 = ['ID', 'Category', 'Number of Products']
 
 
     return (
@@ -114,24 +113,6 @@ export default function Test() {
                         <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
-                    {/* <Box
-                    Title="CATEGORIES"
-                    UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
-                    BoxCol
-                    >
-                    <Table
-                        Title="Category"
-                        HeadRows={tbhead2}
-                        DataRows={tbrows2}
-                        EditBtn
-                        DeleteBtn
-                    />
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                    />
-                    </Box> */}
                 </Main>
             </Group>
             <Modal Modal="AddModal-Inventory">

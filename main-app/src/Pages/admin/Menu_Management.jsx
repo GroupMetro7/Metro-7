@@ -63,11 +63,11 @@ export default function MenuManagementPage() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
   const getCategoryName = (id) => {
     const cat = categories.find((c) => c.id === id);
     return cat ? cat.name : "Unknown";
   };
-
 
 
   // table headers and rows for displaying products
