@@ -53,7 +53,7 @@ export default function StaffDashboard() {
 const checkedorders = order.map((product, index) => ({
   id: product.id,
   product_name: product.is_free_item
-    ? `${product.product_name} (FREE)`
+    ? `${product.product_name}`
     : product.product_name,
   price: product.price,
   quantity: product.quantity,
