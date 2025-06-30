@@ -18,18 +18,24 @@ aside.sidebar
         flex-direction: column !important
         padding: 27.5px 13px !important
 
-        > img 
-            height: 30px !important
-            align-self: flex-start !important
+        > div:has( > img )
+            gap: v.$elem-sa-size-l !important
 
-        > nav:has( > div )
+            > img 
+                height: 30px !important
+                justify-self: flex-start !important
+
+            > h1
+                height: 30px !important
+                color: v.$color-secondary !important
+                display: none !important
+                opacity: 0 !important
+                visibility: hidden !important
+
+        > nav
             height: calc( 100% - ( 40px  * 2 ) ) !important
-
-            > div
-                overflow: auto !important
-                scrollbar-width: none
-
-        > nav, > nav > div
+            overflow: auto !important
+            scrollbar-width: none
             align-self: center !important
             flex-direction: column !important
             gap: v.$elem-sa-size-m !important
@@ -40,12 +46,11 @@ aside.sidebar
 
                 > div
                     background-color: v.$color-secondary !important
-                    width: 40px !important
                     padding: 10px !important
                     border-radius: 100% !important
 
                     > img 
-                        width: 20px !important
+                        width: calc( v.$sidebar-size / 3.75 ) !important
 
                 > span
                     white-space: nowrap !important
@@ -64,10 +69,15 @@ aside.sidebar
         &:has(nav:hover)
             width: calc( v.$sidebar-size * 3 ) !important
 
+            div:has( > img )
+
+                > h1
+                    display: flex !important
+                    opacity: 1 !important
+                    visibility: visible !important
+
             nav
-                margin-left: 4px !important
-                
-            nav, nav > div
+                margin-left: calc( v.$sidebar-size / 18.75 ) !important
 
                 > a
                     width: 100% !important

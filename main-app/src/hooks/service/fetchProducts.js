@@ -5,7 +5,7 @@ export default function useFetchProduct() {
   const [menuItems, setMenuItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(1);
   const [searchItem, setSearchItem] = useState("");
 
   useEffect(() => {
