@@ -16,7 +16,7 @@ class RetrieveDataController extends Controller
   public function AdminData()
   {
     // Use raw expressions and select only what you need
-    $monthlyExpenses = \DB::table('stock_logs')
+    $monthlyExpenses = StockLog::where('type', 'out')
       ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, SUM(value) as total")
       ->groupBy('month')
       ->orderBy('month', 'desc')
@@ -85,7 +85,7 @@ class RetrieveDataController extends Controller
     $actualSales = $ordersQuery->sum('amount');
 
     $totalStockValue = StockManagement::sum('STOCK_VALUE');
-    $totalExpense = StockLog::sum('value');
+    $totalExpense = StockLog::where('type', 'out')->sum('value');
     return response()->json([
       'completedOrders' => $completedOrders,
       'totalCompletedOrders' => $totalCompletedOrders,
