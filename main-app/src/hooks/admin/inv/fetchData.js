@@ -11,8 +11,8 @@ export default function useFetchData(){
 
   useEffect(() => {
   fetchProducts(currentPage, searchItem, filterStock);
-  console.log("test", filterStock)
 }, [currentPage, searchItem, filterStock]);
+
 
     const fetchProducts = (page, search, filterStock) => {
       let url = `/products?page=${page}`;

@@ -20,13 +20,13 @@ class AuthController extends Controller
 {
   public function index()
     {
-      $employees = User::where('role', 'employee')->paginate(2);
+      $employees = User::whereIn('role', ['employee', 'admin'])->paginate(10);
       return response()->json($employees);
     }
 
     public function index_customer()
     {
-      $employees = User::where('role', 'customer')->paginate(2);
+      $employees = User::where('role', 'customer')->paginate(10);
       return response()->json($employees);
     }
 

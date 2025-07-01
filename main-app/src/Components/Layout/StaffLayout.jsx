@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SideBar, Group } from '../../Exporter/component_exporter'
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 import { useStateContext } from '../../Contexts/ContextProvider';
 
@@ -46,7 +46,7 @@ export default function StaffLayout() {
 
     return (
         <Group>
-            <SideBar ServiceMode Logout={ onLogout }/>
+            <SideBar ServiceMode={user.firstname} Logout={ onLogout }/>
             <Outlet />
         </Group>
     );

@@ -69,8 +69,8 @@ export default function StaffProfile() {
                     <Box Class="attendance" BoxCol>
                         <Group Class="datetime" Col><h3><DateText /><br /><TimeText /></h3><hr /></Group>
                         <Group Class="timeintimeout">
-                            <Button Title="TIME-IN" />
-                            <Button Title="TIME-OUT" />
+                            <Button Title="TIME-IN" Onclick={handleTimeInClick}/>
+                            <Button Title="TIME-OUT" Onclick={handleTimeOutClick}/>
                         </Group>
                         <hr />
                         <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FManila&showPrint=0&src=NWE4Zjg5NmM2MTIyYTAyYjhmODNmNThjMWQ4ZTc4YzE1NjY1ODNlNDc4NWVjYzFiMWE0YTlhYzQyOTA2NWY2NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4ucGhpbGlwcGluZXMjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23AD1457&color=%230B8043" ></iframe>

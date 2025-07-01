@@ -28,8 +28,11 @@ body.Menu-PAGE
                             grid-template-columns: repeat(auto-fit, minmax( 200px, 1fr)) !important
 
                             > label
-                                width: unset !important
                                 height: v.$elem-h-size-secondary !important
+
+                                &:nth-child(1)
+                                    display: flex !important
+                                    width: 100% !important
 
                         > .items
                             display: grid !important
@@ -101,6 +104,9 @@ body.Menu-PAGE
                         > label
                             width: unset !important
                             height: v.$elem-h-size-secondary !important
+
+                            &:nth-child(1)
+                                grid-column: 1 / -1 !important
 
                     > .items
                         display: grid !important
@@ -211,7 +217,9 @@ body.Menu-PAGE
                                 width: unset !important
                                 height: v.$elem-h-size-secondary !important
 
-
+                        > .filter
+                            display: grid !important
+                            grid-template-columns: repeat(auto-fit, minmax( 197px, 1fr)) !important
 
         .modal
 

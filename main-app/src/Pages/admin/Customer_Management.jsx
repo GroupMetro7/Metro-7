@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import '../../assets/css/pages/admin/Management.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
-import { editCustomer, fetchAllUsers, modify } from '../../Functions/CustomersFunctions'
 import useModifyCustomer from '../../hooks/admin/customer_management/modifyCustomer';
+import axiosClient from '../../axiosClient';
 
 export default function CustomerManagementPage() {
     // this file is subject for optimization
@@ -13,6 +13,18 @@ export default function CustomerManagementPage() {
     const [totalPages, setTotalPages] = useState(1);
     const { modifyCust, formData, updateCustomer, handleInputChange, error, success} = useModifyCustomer();
 
+    const fetchCustomers = async (page) => {
+      axiosClient.get(`/customers?page=${page}`).then(({data}) => {
+        setUsers(data.data);
+        setCurrentPage(data.current_page);
+        setTotalPages(data.last_page);
+      })
+    }
+
+    useEffect(()=> {
+      fetchCustomers(currentPage);
+    }, [currentPage]);
+
     //table
     const tbhead = [
         "FULL NAME",
@@ -21,8 +33,7 @@ export default function CustomerManagementPage() {
         "LOYALTY",
         "ROLE",
     ];
-    const tbrows = users
-        .map((customer) => ({
+    const tbrows = users.map((customer) => ({
             fullname: `${customer.firstname} ${customer.lastname}`,
             email: customer.email,
             phone: customer.contact,
@@ -32,10 +43,6 @@ export default function CustomerManagementPage() {
             delete: () => removeCustomer(),
         }));
 
-    // fetch Employee table
-    useEffect(() => {
-        fetchAllUsers(setUsers, setCurrentPage, setTotalPages, currentPage);
-    }, [currentPage]);
 
     // handle page change
     const handlePageChange = (page) => {

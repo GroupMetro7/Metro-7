@@ -24,11 +24,14 @@ body.Dashboard-Service-PAGE
 
                     > .filter
                         display: grid !important
-                        grid-template-columns: repeat(auto-fit, minmax( 190px, 1fr)) !important
+                        grid-template-columns: repeat(auto-fit, minmax( 200px, 1fr)) !important
 
                         > label
                             width: unset !important
                             height: v.$elem-h-size-secondary !important
+
+                            &:nth-child(1)
+                                grid-column: 1 / -1 !important
 
                     > .items
                         display: grid !important

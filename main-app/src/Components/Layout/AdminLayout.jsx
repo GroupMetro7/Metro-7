@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
-import { Group, Href, SideBar } from '../../exporter/component_exporter';
+import { Group, SideBar } from '../../exporter/component_exporter';
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
@@ -45,7 +45,7 @@ export default function AdminLayout() {
 
     return (
         <Group>
-            <SideBar AdminMode Logout={onLogout}/>
+            <SideBar AdminMode={user.firstname} Logout={onLogout}/>
             <Outlet />
         </Group>
     );

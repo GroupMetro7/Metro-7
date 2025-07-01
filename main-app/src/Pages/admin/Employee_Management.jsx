@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from "../../exporter/component_exporter";
-import { fetchAllEmployees } from "../../Functions/EmployeeFunctions";
 import useAttendanceStatusAdmin from "../../hooks/admin/employee/attendanceStatus";
 import useModifyEmployee from "../../hooks/admin/employee/modifyEmployee";
+import axiosClient from "../../axiosClient";
 
 export default function EmployeeManagementPage() {
   // this file is subject for optimization
@@ -14,6 +14,18 @@ export default function EmployeeManagementPage() {
     const [totalPages, setTotalPages] = useState(1);
     const { modifyEmployee, formData, handleInputChange, updateEmployee, error, success } = useModifyEmployee();
     const { staff } = useAttendanceStatusAdmin();
+
+    const fetchEmployees = async (page) => {
+      axiosClient.get(`/employees?page=${page}`).then(({data}) => {
+        setUsers(data.data);
+        setCurrentPage(data.current_page);
+        setTotalPages(data.last_page);
+      })
+    }
+
+    useEffect(()=> {
+      fetchEmployees(currentPage);
+    }, [currentPage]);
 
     //table
     const tbhead = [
@@ -42,10 +54,6 @@ export default function EmployeeManagementPage() {
       };
     });
 
-    // fetch Employee table
-    useEffect(() => {
-        fetchAllEmployees(setUsers, setCurrentPage, setTotalPages, currentPage);
-    }, [currentPage]);
 
     // handle page change
     const handlePageChange = (page) => {
