@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\serviceControls\orderListController;
+use App\Http\Controllers\serviceControls\perfomanceStats;
 use App\Http\Controllers\serviceControls\serviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +70,7 @@ Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 // service controls
 Route::get('/menuData', [serviceController::class, 'index']);
 Route::middleware('auth:sanctum')->put('/orderList/{id}', [orderListController::class, 'update']);
+Route::middleware('auth:sanctum')->get('/weekly-orders', [perfomanceStats::class, 'getPerformanceStats']);
 
 //reservation
 Route::middleware('auth:sanctum')->post('/createReservation', [ReservationController::class, 'create']);

@@ -63,10 +63,6 @@ export default function StaffOrderList() {
     },
   }));
 
-  // const handlePageChange = (page) => {
-  //     setCurrentPage(page);
-  // };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

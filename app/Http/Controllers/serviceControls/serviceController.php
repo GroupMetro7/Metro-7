@@ -38,8 +38,6 @@ class serviceController extends Controller
     foreach ($menuData as $product) {
         $product->image_url = $product->image ? asset('storage/' . $product->image) : null;
     }
-
-
     return response()->json($menuData);
 }
 }
