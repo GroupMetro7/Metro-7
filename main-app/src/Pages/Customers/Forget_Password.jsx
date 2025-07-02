@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import '../assets/css/pages/Login.sass'
-import { useStateContext } from '../Contexts/ContextProvider';
-import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/component_exporter'
+import "../../assets/css/pages/customers/Forgot_Password.sass"
+import { useStateContext } from '../../Contexts/ContextProvider';
+import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../../Exporter/component_exporter'
 import { useNavigate } from 'react-router-dom';
-import axiosClient from '../axiosClient';
+import axiosClient from '../../axiosClient';
 
-export default function LoginPage() {
+export default function ForgetPasswordPage() {
     const { user, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -50,30 +50,30 @@ export default function LoginPage() {
         }
     };
 
-    Title('Metro 7 | Login')
-    Body_addclass('Login-PAGE')
+    
+    Title('Metro 7 | Forget Password')
+    Body_addclass('FPass-PAGE')
     const screenwidth = ScreenWidth()
 
     const Inputboxes = [
         { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
-        { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
     ]
 
     return(
         <>
         <Main>
-            <Section Class='login'>
-                <Form Title='LOGIN' OnSubmit={handleSubmit}>
-                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
+            <Section Class='fpass'>
+                <Form Title='LOST PASSWORD' OnSubmit={""}>
+                    <Group Class="infoside" Col>
+                        <h5>Please enter your email to search for your account.</h5>
+                    </Group>
                     <Group Class='inputside' Col>
                         { Inputboxes.map((input, index) => (
                             <Inputbox key={index} Title={input.Title} ID={input.ID} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
                         )) }
                     </Group>
                     <Group Class='buttonside' Col>
-                        <SubmitButton Title='LOGIN' BtnWhite />
-                        <Button Title="REGISTER" Redirect="/register" BtnWhite />
-                        <Href Title='FORGOT PASSWORD?' Redirect='/forget_password' HrefWhite />
+                        <SubmitButton Title='SUBMIT' BtnWhite />
                     </Group>
                 </Form>
             </Section>

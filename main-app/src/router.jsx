@@ -2,12 +2,12 @@ import { createBrowserRouter } from 'react-router-dom'
 import GuestLayout from './components/Layout/GuestLayout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Customers/Register'
-// import LocationPage from './pages/Customers/Location'
+import ForgetPasswordPage from './pages/Customers/Forget_Password'
+import ChangePasswordPage from './pages/Customers/Change_Password'
 import ProfilePage from './pages/Customers/Profile'
 import DashboardPage from './pages/admin/Dashboard'
 import LandingPage from './pages/Landing'
 import AdminLayout from './components/Layout/AdminLayout'
-import Inventory from './pages/admin/testInventory'
 import ReservationPage from './pages/Customers/Reservation'
 import EmployeeManagementPage from './pages/admin/Employee_Management'
 import StaffDashboard from './pages/services/Dashboard'
@@ -61,6 +61,14 @@ const router = createBrowserRouter([
 			{
 				path: 'register',
 				element: <RegisterPage />
+			},
+			{
+				path: 'forget_password',
+				element: <ForgetPasswordPage />
+			},
+			{
+				path: 'change_password',
+				element: <ChangePasswordPage />
 			},
 		]
 	},

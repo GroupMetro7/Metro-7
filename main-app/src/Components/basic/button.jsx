@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../assets/css/components/button.sass'
 
-export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, OpenModal, CloseModal, BtnWhite, Onclick, Disabled }) {
+export default function Button({ Class, Title, Icon, Key, Redirect, Navigate, Pagination, OpenModal, CloseModal, BtnWhite, Onclick, Disabled }) {
     const navigate = useNavigate();
 
     return(
@@ -10,6 +10,7 @@ export default function Button({ Class, Title, Icon, Key, Redirect, Pagination, 
             onClick={(e) => {
             Onclick && Onclick(e) ||
             Redirect && navigate(`${Redirect}`) ||
+            Navigate && (window.location.href = `${Navigate}`) ||
             Pagination && handlePageChange(Pagination)
             }}
             disabled = {Disabled}
