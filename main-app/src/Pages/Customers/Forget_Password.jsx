@@ -37,6 +37,7 @@ const handleSubmit = async (e) => {
         setError(
             err.response?.data?.message || err.response?.data?.email || "Failed to send reset link, please try again."
         );
+        console.error("Error sending reset link:", err);
     }
 };
 

@@ -1,12 +1,12 @@
 from flask import Flask, request, make_response, jsonify
-# from flask_cors import CORS
+from flask_cors import CORS
 from functools import wraps
 from df_preprocess import DF_Preprocess
 from forecasts import Forecasts
 import pandas as pd
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
 def crossdomain(origin='*', methods=None, headers=None):
     def decorator(f):

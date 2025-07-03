@@ -11,6 +11,7 @@ import {
   Button,
 } from "../../exporter/component_exporter";
 import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI";
+import axiosClient from "../../axiosClient";
 
 export default function StaffOrderList() {
   Title("Demand Forecast");
@@ -70,7 +71,8 @@ export default function StaffOrderList() {
         },
         body: JSON.stringify(data),
       });
-      window.location.reload();
+      const result = await response.json();
+      console.log("Server response:", result);
     } catch (error) {
       console.error("Error sending data to forecast model:", error);
       return null;

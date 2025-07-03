@@ -48,6 +48,7 @@ export default function ChangePasswordPage() {
       setError(
         err.response?.data?.message || "Reset failed, please try again."
       );
+      console.error("Error resetting password:", err)
     } finally {
       setIsLoading(false);
     }
