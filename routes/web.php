@@ -9,3 +9,8 @@ use App\Http\Controllers\api\AuthController;
 Route::get('/authverify-email/{verification_code}', [AuthController::class, 'verify_email'])
     ->name('verify_email');
 
+Route::get('/change_password/{token}', function ($token) {
+    $email = request()->query('email');
+    return redirect("http://localhost:8888/change_password/{$token}?email={$email}");
+})->name('password.reset');
+

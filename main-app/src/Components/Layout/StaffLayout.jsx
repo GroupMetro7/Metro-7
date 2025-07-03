@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SideBar, Group } from '../../Exporter/component_exporter'
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 import { useStateContext } from '../../Contexts/ContextProvider';
 

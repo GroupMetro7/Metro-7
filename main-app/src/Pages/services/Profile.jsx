@@ -167,11 +167,10 @@ export default function StaffProfile() {
                   <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
                 </Group>
                 <hr />
-                <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FManila&showPrint=0&src=NWE4Zjg5NmM2MTIyYTAyYjhmODNmNThjMWQ4ZTc4YzE1NjY1ODNlNDc4NWVjYzFiMWE0YTlhYzQyOTA2NWY2NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4ucGhpbGlwcGluZXMjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23AD1457&color=%230B8043"></iframe>
-              </Box>
-              <Box Title="Statistics" Class="statistic" BoxCol>
-                <img src="" />
-              </Box>
+                <AttendanceChart />              </Box>
+                <Box Title="Statistics" Class="statistic" BoxCol>
+                    <ServiceBarChart />
+                </Box>
             </Section>
           </Main>
         )}

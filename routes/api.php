@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController\RetrieveDataController;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\ForgotPassword;
+use App\Http\Controllers\api\ResetPassword;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryController;
@@ -28,6 +30,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->put('/user', [AuthController::class, 'updateUser']);
+Route::post('/forgot-password', [ForgotPassword::class, 'sendResetLinkEmail']);
+Route::post('/reset-password', [ResetPassword::class, 'reset']);
 
 //Stock Management
 Route::get('/products', [StockManagementController::class, 'index']);

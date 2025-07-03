@@ -9,6 +9,7 @@ export default function ForgetPasswordPage() {
     const { user, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [success, setSuccess] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -24,33 +25,22 @@ export default function ForgetPasswordPage() {
           });
   }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
-        try {
-            const response = await axiosClient.post("/login", {
-                email,
-                password,
-            });
+    try {
+        const response = await axiosClient.post("/forgot-password", {email});
+        setSuccess("Password reset link sent to your email!");
+    } catch (err) {
+        setError(
+            err.response?.data?.message || err.response?.data?.email || "Failed to send reset link, please try again."
+        );
+    }
+};
 
-            setUser(response.data.user);
-            setToken(response.data.token);
-            if (user.role === "customer") {
-                navigate("/");
-            }
-            else if (user.role === "employee") {
-                navigate("/service");
-            } else if (user.role === "admin") {
-                navigate("/admin");
-            }
-        } catch (err) {
-            setError(
-                err.response.data.message || "Login failed, please try again."
-            );
-        }
-    };
 
-    
     Title('Metro 7 | Forget Password')
     Body_addclass('FPass-PAGE')
     const screenwidth = ScreenWidth()
@@ -63,8 +53,10 @@ export default function ForgetPasswordPage() {
         <>
         <Main>
             <Section Class='fpass'>
-                <Form Title='LOST PASSWORD' OnSubmit={""}>
+                <Form Title='LOST PASSWORD' OnSubmit={handleSubmit}>
                     <Group Class="infoside" Col>
+                      {success && <p className="success">{success}</p>}
+                      { error && <p className="error" >{error}</p> }
                         <h5>Please enter your email to search for your account.</h5>
                     </Group>
                     <Group Class='inputside' Col>

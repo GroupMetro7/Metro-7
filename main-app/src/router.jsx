@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     path: '*',
     element: <NotFound />
   },
-  
+
   //tesing
 
   {
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
 				element: <ForgetPasswordPage />
 			},
 			{
-				path: 'change_password',
+				path: 'change_password/:token',
 				element: <ChangePasswordPage />
 			},
 		]
