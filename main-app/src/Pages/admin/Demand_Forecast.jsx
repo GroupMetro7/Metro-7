@@ -23,7 +23,7 @@ export default function StaffOrderList() {
 
   // Example useEffect for fetching data (uncomment and adjust as needed)
   useEffect(() => {
-    fetch("http://localhost:8080/")
+    fetch("https://forecast.metro7-test.shop/")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -64,15 +64,16 @@ export default function StaffOrderList() {
 
   const sendDataToForecastModel = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/send-data", {
+      const response = await fetch("https://forecast.metro7-test.shop/send-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
-      const result = await response.json();
-      console.log("Server response:", result);
+      }
+
+    );
+      window.location.reload();
     } catch (error) {
       console.error("Error sending data to forecast model:", error);
       return null;
