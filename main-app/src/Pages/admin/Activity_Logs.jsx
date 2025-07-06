@@ -11,11 +11,14 @@ import {
   Pagination,
 } from "../../exporter/component_exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
+import useExportCSV from "../../hooks/uni/fileExporter";
 
 export default function CustomerManagementPage() {
   // this file is subject for optimization
   Title("Employee Management");
   Body_addclass("Management-PAGE");
+
+  const { exportCSV, exportedData } = useExportCSV();
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
   //table
@@ -31,16 +34,16 @@ export default function CustomerManagementPage() {
     log.remarks || "N/A"
   ]);
 
-    const exportTableAsCSV = (headers, data, filename = "table_data.csv") => {
-      const csvRows = [];
-      csvRows.push(headers.join(","));
-      data.forEach((row) => {
-        csvRows.push(row.join(","));
-      });
-      const csvString = csvRows.join("\n");
-      const blob = new Blob([csvString], { type: "text/csv" });
-      saveAs(blob, filename);
-    };
+  const exportAsFile = exportedData.map((ex) => [
+    ex.item_name || "N/A",
+    ex.sku_number,
+    ex.type,
+    ex.quantity,
+    ex.type,
+    new Date(ex.created_at).toLocaleDateString(),
+    ex.user_name || "N/A",
+    ex.remarks || "N/A"
+  ]);
 
   return (
     <>
@@ -51,7 +54,7 @@ export default function CustomerManagementPage() {
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
           <Box Title="ACTIVITY LOGS" UpperRight={
-              <Button Title="EXPORT AS FILE" Onclick={() => exportTableAsCSV( tbhead, tbrows, "sales_data.csv" )}/>
+              <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbhead, exportAsFile, "activity_logs.csv")}/>
             } BoxCol>
             <Table HeadRows={tbhead} DataRows={tbrows} />
             <Pagination

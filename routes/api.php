@@ -7,6 +7,7 @@ use App\Http\Controllers\api\ResetPassword;
 use App\Http\Controllers\api\StockManagementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\export\ExportCSV;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
@@ -96,3 +97,7 @@ Route::get('/stock-logs', [RetrieveDataController::class, 'getStockLogs']);
 
 // AI
 Route::get('/FetchAIData', [RetrieveDataController::class, 'getTicketsData']);
+
+
+//export files
+Route::get('/export-logs', [ExportCSV::class, 'exportCSV']);
