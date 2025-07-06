@@ -3,7 +3,8 @@ import axiosClient from "../../axiosClient";
 import { saveAs } from "file-saver";
 
 export default function useExportCSV() {
-    const [ exportedData, setExportedDate] = useState([]);
+    const [ exportedStocklogs, setExportedStocklogs] = useState([]);
+    const [ exportedInventory, setExportedInventory] = useState([]);
 
     useEffect(() => {
   fetchExportedData();
@@ -12,7 +13,8 @@ export default function useExportCSV() {
     const fetchExportedData = async () => {
       try {
         const response = await axiosClient.get("/export-logs");
-        setExportedDate(response.data);
+        setExportedStocklogs(response.data.activityLogs);
+        setExportedInventory(response.data.inventory);
       } catch (error) {
         console.error("Error fetching exported data:", error);
       }
@@ -37,6 +39,7 @@ const exportCSV = (headers, data, filename = "table_data.csv") => {
 
 return {
   exportCSV,
-  exportedData
+  exportedStocklogs,
+  exportedInventory
 }
 }

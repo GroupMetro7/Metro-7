@@ -18,7 +18,7 @@ export default function CustomerManagementPage() {
   Title("Employee Management");
   Body_addclass("Management-PAGE");
 
-  const { exportCSV, exportedData } = useExportCSV();
+  const { exportCSV, exportedStocklogs } = useExportCSV();
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
   //table
@@ -34,7 +34,7 @@ export default function CustomerManagementPage() {
     log.remarks || "N/A"
   ]);
 
-  const exportAsFile = exportedData.map((ex) => [
+  const exportAsFile = exportedStocklogs.map((ex) => [
     ex.item_name || "N/A",
     ex.sku_number,
     ex.type,

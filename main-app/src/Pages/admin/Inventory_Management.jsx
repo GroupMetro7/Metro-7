@@ -5,6 +5,7 @@ import useAddCategory from "../../hooks/add";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
 import UseKpi from '../../hooks/uni/Kpi';
+import useExportCSV from '../../hooks/uni/fileExporter';
 
 export default function Test() {
     // this file is subject for optimization
@@ -38,6 +39,10 @@ export default function Test() {
     } = useAddCategory(fetchCategories);
 
     const { categories } = useFetchOrder();
+
+    const { exportedInventory, exportCSV } = useExportCSV();
+
+
     const getCategoryName = (id) => {
         const cat = categories.find((c) => c.id === id);
         return cat ? cat.name : "Unknown";
@@ -79,15 +84,23 @@ export default function Test() {
             deleteItem(product.id),
     }));
 
-      const tbhead2 = ["ID", "Category", "Number of Products"];
+    const exportedAsFileHeader = [
+        "SKU_NUMBER",
+        "ITEM_NAME",
+        "SOLD_BY",
+        "STOCK",
+        "COST_PER_UNIT",
+        "STOCK_VALUE",
+    ];
 
-        const tbrows2 = categories.map((category) => ({
-            id: category.id,
-            name: category.name,
-            products_count: category.products_count ?? 0,
-            edit: () => editCategory(category),
-            delete: () => editCategory(category),
-        }));
+    const exportAsFile = exportedInventory.map((ex) => [
+        ex.SKU_NUMBER,
+        ex.COMPOSITE_NAME,
+        ex.SOLD_BY,
+        ex.STOCK,
+        ex.COST_PER_UNIT.toFixed(2),
+        ex.STOCK_VALUE.toFixed(2),
+    ]);
 
 
 
@@ -102,7 +115,13 @@ export default function Test() {
                 <Group Class="kpis">
                   <UseKpi />
                 </Group>
-                    <Box Title="INVENTORY" UpperRight={<Button Title="+" OpenModal="AddModal-Inventory" />} BoxCol >
+                    <Box Title="INVENTORY" UpperRight={
+                        <>
+                            <Button Title="+" OpenModal="AddModal-Inventory" />
+                            <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(exportedAsFileHeader, exportAsFile, "inventory.csv")} />
+                        </>
+                    } BoxCol >
+
                         <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
