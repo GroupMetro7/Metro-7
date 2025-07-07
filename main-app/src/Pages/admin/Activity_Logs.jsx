@@ -39,7 +39,7 @@ export default function CustomerManagementPage() {
     ex.sku_number,
     ex.type,
     ex.quantity,
-    ex.type,
+    ex.value,
     new Date(ex.created_at).toLocaleDateString(),
     ex.user_name || "N/A",
     ex.remarks || "N/A"
