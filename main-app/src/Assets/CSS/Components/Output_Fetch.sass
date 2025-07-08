@@ -1,0 +1,24 @@
+@use '../constant.sass' as v
+
+label.outputfetch
+    width: v.$elem-w-size-primary
+    align-items: center !important
+    gap: v.$elem-sa-size-m !important
+
+    > h4 
+        font-style: italic !important
+        font-weight: 400 !important
+        
+    &.outcol
+        flex-direction: column !important
+        align-items: stretch !important
+        gap: v.$elem-sa-size-xs !important
+
+        > h3
+            height: v.$elem-h-size-secondary !important
+            align-items: center !important
+
+    &.outwhite
+
+        > h4, > h3
+            color: v.$input-white !important

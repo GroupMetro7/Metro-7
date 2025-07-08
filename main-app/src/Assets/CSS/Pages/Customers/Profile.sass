@@ -1,0 +1,155 @@
+@use '../../constant.sass' as v
+
+body.Profile-Customer-PAGE
+
+    main
+
+        > div
+
+            .myprofile
+
+                > div.box
+
+                    &.profile
+                        align-items: center !important
+
+                        > img
+                            background-color: white !important
+                            aspect-ratio: 1 !important
+                            border-radius: 100% !important
+
+                        > article
+                            flex-direction: column !important
+                            gap: 3px !important
+
+                            > h2
+                                text-transform: capitalize !important
+                                
+                        > button
+                            width: unset !important
+                            padding: 0px 23px !important
+
+@media only screen and (min-width: 1267px) 
+
+    body.Profile-Customer-PAGE
+
+        main
+
+            > div
+
+                .myprofile
+
+                    > div.box
+                        max-width: 1000px !important
+
+                        &.profile
+                            gap: 33px !important
+
+                            > img
+                                width: 125px !important
+
+                            > article
+                                flex-grow: 1 !important
+                        
+                        &.orderhistory
+
+                            > .tb
+
+                                > .tdr 
+
+                                    > div 
+
+                                        > .td
+
+                                            &.status 
+                                                height: 37px !important
+                                                align-items: center !important
+                                                border-radius: 5px !important
+
+                                                &.pending 
+                                                    background-color: #b43434
+                                                    color: v.$color-white !important
+
+                                                &.paid 
+                                                    background-color: #5fb91a
+                                                    color: v.$color-white !important
+                
+            .modal
+
+                > .modal-dialog
+
+                    > div.form
+                        gap: 23px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Profile-Customer-PAGE
+
+        main
+
+            > div
+
+                .myprofile
+
+                    > div.box
+                        max-width: 1000px !important
+
+                        &.profile
+                            gap: 33px !important
+
+                            > img
+                                width: 125px !important
+
+                            > article
+                                flex-grow: 1 !important
+
+            .modal
+
+                > .modal-dialog
+
+                    > div.form
+                        gap: 23px !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Profile-Customer-PAGE
+
+        main
+
+            > div
+
+                .myprofile
+
+                    > div.box
+                        width: 100% !important
+
+                        &.profile
+                            gap: 13px !important
+                            justify-content: space-between !important
+
+                            > img
+                                width: 78px !important
+
+                            > article
+                                width: 100% !important
+
+        .modal
+
+            > .modal-dialog
+
+                > div.form
+                    gap: 13px !important
+
+                    > form
+                        width: 100% !important
+
+                        > .imageside
+                            width: 100% !important
+                            justify-content: space-between !important
+                            gap: unset !important
+
+                        > .inputside
+                            flex-direction: column !important
+                            gap: 7.5px !important
+
+

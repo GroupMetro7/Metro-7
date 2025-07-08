@@ -1,0 +1,62 @@
+@use '../constant.sass' as v
+
+body.Login-PAGE
+    background-image: url('/Background-Image/BG2.svg') !important
+    background-size: cover !important
+    background-position: center !important
+    background-attachment: fixed !important
+
+    main
+
+        > div
+            justify-content: center !important
+
+            .login
+
+                > div.form
+
+                    > form
+
+                        > .buttonside
+                            padding: 0 !important
+                            gap: v.$elem-sa-size-l !important
+
+                            > button
+                                background: none !important
+                                border: 3px solid  v.$color-white !important
+                                color: v.$color-white !important
+
+                                &:hover 
+                                    background-color: v.$color-secondary !important
+                                    border: 3px solid  v.$color-secondary !important
+                                    color:  v.$color-primary !important
+
+                            > a
+                                margin-top: v.$elem-sa-size-s !important
+                                align-self: start !important
+                                font-size: 15px !important
+
+// @media only screen and (min-width: 1267px) 
+
+    // body.Login-PAGE
+
+    //     main
+
+    //         > div
+
+// @media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    // body.Login-PAGE
+
+    //     main
+
+    //         > div
+
+// @media only screen and (max-width: 766px) 
+
+    // body.Login-PAGE
+
+    //     main
+
+    //         > div
+

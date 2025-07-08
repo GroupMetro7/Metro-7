@@ -1,0 +1,87 @@
+@use '../constant.sass' as v
+
+header, header *:not( ul ):not( div.collapse, div.collapsing )
+    display: flex !important
+
+header 
+    background-color: v.$header-footer !important
+    width: 100% !important
+    position: fixed !important
+    top: 0 !important
+    z-index: 100 !important
+
+    > div:nth-child(1)
+        width: 100% !important
+        justify-content: space-between !important
+        align-items: center !important
+        margin-inline: auto !important
+
+        > img 
+            height: 30px !important
+
+        > nav 
+            justify-content: flex-end !important
+
+            a
+                font-weight: 700 !important
+                text-transform: uppercase !important
+                text-decoration: none !important
+                transition: .23s !important
+                padding: v.$elem-sa-size-m v.$elem-sa-size-xl !important
+
+@media only screen and (min-width: 1267px) 
+
+    header 
+
+        > div:nth-child(1)
+            max-width: 1263px !important
+            padding: v.$elem-sa-size-m 53px v.$elem-sa-size-m 73px !important
+                
+            > nav 
+
+                a
+
+                    &:hover 
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    header 
+
+        > div:nth-child(1)
+            padding: v.$elem-sa-size-m 33px !important
+
+            > nav 
+
+                a
+
+                    &:active 
+                        background-color: v.$color-secondary !important
+                        color: v.$color-primary !important
+
+@media only screen and (max-width: 766px) 
+
+    header 
+        flex-direction: column !important
+
+        > div:nth-child(1)
+            padding: v.$elem-sa-size-m v.$elem-sa-size-xl !important
+
+            > .burger
+                width: calc( 28px + ( 28px / 2 ) ) !important
+
+                > input[type="checkbox"].burgerin
+                    width: 100% !important
+                    
+        > div.collapse, > div.collapsing
+
+            > nav
+                flex-direction: column !important
+
+                > a
+                    font-weight: 700 !important
+                    text-transform: uppercase !important
+                    text-decoration: none !important
+                    padding: v.$elem-sa-size-s v.$elem-sa-size-xl !important
+

@@ -1,0 +1,39 @@
+@use '../constant.sass' as v
+
+label.inputbox:has(input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="datetime-local"], input[type="month"], input[type="url"], input[type="date"], input[type="time"]),
+label.selectionbox:has(select)
+    width: v.$elem-w-size-primary
+    align-items: center !important
+    gap: v.$elem-sa-size-s !important
+
+    > h4 
+        font-style: italic !important
+        font-weight: 400 !important
+        text-transform: capitalize !important
+    
+    > input, > select
+        background-color: v.$input-white !important
+        width: 100% !important
+        height: v.$elem-h-size-secondary
+        position: relative !important
+        padding: 0px v.$elem-sa-size-s !important
+        font-size: 15.5px !important
+
+        &::-webkit-calendar-picker-indicator
+            position: absolute !important
+            right: v.$elem-sa-size-m !important
+
+    &.incol,
+    &.sltcol
+        flex-direction: column !important
+        align-items: unset !important
+        gap: v.$elem-sa-size-xs !important
+        
+    &.inwhite,
+    &.sltwhite
+
+        > h4
+            color: v.$input-white !important
+
+    &.textarea
+        width: 100% !important

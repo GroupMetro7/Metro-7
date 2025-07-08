@@ -1,0 +1,22 @@
+@use '../constant.sass' as v
+
+div.kpi
+    background-color: v.$color-white
+    width: 100% !important
+    min-width: 100px !important
+    flex-direction: column !important
+    gap: v.$elem-sa-size-xs !important
+    padding: v.$elem-sa-size-s v.$elem-sa-size-s v.$elem-sa-size-m v.$elem-sa-size-s !important
+    border-radius: v.$elem-br-size-l !important
+    justify-content: space-between !important
+
+    > h4
+        font-weight: 700 !important
+
+    > p
+
+        &.add
+            color: #5fb91a !important
+
+div > div:has( > div.kpi )
+    width: 100% !important

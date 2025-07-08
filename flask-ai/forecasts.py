@@ -3,6 +3,7 @@ import pandas as pd
 
 def Forecasts(dfparam):
     results = {}
+    forecast_data = []
 
     for item in dfparam.groupby(['x'], as_index=False)['y'].sum().sort_values(by='y', ascending=False).head(10)['x']:
         item_df = dfparam[dfparam['x'] == item][['ds', 'x', 'y']].copy()
@@ -23,5 +24,6 @@ def Forecasts(dfparam):
         future = future[future['ds'] > last_date]
         forecast = model.predict(future)
         results[item] = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_dict(orient='records')
+        forecast_data.append((model, forecast, item))
 
-    return results
+    return results, forecast_data

@@ -1,0 +1,67 @@
+@use '../../constant.sass' as v
+
+body.Register-PAGE
+    background-image: url('/Background-Image/BG2.svg') !important
+    background-size: cover !important
+    background-position: center !important
+    background-attachment: fixed !important
+
+    main
+
+        > div
+            justify-content: center !important
+
+            .register
+
+                > div.form
+
+                    > form
+
+                        > .buttonside
+                            width: v.$elem-w-size-primary !important
+
+@media only screen and (min-width: 1267px) 
+
+    body.Register-PAGE
+
+        main
+
+            > div
+
+                .register
+
+                    > div.form
+                        gap: v.$elem-sa-size-xl !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Register-PAGE
+
+        main
+
+            > div
+
+                .register
+
+                    > div.form
+                        gap: v.$elem-sa-size-xl !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Register-PAGE
+        
+        main
+
+            > div
+
+                .register
+
+                    > div.form
+                        gap: v.$elem-sa-size-m !important
+
+                        > form
+                            width: 100% !important
+
+                            > .inputside
+                                gap: v.$elem-sa-size-s !important
+                                

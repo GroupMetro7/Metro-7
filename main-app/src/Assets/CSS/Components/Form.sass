@@ -1,0 +1,99 @@
+@use '../constant.sass' as v
+
+div.form, div.form *
+    display: flex !important
+
+div.form
+    background-color: v.$container-red !important
+    flex-direction: column !important
+    align-items: center !important
+    gap: v.$elem-sa-size-m !important
+    padding: v.$elem-sa-size-l 43px 43px !important
+    border-radius: v.$elem-br-size-l !important
+    backdrop-filter: blur(13px) !important
+
+    > h1
+        font-size: 25.5px !important
+        color: v.$input-white !important
+
+    > form
+        width: v.$elem-w-size-primary !important
+        flex-direction: column !important
+        align-items: center !important
+        gap: v.$elem-sa-size-l !important
+
+        div.group
+
+            &.col:has(label.outputfetch)
+                gap: v.$elem-sa-size-xs !important
+
+                > label.outputfetch
+                    width: unset !important
+                    gap: v.$elem-sa-size-xs !important
+
+                > div:has(label.outputfetch)
+                    justify-content: space-between !important
+
+                    > label.outputfetch
+                        width: unset !important
+
+            &.wrap
+                gap: v.$elem-sa-size-s v.$elem-sa-size-m !important
+
+            &.signalside
+                justify-content: center !important
+
+                p.success
+                    color: green !important
+
+                p.error
+                    color: red !important
+
+            &.imageside
+                align-items: center !important
+                justify-content: center !important
+                gap: 43px !important
+
+                img
+                    background-color: white !important
+                    width: 70px !important
+                    aspect-ratio: 1 !important
+                    border-radius: 100% !important
+
+                label.btnfile:has(input[type="file"]):has(h3)
+                    width: unset !important
+                    padding-inline: v.$elem-sa-size-m !important
+
+            &.infoside
+                gap: v.$elem-sa-size-xs !important
+
+                > h5
+                    color: v.$input-white !important
+                    text-transform: uppercase !important
+
+            &.buttonside
+                width: 100% !important
+                justify-content: center !important
+                margin-top: v.$elem-sa-size-m !important
+                gap: v.$elem-sa-size-l !important
+
+        &.formtwolayers
+            width: calc(( v.$elem-w-size-primary * 2 ) + v.$elem-sa-size-m ) !important
+
+        &.formthreelayers
+            width: calc(( v.$elem-w-size-primary * 3 )  + ( v.$elem-sa-size-m * 2 )) !important
+
+        &.formtwolayers, &.formthreelayers
+
+            div.group
+
+                &.errorside
+                    width: 100% !important
+
+        label.inputbox, label.selectionbox, label.outputfetch
+
+            > h4
+                font-size: 15.5px !important
+
+        button, input[type="submit"], label.btnfile:has(input[type="file"]):has(h3)
+            height: v.$elem-h-size-secondary !important

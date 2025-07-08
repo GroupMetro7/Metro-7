@@ -1,0 +1,71 @@
+@use '../constant.sass' as v
+
+div.item
+    background-color: v.$color-white !important
+    flex-direction: column !important
+    gap: v.$elem-sa-size-s !important
+    padding: v.$elem-sa-size-s !important
+    border-radius: v.$elem-br-size-l !important
+    min-width: 145.5px !important
+
+    > img 
+        width: 100% !important
+        aspect-ratio: 1 !important
+        border: white solid 5px !important
+    
+    > article 
+        width: 100% !important
+        flex-direction: column !important
+        gap: v.$elem-sa-size-s !important
+
+        > h3:nth-child(1)
+            height: 48px !important
+            display: -webkit-box !important
+            overflow: hidden !important
+            text-transform: uppercase !important
+            text-overflow: ellipsis !important
+            -webkit-line-clamp: 2 !important
+            -webkit-box-orient: vertical !important
+        
+    > div
+        flex-wrap: wrap !important
+        justify-content: space-between !important
+        gap: v.$elem-sa-size-s !important
+
+        > .quantity
+            background-color: v.$input-white !important
+            justify-content: space-between !important
+            border-radius: v.$elem-br-size-s !important
+
+            > h3
+                width: v.$elem-w-size-38 !important
+                justify-content: center !important
+                align-items: center !important
+
+            > button
+                width: v.$elem-w-size-38 !important
+
+    > button
+        width: unset !important
+        height: v.$elem-h-size-secondary !important
+        padding: 0px v.$elem-sa-size-m !important
+
+
+@media only screen and (max-width: 766px) 
+
+    div.item
+
+        div:has( > button)
+            background-color: v.$input-white !important
+            align-self: center !important
+            border-radius: v.$elem-br-size-s !important
+            height: v.$elem-h-size-secondary !important
+
+            > h3
+                width: v.$elem-w-size-38 !important
+                justify-content: center !important
+                align-items: center !important
+
+            > button
+                width: v.$elem-w-size-38 !important
+                height: v.$elem-h-size-secondary !important

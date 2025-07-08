@@ -1,0 +1,72 @@
+@use '../constant.sass' as v
+
+.tb
+    width: 100% !important
+    flex-direction: column !important
+    overflow-y: auto !important
+    margin-block: v.$elem-sa-size-xs
+    gap: v.$elem-sa-size-s !important
+    align-items: center !important
+
+    > .th, > .td
+        width: 100% !important
+        align-items: center !important
+        gap: v.$elem-sa-size-xs !important
+
+        > .tc
+            width: 100% !important
+            justify-content: center !important
+            text-align: center !important
+
+            &:not(.tcbtn)
+                min-width: 121.8px !important
+
+            &.tcbtn
+                width: unset !important
+                gap: v.$elem-sa-size-s !important
+
+    > .th
+        height: 28px !important
+
+        > .tc
+
+            > h3
+                text-transform: uppercase !important
+
+            &.tcbtn
+
+                > div
+                    width: 53px !important
+
+    > .td
+        height: 53px !important
+
+        > .tc
+
+            > h4
+                display: -webkit-box !important
+                overflow: hidden !important
+                text-overflow: ellipsis !important
+                -webkit-line-clamp: 2 !important
+                -webkit-box-orient: vertical !important
+
+            &.tcbtn
+
+                > button
+                    width: 53px !important
+                    height: v.$elem-h-size-secondary !important
+                    padding: unset !important
+
+                    > img
+                        width: 28px !important
+                        transition: filter 0.3s ease !important
+
+                    &:hover
+                        background-color: v.$color-primary !important
+                        color: v.$color-white !important
+
+                        > img
+                            filter: invert(1) !important
+
+    &::-webkit-scrollbar-track
+        background: none
