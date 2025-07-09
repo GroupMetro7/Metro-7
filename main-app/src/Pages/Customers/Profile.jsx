@@ -8,12 +8,12 @@ import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { formData, user, setUser, handleInputChange, isLoading, handleUpdateUser } = useModifyData();
+  const { user, formData, handleInputChange, isLoading, handleUpdateUser } = useModifyData();
 
   const { reservations, preOrders } = useFetchUserRes();
 
   // Page title and body class
-  Title("Metro 7");
+  Title(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
   Body_addclass("Profile-Customer-PAGE");
   const screenwidth = ScreenWidth();
 

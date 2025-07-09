@@ -1,15 +1,16 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Footer, Main, Section, Group, Button, GMap } from '../Exporter/component_exporter'
-import { Logo } from '../exporter/public_exporter'
+import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/component_exporter'
+import { Logo } from '../Exporter/public_exporter'
 import { useStateContext } from "../Contexts/ContextProvider";
 
 export default function LandingPage() {
-    Title('Metro 7 | Login')
-    Body_addclass('Landing-PAGE')
-    PreOrderSectionHeight()
-    const { user } = useStateContext();
+    Title(`Metro 7`)
+    Body_addclass(`Landing-PAGE`)
+    const { user } = useStateContext()
+
     const screenwidth = ScreenWidth()
+    PreOrderSectionHeight()
 
     return(
         <>

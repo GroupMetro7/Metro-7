@@ -4,18 +4,15 @@ import '../../assets/css/components/href.sass'
 
 export default function Href({ ID, Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, Scroll, HrefWhite }) {
     return(
-        Redirect ? (
-            <Link className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
-                id={ ID }
+        Redirect ? 
+            <Link id={ ID } className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
                 to={ Redirect }>
                 { Icon && <div><img src={ Icon }/></div> }
                 { Title }
             </Link>
-        )
-        : (
-            <a className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
+        : 
+            <a id={ ID } className={ `${HrefWhite && 'hrefwhite' } ${Class}` }
                 href={ `#${ Scroll }` }
-                id={ ID }
                 onClick={ Onclick }
                 data-bs-toggle={ OpenModal && 'modal' || DropDown && 'dropdown' }
                 data-bs-target={ OpenModal && '#Modal' }
@@ -23,6 +20,5 @@ export default function Href({ ID, Class, Title, Icon, Redirect, Onclick, OpenMo
                 { Icon && <div><img src={ Icon }/></div> }
                 { Title }
             </a>
-        )
     )
 }

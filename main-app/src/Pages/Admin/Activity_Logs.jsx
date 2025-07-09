@@ -12,6 +12,7 @@ import {
 } from "../../exporter/component_exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 import useExportCSV from "../../hooks/uni/fileExporter";
+import DateTimeFormat from "../../hooks/uni/DateTime_Fetch_Format";
 
 export default function CustomerManagementPage() {
   // this file is subject for optimization
@@ -22,17 +23,19 @@ export default function CustomerManagementPage() {
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
   //table
-  const tbhead = ["ITEM NAME", "sku_number", "ACTION", "quantity", "value", "date", "user's name", "remarks"];
-    const tbrows = logs.map((log) => [
-    log.item_name || "N/A",
-    log.sku_number,
-    log.type,
-    log.quantity,
-    log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
-    new Date(log.created_at).toLocaleDateString(),
-    log.user_name || "N/A",
-    log.remarks || "N/A"
-  ]);
+  const tb = {
+    head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
+    rows: logs.map((log) => [
+      log.item_name || "N/A",
+      log.sku_number,
+      log.type,
+      log.quantity,
+      log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
+      DateTimeFormat(log.created_at),
+      log.user_name || "N/A",
+      log.remarks || "N/A"
+    ])
+  };
 
   const exportAsFile = exportedStocklogs.map((ex) => [
     ex.item_name || "N/A",
@@ -40,7 +43,7 @@ export default function CustomerManagementPage() {
     ex.type,
     ex.quantity,
     ex.value,
-    new Date(ex.created_at).toLocaleDateString(),
+    DateFormat(ex.created_at),
     ex.user_name || "N/A",
     ex.remarks || "N/A"
   ]);
@@ -54,9 +57,9 @@ export default function CustomerManagementPage() {
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
           <Box Title="ACTIVITY LOGS" UpperRight={
-              <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbhead, exportAsFile, "activity_logs.csv")}/>
+              <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tb.head, exportAsFile, "activity_logs.csv")}/>
             } BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrows} />
+            <Table HeadRows={tb.head} DataRows={tb.rows} />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

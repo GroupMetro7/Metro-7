@@ -61,8 +61,8 @@ export default function useModifyData() {
   }
 
     return {
-      formData,
       user,
+      formData,
       setUser,
       handleInputChange,
       handleUpdateUser,

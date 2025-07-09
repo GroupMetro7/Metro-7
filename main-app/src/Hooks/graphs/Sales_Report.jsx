@@ -1,16 +1,9 @@
-import { Bar } from 'react-chartjs-2'
+import React from "react"
 import { useMemo } from 'react';
-import useFetch from '../fetch';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
-import useFetchDashboardData from '../admin/fetchData';
 
-// Register ChartJS modules ONCE outside the component
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+export default function SalesReport( FetchData ) {
+  const { monthlyRevenue, monthlyExpenses } = FetchData;
 
-export default function SalesReport() {
-  const { monthlyRevenue, monthlyExpenses } = useFetchDashboardData();
-
-  // Memoize data processing for performance
   const { months, revenues, expensesArr } = useMemo(() => {
     const months = Array.isArray(monthlyRevenue)
       ? monthlyRevenue.map(item => item.month_name)
@@ -24,7 +17,7 @@ export default function SalesReport() {
     return { months, revenues, expensesArr };
   }, [monthlyRevenue, monthlyExpenses]);
 
-  const barData = {
+  const SalesReportData = {
     labels: months,
     datasets: [
       {
@@ -40,14 +33,12 @@ export default function SalesReport() {
     ],
   };
 
-  const barOptions = {
+  const SalesReportOptions = {
     responsive: true,
     plugins: {
       legend: { position: 'bottom' },
     },
   };
 
-  return (
-    <Bar data={barData} options={barOptions} />
-  );
+  return { SalesReportData, SalesReportOptions };
 }

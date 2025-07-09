@@ -18,12 +18,15 @@ import {
   Selectionbox,
   InsertFileButton,
   Inputbox,
+  BarGraph,
+  PieGraph
 } from "../../exporter/component_exporter";
-import TopCategory from "../../hooks/graphs/pie";
-import SalesReport from "../../hooks/graphs/bar";
+import TopCategory from "../../Hooks/graphs/Top_Category";
+import SalesReport from "../../Hooks/graphs/Sales_Report";
 import UseKpi from "../../hooks/uni/Kpi";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
+import useFetchDashboardData from '../../hooks/admin/fetchData';
 import { createWorker } from "tesseract.js";
 
 export default function DashboardPage() {
@@ -76,6 +79,8 @@ export default function DashboardPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData());
+  const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
 
   return (
     <>
@@ -96,10 +101,10 @@ export default function DashboardPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
-                <SalesReport />
+                <BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
               </Box>
               <Box Title="Most Sold Products" Class="topcategory" BoxCol>
-                <TopCategory />
+                <PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
               </Box>
             </Group>
             <Group Class="charts">
