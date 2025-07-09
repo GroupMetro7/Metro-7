@@ -3,8 +3,8 @@ import '../../assets/css/components/inputbox & selectbox.sass'
 
 export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept, Placeholder }) {
     function ValidType( type ) {
-        const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file', 'checkbox'];
-        return allowedTypes.includes( type ) ? type : 'text';
+        const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file', 'search'];
+        return allowedTypes.includes( type ) && type;
     }
 
     return(

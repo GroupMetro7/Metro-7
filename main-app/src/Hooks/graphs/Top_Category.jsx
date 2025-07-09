@@ -1,13 +1,7 @@
-import { Pie } from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import useFetch from '../fetch';
-import useFetchDashboardData from '../admin/fetchData';
+import React from "react"
 
-// Register ChartJS modules ONCE, outside the component
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-export default function TopCategory() {
-  const { mostSoldProduct } = useFetchDashboardData();
+export default function TopCategory( FetchData ) {
+  const { mostSoldProduct } = FetchData;
 
   // Memoize data processing for performance
   const topCategories = Array.isArray(mostSoldProduct)
@@ -17,7 +11,7 @@ export default function TopCategory() {
       }))
     : [];
 
-  const pieData = {
+  const TopCategoryData = {
     labels: topCategories.map(cat => cat.name),
     datasets: [
       {
@@ -34,14 +28,12 @@ export default function TopCategory() {
     ],
   };
 
-  const pieOptions = {
+  const TopCategoryOptions = {
     responsive: true,
     plugins: {
       legend: { position: 'bottom' },
     },
   };
 
-  return (
-    <Pie data={pieData} options={pieOptions} />
-  );
+  return { TopCategoryData, TopCategoryOptions };
 }

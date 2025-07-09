@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
-    const { user, setUser, setToken } = useStateContext();
+    Title(`Metro 7 | Login`)
+    Body_addclass(`Login-PAGE`)
+    const { user, setUser, setToken } = useStateContext()
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -32,7 +35,6 @@ export default function LoginPage() {
                 email,
                 password,
             });
-
             setUser(response.data.user);
             setToken(response.data.token);
             if (user.role === "customer") {
@@ -40,24 +42,24 @@ export default function LoginPage() {
             }
             else if (user.role === "employee") {
                 navigate("/service");
-            } else if (user.role === "admin") {
+            } 
+            else if (user.role === "admin") {
                 navigate("/admin");
             }
-        } catch (err) {
+        } 
+        catch (err) {
             setError(
                 err.response.data.message || "Login failed, please try again."
             );
         }
     };
 
-    Title('Metro 7 | Login')
-    Body_addclass('Login-PAGE')
-    const screenwidth = ScreenWidth()
-
     const Inputboxes = [
         { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
         { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
     ]
+    
+    const screenwidth = ScreenWidth()
 
     return(
         <>

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import '../../assets/css/components/sidebar.sass'
 import { Href, SideBarWeight } from '../../Exporter/component_exporter'
-import { M7Logo, DashboardLogo, OrderlistLogo, ProfileLogo, SalesLogo, InventoryLogo, EmployeeLogo, CustomerLogo, LogoutLogo, OrderhistoryLogo, PrevLogo, NextLogo } from '../../Exporter/public_exporter'
+import { M7Logo, DashboardLogo, OrderlistLogo, ProfileLogo, SalesLogo, InventoryLogo, EmployeeLogo, CustomerLogo, LogoutLogo, OrderhistoryLogo, ActivityLogsLogo } from '../../Exporter/public_exporter'
 
 export default function SideBar({ ServiceMode, AdminMode, Logout }) {
     SideBarWeight()
@@ -19,7 +19,7 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
         { AdminItem: 6, Title: "Inventory", Icon: InventoryLogo, Redirect: "/inventory_management" },
         { AdminItem: 7, Title: "Employee", Icon: EmployeeLogo, Redirect: "/employee_management" },
         { AdminItem: 8, Title: "Customer", Icon: CustomerLogo, Redirect: "/customer_management" },
-        { AdminItem: 9, Title: "Activity Logs", Icon: CustomerLogo, Redirect: "/logs" },
+        { AdminItem: 9, Title: "Activity Logs", Icon: ActivityLogsLogo, Redirect: "/logs" },
 
         { ServiceItem: 999, AdminItem: 999, Title: "Logout", Icon: LogoutLogo, Onclick: Logout }
     ]

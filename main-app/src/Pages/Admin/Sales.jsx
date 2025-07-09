@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import "../../assets/css/pages/admin/Sales.sass";
 import {
   Title,
@@ -13,18 +13,20 @@ import {
   Selectionbox,
   DateText,
   TimeText,
+  BarGraph,
+  PieGraph
 } from "../../exporter/component_exporter";
 import { saveAs } from "file-saver";
-import SalesReport from "../../hooks/graphs/bar";
-import TopCategory from "../../hooks/graphs/pie";
-import useFetchDashboardData from "../../hooks/admin/fetchData";
+import TopCategory from "../../Hooks/graphs/Top_Category";
+import SalesReport from "../../Hooks/graphs/Sales_Report";
+import useFetchData from "../../hooks/admin/fetchData";
 import UseKpi from "../../hooks/uni/Kpi";
 
 export default function SalesPage() {
   Title("Revenue");
   Body_addclass("Sales-PAGE");
   // done & for review
-  const { monthlyRevenue, productRevenue } = useFetchDashboardData();
+  const { monthlyRevenue, productRevenue } = useFetchData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [
     item.year,
@@ -57,6 +59,9 @@ export default function SalesPage() {
     const blob = new Blob([csvString], { type: "text/csv" });
     saveAs(blob, filename);
   };
+
+  const { SalesReportData, SalesReportOptions } = SalesReport( useFetchData());
+    const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchData());
 
   return (
     <>
@@ -96,10 +101,10 @@ export default function SalesPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
-                <SalesReport />
+                <BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
               </Box>
               <Box Title="Most Sold Products" Class="topcategory" BoxCol>
-                <TopCategory />
+                <PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
               </Box>
             </Group>
             <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>

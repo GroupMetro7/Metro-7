@@ -57,7 +57,7 @@ export default function Pagination ({ currentPage, totalPages, onPageChange }) {
                     />
                 );
                 if (startPage > 2) {
-                    pages.push(<span key="ellipsis1" className="pagination-ellipsis">...</span>);
+                    pages.push(<span key="ellipsis1" className="pagination-ellipsis">•••</span>);
                 }
             }
 
@@ -76,7 +76,7 @@ export default function Pagination ({ currentPage, totalPages, onPageChange }) {
             // Always show last page
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
-                    pages.push(<span key="ellipsis2" className="pagination-ellipsis">...</span>);
+                    pages.push(<span key="ellipsis2" className="pagination-ellipsis">•••</span>);
                 }
                 pages.push(
                     <Button
