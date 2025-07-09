@@ -23,6 +23,7 @@ import {
 import axiosClient from "../../axiosClient";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
 import useFetchProduct from "../../hooks/service/fetchProducts";
+import useFetchOrderWithNotification from "../../hooks/orders/fetchOrder";
 
 export default function StaffDashboard() {
   Title("Metro 7");
@@ -32,6 +33,9 @@ export default function StaffDashboard() {
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();
+
+  useFetchOrderWithNotification();
+
   const [order, setOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [customer, setCustomer] = useState();
@@ -43,6 +47,7 @@ export default function StaffDashboard() {
   const [mealStub, setMealStub] = useState("");
   const [loading, setLoading] = useState(false);
   const [freeItemsRemaining, setFreeItemsRemaining] = useState(0);
+
 
 
 

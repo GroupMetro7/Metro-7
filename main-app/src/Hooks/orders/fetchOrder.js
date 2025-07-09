@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { fetchMenu } from "../../functions/MenuFunctions";
 
@@ -11,10 +11,27 @@ export default function useFetchOrder() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchItem, setSearchItem] = useState("");
+  const intervalRef = useRef(null);
+  const audioRef = useRef(null);
+  const previousOrderIdsRef = useRef([])
 
-useEffect(() => {
+  useEffect(() => {
+    // Initialize audio
+    audioRef.current = new Audio('/notification_tone.mp3'); // Add sound file to public folder
+    audioRef.current.preload = 'auto';
+
     fetchOrder(currentPage, searchItem);
+    intervalRef.current = setInterval(() => {
+      fetchOrder(currentPage, searchItem);
+    }, 10000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [currentPage, searchItem]);
+
 
     function fetchOrder(page, search) {
       let url = `/orders?page=${page}`;
@@ -22,11 +39,30 @@ useEffect(() => {
         url += `&search=${encodeURIComponent(search)}`; // <-- FIXED
       }
       axiosClient.get(url).then(( data ) => {
-        setOrders(data.data.data);
+
+      const newOrders = data.data.data;
+      const newOrderIds = newOrders.map(order => order.id);
+
+      const isNewOrder = newOrderIds.some(id => !previousOrderIdsRef.current.includes(id));
+
+    if (previousOrderIdsRef.current.length && isNewOrder) {
+      playNotificationSound();
+    }
+
+        previousOrderIdsRef.current = newOrderIds;
+        setOrders(newOrders);
         setCurrentPage(data.data.current_page);
         setTotalPages(data.data.last_page);
       });
     };
+
+  const playNotificationSound = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch((error) => {
+        console.log('Audio play failed:', error);
+      });
+    }
+  };
 
 
   const handlePageChange = (page) => {

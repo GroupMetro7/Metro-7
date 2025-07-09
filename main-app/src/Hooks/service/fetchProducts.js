@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosClient from "../../axiosClient";
 
 export default function useFetchProduct() {
@@ -7,9 +7,21 @@ export default function useFetchProduct() {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [searchItem, setSearchItem] = useState("");
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     fetchMenuData(selectedCategory, searchItem);
+
+    // Fetch updates every 30 seconds
+    intervalRef.current = setInterval(() => {
+      fetchMenuData(selectedCategory, searchItem);
+    }, 10000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [selectedCategory, searchItem]);
 
   const fetchMenuData = (category, search) => {
