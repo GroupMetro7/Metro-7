@@ -3,7 +3,6 @@ import "../../assets/css/pages/services/Management.sass";
 import {
   Title,
   Body_addclass,
-  SideBar,
   Group,
   Main,
   Box,
@@ -17,7 +16,7 @@ import {
   Selectionbox,
   InsertFileButton,
   Pagination,
-} from "../../exporter/component_exporter";
+} from "../../Exporter/component_exporter";
 import useSearchItem from "../../hooks/searchItem";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
@@ -74,9 +73,9 @@ export default function StaffOrderList() {
         <Main>
           <Box Class="search">
             <Inputbox
+              Type="search"
               Title="Search"
               onChange={(e) => setSearchItem(e.target.value)}
-              Type="search"
               Placeholder="Search Order number"
             />
           </Box>
@@ -201,11 +200,9 @@ export default function StaffOrderList() {
                 SltWhite
                 OnChange={handleInputChange}
               />
-            </Group>
-            <Group Class="inputside">
               <Inputbox
+                Type="number"
                 Title="Cash"
-                Type="text"
                 Name="cashPayment"
                 Value={formData.cashPayment}
                 onChange={handleInputChange}
@@ -213,6 +210,7 @@ export default function StaffOrderList() {
                 InWhite
               />
               <Inputbox
+                Type="number"
                 Title="Online"
                 Name="onlinePayment"
                 Value={formData.onlinePayment}
@@ -293,7 +291,7 @@ export default function StaffOrderList() {
             </Group>
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
-              <SubmitButton Title="SAVE" BtnWhite />
+              <SubmitButton Title="SUBMIT" BtnWhite />
             </Group>
           </Form>
         )}

@@ -15,7 +15,7 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
 
         { AdminItem: 2, Title: "Sales", Icon: SalesLogo, Redirect: "/sales" },
         { AdminItem: 3, Title: "Forecasts", Icon: CustomerLogo, Redirect: "/df" },
-        { AdminItem: 5, Title: "Product List", Icon: OrderlistLogo, Redirect: "/menu_management" },
+        { AdminItem: 5, Title: "Product List", Icon: OrderlistLogo, Redirect: "/product_management" },
         { AdminItem: 6, Title: "Inventory", Icon: InventoryLogo, Redirect: "/inventory_management" },
         { AdminItem: 7, Title: "Employee", Icon: EmployeeLogo, Redirect: "/employee_management" },
         { AdminItem: 8, Title: "Customer", Icon: CustomerLogo, Redirect: "/customer_management" },

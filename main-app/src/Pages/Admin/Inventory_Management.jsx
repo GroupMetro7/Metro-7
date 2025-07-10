@@ -59,50 +59,36 @@ export default function Test() {
     };
 
     // Table headers and rows
-    const tbhead = [
-        "SKU NO.",
-        "ITEM NAME",
-        "SOLD BY",
-        "CATEGORY",
-        "STOCK",
-        "UNIT COST",
-        "STOCK VALUE",
-        "STATUS",
-    ];
-    const tbrows = products.map((product) => ({
-        SKU: product.SKU_NUMBER,
-        COMPOSITE_NAME: product.COMPOSITE_NAME,
-        SOLDBY: product.SOLD_BY,
-        CATEGORY: getCategoryName(product.category_id),
-        STOCK: product.STOCK.toFixed(2),
-        COSTPERUNIT: product.COST_PER_UNIT.toFixed(2),
-        STOCKVALUE: product.STOCK_VALUE.toFixed(2),
-        STATUS: product.STATUS,
-        // lastUpdated: new Date(product.updated_at).toLocaleString(),
-        edit: () => editProduct(product),
-        delete: () =>
-            deleteItem(product.id),
-    }));
-
-    const exportedAsFileHeader = [
-        "SKU_NUMBER",
-        "ITEM_NAME",
-        "SOLD_BY",
-        "STOCK",
-        "COST_PER_UNIT",
-        "STOCK_VALUE",
-    ];
-
-    const exportAsFile = exportedInventory.map((ex) => [
-        ex.SKU_NUMBER,
-        ex.COMPOSITE_NAME,
-        ex.SOLD_BY,
-        ex.STOCK,
-        ex.COST_PER_UNIT.toFixed(2),
-        ex.STOCK_VALUE.toFixed(2),
-    ]);
-
-
+    const tbinventorylist = {
+        display: {
+            head: [ "SKU NO.", "ITEM NAME", "SOLD BY", "CATEGORY", "STOCK", "UNIT COST", "STOCK VALUE", "STATUS" ],
+            rows: products.map((product) => ({
+                SKU: product.SKU_NUMBER,
+                COMPOSITE_NAME: product.COMPOSITE_NAME,
+                SOLDBY: product.SOLD_BY,
+                CATEGORY: getCategoryName(product.category_id),
+                STOCK: product.STOCK.toFixed(2),
+                COSTPERUNIT: product.COST_PER_UNIT.toFixed(2),
+                STOCKVALUE: product.STOCK_VALUE.toFixed(2),
+                STATUS: product.STATUS,
+                // lastUpdated: new Date(product.updated_at).toLocaleString(),
+                edit: () => editProduct(product),
+                delete: () =>
+                    deleteItem(product.id),
+            }))
+        },
+        export: {
+            head: [ "SKU NO.", "ITEM NAME", "SOLD BY", "CATEGORY", "STOCK", "UNIT COST", "STOCK VALUE" ],
+            rows: exportedInventory.map((ex) => [
+                ex.SKU_NUMBER,
+                ex.COMPOSITE_NAME,
+                ex.SOLD_BY,
+                ex.STOCK,
+                ex.COST_PER_UNIT.toFixed(2),
+                ex.STOCK_VALUE.toFixed(2),
+            ])
+        }
+    }
 
     return (
         <>
@@ -118,11 +104,11 @@ export default function Test() {
                     <Box Title="INVENTORY" UpperRight={
                         <>
                             <Button Title="+" OpenModal="AddModal-Inventory" />
-                            <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(exportedAsFileHeader, exportAsFile, "inventory.csv")} />
+                            <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
                         </>
                     } BoxCol >
 
-                        <Table Title="Inventory" HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
+                        <Table Title="Inventory" HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
                 </Main>

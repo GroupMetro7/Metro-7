@@ -43,7 +43,7 @@ export default function CustomerManagementPage() {
     ex.type,
     ex.quantity,
     ex.value,
-    DateFormat(ex.created_at),
+    DateTimeFormat(ex.created_at),
     ex.user_name || "N/A",
     ex.remarks || "N/A"
   ]);

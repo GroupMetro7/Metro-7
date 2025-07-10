@@ -318,6 +318,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
         <Form Title="CHECKOUT" {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
           <Group Class="inputside">
             <Inputbox
+              Type="text"
               Title="Customer Name"
               value={customer}
               onChange={(e) => setCustomer(e.target.value)}
@@ -327,6 +328,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
           </Group>
           <Group Class="inputside" Wrap>
             <Inputbox
+              Type="number"
               Title="Cash Payment"
               value={cashPayment}
               onChange={(e) => setCashPayment(e.target.value)}
@@ -334,6 +336,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               InWhite
             />
             <Inputbox
+              Type="number"
               Title="Online Payment"
               value={onlinePayment}
               onChange={(e) => setOnlinePayment(e.target.value)}
@@ -341,6 +344,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               InWhite
             />
             <Inputbox
+              Type="number"
               Title="Discount"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
