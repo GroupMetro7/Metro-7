@@ -50,6 +50,9 @@ class RetrieveDataController extends Controller
   {
     try {
       $salesData = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
+            ->whereHas('order', function ($query) {
+        $query->where('status', 'completed'); // Adjust this to match valid statuses in your system
+      })
         ->groupBy('product_id', 'product_name', 'month')
         ->orderBy('total_product_sales', 'desc')
         ->get();
