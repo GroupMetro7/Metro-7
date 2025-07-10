@@ -13,14 +13,21 @@ export default function useFetchOrder() {
   const [searchItem, setSearchItem] = useState("");
   const intervalRef = useRef(null);
   const audioRef = useRef(null);
-  const previousOrderIdsRef = useRef([])
+  const previousOrderIdsRef = useRef([]);
 
   useEffect(() => {
-    // Initialize audio
-    audioRef.current = new Audio('/notification_tone.mp3'); // Add sound file to public folder
-    audioRef.current.preload = 'auto';
+    audioRef.current = new Audio("/notification_tone.mp3"); // Add sound file to public folder
+    audioRef.current.preload = "auto";
+  }, []);
 
-    fetchOrder(currentPage, searchItem);
+  useEffect(() => {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    fetchOrderSilent(currentPage, searchItem);
+
     intervalRef.current = setInterval(() => {
       fetchOrder(currentPage, searchItem);
     }, 10000);
@@ -32,38 +39,54 @@ export default function useFetchOrder() {
     };
   }, [currentPage, searchItem]);
 
-
-    function fetchOrder(page, search) {
-      let url = `/orders?page=${page}`;
-      if (search) {
-        url += `&search=${encodeURIComponent(search)}`; // <-- FIXED
-      }
-      axiosClient.get(url).then(( data ) => {
-
-      const newOrders = data.data.data;
-      const newOrderIds = newOrders.map(order => order.id);
-
-      const isNewOrder = newOrderIds.some(id => !previousOrderIdsRef.current.includes(id));
-
-    if (previousOrderIdsRef.current.length && isNewOrder) {
-      playNotificationSound();
+  function fetchOrderSilent(page, search) {
+    let url = `/orders?page=${page}`;
+    if (search) {
+      url += `&search=${encodeURIComponent(search)}`;
     }
+    axiosClient.get(url).then((data) => {
+      const newOrders = data.data.data;
+      const newOrderIds = newOrders.map((order) => order.id);
 
-        previousOrderIdsRef.current = newOrderIds;
-        setOrders(newOrders);
-        setCurrentPage(data.data.current_page);
-        setTotalPages(data.data.last_page);
-      });
-    };
+      // Update previous IDs without notification
+      previousOrderIdsRef.current = newOrderIds;
+      setOrders(newOrders);
+      setCurrentPage(data.data.current_page);
+      setTotalPages(data.data.last_page);
+    });
+  }
+
+  function fetchOrder(page, search) {
+    let url = `/orders?page=${page}`;
+    if (search) {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+    axiosClient.get(url).then((data) => {
+      const newOrders = data.data.data;
+      const newOrderIds = newOrders.map((order) => order.id);
+
+      const isNewOrder = newOrderIds.some(
+        (id) => !previousOrderIdsRef.current.includes(id)
+      );
+
+      if (previousOrderIdsRef.current.length && isNewOrder) {
+        playNotificationSound();
+      }
+
+      previousOrderIdsRef.current = newOrderIds;
+      setOrders(newOrders);
+      setCurrentPage(data.data.current_page);
+      setTotalPages(data.data.last_page);
+    });
+  }
 
   const playNotificationSound = () => {
     if (audioRef.current) {
       audioRef.current.play().catch((error) => {
-        console.log('Audio play failed:', error);
+        console.log("Audio play failed:", error);
       });
     }
   };
-
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -101,6 +124,6 @@ export default function useFetchOrder() {
     setSelectedOrder,
     handlePageChange,
     setSearchItem,
-    fetchOrder
+    fetchOrder,
   };
 }
