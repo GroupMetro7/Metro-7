@@ -70,12 +70,13 @@ export default function MenuManagementPage() {
 
   // table headers and rows for displaying products
   const tbproductlist = {
-    head: ["ID", "Product Name", "category", "Price", "Status"],
+    head: ["Product Name", "category", "Price", "Cost", "Margin", "Status"],
     rows: menuProduct.map((product) => ({
-      id: product.id,
       product_name: product.product_name,
       category: getCategoryName(product.category_id),
       price: product.price,
+      cost: product.total_ingredient_cost.toFixed(2),
+      margin: product.calculated_margin.toFixed(2),
       status: product.is_available ? "Available" : "Out of Stock",
       edit: () => editProduct(product),
       delete: () => editProduct(product),

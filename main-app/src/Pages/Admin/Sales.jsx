@@ -16,7 +16,6 @@ import {
   BarGraph,
   PieGraph,
 } from "../../exporter/component_exporter";
-import { saveAs } from "file-saver";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import useFetchData from "../../hooks/admin/fetchData";
@@ -38,14 +37,6 @@ export default function SalesPage() {
     })}`,
   ]);
 
-  // const prodrev = ["Product Name", "Revenue", "Month", "TOTAL SOLD"];
-  // const prodrevData = productRevenue.map((item) => ({
-  //   productName: item.product_name,
-  //   revenue: item.total_product_sales,
-  //   month: item.month,
-  //   totalSold: item.total_quantity_sold,
-  // }));
-
   const salesReport = {
     display: {
       head: ["PRODUCT NAME", "Revenue", "Month", "Total Sold"],
@@ -63,6 +54,7 @@ export default function SalesPage() {
         item.product_name,
         item.unit_price,
         item.quantity,
+        item.cost || "N/A"
       ]
       ))
     }

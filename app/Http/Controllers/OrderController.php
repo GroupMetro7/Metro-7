@@ -25,23 +25,23 @@ class OrderController extends Controller
 
 
   //calling order lists
-public function index(Request $request)
-{
+  public function index(Request $request)
+  {
     $query = Order::with('tickets')
-        ->orderByRaw("FIELD(status, 'pending', 'completed', 'cancelled')")
-        ->orderBy('created_at', 'desc');
+      ->orderByRaw("FIELD(status, 'pending', 'completed', 'cancelled')")
+      ->orderBy('created_at', 'desc');
 
     if ($request->has('search') && trim($request->search)) {
-        $search = trim($request->search);
-        $query->where(function ($q) use ($search) {
-            $q->where('order_number', 'like', "%{$search}%")
-              ->orWhere('name', 'like', "%{$search}%"); // <-- Add this line
-        });
+      $search = trim($request->search);
+      $query->where(function ($q) use ($search) {
+        $q->where('order_number', 'like', "%{$search}%")
+          ->orWhere('name', 'like', "%{$search}%"); // <-- Add this line
+      });
     }
 
     $orders = $query->paginate(10);
     return response()->json($orders);
-}
+  }
 
 
 
@@ -89,6 +89,9 @@ public function index(Request $request)
 
     // Create the tickets associated with the order
     foreach ($validated['tickets'] as $ticketData) {
+      $product = Product::with('ingredients')->find($ticketData['product_id']);
+      $unitCost = $product ? $product->total_ingredient_cost : 0;
+
       Ticket::create([
         'order_id' => $order->id,
         'product_id' => $ticketData['product_id'],
@@ -96,6 +99,7 @@ public function index(Request $request)
         'quantity' => $ticketData['quantity'],
         'unit_price' => $ticketData['unit_price'],
         'total_price' => $ticketData['total_price'],
+        'cost' => $unitCost
       ]);
     }
 
@@ -179,7 +183,7 @@ public function index(Request $request)
           'total_price' => $ticketData['total_price'],
         ]);
 
-      Mail::to($user->email)->send(new OrderNotification($user, $order));
+        Mail::to($user->email)->send(new OrderNotification($user, $order));
       }
       return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
     } catch (\Exception $e) {
@@ -187,6 +191,4 @@ public function index(Request $request)
       return response()->json(['error' => $e->getMessage()], 500);
     }
   }
-
-
 }

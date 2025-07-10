@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\StockManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -70,13 +71,30 @@ class ProductController extends Controller
 
     $imagePath = $request->file('image')->store('images', 'public');
 
+    $totalIngredientCost = 0;
+
+    if ($request->has('ingredients')) {
+      $ingredients = json_decode($request->input('ingredients'), true);
+      foreach ($ingredients as $ingredient) {
+        $stock = StockManagement::where('SKU_NUMBER', $ingredient['sku'])->first();
+        if ($stock) {
+          $totalIngredientCost += ($stock->COST_PER_UNIT * $ingredient['quantity']);
+        }
+      }
+    }
+
+    $productPrice = $request->input('price');
+    $margin = $productPrice - $totalIngredientCost;
+
     $product = Product::create([
       'product_name' => $request->input('product_name'),
       'price' => $request->input('price'),
       'description' => $request->input('description', ''),
       'image' => $imagePath,
       'category_id' => $request->input('category_id'),
+      'margin' => $margin,
     ]);
+
 
     // Handle ingredients
     if ($request->has('ingredients')) {
@@ -118,6 +136,21 @@ class ProductController extends Controller
       'category_id' => 'required|string',
     ]);
 
+    $totalIngredientCost = 0;
+
+    if ($request->has('ingredients')) {
+      $ingredients = json_decode($request->input('ingredients'), true);
+      foreach ($ingredients as $ingredient) {
+        $stock = StockManagement::where('SKU_NUMBER', $ingredient['sku'])->first();
+        if ($stock) {
+          $totalIngredientCost += ($stock->COST_PER_UNIT * $ingredient['quantity']);
+        }
+      }
+    }
+
+    $productPrice = $request->input('price');
+    $margin = $productPrice - $totalIngredientCost;
+
     // Handle image update
     if ($request->hasFile('image')) {
       // Delete old image if exists
@@ -132,6 +165,7 @@ class ProductController extends Controller
     $product->price = $request->input('price');
     $product->description = $request->input('description', '');
     $product->category_id = $request->input('category_id');
+    $product->margin = $margin;
     $product->save();
 
     // Handle ingredients update

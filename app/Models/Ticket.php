@@ -13,7 +13,8 @@ class Ticket extends Model
     'quantity',
     'unit_price',
     'total_price',
-    'product_name'
+    'product_name',
+    'cost'
   ];
 
 public function order()
