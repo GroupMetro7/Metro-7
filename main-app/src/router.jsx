@@ -14,7 +14,7 @@ import StaffDashboard from './pages/services/Dashboard'
 import StaffProfile from './pages/services/Profile'
 import StaffLayout from './components/Layout/StaffLayout'
 import CustomerManagementPage from './pages/admin/Customer_Management'
-import MenuManagementPage from './pages/admin/Menu_Management'
+import ProductManagementPage from './pages/admin/Product_Management'
 import SalesPage from './pages/admin/Sales'
 import StaffOrderList from './pages/services/Order_List'
 import InventoryManagementPage from './Pages/admin/Inventory_Management'
@@ -143,8 +143,8 @@ const router = createBrowserRouter([
 				element: <SalesPage />
 			},
 			{
-				path: 'menu_management',
-				element: <MenuManagementPage />
+				path: 'product_management',
+				element: <ProductManagementPage />
 			},
 			{
 				path: 'inventory_management',

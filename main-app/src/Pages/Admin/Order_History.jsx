@@ -1,32 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
-import {
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Box,
-  Inputbox,
-  Table,
-  Button,
-  Modal,
-  Form,
-  Outputfetch,
-  SubmitButton,
-  Selectionbox,
-  InsertFileButton,
-  Pagination,
-} from "../../exporter/component_exporter";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination, } from "../../exporter/component_exporter";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 import UseKpi from "../../hooks/uni/Kpi";
 import { useStateContext } from "../../Contexts/ContextProvider";
+import DateTimeFormat from "../../hooks/uni/DateTime_Fetch_Format";
+import TimeFormat from "../../hooks/uni/Time_Fetch_Format";
 
 export default function StaffOrderList() {
   Title("Order List");
   Body_addclass("Management-PAGE");
+
   // optimized, need to add pre orders tab
   const { selectedOrder, setSelectedOrder } = useFetchOrder();
 
@@ -44,35 +31,33 @@ export default function StaffOrderList() {
 
   const { user } = useStateContext();
 
-  const tbhead = [
+  const tborderhistory = {
+    head: [
     "ORDER NO.",
     "CUSTOMER",
     "AMOUNT",
     "DISCOUNT",
-    "RECIEVED",
+    "RECEIVED",
     "COMPLETED",
     "OPTION",
     "STATUS",
-    "DATE",
-    "USER'S NAME"
-  ];
-
-
-  const tbrowsOrders = orderHistory.map((order) => ({
-    orderId: order.order_number,
-    name: order.name,
-    amount: order.amount,
-    discount: order.discount,
-    received: new Date(order.created_at).toLocaleTimeString([], { timeStyle: "short" }),
-    completed: new Date(order.updated_at).toLocaleTimeString([], { timeStyle: "short" }),
-    option: order.option,
-    status: order.status,
-    date: new Date(order.created_at).toLocaleDateString(),
-    userName: order.user.firstname + " " + order.user.lastname,
-    edit: () => {
-      setSelectedOrder(order);
-    },
-  }));
+    "CASHIER"
+  ],
+    rows: orderHistory.map((order) => ({
+      orderId: order.order_number,
+      name: order.name,
+      amount: order.amount,
+      discount: order.discount,
+      received: DateTimeFormat(order.created_at),
+      completed: DateTimeFormat(order.updated_at),
+      option: order.option,
+      status: order.status,
+      userName: `${order.user.firstname} ${order.user.lastname}`,
+      edit: () => {
+        setSelectedOrder(order);
+      },
+    }))
+  }
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -109,7 +94,7 @@ export default function StaffOrderList() {
             </Group>
           )}
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table HeadRows={tbhead} DataRows={tbrowsOrders} EditBtn />
+            <Table HeadRows={tborderhistory.head} DataRows={tborderhistory.rows} EditBtn />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

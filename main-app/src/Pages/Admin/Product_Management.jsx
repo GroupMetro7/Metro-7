@@ -5,7 +5,6 @@ import { DeleteLogo } from "../../Exporter/public_exporter";
 import useAddCategory from "../../hooks/add";
 import useAddProduct from "../../hooks/admin/Menu/addProduct";
 import useFetchOrder from "../../hooks/uni/fetchProducts";
-import useSearchItem from "../../hooks/searchItem";
 
 export default function MenuManagementPage() {
   Title("Menu List Management");
@@ -69,28 +68,30 @@ export default function MenuManagementPage() {
     return cat ? cat.name : "Unknown";
   };
 
-
   // table headers and rows for displaying products
-  const tbhead = ["ID", "Product Name", "category", "Price", "Status"];
-  const tbrows = menuProduct.map((product) => ({
-    id: product.id,
-    product_name: product.product_name,
-    category: getCategoryName(product.category_id),
-    price: product.price,
-    status: product.is_available ? "Available" : "Out of Stock",
-    edit: () => editProduct(product),
-    delete: () => editProduct(product),
-  }));
+  const tbproductlist = {
+    head: ["ID", "Product Name", "category", "Price", "Status"],
+    rows: menuProduct.map((product) => ({
+      id: product.id,
+      product_name: product.product_name,
+      category: getCategoryName(product.category_id),
+      price: product.price,
+      status: product.is_available ? "Available" : "Out of Stock",
+      edit: () => editProduct(product),
+      delete: () => editProduct(product),
+    }))
+  }
 
-  const tbhead2 = ["ID", "Category", "Number of Products"];
-
-  const tbrows2 = categories.map((category) => ({
-    id: category.id,
-    name: category.name,
-    products_count: category.products_count ?? 0,
-    edit: () => editCategory(category),
-    delete: () => editCategory(category),
-  }));
+  const tbcategories = {
+    head: ["ID", "Category", "Number of Products"],
+    rows: categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      products_count: category.products_count ?? 0,
+      edit: () => editCategory(category),
+      delete: () => editCategory(category),
+    }))
+  }
 
   return (
     <>
@@ -123,8 +124,8 @@ export default function MenuManagementPage() {
           >
             <Table
               Title="Product"
-              HeadRows={tbhead}
-              DataRows={tbrows}
+              HeadRows={tbproductlist.head}
+              DataRows={tbproductlist.rows}
               EditBtn
               DeleteBtn
             />
@@ -141,8 +142,8 @@ export default function MenuManagementPage() {
           >
             <Table
               Title="Category"
-              HeadRows={tbhead2}
-              DataRows={tbrows2}
+              HeadRows={tbcategories.head}
+              DataRows={tbcategories.rows}
               EditBtn
               DeleteBtn
             />

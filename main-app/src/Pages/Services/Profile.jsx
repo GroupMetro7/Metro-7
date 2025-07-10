@@ -15,6 +15,7 @@ import {
   DateText,
   TimeText,
   SubmitButton,
+  BarGraph
 } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useAttendanceStaff from "../../hooks/service/attendance";
@@ -32,8 +33,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
-import ServiceBarChart from "../../hooks/graphs/serviceBar";
-import AttendanceChart from "../../hooks/graphs/attendanceChart";
+import ServiceSalesReport from "../../hooks/graphs/Service_Sales_Report";
+import AttendanceChart from "../../Hooks/graphs/Attendance_Chart";
 
 ChartJS.register(
   CategoryScale,
@@ -54,6 +55,8 @@ export default function StaffProfile() {
   const { formData, user, handleInputChange, handleUpdateUser } =
     useModifyData();
 
+  const { ServiceSalesReportData, ServiceSalesReportOptions } = ServiceSalesReport()
+  const { AttendanceChartData, AttendanceChartOptions } = AttendanceChart()
 
   const Inputboxes = [
     {
@@ -119,7 +122,7 @@ export default function StaffProfile() {
                   <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
                 </Box>
                 <Box Title="Statistics" Class="statistic" BoxCol>
-                    <ServiceBarChart />
+                  <BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
                 </Box>
               </Section>
             </Group>
@@ -136,8 +139,10 @@ export default function StaffProfile() {
                 <Button Title="TIME-IN" Onclick={handleTimeInClick} />
                 <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
               </Group>
-              <hr />
-                <AttendanceChart />
+              <hr />                  
+              <Group Class="attendance">
+                <BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+              </Group>
               </Box>
           </Main>
         ) : (
@@ -153,23 +158,27 @@ export default function StaffProfile() {
                 </article>
                 <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
               </Box>
-              <Box Class="attendance" BoxCol>
-                <Group Class="datetime" Col>
-                  <h3>
-                    <DateText />
-                    <br />
-                    <TimeText />
-                  </h3>
+                <Box Class="attendance" BoxCol>
+                  <Group Class="datetime" Col>
+                    <h3>
+                      <DateText />
+                      <br />
+                      <TimeText />
+                    </h3>
+                    <hr />
+                  </Group>
+                  <Group Class="timeintimeout">
+                    <Button Title="TIME-IN" Onclick={handleTimeInClick} />
+                    <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
+                  </Group>
                   <hr />
-                </Group>
-                <Group Class="timeintimeout">
-                  <Button Title="TIME-IN" Onclick={handleTimeInClick} />
-                  <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
-                </Group>
-                <hr />
-                <AttendanceChart />              </Box>
+                  <Group Class="attendance">
+
+                    <BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+                  </Group>
+                </Box>
                 <Box Title="Statistics" Class="statistic" BoxCol>
-                    <ServiceBarChart />
+                  <BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
                 </Box>
             </Section>
           </Main>
