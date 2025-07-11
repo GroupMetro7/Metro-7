@@ -12,7 +12,8 @@ export default function AttendanceChart() {
     try {
       const response = await axiosClient.get("/weekly-orders");
       setPerformanceData(response.data);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error fetching performance data:", error);
     }
   };

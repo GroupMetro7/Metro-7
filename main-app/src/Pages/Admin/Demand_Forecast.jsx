@@ -12,6 +12,7 @@ import {
 } from "../../exporter/component_exporter";
 import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI";
 import axiosClient from "../../axiosClient";
+import useFetchModelPrediction from "../../hooks/AI/Fetch_Model_Prediction";
 
 export default function StaffOrderList() {
   Title("Demand Forecast");
@@ -19,16 +20,7 @@ export default function StaffOrderList() {
 
   const { productSold } = useFetchTicketsForAI();
 
-  const [data, setData] = useState([]);
-
-  // Example useEffect for fetching data (uncomment and adjust as needed)
-  useEffect(() => {
-    fetch("https://forecast.metro7-test.shop/")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
-  }, []);
+  const forecastdata = useFetchModelPrediction()
 
   const tbhead = [
     "ITEM",
@@ -38,8 +30,8 @@ export default function StaffOrderList() {
     "LOWEST PREDICTION",
   ];
 
-  const tbrowsOrders = Object.keys(data).flatMap((itemName) =>
-    data[itemName].map((entry) => ({
+    const tbrowsOrders = Object.keys(forecastdata || {}).flatMap((itemName) =>
+    forecastdata[itemName].map((entry) => ({
       item: itemName,
       date: `${new Date(entry.ds).getFullYear()}-${(
         new Date(entry.ds).getMonth() + 1

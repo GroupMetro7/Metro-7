@@ -23,6 +23,7 @@ import {
 } from "../../exporter/component_exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
+import DemandForecast from "../../Hooks/graphs/Demand_Forecast_Chart";
 import UseKpi from "../../hooks/uni/Kpi";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
@@ -109,7 +110,7 @@ export default function DashboardPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Demand Forecast" Class="demandforecast" BoxCol>
-                <img src="" />
+                <DemandForecast />
               </Box>
             </Group>
           </Section>
