@@ -135,12 +135,12 @@ export default function ProfilePage() {
               InWhite
             />
           </Group>
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
             </Group>
-          : 
+          :
             <Group Class="buttonside" Col>
               <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
