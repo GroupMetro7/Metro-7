@@ -117,7 +117,7 @@ export default function StaffProfile() {
               </Group>
               <hr />                  
               <Group Class="attendance">
-                <BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+                <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
               </Group>
               </Box>
           </Main>
@@ -149,12 +149,11 @@ export default function StaffProfile() {
                   </Group>
                   <hr />
                   <Group Class="attendance">
-
-                    <BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+                    <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
                   </Group>
                 </Box>
                 <Box Title="Statistics" Class="statistic" BoxCol>
-                  <BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
+                  <Graph BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
                 </Box>
             </Section>
           </Main>

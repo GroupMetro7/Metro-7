@@ -1,85 +1,44 @@
-import { useEffect, useState } from 'react';
-import '../assets/css/pages/Login.sass'
-import { useStateContext } from '../Contexts/ContextProvider';
-import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/component_exporter'
-import { useNavigate } from 'react-router-dom';
-import axiosClient from '../axiosClient';
+import { useEffect } from 'react';
+import '../assets/css/pages/Login.sass';
+import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/component_exporter';
+import useAuthentication from '../hooks/authentication';
+import { useStateContext } from "../Contexts/ContextProvider";
 
 export default function LoginPage() {
-    const { user, setUser, setToken } = useStateContext()
-    Title(`Metro 7 | Login`)
-    Body_addclass(`Login-PAGE`)
+    const { user } = useStateContext()
+    Title(`Metro 7 | Login`);
+    Body_addclass(`Login-PAGE`);
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-      axiosClient.get("/user")
-          .then(({ data }) => {
-              setUser(data);
-              setLoading(false); // Stop loading once user data is fetched
-          })
-          .catch((error) => {
-              console.error("Failed to fetch user:", error);
-              setLoading(false); // Stop loading even if the request fails
-          });
-    }, []);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axiosClient.post("/login", {
-                email,
-                password,
-            });
-            setUser(response.data.user);
-            setToken(response.data.token);
-            if (user.role === "customer") {
-                navigate("/");
-            }
-            else if (user.role === "employee") {
-                navigate("/service");
-            } 
-            else if (user.role === "admin") {
-                navigate("/admin");
-            }
-        } 
-        catch (err) {
-            setError(
-                err.response.data.message || "Login failed, please try again."
-            );
-        }
-    };
+    const {
+        formData,
+        setFormData,
+        handleSubmit,
+        isLoading,
+        error
+    } = useAuthentication();
 
     const Inputboxes = [
-        { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
-        { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value) }
-    ]
-    
-    const screenwidth = ScreenWidth()
+        { Title: 'Email', Type: 'email', ID: 'email', InCol: true, InWhite: true, Value: formData.email, onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
+        { Title: 'Password', Type: 'password', ID: 'password', InCol: true, InWhite: true, Value: formData.password, onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
+    ];
 
-    return(
-        <>
+    return (
         <Main>
             <Section Class='login'>
                 <Form Title='LOGIN' OnSubmit={handleSubmit}>
-                    { error && <Group Class="signalside"><p class="error">{ error }</p></Group> }
+                    {error && <Group Class="signalside"><p className="error">{error}</p></Group>}
                     <Group Class='inputside' Col>
-                        { Inputboxes.map((input, index) => (
-                            <Inputbox key={index} Title={input.Title} ID={input.ID} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange } />
-                        )) }
+                        {Inputboxes.map((input, index) => (
+                            <Inputbox key={index} Title={input.Title} ID={input.ID} Type={input.Type} InCol={input.InCol} InWhite={input.InWhite} Value={input.Value} onChange={input.onChange} />
+                        ))}
                     </Group>
                     <Group Class='buttonside' Col>
-                        <SubmitButton Title='LOGIN' BtnWhite />
+                        <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} disabled={isLoading} BtnWhite />
                         <Button Title="REGISTER" Redirect="/register" BtnWhite />
                         <Href Title='FORGOT PASSWORD?' Redirect='/forget_password' HrefWhite />
                     </Group>
                 </Form>
             </Section>
         </Main>
-        </>
-    )
+    );
 }

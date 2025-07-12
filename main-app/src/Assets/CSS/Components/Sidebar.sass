@@ -72,6 +72,7 @@ aside.sidebar
             div:has( > img )
 
                 > h1
+                    display: flex !important
                     opacity: 1 !important
                     visibility: visible !important
 
@@ -105,10 +106,15 @@ aside.sidebar
         &.expanded
             width: calc( v.$sidebar-size * 3 ) !important
 
+            div:has( > img )
+
+                > h1
+                    display: flex !important
+                    opacity: 1 !important
+                    visibility: visible !important
+
             nav 
                 margin-left: 4px !important
-                
-            nav, nav > div
 
                 > a
                     width: 100% !important

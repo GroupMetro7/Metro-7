@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
-import { fetchMenu } from "../../functions/MenuFunctions";
+// import { fetchMenu } from "../../functions/MenuFunctions";
 
 export default function useFetchOrder() {
   const [menuProduct, setMenu] = useState([]);
@@ -68,7 +68,6 @@ export default function useFetchOrder() {
     selectedOrder,
     setSelectedOrder,
     fetchCategories,
-    fetchMenu,
     setSearchItem,
     setSelectedCategory,
   };

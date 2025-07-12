@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import axiosClient from "../../axiosClient";
-import { fetchMenu } from "../../functions/MenuFunctions";
+import { useEffect, useRef, useState } from "react"
+import axiosClient from "../../axiosClient"
 
 export default function useFetchOrder() {
     const [menuProduct, setMenu] = useState([]);
@@ -14,6 +13,14 @@ export default function useFetchOrder() {
     const intervalRef = useRef(null);
     const audioRef = useRef(null);
     const previousOrderIdsRef = useRef([]);
+
+    const fetchMenu = (page, setMenu, setCurrentPage, setTotalPages) => {
+    axiosClient.get(`/menu?page=${page}`).then(({ data }) => {
+        setMenu(data.data);
+        setCurrentPage(data.current_page);
+        setTotalPages(data.last_page);
+    });
+    };
 
     useEffect(() => {
         audioRef.current = new Audio("/notification_tone.mp3"); // Add sound file to public folder

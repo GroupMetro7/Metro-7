@@ -54,31 +54,6 @@ export default function useModelPrediction(FetchData) {
 
         const ModelOptions = {
             responsive: true,
-            plugins: {
-                legend: {
-                    position: "top",
-                },
-                title: {
-                    display: true,
-                    text: "Sales Forecast Chart",
-                },
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: "Date",
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "Predicted Sales",
-                    },
-                    suggestedMin: 0,
-                },
-            },
         };
 
         const ModelData = {

@@ -5,9 +5,9 @@ import { Logo } from '../Exporter/public_exporter'
 import { useStateContext } from "../Contexts/ContextProvider";
 
 export default function LandingPage() {
+    const { user } = useStateContext()
     Title(`Metro 7`)
     Body_addclass(`Landing-PAGE`)
-    const { user } = useStateContext()
 
     const screenwidth = ScreenWidth()
     PreOrderSectionHeight()
