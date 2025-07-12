@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/admin/Management.sass";
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination, } from "../../exporter/component_exporter";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination, KPI } from "../../exporter/component_exporter";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
@@ -30,6 +30,8 @@ export default function StaffOrderList() {
   } = useOrderHistory();
 
   const { user } = useStateContext();
+
+  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
 
   const tborderhistory = {
     head: [
@@ -68,6 +70,13 @@ export default function StaffOrderList() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const kpis = [
+    { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
+    { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+    { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
+    { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
+  ]
+
 
   return (
     <>
@@ -89,7 +98,9 @@ export default function StaffOrderList() {
           {user && user.role === "admin" && (
             <Group Class="upper">
               <Group Class="kpis">
-                <UseKpi />
+                  {kpis.map((kpi, index) => (
+                      <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                  ))}
               </Group>
             </Group>
           )}
