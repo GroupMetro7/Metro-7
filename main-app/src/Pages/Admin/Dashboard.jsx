@@ -23,11 +23,13 @@ import {
 } from "../../exporter/component_exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
+import ModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
 import DemandForecast from "../../Hooks/graphs/Demand_Forecast_Chart";
 import UseKpi from "../../hooks/uni/Kpi";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useFetchDashboardData from '../../hooks/admin/fetchData';
+import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
 import { createWorker } from "tesseract.js";
 
 export default function DashboardPage() {
@@ -92,6 +94,7 @@ export default function DashboardPage() {
 
   const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData());
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
+  const { ModelData, ModelOptions, ModelTopDemand } = DemandForecast(useFetchModelPrediction());
 
   return (
     <>
@@ -122,7 +125,17 @@ export default function DashboardPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Demand Forecast" Class="demandforecast" BoxCol>
-                <DemandForecast />
+                <Graph LineGraph Data={ ModelData } Options={ ModelOptions } />
+                {ModelTopDemand && (
+                 <Group>
+                     <h3>
+                         Based on the demand forecast, {ModelTopDemand.item} sales are expected to increase over 
+                         the next four weeks. To meet this rising demand, the business should restock more {ModelTopDemand.item} by 
+                         the end of this week. This proactive step will help prevent stockouts, maintain customer satisfaction, 
+                         and keep daily operations running smoothly.
+                     </h3>
+                 </Group>
+             )}
               </Box>
             </Group>
           </Section>

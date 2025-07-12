@@ -37,9 +37,7 @@ export { default as CheckedItem } from '../Components/Intermediate/Checked_Item'
 export { default as KPI } from '../Components/Intermediate/KPI'
 export { default as Modal } from '../Components/Intermediate/Modal'
 export { default as GMap } from '../Components/Intermediate/GMap'
-
-export { default as Graph } from '../Components/Intermediate/Graphs/Graph'
-// export { default as PieGraph } from '../Components/Intermediate/Graphs/Pie'
+export { default as Graph } from '../Components/Intermediate/Graph'
 
 export { default as TBHead } from '../Components/Intermediate/Table/Head'
 export { default as TBData } from '../Components/Intermediate/Table/Data'
