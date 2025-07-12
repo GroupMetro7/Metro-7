@@ -18,8 +18,8 @@ import {
   Selectionbox,
   InsertFileButton,
   Inputbox,
-  BarGraph,
-  PieGraph
+  Graph,
+  KPI
 } from "../../exporter/component_exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
@@ -44,6 +44,8 @@ export default function DashboardPage() {
     handlePageChange,
     fetchOrder
   } = useFetchOrder();
+
+  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
 
   const { formData, setFormData, handleUpdateOrder, error, success } =
     useModifyOrderList(selectedOrder, fetchOrder);
@@ -80,6 +82,14 @@ export default function DashboardPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const kpis = [
+    { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
+    { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+    { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
+    { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
+  ]
+
   const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData());
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
 
@@ -90,7 +100,9 @@ export default function DashboardPage() {
           <Section Title="Sales Revenue" Class="salesrevenue">
             <Group Class="upper">
               <Group Class="kpis">
-                <UseKpi />
+                {kpis.map((kpi, index) => (
+                  <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                ))}
               </Group>
               <Box Class="datetime">
                 <h3>
@@ -102,10 +114,10 @@ export default function DashboardPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
-                <BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
+                <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
               </Box>
               <Box Title="Most Sold Products" Class="topcategory" BoxCol>
-                <PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
+                <Graph PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
               </Box>
             </Group>
             <Group Class="charts">

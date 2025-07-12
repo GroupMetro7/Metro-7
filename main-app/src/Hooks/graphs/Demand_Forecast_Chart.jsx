@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
 
 // Register required Chart.js components
-ChartJS.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
+ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
 export default function MixedChart() {
     const forecastdata = useFetchModelPrediction()

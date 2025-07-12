@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SideBar, Group } from '../../Exporter/component_exporter'
+import { SideBar, Group, Main, LoadingScreen } from '../../Exporter/component_exporter'
 import { Navigate, Outlet } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 import { useStateContext } from '../../Contexts/ContextProvider';
@@ -22,11 +22,11 @@ export default function StaffLayout() {
     }, []);
 
     if (loading) {
-        return <div class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>; // Show a loading indicator while fetching user data
+        return (
+            <Main>
+                <LoadingScreen/>
+            </Main>
+        )
     }
 
     const onLogout = async (ev) => {

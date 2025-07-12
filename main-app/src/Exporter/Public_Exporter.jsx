@@ -2,6 +2,9 @@ export { default as Logo } from '/Brand-Logo/LOGO.svg'
 export { default as TextLogo } from '/Brand-Logo/TEXT LOGO.svg'
 export { default as M7Logo } from '/Brand-Logo/M7 LOGO.svg'
 
+export { default as LoadingMLogo } from '/Loading/M7-M.png'
+export { default as Loading7Logo } from '/Loading/M7-7.png'
+
 export { default as FBLogo } from '/Icons/footer/FB LOGO.png'
 export { default as XLogo } from '/Icons/footer/X LOGO.png'
 export { default as IGLogo } from '/Icons/footer/IG LOGO.png'

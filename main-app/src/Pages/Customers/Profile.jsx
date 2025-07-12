@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import "../../assets/css/pages/customers/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from '../../Exporter/component_exporter'
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from '../../Exporter/component_exporter'
 import { useStateContext } from "../../Contexts/ContextProvider";
 import axiosClient from "../../axiosClient";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
@@ -30,6 +30,9 @@ export default function ProfilePage() {
     },
   }));
 
+  const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
+  const [minDateTime, setMinDateTime] = useState('');
+
   const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
   const tbrowsOrder = preOrders.map((res) => ({
     id: res.order_number,
@@ -46,7 +49,7 @@ export default function ProfilePage() {
     <>
       <Main>
         <Section Title="My Profile" Class="myprofile">
-          {screenwidth > 766 ? (
+          {screenwidth > 766 ? 
             <Box Class="profile">
               <img
                 src={
@@ -66,7 +69,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
             </Box>
-          ) : (
+          : 
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
@@ -79,7 +82,7 @@ export default function ProfilePage() {
                 <h4>{user?.loyalty}</h4>
               </article>
             </Box>
-          )}
+          }
           <Box Title="Order History" Class="orderhistory" BoxCol>
             <Table Title="OHistory" HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
           </Box>
@@ -135,12 +138,12 @@ export default function ProfilePage() {
               InWhite
             />
           </Group>
-          {screenwidth > 766 ?
+          {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
             </Group>
-          :
+          : 
             <Group Class="buttonside" Col>
               <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
@@ -148,8 +151,157 @@ export default function ProfilePage() {
           }
         </Form>
       </Modal>
+      {/* <Modal Modal="ViewModal-OHistory">
+        {selectedOrder && 
+          <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Order No."
+                Value=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Order Date"
+                Value={`${new Date().getFullYear()}-${(
+                  new Date().getMonth() + 1
+                )
+                  .toString()
+                  .padStart(2, "0")}-${new Date()
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")} | ${new Date(
+                  
+                ).toLocaleTimeString([], { timeStyle: "short" })}`}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Customer Name"
+                Value=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Options"
+                Value=""
+                OutCol
+                OutWhite
+              />
+            </Group>
+            <Group Class="outputfetch" Col>
+              <div>
+                <Outputfetch Title="Items" OutWhite />
+                <Outputfetch Title="Quantity" OutWhite />
+                <Outputfetch Title="Unit Price" OutWhite />
+                <Outputfetch Title="Total Price" OutWhite />
+              </div>
+              {selectedOrder.tickets.map((ticket, index) => (
+                <div>
+                  <Outputfetch Value="" OutWhite />
+                  <Outputfetch Value={`x$""`} OutWhite />
+                  <Outputfetch Value={`₱$""`} OutWhite />
+                  <Outputfetch Value={`₱$""`} OutWhite />
+                </div>
+              ))}
+            </Group>
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Total Price"
+                Value=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Discount"
+                Value=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Payment Mode"
+                Value=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Down Payment Price"
+                Name="downpayment"
+                Value={"₱"}
+                onChange=""
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Reference Number"
+                Name="refNumber"
+                Value=""
+                onChange=""
+                OutCol
+                OutWhite
+              />
+            </Group>
+            <Group Class="buttonside">
+              <Button Title="CLOSE" CloseModal BtnWhite />
+              <SubmitButton Title="SAVE" BtnWhite />
+            </Group>
+          </Form>
+        }
+      </Modal> */}
+      <Modal Modal="EditModal-Reservations">
+        <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
+          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
+            <Outputfetch Title="Customer Name" Value={`${user.firstname} ${user.lastname}`} OutCol OutWhite />                                <Selectionbox
+              Title="Reservation Type"
+              Name="reservationType"
+              Value={formData.reservationType}
+              Options={[
+                  { label: "Solo", value: "Solo" },
+                  { label: "Group", value: "Group" },
+                  { label: "Event", value: "Event" },
+              ]}
+              SltCol
+              SltWhite
+              OnChange={handleInputChange}
+          />
+          <Inputbox
+              Title="Party Size"
+              Type="number"
+              Name="partySize"
+              Value={formData.partySize}
+              InCol
+              InWhite
+              onChange={handleInputChange}
+          />
+          <Inputbox
+              Title="Date"
+              Type="date"
+              Name="date"
+              Value={formData.date}
+              MinDate={ today }
+              InCol
+              InWhite
+              onChange={handleInputChange}
+          />
+          <Inputbox
+              Title="Time"
+              Type="time"
+              Name="time"
+              Value={formData.time}
+              MinDate={ minDateTime }
+              InCol
+              InWhite
+              onChange={handleInputChange}
+          />
+          </Group>
+          <Group Class="buttonside">
+            <Button Title="CANCEL" CloseModal BtnWhite />
+            <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
       <Modal Modal="CancelModal-Reservations">
-        <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit={""}>
+        <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit="">
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Customer Name"

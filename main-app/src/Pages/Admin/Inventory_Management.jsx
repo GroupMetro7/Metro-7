@@ -1,5 +1,5 @@
 import '../../assets/css/pages/admin/Management.sass';
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox } from '../../exporter/component_exporter'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../exporter/component_exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useAddCategory from "../../hooks/add";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
@@ -37,6 +37,9 @@ export default function Test() {
     const {
         editCategory,
     } = useAddCategory(fetchCategories);
+
+
+    const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
 
     const { categories } = useFetchOrder();
 
@@ -90,6 +93,13 @@ export default function Test() {
         }
     }
 
+    const kpis = [
+        { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
+        { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+        { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
+        { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
+    ]
+
     return (
         <>
             <Group>
@@ -98,8 +108,10 @@ export default function Test() {
                         <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
                         <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
                     </Box>
-                <Group Class="kpis">
-                  <UseKpi />
+                <Group Class="kpis">                
+                    {kpis.map((kpi, index) => (
+                        <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                    ))}
                 </Group>
                     <Box Title="INVENTORY" UpperRight={
                         <>
@@ -107,7 +119,6 @@ export default function Test() {
                             <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
                         </>
                     } BoxCol >
-
                         <Table Title="Inventory" HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>

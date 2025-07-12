@@ -9,7 +9,7 @@ export { default as SideBarWeight } from '../Components/Others/get_sidebarweight
 export { default as ScreenWidth } from '../Components/Others/screen_width'
 export { default as CheckoutWidth } from '../Components/Others/get_divcheckoutwidth'
 
-export { default as LoadingSpinner } from '../Components/Others/loading_spinner'
+export { default as LoadingScreen } from '../Components/Others/Loading_Screen'
 
 export { default as Header } from '../Components/Semantics/Header'
 export { default as Footer } from '../Components/Semantics/Footer'
@@ -38,8 +38,8 @@ export { default as KPI } from '../Components/Intermediate/KPI'
 export { default as Modal } from '../Components/Intermediate/Modal'
 export { default as GMap } from '../Components/Intermediate/GMap'
 
-export { default as BarGraph } from '../Components/Intermediate/Graphs/Bar'
-export { default as PieGraph } from '../Components/Intermediate/Graphs/Pie'
+export { default as Graph } from '../Components/Intermediate/Graphs/Graph'
+// export { default as PieGraph } from '../Components/Intermediate/Graphs/Pie'
 
 export { default as TBHead } from '../Components/Intermediate/Table/Head'
 export { default as TBData } from '../Components/Intermediate/Table/Data'

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../assets/css/components/kpi.sass'
+import '../../assets/css/components/KPI.sass'
 
 export default function KPI({ Class, Title, Item, Integer, Increase, Decrease }) {
 

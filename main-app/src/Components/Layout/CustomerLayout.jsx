@@ -1,21 +1,32 @@
+import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { Header, Footer } from '../../exporter/component_exporter'
+import { Header, Footer, Main, LoadingScreen } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 import axiosClient from '../../axiosClient'
-import { useEffect, useState } from 'react'
 
 export default function CustomerLayout() {
     const { user, setUser, setToken } = useStateContext();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axiosClient.get("/user")
             .then(({ data }) => {
                 setUser(data);
+                setLoading(false); // Stop loading once user data is fetched
             })
             .catch((error) => {
                 console.error("Failed to fetch user:", error);
+                setLoading(false); // Stop loading even if the request fails
             });
     }, []);
+
+    if (loading) {
+        return (
+            <Main>
+                <LoadingScreen/>
+            </Main>
+        )
+    }
 
     const onLogout = async (ev) => {
         ev.preventDefault();

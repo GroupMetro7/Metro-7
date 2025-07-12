@@ -15,37 +15,13 @@ import {
   DateText,
   TimeText,
   SubmitButton,
-  BarGraph
+  Graph
 } from "../../Exporter/component_exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useAttendanceStaff from "../../hooks/service/attendance";
-import useModifyData from "../../hooks/customer/profile/modifyData";
-import axiosClient from "../../axiosClient";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title as ChartTitle,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
+import useModifyData from "../../hooks/customer/profile/modifyData"
 import ServiceSalesReport from "../../hooks/graphs/Service_Sales_Report";
 import AttendanceChart from "../../Hooks/graphs/Attendance_Chart";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ChartTitle,
-  Tooltip,
-  Legend
-);
 
 export default function StaffProfile() {
   Title("Profile");
@@ -100,7 +76,7 @@ export default function StaffProfile() {
   return (
     <>
       <Group>
-        {screenwidth > 1023 ? (
+        {screenwidth > 1023 ? 
           <Main Row>
             <Group Class="leftside" Col>
               <Section Title="My Profile" Class="myprofile">
@@ -122,7 +98,7 @@ export default function StaffProfile() {
                   <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
                 </Box>
                 <Box Title="Statistics" Class="statistic" BoxCol>
-                  <BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
+                  <Graph BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
                 </Box>
               </Section>
             </Group>
@@ -145,7 +121,7 @@ export default function StaffProfile() {
               </Group>
               </Box>
           </Main>
-        ) : (
+        : 
           <Main>
             <Section Title="My Profile" Class="myprofile">
               <Box Class="details">
@@ -182,7 +158,7 @@ export default function StaffProfile() {
                 </Box>
             </Section>
           </Main>
-        )}
+        }
       </Group>
       <Modal Modal="EditProfile">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>

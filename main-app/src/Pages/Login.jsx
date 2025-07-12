@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 
 export default function LoginPage() {
+    const { user, setUser, setToken } = useStateContext()
     Title(`Metro 7 | Login`)
     Body_addclass(`Login-PAGE`)
-    const { user, setUser, setToken } = useStateContext()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -25,7 +25,7 @@ export default function LoginPage() {
               console.error("Failed to fetch user:", error);
               setLoading(false); // Stop loading even if the request fails
           });
-  }, []);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

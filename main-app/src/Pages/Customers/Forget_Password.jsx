@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 
 export default function ForgetPasswordPage() {
-    const { user, setUser, setToken } = useStateContext();
+    // const { user, setUser, setToken } = useStateContext();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // const [password, setPassword] = useState("");
     const [success, setSuccess] = useState(null);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-      axiosClient.get("/user")
-          .then(({ data }) => {
-              setUser(data);
-              setLoading(false); // Stop loading once user data is fetched
-          })
-          .catch((error) => {
-              console.error("Failed to fetch user:", error);
-              setLoading(false); // Stop loading even if the request fails
-          });
-  }, []);
+//     useEffect(() => {
+//       axiosClient.get("/user")
+//           .then(({ data }) => {
+//               setUser(data);
+//               setLoading(false); // Stop loading once user data is fetched
+//           })
+//           .catch((error) => {
+//               console.error("Failed to fetch user:", error);
+//               setLoading(false); // Stop loading even if the request fails
+//           });
+//   }, []);
 
 const handleSubmit = async (e) => {
     e.preventDefault();

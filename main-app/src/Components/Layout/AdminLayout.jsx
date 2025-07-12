@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
-import { Group, SideBar } from '../../exporter/component_exporter';
+import { Group, SideBar, Main, LoadingScreen } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider';
 import axiosClient from '../../axiosClient';
 
@@ -21,14 +21,18 @@ export default function AdminLayout() {
     }, []);
 
     if (loading) {
-      return <div class="text-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>; // Show a loading indicator while fetching user data
-  }
+        return (
+            <Main>
+                <LoadingScreen/>
+            </Main>
+        )
+    }
 
-      const onLogout = async (ev) => {
+    if (!user || user?.role !== "admin") {
+        return <Navigate to={"/"} replace/>;
+    }
+
+    const onLogout = async (ev) => {
         ev.preventDefault();
         try {
             await axiosClient.post("/logout");
@@ -38,10 +42,6 @@ export default function AdminLayout() {
             console.error("Logout failed:", error);
         }
     };
-
-    if (!user || user?.role !== "admin") {
-        return <Navigate to={"/"} replace/>;
-    }
 
     return (
         <Group>

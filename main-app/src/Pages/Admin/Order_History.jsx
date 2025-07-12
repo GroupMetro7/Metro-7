@@ -94,7 +94,7 @@ export default function StaffOrderList() {
             </Group>
           )}
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table HeadRows={tborderhistory.head} DataRows={tborderhistory.rows} EditBtn />
+            <Table Title="OHistory" HeadRows={tborderhistory.head} DataRows={tborderhistory.rows} EditBtn />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -106,7 +106,7 @@ export default function StaffOrderList() {
 
       {/* Modal to display tickets for the selected order */}
 
-      <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
+      <Modal Modal="EditModal-OHistory" onClose={() => setSelectedOrder(null)}>
         {selectedOrder && (
           <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
             {(error && (

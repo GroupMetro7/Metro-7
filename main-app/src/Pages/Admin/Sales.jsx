@@ -13,8 +13,8 @@ import {
   Selectionbox,
   DateText,
   TimeText,
-  BarGraph,
-  PieGraph,
+  Graph,
+  KPI
 } from "../../exporter/component_exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
@@ -36,6 +36,7 @@ export default function SalesPage() {
       minimumFractionDigits: 2,
     })}`,
   ]);
+  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
 
   const salesReport = {
     display: {
@@ -63,6 +64,12 @@ export default function SalesPage() {
   const { SalesReportData, SalesReportOptions } = SalesReport(useFetchData());
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchData());
 
+  const kpis = [
+    { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
+    { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+    { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
+    { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
+  ]
 
   return (
     <>
@@ -79,7 +86,9 @@ export default function SalesPage() {
           >
             <Group Class="upper">
               <Group Class="kpis">
-                <UseKpi />
+                {kpis.map((kpi, index) => (
+                  <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                ))}
               </Group>
               <Box Class="datetime">
                 <h3>
@@ -91,10 +100,10 @@ export default function SalesPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Sales Status" Class="salesstatus" BoxCol>
-                <BarGraph Data={SalesReportData} Options={SalesReportOptions} />
+                <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
               </Box>
               <Box Title="Most Sold Products" Class="topcategory" BoxCol>
-                <PieGraph Data={TopCategoryData} Options={TopCategoryOptions} />
+                <Graph PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
               </Box>
             </Group>
             <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>
