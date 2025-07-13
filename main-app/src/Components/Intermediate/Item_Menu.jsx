@@ -17,12 +17,12 @@ export default function ItemMenu({ Class, List, AuthenticatedMode, ServiceMode, 
                     {( AuthenticatedMode || ServiceMode ) && (
                         Menu.is_available ? 
                             screenwidth > 766 ?
-                                <Button Title="ADD" Onclick={() => addItemToOrder(Menu)} />
+                                <Button Title="ADD" ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, '-')}-add-btn`} Onclick={() => addItemToOrder(Menu)} />
                                 :
                                 <div>
-                                    <Button Title="&lt;" Onclick={() => removeItemFromOrder(Menu.id)}/>
+                                    <Button Title="&lt;" ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, '-')}-rm-btn`} Onclick={() => removeItemFromOrder(Menu.id)}/>
                                     <h3>x{Menu.quantity}</h3>
-                                    <Button Title="&gt;"  Onclick={() => addItemToOrder(Menu)}/>
+                                    <Button Title="&gt;" ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, '-')}-add-btn`} Onclick={() => addItemToOrder(Menu)}/>
                                 </div>
                             : 
                             <h3>Unavailable</h3>

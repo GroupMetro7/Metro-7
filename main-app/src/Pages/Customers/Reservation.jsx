@@ -1,110 +1,94 @@
-import {React , useState, useEffect} from 'react'
+import React from 'react'
 import '../../assets/css/pages/customers/Reservation.sass'
-import { ScreenWidth, Title, Body_addclass, Footer, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/component_exporter'
-import useCreateReservation from '../../hooks/customer/reservation/createReservation';
-
-
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
 
 export default function ReservationPage() {
-    Title("Metro 7 | Reservation");
-    Body_addclass("Reservation-PAGE");
-    const screenwidth = ScreenWidth();
+    // Basic Hooks
+    const { user } = useStateContext()
+    Title(`Metro 7 | Reservation`)
+    Body_addclass(`Reservation-PAGE`)
 
-    //this file needs to be updated
-  const {
-    formData,
-    handleInputChange,
-    handleCreateReservation,
-    isLoading,
-    error,
-    success,
-  } = useCreateReservation();
+    // Fetching Hooks
+    const {
+        formData,
+        setFormData,
+        handleInputChange,
+        handleCreateReservation,
+        isLoading,
+        success,
+        error,
+        today,
+        minDateTime
+    } = useCreateReservation()
 
+    // UI Hooks
+    const screenwidth = useScreenWidth()
 
-    const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
-  const [minDateTime, setMinDateTime] = useState('');
-
-  useEffect(() => {
-    const now = new Date();
-    now.setHours(now.getHours() + 2); // Add 2 hours
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const formatted = `${year}-${month}-${day}T${hours}:${minutes}`;
-    setMinDateTime(formatted);
-  }, []);
+        // Hooks for forms
+        const Inputboxes = [
+            { Select: true, Title: `Reservation Type`, ID: `restype-slt`, Name: `reservationType`, Value: formData.reservationType, SltCol: true, SltWhite: true, OnChange: handleInputChange, 
+                Options: [
+                    { label: `Solo`, value: `Solo` },
+                    { label: `Group`, value: `Group` },
+                    { label: `Event`, value: `Event` }
+            ]},
+            { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.partySize, onChange: handleInputChange },
+            { Input: true, Title: `Date`, Type: `date`, ID: `date-in`, Name: `date`, InCol: true, InWhite: true, Value: formData.date, MinDate: today, onChange: handleInputChange },
+            { Input: true, Title: `Time`, Type: `time`, ID: `time-in`, Name: `time`, InCol: true, InWhite: true, Value: formData.time, MinDate: minDateTime, onChange: handleInputChange }
+        ]
 
     return (
-        <>
-            <Main>
-                <Section Class="reservation">
-                    <Form Title='RESERVATION' { ...screenwidth > 766 && { FormTwolayers: true } } OnSubmit={handleCreateReservation}>
-                        { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
-                        success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
-                        <Group Col>
-                            <Group Class="infoside" Col>
+        <Main>
+            <Section Class={`reservation`}>
+                <Form Title={`RESERVATION`} {...(screenwidth > 766 && { FormTwolayers: true })} OnSubmit={handleCreateReservation} >
+                    {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
+                    success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
+                    <Group Col>
+                        {!error && !success && 
+                            <>
+                            <Group Class={`infoside`} Col>
                                 <h5>HOURS: OPEN - CLOSES 10:00PM</h5>
                                 <h5>MOBILE NUMBER: 09952332528</h5>
                             </Group>
                             <hr />
-                            <Group
-                                Class="inputside"
-                                {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
-                            >
+                            </>
+                        }
+                        <Group Class={`inputside`} {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
+                            {Inputboxes.map((input, index) =>
+                                input.Select &&
                                 <Selectionbox
-                                    Title="Reservation Type"
-                                    Name="reservationType"
-                                    Value={formData.reservationType}
-                                    Options={[
-                                        { label: "Solo", value: "Solo" },
-                                        { label: "Group", value: "Group" },
-                                        { label: "Event", value: "Event" },
-                                    ]}
-                                    SltCol
-                                    SltWhite
-                                    OnChange={handleInputChange}
+                                    key={index}
+                                    Title={input.Title}
+                                    ID={input.ID}
+                                    Name={input.Name}
+                                    Value={input.Value}
+                                    Options={input.Options}
+                                    SltCol={input.SltCol}
+                                    SltWhite={input.SltWhite}
+                                    OnChange={input.OnChange}
                                 />
+                                || input.Input &&
                                 <Inputbox
-                                    Title="Party Size"
-                                    Type="number"
-                                    Name="partySize"
-                                    Value={formData.partySize}
-                                    InCol
-                                    InWhite
-                                    onChange={handleInputChange}
+                                    key={index}
+                                    Title={input.Title}
+                                    Type={input.Type}
+                                    ID={input.ID}
+                                    Name={input.Name}
+                                    InCol={input.InCol}
+                                    InWhite={input.InWhite}
+                                    Value={input.Value}
+                                    MinDate={input.MinDate}
+                                    onChange={input.onChange}
                                 />
-                                <Inputbox
-                                    Title="Date"
-                                    Type="date"
-                                    Name="date"
-                                    Value={formData.date}
-                                    MinDate={ today }
-                                    InCol
-                                    InWhite
-                                    onChange={handleInputChange}
-                                />
-                                <Inputbox
-                                    Title="Time"
-                                    Type="time"
-                                    Name="time"
-                                    Value={formData.time}
-                                    MinDate={ minDateTime }
-                                    InCol
-                                    InWhite
-                                    onChange={handleInputChange}
-                                />
-                            </Group>
+                            )}
                         </Group>
-                        <Group Class="buttonside">
-                            <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} disabled={isLoading} BtnWhite />
-                        </Group>
-                    </Form>
-                </Section>
-            </Main>
-        </>
-    );
+                    </Group>
+                    <Group Class={`buttonside`}>
+                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} disabled={isLoading} BtnWhite />
+                    </Group>
+                </Form>
+            </Section>
+        </Main>
+    )
 }

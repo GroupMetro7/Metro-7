@@ -14,9 +14,9 @@ export default function CheckedItem({ Class, List, addItemToOrder, removeItemFro
                         <h4>₱{ Menu.price }</h4>
                     </div>
                     <div>
-                        <Button Title="&lt;" Onclick={() => removeItemFromOrder(Menu.id)}/>
+                        <Button Title="&lt;" ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, '-')}-rm-btn`} Onclick={() => removeItemFromOrder(Menu.id)}/>
                         <h3>x{Menu.quantity}</h3>
-                        <Button Title="&gt;"  Onclick={() => addItemToOrder(Menu)}/>
+                        <Button Title="&gt;" ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, '-')}-add-btn`} Onclick={() => addItemToOrder(Menu)}/>
                     </div>
                 </div>
             ))) 

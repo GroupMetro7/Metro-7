@@ -1,7 +1,7 @@
 import React from 'react'
 import '../assets/css/pages/Landing.sass'
-import { ScreenWidth, Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/Component_Exporter'
-import { useStateContext } from '../Exporter/Hooks_Exporter'
+import { Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth } from '../Exporter/Hooks_Exporter'
 import { Logo } from '../Exporter/Public_Exporter'
 
 export default function LandingPage() {
@@ -11,7 +11,7 @@ export default function LandingPage() {
     Body_addclass(`Landing-PAGE`)
 
     // UI Hooks
-    const screenwidth = ScreenWidth()
+    const screenwidth = useScreenWidth()
     PreOrderSectionHeight()
 
     return (

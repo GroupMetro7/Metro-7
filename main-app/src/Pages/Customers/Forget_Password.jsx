@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Forgot_Password.sass'
-import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, useFetchEmailUser } from '../../Exporter/Hooks_Exporter'
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth, useFetchEmailUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ForgetPasswordPage() {
     // Basic Hooks
@@ -13,7 +13,7 @@ export default function ForgetPasswordPage() {
     const {email, setEmail, handleSubmit, isLoading, error, success} = useFetchEmailUser()
 
     // UI Hooks
-    const screenwidth = ScreenWidth()
+    const screenwidth = useScreenWidth()
 
         // Hooks for forms
         const Inputboxes = [
@@ -22,7 +22,7 @@ export default function ForgetPasswordPage() {
 
     return(
         <Main>
-            <Section Class={`fpass`}>
+            <Section ID={`retrieve-email`} Class={`fpass`}>
                 <Form Title={`LOST PASSWORD`} OnSubmit={handleSubmit}>
                     {error ? <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> :
                     success ? <Group Class={`signalside`}><p class={`success`}>{success}</p></Group> :

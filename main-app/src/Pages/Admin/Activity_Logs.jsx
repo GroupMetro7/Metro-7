@@ -12,7 +12,7 @@ import {
 } from "../../exporter/component_exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 import useExportCSV from "../../hooks/Universal/fileExporter";
-import DateTimeFormat from "../../hooks/Universal/DateTime_Fetch_Format";
+import DateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
 
 export default function CustomerManagementPage() {
   // this file is subject for optimization

@@ -7,8 +7,7 @@ import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 import UseKpi from "../../hooks/Universal/Kpi";
 import { useStateContext } from "../../Contexts/ContextProvider";
-import DateTimeFormat from "../../hooks/Universal/DateTime_Fetch_Format";
-import TimeFormat from "../../hooks/Universal/Time_Fetch_Format";
+import DateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
 
 export default function StaffOrderList() {
   Title("Order List");

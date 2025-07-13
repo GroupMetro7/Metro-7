@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function DateTimeFormat( DateFormat ) {
+export default function useDateTimeFormat( DateFormat ) {
     const formatDate = 
     `${new Date(DateFormat).getFullYear()}-${(new Date(DateFormat).getMonth() + 1)
       .toString()

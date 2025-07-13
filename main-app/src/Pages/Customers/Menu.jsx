@@ -1,24 +1,24 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Menu.sass'
-import { ScreenWidth, Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, DateText, TimeText, Radio, CheckedItem, SubmitButton, } from '../../Exporter/component_exporter'
-import { useStateContext, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
-import useFetchProduct from "../../hooks/service/fetchProducts";
-import useFetchOrder from "../../Hooks/Universal/fetchProducts";
-import useCreateOrder from "../../hooks/orders/createOrderCustomer";
+import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth, useFetchProduct, useFetchOrder, useCreateOrder, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
 export default function MenuPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title("Metro 7 | Menu");
-    Body_addclass("Menu-PAGE");
+    Title(`Metro 7 | Menu`)
+    Body_addclass(`Menu-PAGE`)
 
     // Fetching Hooks
 
-        // For Filters
-        const { categories } = useFetchOrder()
-
         // For Menu List
-        const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } = useFetchProduct()
+        const { 
+            menuItems, 
+            categories, 
+            selectedCategory, 
+            setSelectedCategory, 
+            setSearchItem 
+        } = useFetchProduct()
 
         // For Checked Orders
         const {
@@ -38,7 +38,10 @@ export default function MenuPage() {
         const handleReceiptUpload = useOCRReceipt(setFormData)
 
     // UI Hooks
-    const screenwidth = ScreenWidth()
+    const screenwidth = useScreenWidth()
+
+        // Displaying Clock Text
+        const {time, date} = useClockText()
 
         // Displaying Menu List
         const menulistdata = menuItems.map((product) => ({
@@ -48,7 +51,7 @@ export default function MenuPage() {
             quantity: order.find((item) => item.id === product.id)?.quantity || 0,
             price: product.price,
             is_available: product.is_available,
-        }));
+        }))
 
         // Displaying Checked Orders
         const checkedorders = order.map((product) => ({
@@ -56,313 +59,237 @@ export default function MenuPage() {
             product_name: product.product_name,
             price: product.price,
             quantity: product.quantity,
-        }));
+        }))
+
+        // Hooks for OutputFetch for Checkout
+        const Outputfetches = {
+            first: [
+                { Title: "Customer Name", Value: `${user?.firstname} ${user?.lastname}`, OutCol: true, OutWhite: true },
+                { Title: "Date", Value: `${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`, OutCol: true, OutWhite: true },
+                { Title: "Order Options", Value: diningOpt, OutCol: true, OutWhite: true }
+            ],
+            second: {
+                Title: [
+                    { Title: "Items", OutWhite: true },
+                    { Title: "Quantity", OutWhite: true },
+                    { Title: "Unit Price", OutWhite: true },
+                    { Title: "Total Price", OutWhite: true }
+                ],
+                Value: order.map((product) => ([
+                    { Value: product.product_name, OutWhite: true },
+                    { Value: `x${product.quantity}`, OutWhite: true },
+                    { Value: `₱${Number(product.price).toFixed(2)}`, OutWhite: true },
+                    { Value: `₱${(Number(product.price) * Number(product.quantity)).toFixed(2)}`, OutWhite: true }
+                ]))
+            },
+            third: [
+                { Title: "Total Price", Value: `₱${Number(formData?.totalPrice || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: "Discount", Value: `₱${Number(discount?.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: "Reference Number", Value: formData.refNumber, OutCol: true, OutWhite: true },
+                { Title: "Down Payment Price", Value: `₱${Number(formData.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true }
+            ]
+        }
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
+    }
 
     return (
         <>
-            {user && user.id ?
-                screenwidth > 766 ?
+            {user && user.id ? 
+                screenwidth > 766 ? 
                     <Main Row>
-                        <Group Class="leftside" Col>
-                            <Section Title="Menu Order" Class="menu">
+                        <Group Class={`leftside`} Col>
+                            <Section ID={`menu-order`} Title={`Menu Order`} Class={`menu`}>
                                 <Group Col>
-                                    <Box Class="search">
-                                        <Inputbox
-                                            Title="Search"
-                                            Type="search"
-                                            onChange={(e) => setSearchItem(e.target.value)}
-                                        />
+                                    <Box Class={`search`}>
+                                        <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
                                     </Box>
-                                    <Group Class="filter">
-                                        {categories.map((cat) => (
+                                    <Group Class={`filter`}>
+                                        {categories.map((category) => (
                                             <Radio
-                                                key={cat.id}
-                                                Title={cat.name}
-                                                Value={cat.id}
-                                                RadioName="Category"
-                                                Checked={selectedCategory === cat.id}
-                                                OnChange={() => setSelectedCategory(cat.id)}
+                                                key={category.id}
+                                                Title={category.name}
+                                                ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                                Value={category.id}
+                                                RadioName={"Category"}
+                                                Checked={selectedCategory === category.id}
+                                                OnChange={() => setSelectedCategory(category.id)}
                                                 BtnWhite
                                             />
                                         ))}
                                     </Group>
-                                    <Group Class="items" Wrap>
-                                        <ItemMenu
-                                            List={menulistdata}
-                                            addItemToOrder={addItemToOrder}
-                                            removeItemFromOrder={removeItemFromOrder}
-                                            AuthenticatedMode={user.id}
-                                        />
+                                    <Group Class={`items`} Wrap>
+                                        <ItemMenu List={menulistdata} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} AuthenticatedMode={user.id} />
                                     </Group>
                                 </Group>
                             </Section>
                         </Group>
-                        <Box Class="rightside" BoxCol>
-                            <Group Class="datetime" Col>
+                        <Box ID={`checked-orders`} Class={`rightside`} BoxCol>
+                            <Group Class={`datetime`} Col>
                                 <h3>
-                                    <DateText />
+                                    { date }
                                     <br />
-                                    <TimeText />
+                                    { time }
                                 </h3>
                                 <hr />
                             </Group>
-                            <Group Class="opts">
-                                <Radio
-                                    Title="DINE-IN"
-                                    RadioName="Options"
-                                    Value="DINE-IN"
-                                    Checked={diningOpt === "DINE-IN"}
-                                    OnChange={(e) => setDiningOpt(e.target.value)}
-                                />
-                                <Radio
-                                    Title="TAKE-OUT"
-                                    RadioName="Options"
-                                    Value="TAKE-OUT"
-                                    Checked={diningOpt === "TAKE-OUT"}
-                                    OnChange={(e) => setDiningOpt(e.target.value)}
-                                />
+                            <Group Class={`opts`}>
+                                <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} />
+                                <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} />
                             </Group>
                             <hr />
-                            <Group Class="totalitem">
+                            <Group Class={`totalitem`}>
                                 <h3>ORDER SUMMARY</h3>
-                                <div className="itemlist">
-                                    <CheckedItem
-                                        List={checkedorders}
-                                        addItemToOrder={addItemToOrder}
-                                        removeItemFromOrder={removeItemFromOrder}
-                                    />
+                                <div className={`itemlist`}>
+                                    <CheckedItem List={checkedorders} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} />
                                 </div>
                             </Group>
                             {checkedorders != 0 && (
                                 <>
                                     <hr />
-                                    <Group Class="paymentsum" Col>
+                                    <Group Class={`paymentsum`} Col>
                                         <article>
                                             <h3>TOTAL:</h3>
                                             <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
                                         </article>
-                                        <Button
-                                            Title="CHECKOUT"
-                                            OpenModal="CheckoutModal"
-                                            Disabled={!diningOpt}
-                                        />
+                                        <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`CheckoutModal`} Disabled={!diningOpt} />
                                     </Group>
                                 </>
                             )}
                         </Box>
                     </Main>
-                    :
+                    : 
                     <Main>
-                        <Section Title="Menu Order" Class="menu-oneside" UpperRight={<><Button Title={`CHECKOUT${checkedorders != 0 ? ` (₱${Number(formData.totalPrice).toFixed(2)})` : ""}`} OpenModal="CheckoutModal" BtnWhite /></>}>
+                        <Section Title={`Menu Order`} Class={`menu-oneside`} UpperRight={
+                            <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`CheckoutModal`} BtnWhite />
+                            }>
                             <Group Col>
-                                <Group Class="opts">
-                                    <Radio
-                                        Title="DINE-IN"
-                                        RadioName="Options"
-                                        Value="DINE-IN"
-                                        Checked={diningOpt === "DINE-IN"}
-                                        OnChange={(e) => setDiningOpt(e.target.value)}
-                                        BtnWhite
-                                    />
-                                    <Radio
-                                        Title="TAKE-OUT"
-                                        RadioName="Options"
-                                        Value="TAKE-OUT"
-                                        Checked={diningOpt === "TAKE-OUT"}
-                                        OnChange={(e) => setDiningOpt(e.target.value)}
-                                        BtnWhite
-                                    />
+                                <Group Class={`opts`}>
+                                    <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} />
+                                    <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} />
                                 </Group>
-                                <Box Class="search">
-                                    <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)} />
+                                <Box Class={`search`}>
+                                    <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
                                 </Box>
-                                <Group Class="filter">
-                                    {categories.map((cat) => (
+                                <Group Class={`filter`}>
+                                    {categories.map((category) => (
                                         <Radio
-                                            key={cat.id}
-                                            Title={cat.name}
-                                            Value={cat.id}
-                                            RadioName="Category"
-                                            Checked={selectedCategory === cat.id}
-                                            OnChange={() => setSelectedCategory(cat.id)}
+                                            key={category.id}
+                                            Title={category.name}
+                                            ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                            Value={category.id}
+                                            RadioName={"Category"}
+                                            Checked={selectedCategory === category.id}
+                                            OnChange={() => setSelectedCategory(category.id)}
                                             BtnWhite
                                         />
                                     ))}
                                 </Group>
-                                <Group Class="items" Wrap>
-                                    <ItemMenu
-                                        List={menulistdata}
-                                        addItemToOrder={addItemToOrder}
-                                        removeItemFromOrder={removeItemFromOrder}
-                                        AuthenticatedMode={user.id}
-                                    />
+                                <Group Class={`items`} Wrap>
+                                    <ItemMenu List={menulistdata} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} AuthenticatedMode={user.id} />
                                 </Group>
                             </Group>
                         </Section>
                     </Main>
-                :
+                : 
                 <Main>
-                    <Section Title="Menu Order" Class="menu-oneside">
+                    <Section ID={`menu-order`} Title={`Menu Order`} Class={`menu-oneside`}>
                         <Group Col>
-                            <Box Class="search">
-                                <Inputbox Title="Search" Type="search" onChange={(e) => setSearchItem(e.target.value)} />
+                            <Box Class={`search`}>
+                                <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
                             </Box>
-                            <Group Class="filter">
-                                {categories.map((cat) => (
+                            <Group Class={`filter`}>
+                                {categories.map((category) => (
                                     <Radio
-                                        key={cat.id}
-                                        Title={cat.name}
-                                        Value={cat.id}
-                                        RadioName="Category"
-                                        Checked={selectedCategory === cat.id}
-                                        OnChange={() => setSelectedCategory(cat.id)}
+                                        key={category.id}
+                                        Title={category.name}
+                                        ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                        Value={category.id}
+                                        RadioName={"Category"}
+                                        Checked={selectedCategory === category.id}
+                                        OnChange={() => setSelectedCategory(category.id)}
                                         BtnWhite
                                     />
                                 ))}
                             </Group>
-                            <Group Class="items" Wrap>
+                            <Group Class={`items`} Wrap>
                                 <ItemMenu List={menulistdata} />
                             </Group>
                         </Group>
                     </Section>
                 </Main>
             }
-            {user && user.id && (
-                <Modal Modal="CheckoutModal">
-                    <Form
-                        Title="CHECKOUT"
-                        {...(screenwidth > 1023
-                            ? { FormThreelayers: true }
-                            : screenwidth > 766
-                                ? { FormTwolayers: true }
-                                : { Col: true })}
-                        OnSubmit={submitOrder}
-                    >
-                        <Group Class="outputfetch" Wrap>
-                            <Outputfetch
-                                Title="Customer Name"
-                                Value={user.firstname + " " + user.lastname}
-                                OutCol
-                                OutWhite
-                            />
-                            <Outputfetch
-                                Title="Date"
-                                Value={`${new Date().getFullYear()}-${(
-                                    new Date().getMonth() + 1
-                                )
-                                    .toString()
-                                    .padStart(2, "0")}-${new Date()
-                                        .getDate()
-                                        .toString()
-                                        .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
-                                            timeStyle: "short",
-                                        })}`}
-                                OutCol
-                                OutWhite
-                            />
-                            <Outputfetch
-                                Title="Order Options"
-                                Value={diningOpt}
-                                OutCol
-                                OutWhite
-                            />
+            {user && user.id && 
+                <Modal Modal={`CheckoutModal`}>
+                    <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={submitOrder} >
+                        <Group Class={`outputfetch`} Wrap>
+                            {Outputfetches.first.map((output, index) => (
+                                <Outputfetch 
+                                    key={index}
+                                    Title={output.Title} 
+                                    Value={output.Value} 
+                                    OutCol={output.OutCol}
+                                    OutWhite={output.OutWhite}
+                                />
+                            ))}
                         </Group>
-                        <Group Class="outputfetch" Col>
-                            <div>
-                                <Outputfetch Title="Items" OutWhite />
-                                <Outputfetch Title="Quantity" OutWhite />
-                                <Outputfetch Title="Unit Price" OutWhite />
-                                <Outputfetch Title="Total Price" OutWhite />
-                            </div>
-                            {order.map((product, index) => (
+                        <Group Class={`outputfetch`} Col>
+                            {[Outputfetches.second.Title, ...Outputfetches.second.Value].map((output, index) => (
                                 <div key={index}>
-                                    <Outputfetch Value={product.product_name} OutWhite />
-                                    <Outputfetch Value={`x${product.quantity}`} OutWhite />
-                                    <Outputfetch Value={`₱${product.price}`} OutWhite />
-                                    <Outputfetch
-                                        Value={`₱${Number(product.price * product.quantity).toFixed(
-                                            2
-                                        )}`}
-                                        OutWhite
-                                    />
+                                    {output.map((entry, colindex) => (
+                                        <Outputfetch
+                                            key={`cell-${index}-${colindex}`}
+                                            {...(entry.Title && { Title: entry.Title })}
+                                            {...(entry.Value && { Value: entry.Value })}
+                                            OutWhite={entry.OutWhite}
+                                        />
+                                    ))}
                                 </div>
                             ))}
                         </Group>
-                        <Group Class="outputfetch" Wrap>
-                            <Outputfetch
-                                Title="Total Price"
-                                Value={`₱${Number(formData.totalPrice).toFixed(2)}`}
-                                OutCol
-                                OutWhite
-                            />
-                            <Outputfetch
-                                Title="Discount"
-                                Value={`₱${discount.toFixed(2)}`}
-                                OutCol
-                                OutWhite
-                            />
-                            <Outputfetch
-                                Title="Reference Number"
-                                Value={formData.refNumber}
-                                OutCol
-                                OutWhite
-                            />
-                            <Outputfetch
-                                Title="Down Payment Price"
-                                Value={`₱${formData.downpayment}`}
-                                OutCol
-                                OutWhite
-                            />
+                        <Group Class={`outputfetch`} Wrap>
+                            {Outputfetches.third.map((output, index) => (
+                                <Outputfetch 
+                                    key={index}
+                                    Title={output.Title} 
+                                    Value={output.Value} 
+                                    OutCol={output.OutCol}
+                                    OutWhite={output.OutWhite}
+                                />
+                            ))}
                         </Group>
-                        <Group Class="outputfetch" Col>
-                            <Outputfetch Title="QR Code" OutWhite />
-                            <Group {...(screenwidth < 767 ? { Col: true } : {})}>
+                        <Group Class={`outputfetch`} Col>
+                            <Outputfetch Title={`QR Code`} OutWhite />
+                            <Group {...(screenwidth < 767 && { Col: true })}>
                                 <img />
                                 <Group Col>
                                     <p>
-                                        Please pay a 50% DOWNPAYMENT. Orders without a payment
-                                        receipt will remain pending. Failure to pay on time will
-                                        result in cancellation.
+                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will 
+                                        remain pending. Failure to pay on time will result in cancellation.
                                     </p>
-                                    {screenwidth > 766 &&
-                                        <InsertFileButton
-                                            Title="UPLOAD GCASH RECEIPT"
-                                            BtnWhite
-                                            Accept={"image/*"}
-                                            Name="image"
-                                            OnChange={handleReceiptUpload}
-                                        />
-                                    }
+                                    {screenwidth > 766 && (
+                                        <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                    )}
                                 </Group>
                             </Group>
                         </Group>
-                        {screenwidth > 766 ?
-                            <Group Class="buttonside">
-                                <Button Title="CANCEL" CloseModal BtnWhite />
-                                <SubmitButton Title={isLoading ? "SUBMITTING..." : "CHECKOUT"} disabled={isLoading} BtnWhite />
+                        {screenwidth > 766 ? 
+                            <Group Class={`buttonside`}>
+                                <Button Title={`CANCEL`} CloseModal BtnWhite />
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} disabled={isLoading} BtnWhite />
                             </Group>
-                            :
-                            <Group Class="buttonside" Col>
-                                <InsertFileButton
-                                    Title="UPLOAD GCASH RECEIPT"
-                                    BtnWhite
-                                    Accept={"image/*"}
-                                    Name="image"
-                                    OnChange={handleReceiptUpload}
-                                />
-                                <SubmitButton Title={isLoading ? "SUBMITTING..." : "CHECKOUT"} disabled={isLoading} BtnWhite />
-                                <Button Title="CANCEL" CloseModal BtnWhite />
+                            : 
+                            <Group Class={`buttonside`} Col>
+                                <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} disabled={isLoading} BtnWhite />
+                                <Button Title={`CANCEL`} CloseModal BtnWhite />
                             </Group>
                         }
                     </Form>
                 </Modal>
-            )}
+            }
         </>
-    );
+    )
 }

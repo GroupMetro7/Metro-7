@@ -1,34 +1,16 @@
 import { useState } from "react";
 import "../../assets/css/pages/services/Dashboard.sass";
-import {
-  ScreenWidth,
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Form,
-  Group,
-  Inputbox,
-  Button,
-  Box,
-  ItemMenu,
-  Radio,
-  CheckedItem,
-  Modal,
-  Outputfetch,
-  DateText,
-  TimeText,
-  SubmitButton,
-} from "../../Exporter/component_exporter";
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from "../../Exporter/component_exporter"
+import { useStateContext, useScreenWidth, useClockText } from '../../Exporter/Hooks_Exporter'
 import axiosClient from "../../axiosClient";
 import useFetchOrder from "../../hooks/Universal/fetchProducts";
 import useFetchProduct from "../../hooks/service/fetchProducts";
 import useFetchOrderWithNotification from "../../hooks/orders/fetchOrder";
 
 export default function StaffDashboard() {
+    const { user } = useStateContext()
   Title("Metro 7");
-  Body_addclass("Dashboard-Service-PAGE");
-  const screenwidth = ScreenWidth();
+  Body_addclass("Dashboard-Service-PAGE")
   // this file is subject for optimization
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
@@ -65,6 +47,8 @@ const checkedorders = order.map((product, index) => ({
   is_free_item: product.is_free_item || false,
   unique_key: `${product.id}_${product.is_free_item ? 'free' : 'paid'}_${index}` // For React keys
 }));
+
+const {time, date} = useClockText()
 
 const addItemToOrder = (item) => {
   const existingItem = order.find((orderItem) => orderItem.id === item.id);
@@ -220,7 +204,9 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+      const screenwidth = useScreenWidth()
 
   return (
     <>
@@ -233,7 +219,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
                   Title="Search"
                   Type="search"
                   onChange={(e) => setSearchItem(e.target.value)}
-                />{" "}
+                />
               </Box>
               <Group Class="filter">
                 {categories.map((cat) => (
@@ -261,9 +247,9 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
           <Box Class="checkout" BoxCol>
             <Group Class="datetime" Col>
               <h3>
-                <DateText />
+                {date}
                 <br />
-                <TimeText />
+                {time}
               </h3>
               <hr />
             </Group>

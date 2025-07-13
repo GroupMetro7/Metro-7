@@ -1,7 +1,7 @@
 import React from 'react'
 import '../assets/css/pages/Login.sass'
-import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
-import { useStateContext, useAuthentication } from '../Exporter/Hooks_Exporter'
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth, useAuthentication } from '../Exporter/Hooks_Exporter'
 
 export default function LoginPage() {
     // Basic Hooks
@@ -10,10 +10,10 @@ export default function LoginPage() {
     Body_addclass(`Login-PAGE`)
 
     // Fetching Hooks
-    const { formData, setFormData, handleSubmit, isLoading, error } = useAuthentication()
+    const {formData, setFormData, handleSubmit, isLoading, error} = useAuthentication()
 
     // UI Hooks
-    const screenwidth = ScreenWidth()
+    const screenwidth = useScreenWidth()
 
         // Hooks for forms
         const Inputboxes = [

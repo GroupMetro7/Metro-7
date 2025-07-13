@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Forgot_Password.sass'
-import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, useChangePassUser } from '../../Exporter/Hooks_Exporter'
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, useScreenWidth, useChangePassUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ChangePasswordPage() {
     // Basic Hooks
@@ -13,7 +13,7 @@ export default function ChangePasswordPage() {
     const {password, setPassword, passwordConfirmation, setPasswordConfirmation, handleSubmit, isLoading, error, success} = useChangePassUser()
 
     // UI Hooks
-    const screenwidth = ScreenWidth()
+    const screenwidth = useScreenWidth()
 
         // Hooks for forms
         const Inputboxes = [
@@ -23,7 +23,7 @@ export default function ChangePasswordPage() {
 
     return (
         <Main>
-            <Section Class={`fpass`}>
+            <Section ID={`changepass`} Class={`fpass`}>
                 <Form Title={`NEW PASSWORD`} OnSubmit={handleSubmit}>
                     {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                     success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}

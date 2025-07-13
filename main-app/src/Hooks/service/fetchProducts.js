@@ -5,6 +5,7 @@ export default function useFetchProduct() {
   const [menuItems, setMenuItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [searchItem, setSearchItem] = useState("");
   const intervalRef = useRef(null);
@@ -48,7 +49,16 @@ export default function useFetchProduct() {
         console.error("Error fetching menu data:", error);
       });
   };
+  
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
+  function fetchCategories() {
+    axiosClient.get("/categories").then((res) => {
+      setCategories(res.data);
+    });
+  }
 
   return {
     menuItems,
@@ -58,6 +68,8 @@ export default function useFetchProduct() {
     setTotalPages,
     selectedCategory,
     setSelectedCategory,
-    setSearchItem
+    setSearchItem,
+    categories,
+    fetchCategories,
   };
 }
