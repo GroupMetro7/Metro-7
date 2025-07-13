@@ -8,11 +8,10 @@ import useFetchOrder from "../../hooks/uni/fetchProducts";
 import useCreateOrder from "../../hooks/orders/createOrderCustomer";
 
 export default function MenuPage() {
-  // this file is subject for optimization
+  const { user } = useStateContext()
   Title("Metro 7 | Menu");
   Body_addclass("Menu-PAGE");
   const screenwidth = ScreenWidth()
-  const { user } = useStateContext();
   const { categories } = useFetchOrder();
   const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
     useFetchProduct();

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Header, Footer, Main, LoadingScreen } from '../../exporter/component_exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
-import axiosClient from '../../axiosClient.js';
+import axiosClient from '../../axiosClient'
 
 export default function GuestLayout() {
     const location = useLocation()
