@@ -1,8 +1,7 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Forgot_Password.sass'
 import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext } from '../../Exporter/Hooks_Exporter'
-import useFetchEmailUser from '../../Hooks/Users/Fetch_Email_User'
+import { useStateContext, useFetchEmailUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ForgetPasswordPage() {
     // Basic Hooks
@@ -11,14 +10,14 @@ export default function ForgetPasswordPage() {
     Body_addclass(`FPass-PAGE`)
 
     // Fetching Hooks
-    const { email, setEmail, handleSubmit, isLoading, error, success } = useFetchEmailUser()
+    const {email, setEmail, handleSubmit, isLoading, error, success} = useFetchEmailUser()
 
     // UI Hooks
     const screenwidth = ScreenWidth()
 
         // Hooks for forms
         const Inputboxes = [
-            { Title: `Email`, Type: `email`, ID: `email`, InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
+            { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: email, onChange: (e) => setEmail(e.target.value) },
         ]
 
     return(

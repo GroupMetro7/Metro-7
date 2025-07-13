@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axiosClient from "../axiosClient";
-import useFetchOrder from "./uni/fetchProducts";
+import useFetchOrder from "./Universal/fetchProducts";
 
 const useAddCategory = (fetchCategories) => {
   const [categoryName, setCategoryName] = useState('');

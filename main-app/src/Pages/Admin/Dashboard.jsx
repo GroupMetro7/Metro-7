@@ -25,7 +25,7 @@ import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import ModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
 import DemandForecast from "../../Hooks/graphs/Demand_Forecast_Chart";
-import UseKpi from "../../hooks/uni/Kpi";
+import UseKpi from "../../hooks/Universal/Kpi";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useFetchDashboardData from '../../hooks/admin/fetchData';

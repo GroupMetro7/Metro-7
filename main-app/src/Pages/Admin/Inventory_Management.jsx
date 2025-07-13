@@ -3,9 +3,9 @@ import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal,
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useAddCategory from "../../hooks/add";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
-import useFetchOrder from "../../hooks/uni/fetchProducts";
-import UseKpi from '../../hooks/uni/Kpi';
-import useExportCSV from '../../hooks/uni/fileExporter';
+import useFetchOrder from "../../hooks/Universal/fetchProducts";
+import UseKpi from '../../hooks/Universal/Kpi';
+import useExportCSV from '../../hooks/Universal/fileExporter';
 
 export default function Test() {
     // this file is subject for optimization

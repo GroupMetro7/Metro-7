@@ -19,8 +19,8 @@ import {
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import useFetchData from "../../hooks/admin/fetchData";
-import UseKpi from "../../hooks/uni/Kpi";
-import useExportCSV from "../../hooks/uni/fileExporter";
+import UseKpi from "../../hooks/Universal/Kpi";
+import useExportCSV from "../../hooks/Universal/fileExporter";
 
 export default function SalesPage() {
   Title("Revenue");

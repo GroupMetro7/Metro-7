@@ -1,8 +1,7 @@
 import React from 'react'
 import '../../assets/css/pages/customers/Forgot_Password.sass'
 import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext } from '../../Exporter/Hooks_Exporter'
-import useChangePassUser from '../../Hooks/Users/Change_Pass'
+import { useStateContext, useChangePassUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ChangePasswordPage() {
     // Basic Hooks
@@ -18,8 +17,8 @@ export default function ChangePasswordPage() {
 
         // Hooks for forms
         const Inputboxes = [
-            { Title: "New Password", Type: "password", InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value), },
-            { Title: "Confirm Password", Type: "password", InCol: true, InWhite: true, Value: passwordConfirmation, onChange: (e) => setPasswordConfirmation(e.target.value), },
+            { Title: `New Password`, Type: `password`, ID: `pass-in`, InCol: true, InWhite: true, Value: password, onChange: (e) => setPassword(e.target.value), },
+            { Title: `Confirm Password`, Type: `password`, ID: `2pass-in`, InCol: true, InWhite: true, Value: passwordConfirmation, onChange: (e) => setPasswordConfirmation(e.target.value), },
         ]
 
     return (

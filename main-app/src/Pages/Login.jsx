@@ -1,8 +1,7 @@
 import React from 'react'
 import '../assets/css/pages/Login.sass'
 import { ScreenWidth, Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
-import { useStateContext } from '../Exporter/Hooks_Exporter'
-import useAuthentication from '../Hooks/Users/Authentication'
+import { useStateContext, useAuthentication } from '../Exporter/Hooks_Exporter'
 
 export default function LoginPage() {
     // Basic Hooks
@@ -16,10 +15,11 @@ export default function LoginPage() {
     // UI Hooks
     const screenwidth = ScreenWidth()
 
-    const Inputboxes = [
-        { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: formData.email, onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
-        { Title: `Password`, Type: `password`, ID: `password-in`, InCol: true, InWhite: true, Value: formData.password, onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
-    ]
+        // Hooks for forms
+        const Inputboxes = [
+            { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: formData.email, onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
+            { Title: `Password`, Type: `password`, ID: `password-in`, InCol: true, InWhite: true, Value: formData.password, onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
+        ]
 
     return (
         <Main>
@@ -48,6 +48,5 @@ export default function LoginPage() {
                 </Form>
             </Section>
         </Main>
-
     )
 }
