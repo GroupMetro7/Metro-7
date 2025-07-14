@@ -6,21 +6,30 @@ export default function useExportCSV() {
     const [exportedStocklogs, setExportedStocklogs] = useState([]);
     const [exportedInventory, setExportedInventory] = useState([]);
     const [exportedSalesReport, setExportedSalesReport] = useState([]);
+    const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
     useEffect(() => {
-        fetchExportedData();
-    }, []);
+        fetchExportedData(dateRange.startDate, dateRange.endDate);
+    }, [dateRange]);
 
-    const fetchExportedData = async () => {
+    const fetchExportedData = async (startDate, endDate) => {
         try {
-            const response = await axiosClient.get("/export-logs");
+            const params = {};
+            if (startDate) params.startDate = startDate;
+            if (endDate) params.endDate = endDate;
+
+            const response = await axiosClient.get("/export-logs", { params });
             setExportedStocklogs(response.data.activityLogs);
             setExportedInventory(response.data.inventory);
             setExportedSalesReport(response.data.salesReports);
         } catch (error) {
             console.error("Error fetching exported data:", error);
         }
-    }
+    };
+
+    const setExportDateRange = (startDate, endDate) => {
+        setDateRange({ startDate, endDate });
+    };
 
     const exportCSV = (headers, data, filename = "table_data.csv") => {
         const csvRows = [];
@@ -38,11 +47,13 @@ export default function useExportCSV() {
         saveAs(blob, filename);
     };
 
-
     return {
         exportCSV,
         exportedStocklogs,
         exportedInventory,
-        exportedSalesReport
+        exportedSalesReport,
+        setExportDateRange,
+        dateRange,
+        setDateRange
     }
 }

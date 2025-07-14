@@ -11,16 +11,30 @@ use Illuminate\Support\Facades\Auth;
 
 class ExportCSV extends Controller
 {
-  public function exportCSV()
+  public function exportCSV(Request $request)
   {
-    $activityLogs = StockLog::all();
-    $inventory = StockManagement::all();
-    $salesReports = Ticket::with('order')->get();
+    $startDate = $request->query('startDate');
+    $endDate = $request->query('endDate');
+
+    $activityLogs = StockLog::query();
+    $inventory = StockManagement::query();
+    $salesReports = Ticket::with('order');
+
+    if ($startDate) {
+      $activityLogs->whereDate('created_at', '>=', $startDate);
+      $inventory->whereDate('created_at', '>=', $startDate);
+      $salesReports->whereDate('created_at', '>=', $startDate);
+    }
+    if ($endDate) {
+      $activityLogs->whereDate('created_at', '<=', $endDate);
+      $inventory->whereDate('created_at', '<=', $endDate);
+      $salesReports->whereDate('created_at', '<=', $endDate);
+    }
 
     return response()->json([
-      'salesReports' => $salesReports,
-      'activityLogs' => $activityLogs,
-      'inventory' => $inventory,
+      'salesReports' => $salesReports->get(),
+      'activityLogs' => $activityLogs->get(),
+      'inventory' => $inventory->get(),
     ]);
   }
 }

@@ -9,6 +9,9 @@ import {
   Table,
   Button,
   Pagination,
+  Modal,
+  Form,
+  SubmitButton,
 } from "../../exporter/component_exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 import useExportCSV from "../../hooks/Universal/fileExporter";
@@ -19,34 +22,64 @@ export default function CustomerManagementPage() {
   Title("Employee Management");
   Body_addclass("Management-PAGE");
 
-  const { exportCSV, exportedStocklogs } = useExportCSV();
+  const { exportCSV, exportedStocklogs, dateRange, setDateRange } = useExportCSV();
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
   //table
-  const tb = {
-    head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
-    rows: logs.map((log) => [
-      log.item_name || "N/A",
-      log.sku_number,
-      log.type,
-      log.quantity,
-      log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
-      DateTimeFormat(log.created_at),
-      log.user_name || "N/A",
-      log.remarks || "N/A"
-    ])
-  };
+  // const tb = {
+  //   head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
+  //   rows: logs.map((log) => [
+  //     log.item_name || "N/A",
+  //     log.sku_number,
+  //     log.type,
+  //     log.quantity,
+  //     log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
+  //     DateTimeFormat(log.created_at),
+  //     log.user_name || "N/A",
+  //     log.remarks || "N/A"
+  //   ])
+  // };
 
-  const exportAsFile = exportedStocklogs.map((ex) => [
-    ex.item_name || "N/A",
-    ex.sku_number,
-    ex.type,
-    ex.quantity,
-    ex.value,
-    DateTimeFormat(ex.created_at),
-    ex.user_name || "N/A",
-    ex.remarks || "N/A"
-  ]);
+  // const exportAsFile = exportedStocklogs.map((ex) => [
+  //   ex.item_name || "N/A",
+  //   ex.sku_number,
+  //   ex.type,
+  //   ex.quantity,
+  //   ex.value,
+  //   DateTimeFormat(ex.created_at),
+  //   ex.user_name || "N/A",
+  //   ex.remarks || "N/A"
+  // ]);
+
+  const activityLogsReport = {
+display: {
+  head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
+  rows: logs.map((log) => [
+    log.item_name || "N/A",
+    log.sku_number,
+    log.type,
+    log.quantity,
+    log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
+    DateTimeFormat(log.created_at),
+    log.user_name || "N/A",
+    log.remarks || "N/A"
+  ])
+},
+export: {
+    head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
+    rows: exportedStocklogs.map((ex) => [
+      ex.item_name || "N/A",
+      ex.sku_number,
+      ex.type,
+      ex.quantity,
+      ex.value,
+      DateTimeFormat(ex.created_at),
+      ex.user_name || "N/A",
+      ex.remarks || "N/A"
+    ])
+  }
+}
+
 
   return (
     <>
@@ -57,9 +90,9 @@ export default function CustomerManagementPage() {
             <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
           <Box Title="ACTIVITY LOGS" UpperRight={
-              <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tb.head, exportAsFile, "activity_logs.csv")}/>
+              <Button Title="EXPORT AS FILE" OpenModal="AddModal-exportCSV"/>
             } BoxCol>
-            <Table HeadRows={tb.head} DataRows={tb.rows} />
+            <Table HeadRows={activityLogsReport.display.head} DataRows={activityLogsReport.display.rows} />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -68,6 +101,54 @@ export default function CustomerManagementPage() {
           </Box>
         </Main>
       </Group>
+
+            <Modal Modal="AddModal-exportCSV">
+              <Form Title="ADD CATEGORY" FormTwolayers>
+                <Group Class="inputside" Wrap>
+                  <Inputbox
+                    Title="Start Date"
+                    Type="date"
+                    Value={dateRange.startDate}
+                    onChange={(e) =>
+                      setDateRange((prev) => ({
+                        ...prev,
+                        startDate: e.target.value,
+                      }))
+                    }
+                    InCol
+                    InWhite
+                  />
+                  <Inputbox
+                    Title="End Date"
+                    Type="date"
+                    Value={dateRange.endDate}
+                    onChange={(e) =>
+                      setDateRange((prev) => ({
+                        ...prev,
+                        endDate: e.target.value,
+                      }))
+                    }
+                    InCol
+                    InWhite
+                  />
+                </Group>
+                <Group Class="buttonside">
+                  <SubmitButton
+                    Title="SUBMIT"
+                    BtnWhite
+                    Onclick={(e) => {
+                      e.preventDefault();
+                      exportCSV(
+                        activityLogsReport.export.head,
+                        activityLogsReport.export.rows,
+                        `Activity_Logs_${dateRange.startDate || "start"}_to_${dateRange.endDate || "end"}.csv`
+                      );
+                    }}
+                  />
+                  <Button Title="CANCEL" CloseModal BtnWhite />
+                </Group>
+              </Form>
+            </Modal>
     </>
   );
 }

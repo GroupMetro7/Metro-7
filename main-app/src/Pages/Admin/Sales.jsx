@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../assets/css/pages/admin/Sales.sass";
 import {
   Title,
@@ -14,19 +14,30 @@ import {
   DateText,
   TimeText,
   Graph,
-  KPI
+  KPI,
+  Modal,
+  Form,
+  SubmitButton,
 } from "../../exporter/component_exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import useFetchData from "../../hooks/admin/fetchData";
 import UseKpi from "../../hooks/Universal/Kpi";
 import useExportCSV from "../../hooks/Universal/fileExporter";
+import useDateFormat from "../../Hooks/UI Display/Date_Fetch_Format";
 
 export default function SalesPage() {
   Title("Revenue");
   Body_addclass("Sales-PAGE");
   // done & for review
-  const { exportCSV, exportedSalesReport } = useExportCSV();
+
+  const {
+    exportCSV,
+    exportedSalesReport,
+    dateRange,
+    setDateRange,
+  } = useExportCSV();
+  
   const { monthlyRevenue, productRevenue } = useFetchData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [
@@ -36,7 +47,6 @@ export default function SalesPage() {
       minimumFractionDigits: 2,
     })}`,
   ]);
-  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
 
   const salesReport = {
     display: {
@@ -49,27 +59,25 @@ export default function SalesPage() {
       })),
     },
     export: {
-      head: ["Order Number", "Product Name", "Price", "Quantity", "Cost Per Unit"],
-      rows: exportedSalesReport.map((item) => ([
+      head: [
+        "Order Number",
+        "Product Name",
+        "Price",
+        "Quantity",
+        "Cost Per Unit",
+        "Date",
+      ],
+      rows: exportedSalesReport.map((item) => [
         item.order.order_number,
         item.product_name,
         item.unit_price,
         item.quantity,
-        item.cost || "N/A"
-      ]
-      ))
-    }
+        item.cost || "N/A",
+        useDateFormat(item.created_at),
+      ]),
+    },
   };
 
-  const { SalesReportData, SalesReportOptions } = SalesReport(useFetchData());
-  const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchData());
-
-  const kpis = [
-    { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
-    { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
-    { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
-    { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
-  ]
 
   return (
     <>
@@ -82,39 +90,69 @@ export default function SalesPage() {
           <Section
             Title="Sales Revenue"
             Class="salesrevenue"
-            UpperRight={<Button Title="EXPORT AS FILE" Onclick={() => exportCSV(salesReport.export.head, salesReport.export.rows, "Sales_Report.csv")}/>}
+            UpperRight={
+              <Button Title="EXPORT AS FILE" OpenModal="AddModal-exportCSV" />
+            }
           >
-            <Group Class="upper">
-              <Group Class="kpis">
-                {kpis.map((kpi, index) => (
-                  <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
-                ))}
-              </Group>
-              <Box Class="datetime">
-                <h3>
-                  <DateText />
-                  <br />
-                  <TimeText />
-                </h3>
-              </Box>
-            </Group>
-            <Group Class="charts">
-              <Box Title="Sales Status" Class="salesstatus" BoxCol>
-                <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } />
-              </Box>
-              <Box Title="Most Sold Products" Class="topcategory" BoxCol>
-                <Graph PieGraph Data={ TopCategoryData } Options={ TopCategoryOptions } />
-              </Box>
-            </Group>
             <Box Title="BREAKDOWN REVENUE PER MONTH" BoxCol>
               <Table HeadRows={revpermonthhead} DataRows={revpermonthdata} />
             </Box>
             <Box Title="PRODUCT REVENUE PER MONTH" BoxCol>
-              <Table HeadRows={salesReport.display.head} DataRows={salesReport.display.rows} />
+              <Table
+                HeadRows={salesReport.display.head}
+                DataRows={salesReport.display.rows}
+              />
             </Box>
           </Section>
         </Main>
       </Group>
+      <Modal Modal="AddModal-exportCSV">
+        <Form Title="ADD CATEGORY" FormTwolayers>
+          <Group Class="inputside" Wrap>
+            <Inputbox
+              Title="Start Date"
+              Type="date"
+              Value={dateRange.startDate}
+              onChange={(e) =>
+                setDateRange((prev) => ({
+                  ...prev,
+                  startDate: e.target.value,
+                }))
+              }
+              InCol
+              InWhite
+            />
+            <Inputbox
+              Title="End Date"
+              Type="date"
+              Value={dateRange.endDate}
+              onChange={(e) =>
+                setDateRange((prev) => ({
+                  ...prev,
+                  endDate: e.target.value,
+                }))
+              }
+              InCol
+              InWhite
+            />
+          </Group>
+          <Group Class="buttonside">
+            <SubmitButton
+              Title="SUBMIT"
+              BtnWhite
+              Onclick={(e) => {
+                e.preventDefault();
+                exportCSV(
+                  salesReport.export.head,
+                  salesReport.export.rows,
+                  `Sales_Report_${dateRange.startDate || "start"}_to_${dateRange.endDate || "end"}.csv`
+                );
+              }}
+            />
+            <Button Title="CANCEL" CloseModal BtnWhite />
+          </Group>
+        </Form>
+      </Modal>
     </>
   );
 }
