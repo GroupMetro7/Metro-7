@@ -81,12 +81,12 @@ export default function Test() {
             }))
         },
         export: {
-            head: [ "SKU NO.", "ITEM NAME", "SOLD BY", "CATEGORY", "STOCK", "UNIT COST", "STOCK VALUE" ],
+            head: [ "SKU NO.", "ITEM NAME", "SOLD BY", "STOCK", "UNIT COST", "STOCK VALUE"],
             rows: exportedInventory.map((ex) => [
                 ex.SKU_NUMBER,
                 ex.COMPOSITE_NAME,
                 ex.SOLD_BY,
-                ex.STOCK,
+                ex.STOCK.toFixed(2),
                 ex.COST_PER_UNIT.toFixed(2),
                 ex.STOCK_VALUE.toFixed(2),
             ])
@@ -108,7 +108,7 @@ export default function Test() {
                         <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
                         <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
                     </Box>
-                <Group Class="kpis">                
+                <Group Class="kpis">
                     {kpis.map((kpi, index) => (
                         <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
                     ))}
