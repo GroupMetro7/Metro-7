@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SideBar, Group, Main, LoadingScreen } from '../../Exporter/component_exporter'
+import { SideBar, Group, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
 import { Navigate, Outlet } from 'react-router-dom';
 import axiosClient from '../../axiosClient';
 import { useStateContext } from '../../Contexts/ContextProvider';

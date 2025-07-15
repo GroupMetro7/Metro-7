@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../assets/css/components/output_fetch.sass'
+import '../../Assets/CSS/Components/Output_Fetch.sass'
 
 export default function Outputfetch({ ID, Class, Title, Value, OutCol, OutWhite }) {
 

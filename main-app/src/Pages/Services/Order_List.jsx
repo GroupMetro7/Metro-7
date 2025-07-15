@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/services/Management.sass";
+import "../../Assets/CSS/Pages/Services/Management.sass";
 import {
   Title,
   Body_addclass,
@@ -16,7 +16,7 @@ import {
   Selectionbox,
   InsertFileButton,
   Pagination,
-} from "../../Exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import useSearchItem from "../../hooks/searchItem";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
@@ -75,7 +75,7 @@ export default function StaffOrderList() {
             <Inputbox
               Type="search"
               Title="Search"
-              onChange={(e) => setSearchItem(e.target.value)}
+              OnChange={(e) => setSearchItem(e.target.value)}
               Placeholder="Search Order number"
             />
           </Box>
@@ -92,7 +92,7 @@ export default function StaffOrderList() {
 
       {/* Modal to display tickets for the selected order */}
 
-      <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
+      <Modal Modal="edit-modal" onClose={() => setSelectedOrder(null)}>
         {selectedOrder && (
           <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
             {(error && (
@@ -179,7 +179,7 @@ export default function StaffOrderList() {
                 Title="Down Payment Price"
                 Name="downpayment"
                 Value={"₱" + formData.downpayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
@@ -187,7 +187,7 @@ export default function StaffOrderList() {
                 Title="Reference Number"
                 Name="refNumber"
                 Value={formData.refNumber}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
@@ -205,7 +205,7 @@ export default function StaffOrderList() {
                 Title="Cash"
                 Name="cashPayment"
                 Value={formData.cashPayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 InCol
                 InWhite
               />
@@ -214,7 +214,7 @@ export default function StaffOrderList() {
                 Title="Online"
                 Name="onlinePayment"
                 Value={formData.onlinePayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 InCol
                 InWhite
               />

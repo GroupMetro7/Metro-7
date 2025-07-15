@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../assets/css/components/KPI.sass'
+import '../../Assets/CSS/Components/KPI.sass'
 
 export default function KPI({ Class, Title, Item, Integer, Increase, Decrease }) {
 
@@ -8,7 +8,7 @@ export default function KPI({ Class, Title, Item, Integer, Increase, Decrease })
             <h4>{ Title }</h4>
             { Item && <h5>{ Item }</h5> }
             { Integer && <h5>{ Integer }</h5> }
-            { Increase && <p className="add">+{ Increase }</p> }
+            { Increase && <p className={`add`}>+{ Increase }</p> }
             { Decrease && <p>-{ Decrease }</p> }
         </div>
     )

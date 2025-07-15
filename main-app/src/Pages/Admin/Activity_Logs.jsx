@@ -1,4 +1,4 @@
-import "../../assets/css/pages/admin/Management.sass";
+import "../../Assets/CSS/Pages/Admin/Management.sass";
 import {
   Title,
   Body_addclass,
@@ -12,7 +12,7 @@ import {
   Modal,
   Form,
   SubmitButton,
-} from "../../exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 import useExportCSV from "../../hooks/Universal/fileExporter";
 import DateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
@@ -86,8 +86,8 @@ export: {
       <Group>
         <Main>
           <Box Class="search">
-            <Inputbox Title="Search"  onChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
-            <Inputbox Title="Date" Type="date" onChange={(e)=> setSearchItem(e.target.value)}/>
+            <Inputbox Title="Search" OnChange={(e)=> setSearchItem(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
+            <Inputbox Title="Date" Type="date" OnChange={(e)=> setSearchItem(e.target.value)}/>
           </Box>
           <Box Title="ACTIVITY LOGS" UpperRight={
               <Button Title="EXPORT AS FILE" OpenModal="AddModal-exportCSV"/>
@@ -109,7 +109,7 @@ export: {
                     Title="Start Date"
                     Type="date"
                     Value={dateRange.startDate}
-                    onChange={(e) =>
+                    OnChange={(e) =>
                       setDateRange((prev) => ({
                         ...prev,
                         startDate: e.target.value,
@@ -122,7 +122,7 @@ export: {
                     Title="End Date"
                     Type="date"
                     Value={dateRange.endDate}
-                    onChange={(e) =>
+                    OnChange={(e) =>
                       setDateRange((prev) => ({
                         ...prev,
                         endDate: e.target.value,

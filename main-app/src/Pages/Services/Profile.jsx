@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/services/Profile.sass";
+import "../../Assets/CSS/Pages/Services/Profile.sass";
 import {
   ScreenWidth,
   Title,
@@ -16,7 +16,7 @@ import {
   TimeText,
   SubmitButton,
   Graph
-} from "../../Exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useAttendanceStaff from "../../hooks/service/attendance";
 import useModifyData from "../../hooks/customer/profile/modifyData"
@@ -95,7 +95,7 @@ export default function StaffProfile() {
                     </h2>
                     <h4>{user.contact}</h4>
                   </article>
-                  <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
+                  <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
                 </Box>
                 <Box Title="Statistics" Class="statistic" BoxCol>
                   <Graph BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
@@ -132,7 +132,7 @@ export default function StaffProfile() {
                   </h2>
                   <h4>{user.contact}</h4>
                 </article>
-                <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
+                <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
               </Box>
                 <Box Class="attendance" BoxCol>
                   <Group Class="datetime" Col>
@@ -159,7 +159,7 @@ export default function StaffProfile() {
           </Main>
         }
       </Group>
-      <Modal Modal="EditProfile">
+      <Modal Modal="editprofile-modal">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>
           <Group Class="inputside" Wrap>
             {Inputboxes.map((input, index) => (
@@ -170,7 +170,7 @@ export default function StaffProfile() {
                 InCol={input.InCol}
                 InWhite={input.InWhite}
                 Value={input.Value}
-                onChange={input.OnChange}
+                OnChange={input.OnChange}
                 Name={input.Name}
               />
             ))}

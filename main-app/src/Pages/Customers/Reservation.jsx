@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../assets/css/pages/customers/Reservation.sass'
+import '../../Assets/CSS/Pages/Customers/Reservation.sass'
 import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
 import { useStateContext, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
 
@@ -33,9 +33,9 @@ export default function ReservationPage() {
                     { label: `Group`, value: `Group` },
                     { label: `Event`, value: `Event` }
             ]},
-            { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.partySize, onChange: handleInputChange },
-            { Input: true, Title: `Date`, Type: `date`, ID: `date-in`, Name: `date`, InCol: true, InWhite: true, Value: formData.date, MinDate: today, onChange: handleInputChange },
-            { Input: true, Title: `Time`, Type: `time`, ID: `time-in`, Name: `time`, InCol: true, InWhite: true, Value: formData.time, MinDate: minDateTime, onChange: handleInputChange }
+            { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.partySize, OnChange: handleInputChange },
+            { Input: true, Title: `Date`, Type: `date`, ID: `date-in`, Name: `date`, InCol: true, InWhite: true, Value: formData.date, MinDate: today, OnChange: handleInputChange },
+            { Input: true, Title: `Time`, Type: `time`, ID: `time-in`, Name: `time`, InCol: true, InWhite: true, Value: formData.time, MinDate: minDateTime, OnChange: handleInputChange }
         ]
 
     return (
@@ -55,37 +55,37 @@ export default function ReservationPage() {
                             </>
                         }
                         <Group Class={`inputside`} {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
-                            {Inputboxes.map((input, index) =>
-                                input.Select &&
+                            {Inputboxes.map((Input, Index) =>
+                                Input.Select &&
                                 <Selectionbox
-                                    key={index}
-                                    Title={input.Title}
-                                    ID={input.ID}
-                                    Name={input.Name}
-                                    Value={input.Value}
-                                    Options={input.Options}
-                                    SltCol={input.SltCol}
-                                    SltWhite={input.SltWhite}
-                                    OnChange={input.OnChange}
+                                    Key={Index}
+                                    Title={Input.Title}
+                                    ID={Input.ID}
+                                    Name={Input.Name}
+                                    Value={Input.Value}
+                                    Options={Input.Options}
+                                    SltCol={Input.SltCol}
+                                    SltWhite={Input.SltWhite}
+                                    OnChange={Input.OnChange}
                                 />
-                                || input.Input &&
+                                || Input.Input &&
                                 <Inputbox
-                                    key={index}
-                                    Title={input.Title}
-                                    Type={input.Type}
-                                    ID={input.ID}
-                                    Name={input.Name}
-                                    InCol={input.InCol}
-                                    InWhite={input.InWhite}
-                                    Value={input.Value}
-                                    MinDate={input.MinDate}
-                                    onChange={input.onChange}
+                                    Key={Index}
+                                    Title={Input.Title}
+                                    Type={Input.Type}
+                                    ID={Input.ID}
+                                    Name={Input.Name}
+                                    InCol={Input.InCol}
+                                    InWhite={Input.InWhite}
+                                    Value={Input.Value}
+                                    MinDate={Input.MinDate}
+                                    OnChange={Input.OnChange}
                                 />
                             )}
                         </Group>
                     </Group>
                     <Group Class={`buttonside`}>
-                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} disabled={isLoading} BtnWhite />
+                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                     </Group>
                 </Form>
             </Section>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/admin/Management.sass";
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from "../../exporter/component_exporter";
+import "../../Assets/CSS/Pages/Admin/Management.sass";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from "../../Exporter/Component_Exporter";
 import useAttendanceStatusAdmin from "../../hooks/admin/employee/attendanceStatus";
 import useModifyEmployee from "../../hooks/admin/employee/modifyEmployee";
 import axiosClient from "../../axiosClient";
@@ -70,13 +70,13 @@ export default function EmployeeManagementPage() {
                         <Inputbox Title="Search" Type="search" />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
-                    <Box Title="EMPLOYEES" UpperRight={ <Button Title="+" OpenModal="AddModal" /> } BoxCol >
-                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
+                    <Box Title="EMPLOYEES" BoxCol >
+                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
             </Group>
-            <Modal Modal="AddModal">
+            <Modal Modal="add-modal">
                 <Form
                     Title="ADD EMPLOYEE"
                     FormThreelayers
@@ -100,11 +100,11 @@ export default function EmployeeManagementPage() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} onChange={handleInputChange} />
-                        <Inputbox Title="First Name" Type="text" InCol InWhite Value={formData.firstname} onChange={handleInputChange} />
-                        <Selectionbox Title="Role" Name='name' Options={["Admin", "Employee"]} SltCol SltWhite Value={formData.role} onChange={handleInputChange} />
-                        <Inputbox Title="Email" Type="email" InCol InWhite Value={formData.email} onChange={handleInputChange} />
-                        <Inputbox Title="Phone" Type="text" InCol InWhite Value={formData.contact} onChange={handleInputChange} />
+                        <Inputbox Title="Last Name" Name="lastname" Type="text" InCol InWhite Value={formData.lastname} OnChange={handleInputChange} />
+                        <Inputbox Title="First Name" Type="text" InCol InWhite Value={formData.firstname} OnChange={handleInputChange} />
+                        <Selectionbox Title="Role" Name='name' Options={["Admin", "Employee"]} SltCol SltWhite Value={formData.role} OnChange={handleInputChange} />
+                        <Inputbox Title="Email" Type="email" InCol InWhite Value={formData.email} OnChange={handleInputChange} />
+                        <Inputbox Title="Phone" Type="text" InCol InWhite Value={formData.contact} OnChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CLOSE" CloseModal BtnWhite />
@@ -112,7 +112,7 @@ export default function EmployeeManagementPage() {
                     </Group>
                 </Form>
             </Modal>
-            <Modal Modal="EditModal">
+            <Modal Modal="edit-modal">
                 <Form
                     Title="EDIT EMPLOYEE"
                     FormThreelayers

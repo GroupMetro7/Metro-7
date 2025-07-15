@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/admin/Management.sass";
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination, KPI } from "../../exporter/component_exporter";
+import "../../Assets/CSS/Pages/Admin/Management.sass";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination, KPI } from "../../Exporter/Component_Exporter";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useOrderHistory from "../../hooks/admin/OrderHistory/OrderHistory";
 import UseKpi from "../../hooks/Universal/Kpi";
-import { useStateContext } from "../../Contexts/ContextProvider";
 import DateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
+import { useStateContext, useScreenWidth, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
 
 export default function StaffOrderList() {
   Title("Order List");
@@ -31,6 +31,8 @@ export default function StaffOrderList() {
   const { user } = useStateContext();
 
   const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
+  
+          const handleReceiptUpload = useOCRReceipt({ setFormData })
 
   const tborderhistory = {
     head: [
@@ -85,13 +87,13 @@ export default function StaffOrderList() {
             <Inputbox
               Title="Search"
               Type="search"
-              onChange={(e) => setSearchItem(e.target.value)}
+              OnChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Order No. / user's name"}
             />
             <Inputbox
               Title="Date"
               Type="date"
-              onChange={(e) => setFilterDate(e.target.value)}
+              OnChange={(e) => setFilterDate(e.target.value)}
             />
           </Box>
           {user && user.role === "admin" && (
@@ -104,7 +106,7 @@ export default function StaffOrderList() {
             </Group>
           )}
           <Box Title="ORDER HISTORY" BoxCol>
-            <Table Title="OHistory" HeadRows={tborderhistory.head} DataRows={tborderhistory.rows} EditBtn />
+            <Table HeadRows={tborderhistory.head} DataRows={tborderhistory.rows} EditBtn />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -116,7 +118,7 @@ export default function StaffOrderList() {
 
       {/* Modal to display tickets for the selected order */}
 
-      <Modal Modal="EditModal-OHistory" onClose={() => setSelectedOrder(null)}>
+      <Modal Modal="edit-modal" onClose={() => setSelectedOrder(null)}>
         {selectedOrder && (
           <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
             {(error && (
@@ -240,63 +242,7 @@ export default function StaffOrderList() {
                     BtnWhite
                     Accept={"image/*"}
                     Name="image"
-                    OnChange={async (e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const worker = await createWorker("eng");
-                        await worker.setParameters({
-                          tessedit_char_whitelist:
-                            "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
-                        });
-                        const rectangle = {
-                          left: 0,
-                          top: 0,
-                          width: 1500,
-                          height: 1500,
-                        };
-                        const {
-                          data: { text: rawText },
-                        } = await worker.recognize(file, { rectangle });
-
-                        // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
-                        const text = rawText.replace(
-                          /(₱|Amount\s*[:\-]?)\s*4(?=[\d,]+\.\d{2})/g,
-                          "$1+"
-                        );
-
-                        // Extract reference number (example: 10+ digits or alphanumeric)
-                        const refMatch =
-                          text.match(
-                            /(?:Reference\s*No\.?:?\s*|Ref(?:erence)?\s*#?:?\s*No\.?:?\s*)/i
-                          ) || text.match(/([0-9]{13,})/i);
-                        const referenceNumber = refMatch
-                          ? refMatch[1]
-                          : "Not found";
-
-                        // Extract amount (example: ₱+1234.56 or Amount: +1234.56)
-                        const amountMatch =
-                          text.match(/₱\s*([+-]?[\d,]+\.\d{2})/) ||
-                          text.match(/Amount\s*[:\-]?\s*([+-]?[\d,]+\.\d{2})/i);
-                        const amount = amountMatch
-                          ? amountMatch[1]
-                          : "Not found";
-
-                        const parsedAmount =
-                          amount !== "Not found"
-                            ? parseFloat(amount.replace(/,/g, ""))
-                            : "";
-
-                        console.log("Reference Number:", referenceNumber);
-                        console.log("Amount:", parsedAmount);
-
-                        await worker.terminate();
-
-                        setFormData({
-                          refNumber: referenceNumber,
-                          downpayment: parsedAmount,
-                        });
-                      }
-                    }}
+                    OnChange={handleReceiptUpload}
                   />
                 </Group>
               </Group>

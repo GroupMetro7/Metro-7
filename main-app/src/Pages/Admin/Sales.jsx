@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../assets/css/pages/admin/Sales.sass";
+import "../../Assets/CSS/Pages/Admin/Sales.sass";
 import {
   Title,
   Body_addclass,
@@ -18,7 +18,7 @@ import {
   Modal,
   Form,
   SubmitButton,
-} from "../../exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import useFetchData from "../../hooks/admin/fetchData";
@@ -113,7 +113,7 @@ export default function SalesPage() {
               Title="Start Date"
               Type="date"
               Value={dateRange.startDate}
-              onChange={(e) =>
+              OnChange={(e) =>
                 setDateRange((prev) => ({
                   ...prev,
                   startDate: e.target.value,
@@ -126,7 +126,7 @@ export default function SalesPage() {
               Title="End Date"
               Type="date"
               Value={dateRange.endDate}
-              onChange={(e) =>
+              OnChange={(e) =>
                 setDateRange((prev) => ({
                   ...prev,
                   endDate: e.target.value,

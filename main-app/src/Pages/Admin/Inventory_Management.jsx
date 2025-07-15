@@ -1,5 +1,5 @@
-import '../../assets/css/pages/admin/Management.sass';
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../exporter/component_exporter'
+import '../../Assets/CSS/Pages/Admin/Management.sass';
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../Exporter/Component_Exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
 import useAddCategory from "../../hooks/add";
 import useModifyItem from "../../hooks/admin/inv/modifyItem";
@@ -105,7 +105,7 @@ export default function Test() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" onChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
+                        <Inputbox Title="Search" OnChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
                         <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
                     </Box>
                 <Group Class="kpis">
@@ -115,16 +115,16 @@ export default function Test() {
                 </Group>
                     <Box Title="INVENTORY" UpperRight={
                         <>
-                            <Button Title="+" OpenModal="AddModal-Inventory" />
+                            <Button Title="+" OpenModal="add-modal" />
                             <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
                         </>
                     } BoxCol >
-                        <Table Title="Inventory" HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
+                        <Table HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </Box>
                 </Main>
             </Group>
-            <Modal Modal="AddModal-Inventory">
+            <Modal Modal="add-modal">
                 <Form
                     Title="ADD ITEM"
                     FormThreelayers
@@ -133,7 +133,7 @@ export default function Test() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite OnChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,
@@ -144,9 +144,9 @@ export default function Test() {
                             { label: "Each", value: "each" },
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
-                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite OnChange={handleInputChange} />
                         <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
-                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite OnChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -154,7 +154,7 @@ export default function Test() {
                     </Group>
                 </Form>
             </Modal>
-            <Modal Modal="EditModal-Inventory">
+            <Modal Modal="edit-modal">
                 <Form
                     Title="EDIT ITEM"
                     FormThreelayers
@@ -163,7 +163,7 @@ export default function Test() {
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
-                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite OnChange={handleInputChange} />
                         <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
                             Options={categories.map((cat) => ({
                             label: cat.name,
@@ -174,9 +174,9 @@ export default function Test() {
                             { label: "Each", value: "each" },
                             { label: "Weight", value: "weight" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
-                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite onChange={handleInputChange} />
-                        <Inputbox Title="Remarks" Type="text" Name="remarks" Value={formData.remarks} InCol InWhite onChange={handleInputChange} />
+                        <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Remarks" Type="text" Name="remarks" Value={formData.remarks} InCol InWhite OnChange={handleInputChange} />
                     </Group>
                     <Group Class="buttonside">
                         <Button Title="CANCEL" CloseModal BtnWhite />
@@ -184,6 +184,7 @@ export default function Test() {
                     </Group>
                 </Form>
             </Modal>
+            
         </>
     );
 }

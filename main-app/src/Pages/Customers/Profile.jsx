@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../../assets/css/pages/customers/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from '../../Exporter/component_exporter'
+import "../../Assets/CSS/Pages/Customers/Profile.sass";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from '../../Exporter/Component_Exporter'
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
@@ -44,6 +44,13 @@ export default function ProfilePage() {
     }
   }));
 
+    const Inputboxes = [
+        { Title: `First Name`, Type: `text`, ID: `fname-in`, Name: `firstname`, Value: formData.firstname, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: `Last Name`, Type: `text`, ID: `lname-in`, Name: `lastname`, Value: formData.lastname, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: `Email`, Type: `email`, ID: `email-in`, Name: `email`, Value: formData.email, InCol: true, InWhite: true, OnChange: handleInputChange },
+        { Title: `Contact Number`, Type: `number`, ID: `number-in`, Name: `contact`, Value: formData.contact, InCol: true, InWhite: true, OnChange: handleInputChange },
+    ];
+
   return (
     <>
       <Main>
@@ -66,12 +73,12 @@ export default function ProfilePage() {
                 <h4>{user?.contact}</h4>
                 <h4>{user?.loyalty}</h4>
               </article>
-              <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
+              <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
           : 
             <Box Class="profile" BoxWrap>
               <img />
-              <Button Title="EDIT PROFILE" OpenModal="EditProfile" />
+              <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
               <article>
                 <h2>
                   {user?.firstname} {user?.lastname}
@@ -90,67 +97,41 @@ export default function ProfilePage() {
           </Box>
         </Section>
       </Main>
-      <Modal Modal="EditProfile">
+      <Modal Modal="editprofile-modal">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>
           <Group Class="imageside">
             <img src="" />
             <InsertFileButton Title="EDIT PICTURE" BtnWhite />
           </Group>
-          <Group
-            Class="inputside"
-            {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
-          >
-            <Inputbox
-              Title="First Name"
-              Type="text"
-              Name="firstname"
-              Value={formData.firstname}
-              onChange={handleInputChange}
-              InCol
-              InWhite
-            />
-            <Inputbox
-              Title="Last Name"
-              Type="text"
-              Name="lastname"
-              Value={formData.lastname}
-              onChange={handleInputChange}
-              InCol
-              InWhite
-            />
-            <Inputbox
-              Title="Email"
-              Type="email"
-              Name="email"
-              Value={formData.email}
-              onChange={handleInputChange}
-              InCol
-              InWhite
-            />
-            <Inputbox
-              Title="Contact Number"
-              Type="text"
-              Name="contact"
-              Value={formData.contact}
-              onChange={handleInputChange}
-              InCol
-              InWhite
-            />
+          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
+              {Inputboxes.map((Input, Index) => (
+                  <Inputbox
+                      Key={Index}
+                      Title={Input.Title}
+                      Type={Input.Type}
+                      ID={Input.ID}
+                      Name={Input.Name}
+                      InCol={Input.InCol}
+                      InWhite={Input.InWhite}
+                      Value={Input.Value}
+                      OnChange={Input.OnChange}
+                  />
+              ))}
           </Group>
           {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
-              <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
+              <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
             </Group>
           : 
             <Group Class="buttonside" Col>
-              <SubmitButton Title={ isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
+              <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
           }
         </Form>
       </Modal>
-      {/* <Modal Modal="ViewModal-OHistory">
+      {/* <Modal Modal="OHistory-view-modal">
         {selectedOrder && 
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
@@ -227,7 +208,7 @@ export default function ProfilePage() {
                 Title="Down Payment Price"
                 Name="downpayment"
                 Value={"₱"}
-                onChange=""
+                OnChange=""
                 OutCol
                 OutWhite
               />
@@ -235,7 +216,7 @@ export default function ProfilePage() {
                 Title="Reference Number"
                 Name="refNumber"
                 Value=""
-                onChange=""
+                OnChange=""
                 OutCol
                 OutWhite
               />
@@ -247,7 +228,7 @@ export default function ProfilePage() {
           </Form>
         }
       </Modal> */}
-      <Modal Modal="EditModal-Reservations">
+      <Modal Modal="Reservations-edit-modal">
         <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
           <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
             <Outputfetch Title="Customer Name" Value={`${user.firstname} ${user.lastname}`} OutCol OutWhite />                                <Selectionbox
@@ -270,7 +251,7 @@ export default function ProfilePage() {
               Value={formData.partySize}
               InCol
               InWhite
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
           />
           <Inputbox
               Title="Date"
@@ -280,7 +261,7 @@ export default function ProfilePage() {
               MinDate={ today }
               InCol
               InWhite
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
           />
           <Inputbox
               Title="Time"
@@ -290,16 +271,16 @@ export default function ProfilePage() {
               MinDate={ minDateTime }
               InCol
               InWhite
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
           />
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
+            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="CancelModal-Reservations">
+      <Modal Modal="Reservations-cancel-modal">
         <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit="">
           <Group Class="outputfetch" Wrap>
             <Outputfetch
@@ -332,7 +313,7 @@ export default function ProfilePage() {
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title={isLoading ? "SUBMITTING..." : "SUBMIT"} BtnWhite />
+            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
           </Group>
         </Form>
       </Modal>

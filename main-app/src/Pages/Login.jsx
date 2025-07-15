@@ -1,5 +1,5 @@
 import React from 'react'
-import '../assets/css/pages/Login.sass'
+import '../Assets/CSS/Pages/Login.sass'
 import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
 import { useStateContext, useScreenWidth, useAuthentication } from '../Exporter/Hooks_Exporter'
 
@@ -17,31 +17,31 @@ export default function LoginPage() {
 
         // Hooks for forms
         const Inputboxes = [
-            { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: formData.email, onChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
-            { Title: `Password`, Type: `password`, ID: `password-in`, InCol: true, InWhite: true, Value: formData.password, onChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
+            { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: formData.email, OnChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
+            { Title: `Password`, Type: `password`, ID: `password-in`, InCol: true, InWhite: true, Value: formData.password, OnChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
         ]
 
     return (
         <Main>
-            <Section ID={`login`} Class={`login`}>
+            <Section ID={`login`}>
                 <Form Title={`LOGIN`} OnSubmit={handleSubmit}>
                     {error && <Group Class={`signalside`}><p className={`error`}>{error}</p></Group>}
                     <Group Class={`inputside`} Col>
-                        {Inputboxes.map((input, index) => (
+                        {Inputboxes.map((Input, Index) => (
                             <Inputbox
-                                key={index}
-                                Title={input.Title}
-                                Type={input.Type}
-                                ID={input.ID}
-                                InCol={input.InCol}
-                                InWhite={input.InWhite}
-                                Value={input.Value}
-                                onChange={input.onChange}
+                                Key={Index}
+                                Title={Input.Title}
+                                Type={Input.Type}
+                                ID={Input.ID}
+                                InCol={Input.InCol}
+                                InWhite={Input.InWhite}
+                                Value={Input.Value}
+                                OnChange={Input.OnChange}
                             />
                         ))}
                     </Group>
                     <Group Class={`buttonside`} Col>
-                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} disabled={isLoading} BtnWhite />
+                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                         <Button Title={`REGISTER`} ID={`register-btn`} Redirect={`/register`} BtnWhite />
                         <Href Title={`FORGOT PASSWORD?`} ID={`fpass-btn`} Redirect={`/forget_password`} HrefWhite />
                     </Group>

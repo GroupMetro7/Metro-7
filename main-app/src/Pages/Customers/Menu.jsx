@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../assets/css/pages/customers/Menu.sass'
+import '../../Assets/CSS/Pages/Customers/Menu.sass'
 import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
 import { useStateContext, useScreenWidth, useFetchProduct, useFetchOrder, useCreateOrder, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
@@ -35,7 +35,7 @@ export default function MenuPage() {
         } = useCreateOrder()
 
         // For Handling OCR via GCash
-        const handleReceiptUpload = useOCRReceipt(setFormData)
+        const handleReceiptUpload = useOCRReceipt({ setFormData })
 
     // UI Hooks
     const screenwidth = useScreenWidth()
@@ -101,15 +101,15 @@ export default function MenuPage() {
                 screenwidth > 766 ? 
                     <Main Row>
                         <Group Class={`leftside`} Col>
-                            <Section ID={`menu-order`} Title={`Menu Order`} Class={`menu`}>
+                            <Section Title={`Menu Order`} ID={`menuorder`}>
                                 <Group Col>
                                     <Box Class={`search`}>
-                                        <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
+                                        <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
                                     </Box>
                                     <Group Class={`filter`}>
                                         {categories.map((category) => (
                                             <Radio
-                                                key={category.id}
+                                                Key={category.id}
                                                 Title={category.name}
                                                 ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
                                                 Value={category.id}
@@ -126,7 +126,7 @@ export default function MenuPage() {
                                 </Group>
                             </Section>
                         </Group>
-                        <Box ID={`checked-orders`} Class={`rightside`} BoxCol>
+                        <Box ID={`checkedorders`} Class={`rightside`} BoxCol>
                             <Group Class={`datetime`} Col>
                                 <h3>
                                     { date }
@@ -154,7 +154,7 @@ export default function MenuPage() {
                                             <h3>TOTAL:</h3>
                                             <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
                                         </article>
-                                        <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`CheckoutModal`} Disabled={!diningOpt} />
+                                        <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`checkout-modal`} Disabled={!diningOpt} />
                                     </Group>
                                 </>
                             )}
@@ -162,8 +162,8 @@ export default function MenuPage() {
                     </Main>
                     : 
                     <Main>
-                        <Section Title={`Menu Order`} Class={`menu-oneside`} UpperRight={
-                            <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`CheckoutModal`} BtnWhite />
+                        <Section Title={`Menu Order`} ID={`menuorder`} Class={`oneside`} UpperRight={
+                            <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`checkout-modal`} BtnWhite />
                             }>
                             <Group Col>
                                 <Group Class={`opts`}>
@@ -171,7 +171,7 @@ export default function MenuPage() {
                                     <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} />
                                 </Group>
                                 <Box Class={`search`}>
-                                    <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
+                                    <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
                                 </Box>
                                 <Group Class={`filter`}>
                                     {categories.map((category) => (
@@ -195,10 +195,10 @@ export default function MenuPage() {
                     </Main>
                 : 
                 <Main>
-                    <Section ID={`menu-order`} Title={`Menu Order`} Class={`menu-oneside`}>
+                    <Section Title={`Menu Order`} ID={`menuorder`} Class={`oneside`}>
                         <Group Col>
                             <Box Class={`search`}>
-                                <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} onChange={(e) => setSearchItem(e.target.value)} />
+                                <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
                             </Box>
                             <Group Class={`filter`}>
                                 {categories.map((category) => (
@@ -222,7 +222,7 @@ export default function MenuPage() {
                 </Main>
             }
             {user && user.id && 
-                <Modal Modal={`CheckoutModal`}>
+                <Modal Modal={`checkout-modal`}>
                     <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={submitOrder} >
                         <Group Class={`outputfetch`} Wrap>
                             {Outputfetches.first.map((output, index) => (
@@ -278,12 +278,12 @@ export default function MenuPage() {
                         {screenwidth > 766 ? 
                             <Group Class={`buttonside`}>
                                 <Button Title={`CANCEL`} CloseModal BtnWhite />
-                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} disabled={isLoading} BtnWhite />
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                             </Group>
                             : 
                             <Group Class={`buttonside`} Col>
-                                <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
-                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} disabled={isLoading} BtnWhite />
+                                <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} BtnWhite/>
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                                 <Button Title={`CANCEL`} CloseModal BtnWhite />
                             </Group>
                         }

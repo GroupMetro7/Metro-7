@@ -1,11 +1,11 @@
 import React from 'react'
-import '../../assets/css/components/footer.sass'
-import { ScreenWidth, FooterHeight, Inputbox, Href } from '../../Exporter/component_exporter'
-import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../Exporter/public_exporter'
+import '../../Assets/CSS/Components/Footer.sass'
+import { ScreenWidth, FooterHeight, Inputbox, Href } from '../../Exporter/Component_Exporter'
+import { Logo, FBLogo, XLogo, IGLogo, PhoneLogo, LocationLogo } from '../../Exporter/Public_Exporter'
 
 export default function Footer() {
     FooterHeight()
-    const screenwidth = ScreenWidth();
+    const screenwidth = ScreenWidth()
 
     return(
         <footer>
@@ -26,14 +26,14 @@ export default function Footer() {
                         <figurecaption>Metrowalk, Pasig City</figurecaption>
                     </figure>
                 </div>
-                { screenwidth < 1265 && <Href Title='PRIVACY & TERMS' HrefWhite/> }
+                { screenwidth < 1265 && <Href Title={`PRIVACY & TERMS`} HrefWhite/> }
             </div>
             { screenwidth > 1266 &&
             <nav>
-                <Href Title='HOME' Redirect='/' HrefWhite/>
-                <Href Title='MENU' Redirect='/menu' HrefWhite/>
-                <Href Title='LOGIN' Redirect='/login' HrefWhite/>
-                <Href Title='PRIVACY & TERMS' HrefWhite/>
+                <Href Title={`HOME`} Redirect={`/`} HrefWhite/>
+                <Href Title={`MENU`} Redirect={`/menu`} HrefWhite/>
+                <Href Title={`LOGIN`} Redirect={`/login`} HrefWhite/>
+                <Href Title={`PRIVACY & TERMS`} HrefWhite/>
             </nav>
             }
         </footer>

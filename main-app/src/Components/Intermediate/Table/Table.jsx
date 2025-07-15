@@ -1,6 +1,6 @@
 import React from 'react'
-import '../../../assets/css/components/table.sass'
-import { TBHead, TBData } from '../../../exporter/component_exporter'
+import '../../../Assets/CSS/Components/Table.sass'
+import { TBHead, TBData } from '../../../Exporter/Component_Exporter'
 
 export default function Table({ Title, Class, HeadRows, DataRows, ViewBtn, EditBtn, DeleteBtn, CancelBtn }) {
 

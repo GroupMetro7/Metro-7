@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/services/Management.sass";
+import "../../Assets/CSS/Pages/Admin/Management.sass";
 import {
   Title,
   Body_addclass,
@@ -9,7 +9,7 @@ import {
   Inputbox,
   Table,
   Button,
-} from "../../exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI";
 import axiosClient from "../../axiosClient";
 import useFetchModelPrediction from "../../hooks/AI/Fetch_Model_Prediction";
@@ -82,7 +82,7 @@ export default function StaffOrderList() {
           </Box>
           <Box Title="DEMAND FORECASTS" UpperRight={
             <Button
-            Title="+UPDATE FORECAST"
+            Title="SEND TO MODEL"
             Onclick={() =>
               sendDataToForecastModel(
                 tbrowsOrdersAI.map((row) => ({

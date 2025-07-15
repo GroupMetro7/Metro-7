@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "../../assets/css/pages/services/Dashboard.sass";
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from "../../Exporter/component_exporter"
+import "../../Assets/CSS/Pages/Services/Dashboard.sass";
+import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from "../../Exporter/Component_Exporter"
 import { useStateContext, useScreenWidth, useClockText } from '../../Exporter/Hooks_Exporter'
 import axiosClient from "../../axiosClient";
 import useFetchOrder from "../../hooks/Universal/fetchProducts";
@@ -218,7 +218,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
                 <Inputbox
                   Title="Search"
                   Type="search"
-                  onChange={(e) => setSearchItem(e.target.value)}
+                  OnChange={(e) => setSearchItem(e.target.value)}
                 />
               </Box>
               <Group Class="filter">
@@ -293,21 +293,21 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
                     <h3>TOTAL:</h3>
                     <h3>₱{totalPrice.toFixed(2)}</h3>
                   </article>
-                  <Button Title="CHECKOUT" OpenModal="InputsModal" Disabled={!diningOpt} />
+                  <Button Title="CHECKOUT" OpenModal="first-checkout-modal" Disabled={!diningOpt} />
                 </Group>
               </>
             )}
           </Box>
         </Main>
       </Group>
-      <Modal Modal="InputsModal">
+      <Modal Modal="first-checkout-modal">
         <Form Title="CHECKOUT" {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
           <Group Class="inputside">
             <Inputbox
               Type="text"
               Title="Customer Name"
               value={customer}
-              onChange={(e) => setCustomer(e.target.value)}
+              OnChange={(e) => setCustomer(e.target.value)}
               InCol
               InWhite
             />
@@ -317,7 +317,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               Type="number"
               Title="Cash Payment"
               value={cashPayment}
-              onChange={(e) => setCashPayment(e.target.value)}
+              OnChange={(e) => setCashPayment(e.target.value)}
               InCol
               InWhite
             />
@@ -325,7 +325,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               Type="number"
               Title="Online Payment"
               value={onlinePayment}
-              onChange={(e) => setOnlinePayment(e.target.value)}
+              OnChange={(e) => setOnlinePayment(e.target.value)}
               InCol
               InWhite
             />
@@ -333,7 +333,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               Type="number"
               Title="Discount"
               value={discount}
-              onChange={(e) => setDiscount(e.target.value)}
+              OnChange={(e) => setDiscount(e.target.value)}
               InCol
               InWhite
             />
@@ -366,12 +366,12 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <Button Title="CHECKOUT" OpenModal="CheckoutModal" BtnWhite />
+            <Button Title="CHECKOUT" OpenModal="second-checkout-modal" BtnWhite />
           </Group>
         </Form>
       </Modal>
 
-      <Modal Modal="CheckoutModal">
+      <Modal Modal="second-checkout-modal">
         <Form
           Title="CHECKOUT"
           {...(screenwidth > 1023
@@ -449,7 +449,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title="CHECKOUT" BtnWhite  disabled={loading}/>
+            <SubmitButton Title="CHECKOUT" BtnWhite Disabled={loading}/>
           </Group>
         </Form>
       </Modal>

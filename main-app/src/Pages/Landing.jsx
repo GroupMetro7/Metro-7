@@ -1,5 +1,5 @@
 import React from 'react'
-import '../assets/css/pages/Landing.sass'
+import '../Assets/CSS/Pages/Landing.sass'
 import { Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/Component_Exporter'
 import { useStateContext, useScreenWidth } from '../Exporter/Hooks_Exporter'
 import { Logo } from '../Exporter/Public_Exporter'
@@ -16,7 +16,7 @@ export default function LandingPage() {
 
     return (
         <Main>
-            <Section ID={`pre-order`} Class={`pre-order`}>
+            <Section ID={`pre-order`}>
                 {screenwidth > 766 ?
                     <h1>Want to order in advance before<br />you arrive?</h1>
                     :
@@ -24,9 +24,9 @@ export default function LandingPage() {
                 }
                 <Button Title={`PRE-ORDER NOW`} ID={`pre-order-btn`} Redirect={user && user.id ? `/customer/reservation` : `/login`} BtnWhite />
             </Section>
-            <Section ID={`about`} Class={`about`}>
+            <Section ID={`about`}>
                 {screenwidth > 1023 && (
-                    <div>
+                    <div className={`logo`}>
                         <img src={Logo} />
                     </div>
                 )}
@@ -43,18 +43,18 @@ export default function LandingPage() {
                     </p>
                 </Group>
             </Section>
-            <Section ID={`location`} Class={`location`}>
+            <Section ID={`location`}>
                 {screenwidth > 766 ?
                     <>
                         <h2>OUR LOCATION</h2>
                         <Group>
-                            <article>
+                            <Group Class={`details`} Col>
                                 <h4>Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila</h4>
                                 <h4>+63 9952332528</h4>
                                 <h4>businessemail@email.com</h4>
-                            </article>
+                            </Group>
                             <Group Class={`map`}>
-                                <GMap />
+                                <GMap Link={`https://tinyurl.com/m7-gmap-001`} />
                             </Group>
                         </Group>
                     </>
@@ -63,13 +63,13 @@ export default function LandingPage() {
                         <h3>OUR LOCATION</h3>
                         <Group Col>
                             <Group Class={`map`}>
-                                <GMap />
+                                <GMap Link={`https://tinyurl.com/m7-gmap-001`} />
                             </Group>
-                            <article>
+                            <Group Class={`details`} Col>
                                 <h3>Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila</h3>
                                 <h3>+63 9952332528</h3>
                                 <h3>businessemail@email.com</h3>
-                            </article>
+                            </Group>
                         </Group>
                     </>
                 }

@@ -1,4 +1,4 @@
-import "../../assets/css/pages/admin/Dashboard.sass";
+import "../../Assets/CSS/Pages/Admin/Dashboard.sass";
 import {
   Title,
   Body_addclass,
@@ -20,7 +20,7 @@ import {
   Inputbox,
   Graph,
   KPI
-} from "../../exporter/component_exporter";
+} from "../../Exporter/Component_Exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
 import ModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
@@ -30,6 +30,7 @@ import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useFetchDashboardData from '../../hooks/admin/fetchData';
 import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
+import { useStateContext, useScreenWidth, useClockText, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
 import { createWorker } from "tesseract.js";
 
 export default function DashboardPage() {
@@ -52,6 +53,7 @@ export default function DashboardPage() {
   const { formData, setFormData, handleUpdateOrder, error, success } =
     useModifyOrderList(selectedOrder, fetchOrder);
 
+    const handleReceiptUpload = useOCRReceipt({ setFormData })
   const tbhead = [
     "ORDER NO.",
     "CUSTOMER",
@@ -175,19 +177,11 @@ export default function DashboardPage() {
       </Modal>
       {/* Modal to display tickets for the selected order */}
 
-      <Modal Modal="EditModal" onClose={() => setSelectedOrder(null)}>
+      <Modal Modal="edit-modal" onClose={() => setSelectedOrder(null)}>
         {selectedOrder && (
           <Form Title="EDIT ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
-            {(error && (
-              <Group Class="signalside">
-                <p class="error">{error}</p>
-              </Group>
-            )) ||
-              (success && (
-                <Group Class="signalside">
-                  <p class="success">{success}</p>
-                </Group>
-              ))}
+              {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
+              success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Order No."
@@ -283,27 +277,26 @@ export default function DashboardPage() {
                 SltCol
                 SltWhite
               />
-            </Group>
-            <Group Class="inputside">
-              <Inputbox
+                            <Inputbox
                 Title="Cash"
-                Type="text"
+                Type="number"
                 Name="cashPayment"
                 Value={formData.cashPayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 InCol
                 InWhite
               />
               <Inputbox
                 Title="Online"
+                Type="number"
                 Name="onlinePayment"
                 Value={formData.onlinePayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 InCol
                 InWhite
               />
             </Group>
-            <Group Class="outputfetch" Col>
+            <Group ID={`ocr`} Class="outputfetch ocr" Col>
               <Outputfetch Title="QR Code" OutWhite />
               <Group>
                 <img />
@@ -316,59 +309,9 @@ export default function DashboardPage() {
                   <InsertFileButton
                     Title="UPLOAD GCASH RECEIPT"
                     BtnWhite
-                    Accept={"image/*"}
+                    Accept="image/*"
                     Name="image"
-                    OnChange={async (e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const worker = await createWorker("eng");
-                        await worker.setParameters({
-                          tessedit_char_whitelist:
-                            "₱0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,",
-                        });
-                        const {
-                          data: { text: rawText },
-                        } = await worker.recognize(file);
-
-                        // Fix common OCR error: replace '₱4' or 'Amount: 4' with '₱+' or 'Amount: +'
-                        const text = rawText.replace(
-                          /(₱|Amount\s*[:\-]?)\s*4(?=[\d,]+\.\d{2})/g,
-                          "$1+"
-                        );
-
-                        // Extract reference number (example: 10+ digits or alphanumeric)
-                        const refMatch =
-                          text.match(
-                            /(?:Reference\s*No\.?|Ref(?:erence)?\s*#?\s*No\.?)\s*[:\-]?\s*([A-Za-z0-9]{8,})/i
-                          ) || text.match(/([0-9]{13,})/);
-                        const referenceNumber = refMatch
-                          ? refMatch[1]
-                          : "Not found";
-
-                        // Extract amount (example: ₱+1234.56 or Amount: +1234.56)
-                        const amountMatch =
-                          text.match(/₱\s*([+-]?[\d,]+\.\d{2})/) ||
-                          text.match(/Amount\s*[:\-]?\s*([+-]?[\d,]+\.\d{2})/i);
-                        const amount = amountMatch
-                          ? amountMatch[1]
-                          : "Not found";
-
-                        const parsedAmount =
-                          amount !== "Not found"
-                            ? parseFloat(amount.replace(/,/g, ""))
-                            : "";
-
-                        console.log("Reference Number:", referenceNumber);
-                        console.log("Amount:", parsedAmount);
-
-                        await worker.terminate();
-setFormData((prev) => ({
-  ...prev,
-  refNumber: referenceNumber,
-  downpayment: parsedAmount,
-}));
-                      }
-                    }}
+                    OnChange={handleReceiptUpload}
                   />
                 </Group>
               </Group>

@@ -1,14 +1,14 @@
 import React from 'react'
-import '../../assets/css/components/inputbox & selectbox.sass'
+import '../../Assets/CSS/Components/Inputbox & Selectbox.sass'
 
-export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, onChange, accept, Placeholder }) {
+export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLength, MinDate, MaxDate, AutoFocus, Disabled, Required, InCol, InWhite, OnChange, accept, Placeholder }) {
     function ValidType( type ) {
-        const allowedTypes = ['text', 'email', 'date', 'password', 'datetime-local', 'month', 'url', 'number', 'time', 'file', 'search'];
+        const allowedTypes = [`text`, `email`, `date`, `password`, `datetime-local`, `month`, `url`, `number`, `time`, `file`, `search`];
         return allowedTypes.includes( type ) && type;
     }
 
     return(
-        <label className={ `inputbox ${ InCol && 'incol' } ${ InWhite && 'inwhite' } ${Class}` }>
+        <label className={ `inputbox ${ InCol && `incol` } ${ InWhite && `inwhite` } ${Class}` }>
             { Title && <h4>{ Title }:</h4> }
             <input
             id={ ID }
@@ -20,7 +20,7 @@ export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLengt
             max={ MaxDate }
             autoFocus={ AutoFocus }
             disabled={ Disabled }
-            onChange={ onChange }
+            onChange={ OnChange }
             required={ Required }
             accept={ accept }
             placeholder={Placeholder}

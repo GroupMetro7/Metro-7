@@ -15,7 +15,7 @@ body.Landing-PAGE
             padding: 0 !important
             margin-top: calc( 100vh - v.$preordersection-size ) !important
 
-            .pre-order
+            #pre-order
                 background-color: v.$container-red !important
                 backdrop-filter: blur(13px) !important
 
@@ -30,12 +30,12 @@ body.Landing-PAGE
                     border: 3px solid v.$color-secondary !important
                     color: v.$color-secondary !important
         
-            .about
+            #about
                 flex-direction: row !important
                 align-items: stretch !important
                 gap: 0 !important
 
-                > div:has( > img )
+                > .logo
                     background-color:  v.$color-primary !important
 
                     > img 
@@ -47,7 +47,7 @@ body.Landing-PAGE
                     color:  v.$color-primary !important
                     text-align: justify !important
 
-            .location
+            #location
                 background-color: v.$container-red !important
                 backdrop-filter: blur(13px) !important
                 scroll-margin-top: 80px !important
@@ -58,7 +58,7 @@ body.Landing-PAGE
                 > div.group
                     justify-content: space-between !important
 
-                    > article
+                    > .details
                         flex-direction: column !important
 
                         > h3, > h4
@@ -81,7 +81,7 @@ body.Landing-PAGE
 
             > div
 
-                .pre-order
+                #pre-order
                     gap: 0 !important
                     padding: 33px 123px !important
 
@@ -92,7 +92,7 @@ body.Landing-PAGE
                             background-color: v.$color-secondary !important
                             color:  v.$color-primary !important
 
-                .about
+                #about
 
                     > div:has( > img )
                         padding: 33px 100px !important
@@ -101,13 +101,13 @@ body.Landing-PAGE
                         gap: v.$elem-sa-size-xl !important
                         padding: 43px 83px 0 43px !important
 
-                .location
+                #location
                     padding: v.$elem-sa-size-xl 83px !important
                     gap: v.$elem-sa-size-xl !important
 
                     > div.group
 
-                        > article
+                        > .details
                             width: 100% !important
                             gap: v.$elem-sa-size-m !important
 
@@ -127,7 +127,7 @@ body.Landing-PAGE
             > div
                 margin-top: calc( 100vh - v.$header-size - v.$preordersection-size ) !important
 
-                .pre-order  
+                #pre-order  
                     gap: 0 !important
                     padding: v.$elem-sa-size-m 43px !important
 
@@ -138,7 +138,7 @@ body.Landing-PAGE
                             background-color: v.$color-secondary !important
                             color:  v.$color-primary !important
 
-                .about
+                #about
 
                     > div:has( > img )
                         padding: 25px 50px !important
@@ -150,14 +150,14 @@ body.Landing-PAGE
                         > h2
                             justify-content: center !important
 
-                .location
+                #location
                     padding: v.$elem-sa-size-xl !important
                     gap: v.$elem-sa-size-xl !important
 
                     > div.group
                         gap: 33px !important
 
-                        > article
+                        > .details
                             gap: v.$elem-sa-size-m !important
 
                         > .map
@@ -176,7 +176,7 @@ body.Landing-PAGE
             > div
                 margin-top: calc( 100vh - v.$header-size - v.$preordersection-size ) !important
 
-                .pre-order
+                #pre-order
                     gap: v.$elem-sa-size-xl !important
                     padding: v.$elem-sa-size-xl 33px !important
 
@@ -187,7 +187,7 @@ body.Landing-PAGE
                             background-color: v.$color-secondary !important
                             color:  v.$color-primary !important
 
-                .about
+                #about
 
                     > .description
                         gap: v.$elem-sa-size-s !important
@@ -196,7 +196,7 @@ body.Landing-PAGE
                         > h3
                             justify-content: center !important
 
-                .location
+                #location
                     padding: v.$elem-sa-size-xl !important
                     gap: v.$elem-sa-size-m !important
 

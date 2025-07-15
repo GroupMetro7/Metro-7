@@ -1,6 +1,6 @@
 import React from "react";
-import "../../assets/css/pages/admin/Management.sass";
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, Pagination, InsertFileButton, } from "../../exporter/component_exporter";
+import "../../Assets/CSS/Pages/Admin/Management.sass";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, Pagination, InsertFileButton, } from "../../Exporter/Component_Exporter";
 import { DeleteLogo } from "../../Exporter/public_exporter";
 import useAddCategory from "../../hooks/add";
 import useAddProduct from "../../hooks/admin/Menu/addProduct";
@@ -102,7 +102,7 @@ export default function MenuManagementPage() {
             <Inputbox
               Title="Search"
               Type="search"
-              onChange={(e) => setSearchItem(e.target.value)}
+              OnChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Product Name"}
             />
 
@@ -120,11 +120,11 @@ export default function MenuManagementPage() {
           </Box>
           <Box
             Title="PRODUCT LIST"
-            UpperRight={<Button Title="+" OpenModal="AddModal-Product" />}
+            UpperRight={<Button Title="+" OpenModal="product-add-modal" />}
             BoxCol
           >
             <Table
-              Title="Product"
+              Title="product"
               HeadRows={tbproductlist.head}
               DataRows={tbproductlist.rows}
               EditBtn
@@ -138,11 +138,11 @@ export default function MenuManagementPage() {
           </Box>
           <Box
             Title="CATEGORIES"
-            UpperRight={<Button Title="+ " OpenModal="AddModal-Category" />}
+            UpperRight={<Button Title="+ " OpenModal="category-add-modal" />}
             BoxCol
           >
             <Table
-              Title="Category"
+              Title="category"
               HeadRows={tbcategories.head}
               DataRows={tbcategories.rows}
               EditBtn
@@ -156,7 +156,7 @@ export default function MenuManagementPage() {
           </Box>
         </Main>
       </Group>
-      <Modal Modal="AddModal-Product">
+      <Modal Modal="product-add-modal">
         <Form Title="ADD MENU" FormThreelayers OnSubmit={handleAddProduct}>
           {(ProductError && (
             <Group Class="signalside">
@@ -188,7 +188,7 @@ export default function MenuManagementPage() {
               InWhite
               Name="product_name"
               Value={formData.product_name}
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
             />
             <Inputbox
               Title="Price"
@@ -197,7 +197,7 @@ export default function MenuManagementPage() {
               InWhite
               Name="price"
               Value={formData.price}
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
             />
             <Selectionbox
               Title="Category"
@@ -219,7 +219,7 @@ export default function MenuManagementPage() {
               InWhite
               Name="description"
               Value={formData.description}
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
             />
             <Group Class="ingredients" Col>
               <h4>Ingredients:</h4>
@@ -244,7 +244,7 @@ export default function MenuManagementPage() {
                     InWhite
                     Name="quantity"
                     Value={quantity}
-                    onChange={(e) =>
+                    OnChange={(e) =>
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
                   />
@@ -264,7 +264,7 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="EditModal-Product">
+      <Modal Modal="product-edit-modal">
         <Form
           Title="MODIFY MENU"
           FormThreelayers
@@ -300,7 +300,7 @@ export default function MenuManagementPage() {
               InWhite
               Name="product_name"
               Value={formData.product_name}
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
             />
             <Selectionbox
               Title="Category"
@@ -321,7 +321,7 @@ export default function MenuManagementPage() {
               InWhite
               Name="price"
               Value={formData.price}
-              onChange={handleInputChange}
+              OnChange={handleInputChange}
             />
             <Group Class="ingredients" Col>
               <h4>Ingredients:</h4>
@@ -346,7 +346,7 @@ export default function MenuManagementPage() {
                     InWhite
                     Name="quantity"
                     Value={quantity}
-                    onChange={(e) =>
+                    OnChange={(e) =>
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
                   />
@@ -366,8 +366,8 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="DeleteModal-Product">
-        <Form Title="DELETE PRODUCT" FormThreelayers OnSubmit={deleteProduct}>
+      <Modal Modal="product-delete-modal">
+        <Form Title="DELETE PRODUCT" FormThreelayers OnSubmit={(e) => deleteItem(e, currentProductId)}>
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Product ID"
@@ -394,7 +394,7 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="AddModal-Category">
+      <Modal Modal="category-add-modal">
         <Form Title="ADD CATEGORY" OnSubmit={handleAddCategory}>
           {(addCategoryError && (
             <Group Class="signalside">
@@ -413,7 +413,7 @@ export default function MenuManagementPage() {
               InCol
               InWhite
               Value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              OnChange={(e) => setCategoryName(e.target.value)}
             />
           </Group>
           <Group Class="buttonside" Col>
@@ -422,7 +422,7 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="EditModal-Category">
+      <Modal Modal="category-edit-modal">
         <Form Title="EDIT CATEGORY" OnSubmit={handleUpdateCategory}>
           {(addCategoryError && (
             <Group Class="signalside">
@@ -441,7 +441,7 @@ export default function MenuManagementPage() {
               InCol
               InWhite
               Value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              OnChange={(e) => setCategoryName(e.target.value)}
             />
           </Group>
           <Group Class="buttonside" Col>
@@ -450,7 +450,7 @@ export default function MenuManagementPage() {
           </Group>
         </Form>
       </Modal>
-      <Modal Modal="DeleteModal-Category">
+      <Modal Modal="category-delete-modal">
         <Form Title="DELETE CATEGORY" OnSubmit={deleteCategory}>
           <Group Class="outputfetch" Wrap>
             <Outputfetch

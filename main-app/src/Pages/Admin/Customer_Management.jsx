@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import '../../assets/css/pages/admin/Management.sass'
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../exporter/component_exporter'
+import '../../Assets/CSS/Pages/Admin/Management.sass'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../Exporter/Component_Exporter'
 import useModifyCustomer from '../../hooks/admin/customer_management/modifyCustomer';
 import axiosClient from '../../axiosClient';
 
@@ -57,13 +57,13 @@ export default function CustomerManagementPage() {
                         <Inputbox Title="Search" Type="search" />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
-                    <Box Title="CUSTOMERS" UpperRight={<Button Title="+" OpenModal="AddModal" />} BoxCol>
-                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn DeleteBtn />
+                    <Box Title="CUSTOMERS" BoxCol>
+                        <Table HeadRows={tbhead} DataRows={tbrows} EditBtn />
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
             </Group>
-            <Modal Modal="EditModal">
+            <Modal Modal="edit-modal">
                 <Form
                     Title="EDIT CUSTOMER"
                     FormThreelayers

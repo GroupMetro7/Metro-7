@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { Header, Footer, Main, LoadingScreen } from '../../exporter/component_exporter'
+import { Header, Footer, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
 import { useStateContext } from '../../Contexts/ContextProvider'
 import axiosClient from '../../axiosClient'
 
