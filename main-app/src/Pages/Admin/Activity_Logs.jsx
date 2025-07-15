@@ -103,7 +103,7 @@ export: {
       </Group>
 
             <Modal Modal="AddModal-exportCSV">
-              <Form Title="ADD CATEGORY" FormTwolayers>
+              <Form Title="EXPORT FILE" FormTwolayers>
                 <Group Class="inputside" Wrap>
                   <Inputbox
                     Title="Start Date"

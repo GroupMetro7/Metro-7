@@ -37,7 +37,7 @@ export default function SalesPage() {
     dateRange,
     setDateRange,
   } = useExportCSV();
-  
+
   const { monthlyRevenue, productRevenue } = useFetchData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [
@@ -107,7 +107,7 @@ export default function SalesPage() {
         </Main>
       </Group>
       <Modal Modal="AddModal-exportCSV">
-        <Form Title="ADD CATEGORY" FormTwolayers>
+        <Form Title="EXPORT FILE" FormTwolayers>
           <Group Class="inputside" Wrap>
             <Inputbox
               Title="Start Date"
