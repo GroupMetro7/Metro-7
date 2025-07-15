@@ -52,7 +52,9 @@ export default function useAddProduct(fetchMenu) {
     data.append("product_name", formData.product_name);
     data.append("description", formData.description);
     data.append("price", formData.price);
+  if (formData.image) {
     data.append("image", formData.image);
+  }
     data.append("category_id", formData.category_id);
 
     // Only include ingredients with both sku and quantity

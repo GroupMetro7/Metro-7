@@ -69,7 +69,10 @@ class ProductController extends Controller
       'category_id' => 'required|string',
     ]);
 
-    $imagePath = $request->file('image')->store('images', 'public');
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('images', 'public');
+    }
 
     $totalIngredientCost = 0;
 
@@ -94,7 +97,6 @@ class ProductController extends Controller
       'category_id' => $request->input('category_id'),
       'margin' => $margin,
     ]);
-
 
     // Handle ingredients
     if ($request->has('ingredients')) {

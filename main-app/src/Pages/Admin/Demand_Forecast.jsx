@@ -82,7 +82,7 @@ export default function StaffOrderList() {
           </Box>
           <Box Title="DEMAND FORECASTS" UpperRight={
             <Button
-            Title="SEND TO MODEL"
+            Title="+UPDATE FORECAST"
             Onclick={() =>
               sendDataToForecastModel(
                 tbrowsOrdersAI.map((row) => ({
