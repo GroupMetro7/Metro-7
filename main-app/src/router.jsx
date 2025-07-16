@@ -1,30 +1,31 @@
 import { createBrowserRouter } from 'react-router-dom'
-import GuestLayout from './components/Layout/GuestLayout'
-import LoginPage from './pages/Login'
-import RegisterPage from './pages/Customers/Register'
-import ForgetPasswordPage from './pages/Customers/Forget_Password'
-import ChangePasswordPage from './pages/Customers/Change_Password'
-import ProfilePage from './pages/Customers/Profile'
-import DashboardPage from './pages/admin/Dashboard'
-import LandingPage from './pages/Landing'
-import AdminLayout from './components/Layout/AdminLayout'
-import ReservationPage from './pages/Customers/Reservation'
-import EmployeeManagementPage from './pages/admin/Employee_Management'
-import StaffDashboard from './pages/services/Dashboard'
-import StaffProfile from './pages/services/Profile'
-import StaffLayout from './components/Layout/StaffLayout'
-import CustomerManagementPage from './pages/admin/Customer_Management'
-import ProductManagementPage from './pages/admin/Product_Management'
-import SalesPage from './pages/admin/Sales'
-import StaffOrderList from './pages/services/Order_List'
-import InventoryManagementPage from './Pages/admin/Inventory_Management'
-import MenuPage from './Pages/Customers/Menu'
+import GuestLayout from './Components/Layout/GuestLayout'
 import CustomerLayout from './Components/Layout/CustomerLayout'
-import Test from './Pages/admin/test'
+import StaffLayout from './Components/Layout/StaffLayout'
+import AdminLayout from './Components/Layout/AdminLayout'
+import LoginPage from './Pages/Login'
+import RegisterPage from './Pages/Customers/Register'
+import ForgetPasswordPage from './Pages/Customers/Forget_Password'
+import ChangePasswordPage from './Pages/Customers/Change_Password'
+import ProfilePage from './Pages/Customers/Profile'
+import DashboardPage from './Pages/Admin/Dashboard'
+import LandingPage from './Pages/Landing'
+import ReservationPage from './Pages/Customers/Reservation'
+import EmployeeManagementPage from './Pages/Admin/Employee_Management'
+import StaffDashboard from './Pages/Services/Dashboard'
+import StaffProfile from './Pages/Services/Profile'
+import CustomerManagementPage from './Pages/Admin/Customer_Management'
+import ProductManagementPage from './Pages/Admin/Product_Management'
+import SalesPage from './Pages/Admin/Sales'
+import StaffOrderList from './Pages/Services/Order_List'
+import InventoryManagementPage from './Pages/Admin/Inventory_Management'
+import MenuPage from './Pages/Customers/Menu'
+import Test from './Pages/Admin/test'
 import NotFound from './Pages/404not_found'
-import OrderHistoryPage from './Pages/admin/Order_History'
-import ActivityLogsPage from './Pages/admin/Activity_Logs'
-import DemandForecastPage from './Pages/admin/Demand_Forecast'
+import OrderHistoryPage from './Pages/Admin/Order_History'
+import ActivityLogsPage from './Pages/Admin/Activity_Logs'
+import DemandForecastPage from './Pages/Admin/Demand_Forecast'
+import ReservationListPage from './Pages/Services/Reservation_List'
 
 const router = createBrowserRouter([
   //not found page
@@ -115,16 +116,20 @@ const router = createBrowserRouter([
 				element: <StaffDashboard />
 			},
 			{
-				path: 'OrderList',
+				path: 'orderlist',
 				element: <StaffOrderList />
 			},
 			{
-				path: 'Profile',
+				path: 'profile',
 				element: <StaffProfile />
 			},
 			{
 				path: 'order_history',
 				element: <OrderHistoryPage />
+			},
+			{
+				path: 'reservationlist',
+				element: <ReservationListPage />
 			}
 		]
 	},

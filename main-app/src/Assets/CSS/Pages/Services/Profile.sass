@@ -11,63 +11,64 @@ body.Profile-Services-PAGE
                 > h1
                     align-self: start !important
 
-                > .details
-                    align-items: center !important
-                    gap: 23px !important
+                > div.group
+                    gap: v.$elem-sa-size-m !important
 
-                    > img
-                        background-color: white !important
-                        width: 125px !important
-                        aspect-ratio: 1 !important
-                        border-radius: 100% !important
+                    > .leftside
+                        gap: v.$elem-sa-size-m !important
 
-                    > article
-                        flex-grow: 1 !important
-                        flex-direction: column !important
-                        gap: 3px !important
+                        > .details
+                            align-items: center !important
+                            gap: v.$elem-sa-size-m !important
+                            padding: v.$elem-sa-size-l v.$elem-sa-size-xl !important
 
-                        > h2
-                            text-transform: capitalize !important
+                            > article
+                                flex-grow: 1 !important
+                                flex-direction: column !important
+                                gap: 3px !important
 
-                    > button
-                        width: unset !important
-                        min-width: 178px !important
-                        padding: 0px 23px !important
-                
-                > .statistic
+                                > h2
+                                    text-transform: capitalize !important
 
-                    > canvas
-                        width: 100% !important
-
-            div:has( .datetime )
-                align-self: start !important
-
-                > .datetime
-                    width: 100% !important
-                    align-items: center !important
-                    gap: 13px !important
-                    text-align: center !important
-
-                    > h3
-                        text-transform: uppercase !important
-                        text-align: center !important
-
-                > .timeintimeout
-                    width: 100% !important
+                            > button
+                                width: unset !important
+                                min-width: 178px !important
+                                padding: 0px 23px !important
                         
-                    > button
-                        height: 37px !important
-                        flex-grow: 1 !important
+                        > .statistic
 
-                // > iframe
-                //     width: 100% !important
-                //     aspect-ratio: 1 !important
+                            > canvas
+                                width: 100% !important
 
-                > .attendance
+                    > .rightside
+                        align-self: start !important
 
-                    > canvas
-                        width: 100% !important
-                        height: 250px !important
+                        > .datetime
+                            width: 100% !important
+                            align-items: center !important
+                            gap: 13px !important
+                            text-align: center !important
+
+                            > h3
+                                text-transform: uppercase !important
+                                text-align: center !important
+
+                        > .timeintimeout
+                            width: 100% !important
+                                
+                            > button
+                                height: 37px !important
+                                flex-grow: 1 !important
+
+                        // > iframe
+                        //     width: 100% !important
+                        //     aspect-ratio: 1 !important
+
+                        > .attendance
+
+                            > canvas
+                                width: 100% !important
+                                height: 250px !important
 
 @media only screen and (min-width: 1024px) 
 
@@ -77,14 +78,18 @@ body.Profile-Services-PAGE
 
             > div
 
-                .leftside
-                    gap: 23px !important
+                .myprofile
 
-                .rightside
-                    max-width: 33.5938vw !important
+                    > h1
+                        align-self: start !important
 
-                    > iframe
-                        aspect-ratio: 1 !important
+                    > div.group
+
+                        > .rightside
+                            max-width: 33.5938vw !important
+
+                            > iframe
+                                aspect-ratio: 1 !important
 
 @media only screen and (min-width: 767px) and (max-width: 1023px) 
 
@@ -96,9 +101,39 @@ body.Profile-Services-PAGE
 
                 > .myprofile
 
-                    > .attendance
+                    > .details
+                        align-items: center !important
+                        justify-content: space-between !important
+                        gap: v.$elem-sa-size-m !important
+                        padding: v.$elem-sa-size-l v.$elem-sa-size-xl !important
+
+                        > article
+                            flex: 1 !important
+                            flex-direction: column !important
+
+                    > .charts
+
+                        > .datetime
+                            width: 100% !important
+                            align-items: center !important
+                            gap: 13px !important
+                            text-align: center !important
+
+                            > h3
+                                text-transform: uppercase !important
+                                text-align: center !important
+
+                        > .timeintimeout
+                            width: 100% !important
+                                
+                            > button
+                                height: 37px !important
+                                flex-grow: 1 !important
 
                         > iframe
                             height: 250px !important
+                        
+                    > .statistic
 
-
+                        > canvas
+                            width: 100% !important

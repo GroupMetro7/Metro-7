@@ -112,13 +112,31 @@ export default function StaffProfile() {
               <Group Class="attendance">
                 <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
               </Group>
+              <Box Class="rightside" BoxCol>
+                <Group Class="datetime" Col>
+                  <h3>
+                    <DateText />
+                    <br />
+                    <TimeText />
+                  </h3>
+                  <hr />
+                </Group>
+                <Group Class="timeintimeout">
+                  <Button Title="TIME-IN" Onclick={handleTimeInClick} />
+                  <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
+                </Group>
+                <hr />
+                <Group Class="attendance">
+                  <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+                </Group>
               </Box>
+            </Group>
+            </Section>
           </Main>
         :
           <Main>
             <Section Title="My Profile" Class="myprofile">
               <Box Class="details">
-                <img />
                 <article>
                   <h2>
                     {user.firstname} {user.lastname}
@@ -127,7 +145,7 @@ export default function StaffProfile() {
                 </article>
                 <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
               </Box>
-                <Box Class="attendance" BoxCol>
+                <Box Class="charts" BoxCol>
                   <Group Class="datetime" Col>
                     <h3>
                       <DateText />
