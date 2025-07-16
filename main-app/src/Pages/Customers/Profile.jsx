@@ -1,15 +1,42 @@
 import React, { useState } from "react";
 import "../../Assets/CSS/Pages/Customers/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from '../../Exporter/Component_Exporter'
+import {
+  ScreenWidth,
+  Title,
+  Body_addclass,
+  Main,
+  Section,
+  Box,
+  Button,
+  Table,
+  Outputfetch,
+  Modal,
+  Form,
+  Group,
+  Inputbox,
+  SubmitButton,
+  InsertFileButton,
+  Selectionbox,
+} from "../../Exporter/Component_Exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
-import { useOCRReceipt } from "../../Exporter/Hooks_Exporter";
+import useDateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, setSelectedOrder } = useModifyData();
-  const handleReceiptUpload = useOCRReceipt(setSelectedOrder);
+  const {
+    user,
+    formData,
+    handleInputChange,
+    isLoading,
+    handleUpdateUser,
+    selectedOrder,
+    editData,
+    selectedReservation,
+    viewOrder
+  } = useModifyData();
+
   const { reservations, preOrders } = useFetchUserRes();
 
   // Page title and body class
@@ -26,35 +53,73 @@ export default function ProfilePage() {
     resTime: res.time,
     options: res.status,
     edit: () => {
-      editData(res)
+      editData(res);
     },
   }));
 
-  const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
-  const [minDateTime] = useState('');
+  const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`;
+  const [minDateTime] = useState("");
 
   const tbheadOrder = ["ID", "OPTION", "DATE", "BALANCE", "STATUS"];
-  const tbrowsOrder = preOrders.map((res) => ({
-    id: res.order_number,
-    option: res.option,
-    date: new Date(res.created_at).toLocaleDateString(),
-    balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
-    status: res.status,
-    view: () => editData(res),
+  const tbrowsOrder = preOrders.map((order) => ({
+    id: order.order_number,
+    option: order.option,
+    date: new Date(order.created_at).toLocaleDateString(),
+    balance: order.unpaid_balance <= 0 ? "Paid" : order.unpaid_balance,
+    status: order.status,
+    view: () => viewOrder(order),
   }));
 
-    const Inputboxes = [
-        { Title: `First Name`, Type: `text`, ID: `fname-in`, Name: `firstname`, Value: formData.firstname, InCol: true, InWhite: true, OnChange: handleInputChange },
-        { Title: `Last Name`, Type: `text`, ID: `lname-in`, Name: `lastname`, Value: formData.lastname, InCol: true, InWhite: true, OnChange: handleInputChange },
-        { Title: `Email`, Type: `email`, ID: `email-in`, Name: `email`, Value: formData.email, InCol: true, InWhite: true, OnChange: handleInputChange },
-        { Title: `Contact Number`, Type: `number`, ID: `number-in`, Name: `contact`, Value: formData.contact, InCol: true, InWhite: true, OnChange: handleInputChange },
-    ];
+  const Inputboxes = [
+    {
+      Title: `First Name`,
+      Type: `text`,
+      ID: `fname-in`,
+      Name: `firstname`,
+      Value: formData.firstname,
+      InCol: true,
+      InWhite: true,
+      OnChange: handleInputChange,
+    },
+    {
+      Title: `Last Name`,
+      Type: `text`,
+      ID: `lname-in`,
+      Name: `lastname`,
+      Value: formData.lastname,
+      InCol: true,
+      InWhite: true,
+      OnChange: handleInputChange,
+    },
+    {
+      Title: `Email`,
+      Type: `email`,
+      ID: `email-in`,
+      Name: `email`,
+      Value: formData.email,
+      InCol: true,
+      InWhite: true,
+      OnChange: handleInputChange,
+    },
+    {
+      Title: `Contact Number`,
+      Type: `number`,
+      ID: `number-in`,
+      Name: `contact`,
+      Value: formData.contact,
+      InCol: true,
+      InWhite: true,
+      OnChange: handleInputChange,
+    },
+  ];
 
   return (
     <>
       <Main>
-        <Section Title="My Profile" Class="myprofile">
-          {screenwidth > 766 ?
+        <Section Title="My Profile" ID="myprofile">
+          {screenwidth > 766 ? (
             <Box Class="profile">
               <article>
                 <h2>
@@ -66,7 +131,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
-          :
+          ) : (
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
@@ -79,12 +144,23 @@ export default function ProfilePage() {
                 <h4>{user?.loyalty}</h4>
               </article>
             </Box>
-          }
+          )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
-            <Table Title="OHistory" HeadRows={tbheadOrder} DataRows={tbrowsOrder} ViewBtn />
+            <Table
+              Title="OHistory"
+              HeadRows={tbheadOrder}
+              DataRows={tbrowsOrder}
+              ViewBtn
+            />
           </Box>
           <Box Title="My Reservations" Class="orderhistory" BoxCol>
-            <Table Title="Reservations" HeadRows={tbhead} DataRows={tbrows} EditBtn CancelBtn />
+            <Table
+              Title="Reservations"
+              HeadRows={tbhead}
+              DataRows={tbrows}
+              EditBtn
+              CancelBtn
+            />
           </Box>
         </Section>
       </Main>
@@ -94,36 +170,49 @@ export default function ProfilePage() {
             <img src="" />
             <InsertFileButton Title="EDIT PICTURE" BtnWhite />
           </Group>
-          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
-              {Inputboxes.map((Input, Index) => (
-                  <Inputbox
-                      Key={Index}
-                      Title={Input.Title}
-                      Type={Input.Type}
-                      ID={Input.ID}
-                      Name={Input.Name}
-                      InCol={Input.InCol}
-                      InWhite={Input.InWhite}
-                      Value={Input.Value}
-                      OnChange={Input.OnChange}
-                  />
-              ))}
+          <Group
+            Class="inputside"
+            {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
+          >
+            {Inputboxes.map((Input, Index) => (
+              <Inputbox
+                Key={Index}
+                Title={Input.Title}
+                Type={Input.Type}
+                ID={Input.ID}
+                Name={Input.Name}
+                InCol={Input.InCol}
+                InWhite={Input.InWhite}
+                Value={Input.Value}
+                OnChange={Input.OnChange}
+              />
+            ))}
           </Group>
-          {screenwidth > 766 ?
+          {screenwidth > 766 ? (
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
-              <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+              <SubmitButton
+                Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+                ID={`submit-btn`}
+                Disabled={isLoading}
+                BtnWhite
+              />
             </Group>
-          :
+          ) : (
             <Group Class="buttonside" Col>
-              <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+              <SubmitButton
+                Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+                ID={`submit-btn`}
+                Disabled={isLoading}
+                BtnWhite
+              />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
-          }
+          )}
         </Form>
       </Modal>
       <Modal Modal="OHistory-view-modal">
-        {selectedOrder && formData &&
+        {selectedOrder && (
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
               <Outputfetch
@@ -141,15 +230,15 @@ export default function ProfilePage() {
                   .padStart(2, "0")}-${new Date()
                   .getDate()
                   .toString()
-                  .padStart(2, "0")} | ${new Date(
-
-                ).toLocaleTimeString([], { timeStyle: "short" })}`}
+                  .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
+                  timeStyle: "short",
+                })}`}
                 OutCol
                 OutWhite
               />
               <Outputfetch
                 Title="Customer Name"
-                Value={selectedOrder.user_id}
+                Value={selectedOrder.name}
                 OutCol
                 OutWhite
               />
@@ -170,9 +259,12 @@ export default function ProfilePage() {
               {selectedOrder.tickets.map((ticket, index) => (
                 <div>
                   <Outputfetch Value={ticket.product_name} OutWhite />
-                  <Outputfetch Value={ticket.quantity + "x"} OutWhite />
+                  <Outputfetch Value={ticket.quantity} OutWhite />
                   <Outputfetch Value={ticket.unit_price} OutWhite />
-                  <Outputfetch Value={ticket.total_price} OutWhite />
+                  <Outputfetch
+                    Value={ticket.quantity * ticket.unit_price}
+                    OutWhite
+                  />
                 </div>
               ))}
             </Group>
@@ -189,16 +281,16 @@ export default function ProfilePage() {
                 OutCol
                 OutWhite
               />
-              {/* <Outputfetch
-                Title="Payment Mode"
-                Value=""
+              <Outputfetch
+                Title="Balance"
+                Value={selectedOrder.unpaid_balance}
                 OutCol
                 OutWhite
-              /> */}
+              />
               <Outputfetch
                 Title="Down Payment Price"
                 Name="downpayment"
-                Value={selectedOrder.downpayment ? "₱" + selectedOrder.downpayment : "₱" + 0}
+                Value={selectedOrder.downpayment || 0}
                 OnChange=""
                 OutCol
                 OutWhite
@@ -206,85 +298,74 @@ export default function ProfilePage() {
               <Outputfetch
                 Title="Reference Number"
                 Name="refNumber"
-                Value={selectedOrder.reference_number || "N/A"}
+                Value={selectedOrder.reference_Number || "-"}
                 OnChange=""
                 OutCol
                 OutWhite
               />
             </Group>
-                        <Group Class={`outputfetch`} Col>
-                            <Outputfetch Title={`QR Code`} OutWhite />
-                            <Group {...(screenwidth < 767 && { Col: true })}>
-                                <img />
-                                <Group Col>
-                                    <p>
-                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will
-                                        remain pending. Failure to pay on time will result in cancellation.
-                                    </p>
-                                    {screenwidth > 766 && (
-                                        <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
-                                    )}
-                                </Group>
-                            </Group>
-                        </Group>
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />
             </Group>
           </Form>
-        }
+        )}
       </Modal>
       <Modal Modal="Reservations-edit-modal">
-        <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
-          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
-            <Outputfetch Title="Customer Name" Value={`${user.firstname} ${user.lastname}`} OutCol OutWhite />                                <Selectionbox
-              Title="Reservation Type"
-              Name="reservationType"
-              Value={formData.reservationType}
-              Options={[
-                  { label: "Solo", value: "Solo" },
-                  { label: "Group", value: "Group" },
-                  { label: "Event", value: "Event" },
-              ]}
-              SltCol
-              SltWhite
-              OnChange={handleInputChange}
-          />
-          <Inputbox
-              Title="Party Size"
-              Type="number"
-              Name="partySize"
-              Value={formData.partySize}
-              InCol
-              InWhite
-              OnChange={handleInputChange}
-          />
-          <Inputbox
-              Title="Date"
-              Type="date"
-              Name="date"
-              Value={formData.date}
-              MinDate={ today }
-              InCol
-              InWhite
-              OnChange={handleInputChange}
-          />
-          <Inputbox
-              Title="Time"
-              Type="time"
-              Name="time"
-              Value={formData.time}
-              MinDate={ minDateTime }
-              InCol
-              InWhite
-              OnChange={handleInputChange}
-          />
-          </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
-          </Group>
-        </Form>
+        {selectedReservation && (
+          <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
+            <Group
+              Class="inputside"
+              {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
+            >
+              <Outputfetch
+                Title="Customer Name"
+                Value={selectedReservation.user_id}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Reservation Type"
+                Value={selectedReservation.reservation_type}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Date"
+                Value={new Date(selectedReservation.date).toLocaleDateString()}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Time"
+                Value={selectedReservation.time}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Party size"
+                Value={selectedReservation.party_size}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Status"
+                Value={selectedReservation.status}
+                OutCol
+                OutWhite
+              />
+            </Group>
+            <Group Class="buttonside">
+              <Button Title="CANCEL" CloseModal BtnWhite />
+              <SubmitButton
+                Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+                ID={`submit-btn`}
+                Disabled={isLoading}
+                BtnWhite
+              />
+            </Group>
+          </Form>
+        )}
       </Modal>
       <Modal Modal="Reservations-cancel-modal">
         <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit="">
@@ -297,9 +378,7 @@ export default function ProfilePage() {
             />
             <Outputfetch
               Title="Date"
-              Value={`${new Date().getFullYear()}-${(
-                new Date().getMonth() + 1
-              )
+              Value={`${new Date().getFullYear()}-${(new Date().getMonth() + 1)
                 .toString()
                 .padStart(2, "0")}-${new Date()
                 .getDate()
@@ -310,16 +389,16 @@ export default function ProfilePage() {
               OutCol
               OutWhite
             />
-            <Outputfetch
-              Title="Type"
-              Value="Solo"
-              OutCol
-              OutWhite
-            />
+            <Outputfetch Title="Type" Value="Solo" OutCol OutWhite />
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+            <SubmitButton
+              Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+              ID={`submit-btn`}
+              Disabled={isLoading}
+              BtnWhite
+            />
           </Group>
         </Form>
       </Modal>

@@ -43,7 +43,6 @@ export default function useCreateReservation() {
                 date: ``,
                 time: ``
             })
-
             setSuccess(`Reservation created successfully please wait for confirmation!`)
             setIsLoading(false)
         }
