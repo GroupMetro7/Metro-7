@@ -80,6 +80,8 @@ Route::middleware('auth:sanctum')->get('/weekly-orders', [perfomanceStats::class
 //reservation
 Route::middleware('auth:sanctum')->post('/createReservation', [ReservationController::class, 'create']);
 Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController::class, 'myReservations']);
+Route::get('/reservations', [ReservationController::class, 'Reservations']);
+Route::middleware('auth:sanctum')->put('/update-Reservation-Status/{id}', [ReservationController::class, 'updateReservationStatus']);
 
 
 
