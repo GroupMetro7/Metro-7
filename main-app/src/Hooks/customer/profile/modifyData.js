@@ -11,14 +11,11 @@ export default function useModifyData() {
   });
   const { user, setUser } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
+  const [ selectedOrder, setSelectedOrder ] = useState(null);
 
   const editData = (res) => {
-    setFormData({
-      firstname: res.firstname,
-      lastname: res.lastname,
-      email: res.email,
-      contact: res.contact,
-    })
+    setSelectedOrder(res);
+    setFormData(res)
   }
 
     useEffect(() => {
@@ -67,6 +64,8 @@ export default function useModifyData() {
       handleInputChange,
       handleUpdateUser,
       editData,
-      isLoading
+      isLoading,
+      selectedOrder,
+      setSelectedOrder
     }
 }

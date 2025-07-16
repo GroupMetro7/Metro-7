@@ -76,19 +76,12 @@ export default function StaffProfile() {
   return (
     <>
       <Group>
-        {screenwidth > 1023 ? 
+        {screenwidth > 1023 ?
           <Main Row>
             <Group Class="leftside" Col>
               <Section Title="My Profile" Class="myprofile">
                 <Box Class="details">
-                  <img
-                    src={
-                      user?.image
-                        ? user.image
-                        : "../../../public/Icons/profileIcon.jpg"
-                    }
-                    alt="Profile"
-                  />
+
                   <article>
                     <h2>
                       {user.firstname} {user.lastname}
@@ -115,13 +108,13 @@ export default function StaffProfile() {
                 <Button Title="TIME-IN" Onclick={handleTimeInClick} />
                 <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
               </Group>
-              <hr />                  
+              <hr />
               <Group Class="attendance">
                 <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
               </Group>
               </Box>
           </Main>
-        : 
+        :
           <Main>
             <Section Title="My Profile" Class="myprofile">
               <Box Class="details">

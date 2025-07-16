@@ -4,11 +4,12 @@ import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, O
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
+import { useOCRReceipt } from "../../Exporter/Hooks_Exporter";
 
 export default function ProfilePage() {
   // this file is subject for optimization
-  const { user, formData, handleInputChange, isLoading, handleUpdateUser } = useModifyData();
-
+  const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, setSelectedOrder } = useModifyData();
+  const handleReceiptUpload = useOCRReceipt(setSelectedOrder);
   const { reservations, preOrders } = useFetchUserRes();
 
   // Page title and body class
@@ -39,9 +40,7 @@ export default function ProfilePage() {
     date: new Date(res.created_at).toLocaleDateString(),
     balance: res.unpaid_balance <= 0 ? "Paid" : res.unpaid_balance,
     status: res.status,
-    view: () => {
-      editData(res)
-    }
+    view: () => editData(res),
   }));
 
     const Inputboxes = [
@@ -55,16 +54,8 @@ export default function ProfilePage() {
     <>
       <Main>
         <Section Title="My Profile" Class="myprofile">
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Box Class="profile">
-              <img
-                src={
-                  user?.image
-                    ? user.image
-                    : "../../../public/Icons/profileIcon.jpg"
-                }
-                alt="Profile"
-              />
               <article>
                 <h2>
                   {user?.firstname} {user?.lastname}
@@ -75,7 +66,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
-          : 
+          :
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
@@ -118,12 +109,12 @@ export default function ProfilePage() {
                   />
               ))}
           </Group>
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
             </Group>
-          : 
+          :
             <Group Class="buttonside" Col>
               <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
               <Button Title="CANCEL" CloseModal BtnWhite />
@@ -131,13 +122,13 @@ export default function ProfilePage() {
           }
         </Form>
       </Modal>
-      {/* <Modal Modal="OHistory-view-modal">
-        {selectedOrder && 
+      <Modal Modal="OHistory-view-modal">
+        {selectedOrder && formData &&
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Order No."
-                Value=""
+                Value={selectedOrder.order_number}
                 OutCol
                 OutWhite
               />
@@ -151,20 +142,20 @@ export default function ProfilePage() {
                   .getDate()
                   .toString()
                   .padStart(2, "0")} | ${new Date(
-                  
+
                 ).toLocaleTimeString([], { timeStyle: "short" })}`}
                 OutCol
                 OutWhite
               />
               <Outputfetch
                 Title="Customer Name"
-                Value=""
+                Value={selectedOrder.user_id}
                 OutCol
                 OutWhite
               />
               <Outputfetch
                 Title="Options"
-                Value=""
+                Value={selectedOrder.option}
                 OutCol
                 OutWhite
               />
@@ -178,36 +169,36 @@ export default function ProfilePage() {
               </div>
               {selectedOrder.tickets.map((ticket, index) => (
                 <div>
-                  <Outputfetch Value="" OutWhite />
-                  <Outputfetch Value={`x$""`} OutWhite />
-                  <Outputfetch Value={`₱$""`} OutWhite />
-                  <Outputfetch Value={`₱$""`} OutWhite />
+                  <Outputfetch Value={ticket.product_name} OutWhite />
+                  <Outputfetch Value={ticket.quantity + "x"} OutWhite />
+                  <Outputfetch Value={ticket.unit_price} OutWhite />
+                  <Outputfetch Value={ticket.total_price} OutWhite />
                 </div>
               ))}
             </Group>
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Total Price"
-                Value=""
+                Value={selectedOrder.amount}
                 OutCol
                 OutWhite
               />
               <Outputfetch
                 Title="Discount"
-                Value=""
+                Value={selectedOrder.discount}
                 OutCol
                 OutWhite
               />
-              <Outputfetch
+              {/* <Outputfetch
                 Title="Payment Mode"
                 Value=""
                 OutCol
                 OutWhite
-              />
+              /> */}
               <Outputfetch
                 Title="Down Payment Price"
                 Name="downpayment"
-                Value={"₱"}
+                Value={selectedOrder.downpayment ? "₱" + selectedOrder.downpayment : "₱" + 0}
                 OnChange=""
                 OutCol
                 OutWhite
@@ -215,19 +206,34 @@ export default function ProfilePage() {
               <Outputfetch
                 Title="Reference Number"
                 Name="refNumber"
-                Value=""
+                Value={selectedOrder.reference_number || "N/A"}
                 OnChange=""
                 OutCol
                 OutWhite
               />
             </Group>
+                        <Group Class={`outputfetch`} Col>
+                            <Outputfetch Title={`QR Code`} OutWhite />
+                            <Group {...(screenwidth < 767 && { Col: true })}>
+                                <img />
+                                <Group Col>
+                                    <p>
+                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will
+                                        remain pending. Failure to pay on time will result in cancellation.
+                                    </p>
+                                    {screenwidth > 766 && (
+                                        <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                    )}
+                                </Group>
+                            </Group>
+                        </Group>
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />
             </Group>
           </Form>
         }
-      </Modal> */}
+      </Modal>
       <Modal Modal="Reservations-edit-modal">
         <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
           <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
