@@ -78,54 +78,47 @@ export default function StaffProfile() {
       <Group>
         {screenwidth > 1023 ? 
           <Main Row>
-            <Group Class="leftside" Col>
-              <Section Title="My Profile" Class="myprofile">
-                <Box Class="details">
-                  <img
-                    src={
-                      user?.image
-                        ? user.image
-                        : "../../../public/Icons/profileIcon.jpg"
-                    }
-                    alt="Profile"
-                  />
-                  <article>
-                    <h2>
-                      {user.firstname} {user.lastname}
-                    </h2>
-                    <h4>{user.contact}</h4>
-                  </article>
-                  <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
-                </Box>
-                <Box Title="Statistics" Class="statistic" BoxCol>
-                  <Graph BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
-                </Box>
-              </Section>
-            </Group>
-            <Box Class="rightside" BoxCol>
-              <Group Class="datetime" Col>
-                <h3>
-                  <DateText />
-                  <br />
-                  <TimeText />
-                </h3>
-                <hr />
+            <Section Title="My Profile" Class="myprofile">
+              <Group>
+              <Group Class="leftside" Col>
+                  <Box Class="details">
+                    <article>
+                      <h2>
+                        {user.firstname} {user.lastname}
+                      </h2>
+                      <h4>{user.contact}</h4>
+                    </article>
+                    <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
+                  </Box>
+                  <Box Title="Statistics" Class="statistic" BoxCol>
+                    <Graph BarGraph Data={ ServiceSalesReportData } Options={ ServiceSalesReportOptions } />
+                  </Box>
               </Group>
-              <Group Class="timeintimeout">
-                <Button Title="TIME-IN" Onclick={handleTimeInClick} />
-                <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
-              </Group>
-              <hr />                  
-              <Group Class="attendance">
-                <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
-              </Group>
+              <Box Class="rightside" BoxCol>
+                <Group Class="datetime" Col>
+                  <h3>
+                    <DateText />
+                    <br />
+                    <TimeText />
+                  </h3>
+                  <hr />
+                </Group>
+                <Group Class="timeintimeout">
+                  <Button Title="TIME-IN" Onclick={handleTimeInClick} />
+                  <Button Title="TIME-OUT" Onclick={handleTimeOutClick} />
+                </Group>
+                <hr />                  
+                <Group Class="attendance">
+                  <Graph BarGraph Data={ AttendanceChartData } Options={ AttendanceChartOptions } />
+                </Group>
               </Box>
+            </Group>
+            </Section>
           </Main>
         : 
           <Main>
             <Section Title="My Profile" Class="myprofile">
               <Box Class="details">
-                <img />
                 <article>
                   <h2>
                     {user.firstname} {user.lastname}
@@ -134,7 +127,7 @@ export default function StaffProfile() {
                 </article>
                 <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
               </Box>
-                <Box Class="attendance" BoxCol>
+                <Box Class="charts" BoxCol>
                   <Group Class="datetime" Col>
                     <h3>
                       <DateText />

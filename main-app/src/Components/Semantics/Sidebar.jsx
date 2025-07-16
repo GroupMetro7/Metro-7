@@ -8,10 +8,11 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
 
     const navitems = [
         { ServiceItem: 1, AdminItem: 1, Title: `Dashboard`, Icon: DashboardLogo, Redirect: `/` },
-        { ServiceItem: 3, AdminItem: 4, Title: `Order History`, Icon: OrderhistoryLogo, Redirect: `/order_history` },
+        { ServiceItem: 4, AdminItem: 4, Title: `Order History`, Icon: OrderhistoryLogo, Redirect: `/order_history` },
 
         { ServiceItem: 2, Title: `Order List`, Icon: OrderlistLogo, Redirect: `/orderlist` },
-        { ServiceItem: 4, Title: `Profile`, Icon: ProfileLogo, Redirect: `/profile` },
+        { ServiceItem: 3, Title: `Res. List`, Icon: OrderlistLogo, Redirect: `/reservationlist` },
+        { ServiceItem: 5, Title: `Profile`, Icon: ProfileLogo, Redirect: `/profile` },
 
         { AdminItem: 2, Title: `Sales`, Icon: SalesLogo, Redirect: `/sales` },
         { AdminItem: 3, Title: `Forecasts`, Icon: CustomerLogo, Redirect: `/df` },

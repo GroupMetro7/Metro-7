@@ -37,7 +37,7 @@ export default function SalesPage() {
     dateRange,
     setDateRange,
   } = useExportCSV();
-
+  
   const { monthlyRevenue, productRevenue } = useFetchData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [

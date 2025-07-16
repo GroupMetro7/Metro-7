@@ -54,7 +54,7 @@ export default function ProfilePage() {
   return (
     <>
       <Main>
-        <Section Title="My Profile" Class="myprofile">
+        <Section Title="My Profile" ID="myprofile">
           {screenwidth > 766 ? 
             <Box Class="profile">
               <img

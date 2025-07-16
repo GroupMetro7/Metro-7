@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/pages/services/Management.sass";
+import "../../Assets/CSS/Pages/Admin/Management.sass"
 import {
   Title,
   Body_addclass,
@@ -9,10 +9,10 @@ import {
   Inputbox,
   Table,
   Button,
-} from "../../exporter/component_exporter";
-import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI";
-import axiosClient from "../../axiosClient";
-import useFetchModelPrediction from "../../hooks/AI/Fetch_Model_Prediction";
+} from "../../Exporter/Component_Exporter"
+import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI"
+import axiosClient from "../../axiosClient"
+import useFetchModelPrediction from "../../hooks/AI/Fetch_Model_Prediction"
 
 export default function StaffOrderList() {
   Title("Demand Forecast");
