@@ -11,14 +11,21 @@ export default function useModifyData() {
   });
   const { user, setUser } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedOrder, setSelectedOrder ] = useState(null);
+  const [selectedReservation, setSelectedReservation] = useState(null);
 
   const editData = (res) => {
+    setSelectedReservation(res);
     setFormData({
       firstname: res.firstname,
       lastname: res.lastname,
       email: res.email,
       contact: res.contact,
     })
+  }
+
+    const viewOrder = (order) => {
+    setSelectedOrder(order);
   }
 
     useEffect(() => {
@@ -67,6 +74,9 @@ export default function useModifyData() {
       handleInputChange,
       handleUpdateUser,
       editData,
-      isLoading
+      isLoading,
+      selectedOrder,
+      selectedReservation,
+      viewOrder
     }
 }
