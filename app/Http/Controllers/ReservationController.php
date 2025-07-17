@@ -90,4 +90,24 @@ public function updateReservationStatus(Request $request, $id){
         Mail::to($user->email)->send(new ReservationEmail($user, $validated));
         return response()->json(['message' => 'Reservation created successfully', 'reservation' => $validated], 201);
     }
+
+    public function deleteReservation($id)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $reservation = Reservation::find($id);
+        if (!$reservation) {
+            return response()->json(['error' => 'Reservation not found'], 404);
+        }
+
+        if ($reservation->user_id !== $user->id) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        $reservation->delete();
+        return response()->json(['message' => 'Reservation deleted successfully']);
+    }
 }

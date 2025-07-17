@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useStateContext } from "../../../Contexts/ContextProvider";
 import axiosClient from "../../../axiosClient";
 
-export default function useModifyData() {
+export default function useModifyData(fetchData) {
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -67,6 +67,19 @@ export default function useModifyData() {
     }
   }
 
+  const deleteReservation = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axiosClient.delete(`/delete-reservation/${selectedReservation.id}`);
+      alert("Reservation deleted successfully!");
+      setSelectedReservation(null);
+      fetchData();
+    }catch(error){
+      alert("Failed to delete reservation. Please try again.");
+    }
+  }
+
     return {
       user,
       formData,
@@ -77,6 +90,7 @@ export default function useModifyData() {
       isLoading,
       selectedOrder,
       selectedReservation,
-      viewOrder
+      viewOrder,
+      deleteReservation
     }
 }

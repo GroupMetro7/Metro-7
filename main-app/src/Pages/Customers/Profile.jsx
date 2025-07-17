@@ -25,6 +25,8 @@ import useDateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
 
 export default function ProfilePage() {
   // this file is subject for optimization
+  const { reservations, preOrders, fetchData } = useFetchUserRes();
+
   const {
     user,
     formData,
@@ -34,10 +36,11 @@ export default function ProfilePage() {
     selectedOrder,
     editData,
     selectedReservation,
-    viewOrder
-  } = useModifyData();
+    viewOrder,
+    deleteReservation,
+  } = useModifyData(fetchData);
 
-  const { reservations, preOrders } = useFetchUserRes();
+
 
   // Page title and body class
   Title(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
@@ -52,7 +55,7 @@ export default function ProfilePage() {
     resDate: new Date(res.date).toLocaleDateString(),
     resTime: res.time,
     options: res.status,
-    edit: () => {
+    cancel: () => {
       editData(res);
     },
   }));
@@ -158,7 +161,6 @@ export default function ProfilePage() {
               Title="Reservations"
               HeadRows={tbhead}
               DataRows={tbrows}
-              EditBtn
               CancelBtn
             />
           </Box>
@@ -367,41 +369,42 @@ export default function ProfilePage() {
           </Form>
         )}
       </Modal>
-      <Modal Modal="Reservations-cancel-modal">
-        <Form Title="CANCEL RESERVATION" FormThreelayers OnSubmit="">
-          <Group Class="outputfetch" Wrap>
-            <Outputfetch
-              Title="Customer Name"
-              Value={`${user.firstname} ${user.lastname}`}
-              OutCol
-              OutWhite
-            />
-            <Outputfetch
-              Title="Date"
-              Value={`${new Date().getFullYear()}-${(new Date().getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${new Date()
-                .getDate()
-                .toString()
-                .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
-                timeStyle: "short",
-              })}`}
-              OutCol
-              OutWhite
-            />
-            <Outputfetch Title="Type" Value="Solo" OutCol OutWhite />
-          </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton
-              Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
-              ID={`submit-btn`}
-              Disabled={isLoading}
-              BtnWhite
-            />
-          </Group>
-        </Form>
-      </Modal>
+      {selectedReservation && (
+        <Modal Modal="Reservations-cancel-modal">
+          <Form
+            Title="CANCEL RESERVATION"
+            FormThreelayers
+            OnSubmit={deleteReservation}
+          >
+            <Group Class="outputfetch" Wrap>
+              <Outputfetch
+                Title="Customer Name"
+                Value={selectedReservation.user_id}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch
+                Title="Date"
+                Value={new Date(
+                  selectedReservation.date
+                ).toLocaleDateString() + " | " + selectedReservation.time}
+                OutCol
+                OutWhite
+              />
+              <Outputfetch Title="Type" Value={selectedReservation.reservation_type} OutCol OutWhite />
+            </Group>
+            <Group Class="buttonside">
+              <Button Title="CANCEL" CloseModal BtnWhite />
+              <SubmitButton
+                Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+                ID={`submit-btn`}
+                Disabled={isLoading}
+                BtnWhite
+              />
+            </Group>
+          </Form>
+        </Modal>
+      )}
     </>
   );
 }
