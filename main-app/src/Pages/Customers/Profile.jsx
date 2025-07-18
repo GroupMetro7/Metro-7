@@ -7,7 +7,9 @@ import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
 
+
   // Page title and body class
+    const { reservations, preOrders, fetchData } = useFetchUserRes();
     const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation } = useModifyData(fetchData);
     usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
     useBodyAddClass("Profile-Customer-PAGE");
@@ -16,7 +18,7 @@ export default function ProfilePage() {
     const screenwidth = useScreenWidth();
 
   // this file is subject for optimization
-  const { reservations, preOrders, fetchData } = useFetchUserRes();
+
 
   // Table data
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];
@@ -93,7 +95,7 @@ export default function ProfilePage() {
     <>
       <Main>
         <Section Title="My Profile" ID="myprofile">
-          {screenwidth > 766 ? (
+          {screenwidth > 766 ? 
             <Box Class="profile">
               <article>
                 <h2>
@@ -105,7 +107,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
-          ) : (
+          : 
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
@@ -118,7 +120,7 @@ export default function ProfilePage() {
                 <h4>{user?.loyalty}</h4>
               </article>
             </Box>
-          )}
+          }
           <Box Title="Order History" Class="orderhistory" BoxCol>
             <Table
               Title="OHistory"
@@ -161,7 +163,7 @@ export default function ProfilePage() {
               />
             ))}
           </Group>
-          {screenwidth > 766 ? (
+          {screenwidth > 766 ? 
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton
@@ -171,7 +173,7 @@ export default function ProfilePage() {
                 BtnWhite
               />
             </Group>
-          ) : (
+          : 
             <Group Class="buttonside" Col>
               <SubmitButton
                 Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
@@ -181,11 +183,11 @@ export default function ProfilePage() {
               />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
-          )}
+          }
         </Form>
       </Modal>
       <Modal Modal="OHistory-view-modal">
-        {selectedOrder && (
+        {selectedOrder && 
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
               <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
@@ -288,10 +290,10 @@ export default function ProfilePage() {
               <SubmitButton Title="SAVE" BtnWhite />
             </Group>
           </Form>
-        )}
+        }
       </Modal>
       <Modal Modal="Reservations-edit-modal">
-        {selectedReservation && (
+        {selectedReservation && 
           <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
             <Group
               Class="inputside"
@@ -344,10 +346,10 @@ export default function ProfilePage() {
               />
             </Group>
           </Form>
-        )}
+        }
       </Modal>
       <Modal Modal="Reservations-cancel-modal">
-        {selectedReservation &&
+        {selectedReservation && 
           <Form Title="CANCEL RESERVATION" FormTwolayers OnSubmit={deleteReservation} >
             <Group Class="outputfetch" Wrap>
               <Outputfetch

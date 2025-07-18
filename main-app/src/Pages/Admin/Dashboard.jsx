@@ -6,8 +6,6 @@ import {
   Main,
   Section,
   Box,
-  DateText,
-  TimeText,
   Table,
   Modal,
   Form,
@@ -30,7 +28,7 @@ import useFetchOrder from "../../hooks/orders/fetchOrder";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
 import useFetchDashboardData from '../../hooks/admin/fetchData';
 import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
-import { useStateContext, useScreenWidth, useClockText, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
 import { createWorker } from "tesseract.js";
 
 export default function DashboardPage() {
@@ -98,6 +96,8 @@ export default function DashboardPage() {
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
   const { ModelData, ModelOptions, ModelTopDemand } = DemandForecast(useFetchModelPrediction());
 
+    const {time, date} = useClockText()
+
   return (
     <>
       <Group>
@@ -111,10 +111,10 @@ export default function DashboardPage() {
               </Group>
               <Box Class="datetime">
                 <h3>
-                  <DateText />
-                  <br />
-                  <TimeText />
-                </h3>
+                {date}
+                <br />
+                {time}
+              </h3>
               </Box>
             </Group>
             <Group Class="charts">

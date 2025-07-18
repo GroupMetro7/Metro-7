@@ -13,4 +13,3 @@ Route::get('/change_password/{token}', function ($token) {
     $email = request()->query('email');
     return redirect("https://metro7.shop/change_password/{$token}?email={$email}");
 })->name('password.reset');
-
