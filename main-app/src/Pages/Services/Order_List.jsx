@@ -21,7 +21,7 @@ import useSearchItem from "../../hooks/searchItem";
 import useFetchOrder from "../../hooks/orders/fetchOrder";
 import { createWorker } from "tesseract.js";
 import useModifyOrderList from "../../hooks/orders/modifyOrderList";
-import { useStateContext, useScreenWidth, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, useScreenWidth, useOCRReceipt, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
 export default function StaffOrderList() {
   Title("Order List");
@@ -44,7 +44,7 @@ export default function StaffOrderList() {
               const handleReceiptUpload = useOCRReceipt({ setFormData })
 
   const tbhead = [
-    "ORDER NO.",
+    "NO.",
     "CUSTOMER",
     "AMOUNT",
     "DISCOUNT",
@@ -110,23 +110,14 @@ export default function StaffOrderList() {
               ))}
             <Group Class="outputfetch" Wrap>
               <Outputfetch
-                Title="Order No."
+                Title="No."
                 Value={selectedOrder.order_number}
                 OutCol
                 OutWhite
               />
               <Outputfetch
-                Title="Order Date"
-                Value={`${new Date(selectedOrder.created_at).getFullYear()}-${(
-                  new Date(selectedOrder.created_at).getMonth() + 1
-                )
-                  .toString()
-                  .padStart(2, "0")}-${new Date(selectedOrder.created_at)
-                  .getDate()
-                  .toString()
-                  .padStart(2, "0")} | ${new Date(
-                  selectedOrder.created_at
-                ).toLocaleTimeString([], { timeStyle: "short" })}`}
+                Title="Date"
+                Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`}
                 OutCol
                 OutWhite
               />
@@ -195,7 +186,7 @@ export default function StaffOrderList() {
                 OutWhite
               />
               <Selectionbox
-                Title="Order Status"
+                Title="Status"
                 Name="status"
                 Value={formData.status}
                 Options={["Pending", "Completed", "Cancelled"]}

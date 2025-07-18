@@ -1,27 +1,11 @@
 import React, { useState } from "react";
 import "../../Assets/CSS/Pages/Customers/Profile.sass";
-import {
-  ScreenWidth,
-  Title,
-  Body_addclass,
-  Main,
-  Section,
-  Box,
-  Button,
-  Table,
-  Outputfetch,
-  Modal,
-  Form,
-  Group,
-  Inputbox,
-  SubmitButton,
-  InsertFileButton,
-  Selectionbox,
-} from "../../Exporter/Component_Exporter";
+import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from "../../Exporter/Component_Exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
-import useDateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";
+import useDateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format"
+// import { useOCRReceipt } from "../../Exporter/Hooks_Exporter"
 
 export default function ProfilePage() {
   // this file is subject for optimization
@@ -40,7 +24,7 @@ export default function ProfilePage() {
     deleteReservation,
   } = useModifyData(fetchData);
 
-
+  // const handleReceiptUpload = useOCRReceipt(setSelectedOrder)
 
   // Page title and body class
   Title(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
@@ -156,7 +140,7 @@ export default function ProfilePage() {
               ViewBtn
             />
           </Box>
-          <Box Title="My Reservations" Class="orderhistory" BoxCol>
+          <Box Title="Reservations" Class="orderhistory" BoxCol>
             <Table
               Title="Reservations"
               HeadRows={tbhead}
@@ -217,12 +201,7 @@ export default function ProfilePage() {
         {selectedOrder && (
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
-              <Outputfetch
-                Title="Order No."
-                Value={selectedOrder.order_number}
-                OutCol
-                OutWhite
-              />
+              <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
               <Outputfetch
                 Title="Order Date"
                 Value={`${new Date().getFullYear()}-${(
@@ -251,7 +230,7 @@ export default function ProfilePage() {
                 OutWhite
               />
             </Group>
-            <Group Class="outputfetch" Col>
+            <Group Class="outputfetch orderside" Col>
               <div>
                 <Outputfetch Title="Items" OutWhite />
                 <Outputfetch Title="Quantity" OutWhite />
@@ -259,14 +238,11 @@ export default function ProfilePage() {
                 <Outputfetch Title="Total Price" OutWhite />
               </div>
               {selectedOrder.tickets.map((ticket, index) => (
-                <div>
+                <div Key={index}>
                   <Outputfetch Value={ticket.product_name} OutWhite />
-                  <Outputfetch Value={ticket.quantity} OutWhite />
-                  <Outputfetch Value={ticket.unit_price} OutWhite />
-                  <Outputfetch
-                    Value={ticket.quantity * ticket.unit_price}
-                    OutWhite
-                  />
+                  <Outputfetch Value={`x${ticket.quantity}`} OutWhite />
+                  <Outputfetch Value={`₱${Number(ticket.unit_price).toFixed(2)}`} OutWhite />
+                  <Outputfetch Value={`₱${(Number(ticket.quantity) * Number(ticket.unit_price)).toFixed(2)}`} OutWhite />
                 </div>
               ))}
             </Group>
@@ -306,6 +282,20 @@ export default function ProfilePage() {
                 OutWhite
               />
             </Group>
+            {/* <Group Class={`outputfetch`} Col>
+              <Outputfetch Title={`QR Code`} OutWhite />
+              <Group {...(screenwidth < 767 && { Col: true })}>
+                <img />
+                <Group Col>
+                  <p>
+                    Please settle your pending balance.
+                  </p>
+                  {screenwidth > 766 && (
+                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
+                  )}
+                </Group>
+              </Group>
+            </Group> */}
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />
@@ -369,20 +359,10 @@ export default function ProfilePage() {
           </Form>
         )}
       </Modal>
-      {selectedReservation && (
-        <Modal Modal="Reservations-cancel-modal">
-          <Form
-            Title="CANCEL RESERVATION"
-            FormThreelayers
-            OnSubmit={deleteReservation}
-          >
+      <Modal Modal="Reservations-cancel-modal">
+        {selectedReservation && 
+          <Form Title="CANCEL RESERVATION" FormTwolayers OnSubmit={deleteReservation} >
             <Group Class="outputfetch" Wrap>
-              <Outputfetch
-                Title="Customer Name"
-                Value={selectedReservation.user_id}
-                OutCol
-                OutWhite
-              />
               <Outputfetch
                 Title="Date"
                 Value={new Date(
@@ -403,8 +383,8 @@ export default function ProfilePage() {
               />
             </Group>
           </Form>
-        </Modal>
-      )}
+        }
+      </Modal>
     </>
   );
 }

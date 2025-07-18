@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../Assets/CSS/Pages/Services/Dashboard.sass";
 import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from "../../Exporter/Component_Exporter"
-import { useStateContext, useScreenWidth, useClockText } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, useScreenWidth, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 import axiosClient from "../../axiosClient";
 import useFetchOrder from "../../hooks/Universal/fetchProducts";
 import useFetchProduct from "../../hooks/service/fetchProducts";
@@ -388,14 +388,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
             />
             <Outputfetch
               Title="Date"
-              Value={`${new Date().getFullYear()}-${(new Date().getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${new Date()
-                .getDate()
-                .toString()
-                .padStart(2, "0")} | ${new Date().toLocaleTimeString([], {
-                timeStyle: "short",
-              })}`}
+              Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`}
               OutCol
               OutWhite
             />
@@ -406,7 +399,7 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
               OutWhite
             />
           </Group>
-          <Group Class="outputfetch" Col>
+          <Group Class="outputfetch orderside" Col>
             <div>
               <Outputfetch Title="Items" OutWhite />
               <Outputfetch Title="Quantity" OutWhite />

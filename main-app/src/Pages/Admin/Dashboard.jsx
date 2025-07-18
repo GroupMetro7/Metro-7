@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
     const handleReceiptUpload = useOCRReceipt({ setFormData })
   const tbhead = [
-    "ORDER NO.",
+    "NO.",
     "CUSTOMER",
     "AMOUNT",
     "BALANCE",
@@ -151,30 +151,6 @@ export default function DashboardPage() {
           </Box>
         </Main>
       </Group>
-      <Modal Modal="ViewModal">
-        <Form Title="VIEW ORDER" FormThreelayers>
-          <Group Class="outputfetch" Wrap>
-            <Outputfetch Title="Order No." Value="25569" OutCol OutWhite />
-            <Outputfetch
-              Title="Order Date"
-              Value="2025-02-24 | 02:27:25"
-              OutCol
-              OutWhite
-            />
-            <Outputfetch
-              Title="Cashier Name"
-              Value="Micheal Lance Kester Li"
-              OutCol
-              OutWhite
-            />
-            <Outputfetch Title="Options" Value="TAKE-OUT" OutCol OutWhite />
-            <Outputfetch Title="Amount" Value="₱559.00" OutCol OutWhite />
-          </Group>
-          <Group Class="buttonside">
-            <Button Title="CLOSE" CloseModal BtnWhite />
-          </Group>
-        </Form>
-      </Modal>
       {/* Modal to display tickets for the selected order */}
 
       <Modal Modal="edit-modal" onClose={() => setSelectedOrder(null)}>
@@ -184,28 +160,19 @@ export default function DashboardPage() {
               success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
             <Group Class="outputfetch" Wrap>
               <Outputfetch
-                Title="Order No."
+                Title="No."
                 Value={selectedOrder.order_number}
                 OutCol
                 OutWhite
               />
               <Outputfetch
-                Title="Order Date"
-                Value={`${new Date(selectedOrder.created_at).getFullYear()}-${(
-                  new Date(selectedOrder.created_at).getMonth() + 1
-                )
-                  .toString()
-                  .padStart(2, "0")}-${new Date(selectedOrder.created_at)
-                  .getDate()
-                  .toString()
-                  .padStart(2, "0")} | ${new Date(
-                  selectedOrder.created_at
-                ).toLocaleTimeString([], { timeStyle: "short" })}`}
+                Title="Date"
+                Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`}
                 OutCol
                 OutWhite
               />
               <Outputfetch
-                Title="Customer Name"
+                Title="Name"
                 Value={selectedOrder.name}
                 OutCol
                 OutWhite
@@ -269,7 +236,7 @@ export default function DashboardPage() {
                 OutWhite
               />
               <Selectionbox
-                Title="Order Status"
+                Title="Status"
                 Name="status"
                 Value={formData.status}
                 Options={["Pending", "Completed", "Cancelled"]}

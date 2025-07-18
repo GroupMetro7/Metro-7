@@ -1,24 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../Assets/CSS/Pages/Services/Management.sass";
-import {
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Box,
-  Inputbox,
-  Table,
-  Button,
-  Modal,
-  Form,
-  Outputfetch,
-  SubmitButton,
-  Selectionbox,
-  InsertFileButton,
-  Pagination,
-  ScreenWidth,
-} from "../../Exporter/Component_Exporter";
-import useReservationFunctions from "../../Hooks/Universal/reservationFunctions";
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox } from "../../Exporter/Component_Exporter";
+import useReservationFunctions from "../../Hooks/Universal/Reservation_Function";
 
 export default function ReservationList() {
   Title("Table Reservation List");

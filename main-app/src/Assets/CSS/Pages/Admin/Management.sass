@@ -2,43 +2,47 @@
 
 body.Management-PAGE 
 
-    .search
+    main
+    
+        > div
 
-        > label
-            width: 100% !important
+            .search
 
-    .kpis
+                > label
+                    width: 100% !important
 
-        > .kpi
+            .kpis
 
-            &:nth-child(1)
-                background-color: #461220
+                > .kpi
 
-            &:nth-child(3)
-                background-color: #B53535
+                    &:nth-child(1)
+                        background-color: #461220
 
-            &:nth-child(4)
-                background-color: #761430
+                    &:nth-child(3)
+                        background-color: #B53535
 
-            &:nth-child(1), &:nth-child(3), &:nth-child(4)
-                color: v.$color-white !important
+                    &:nth-child(4)
+                        background-color: #761430
 
-    div.box
+                    &:nth-child(1), &:nth-child(3), &:nth-child(4)
+                        color: v.$color-white !important
 
-        > .title
+            div.box
 
-            > .right
+                > .title
 
-                > div.group
-                    width: unset !important
-                    gap: v.$elem-sa-size-m !important
+                    > .right
 
-        > .tb
+                        > div.group
+                            width: unset !important
+                            gap: v.$elem-sa-size-m !important
 
-            > .tdr
+                > .tb
 
-                > .td:has(h4:contains("AVAILABLE"))
-                    background-color: green
+                    > .tdr
+
+                        > .td:has(h4:contains("AVAILABLE"))
+                            background-color: green
 
     .modal
 
