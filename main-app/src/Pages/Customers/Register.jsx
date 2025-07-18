@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Register.sass'
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useRegisterUser } from '../../Exporter/Hooks_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useRegisterUser } from '../../Exporter/Hooks_Exporter'
 
 export default function RegisterPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Register`)
-    Body_addclass(`Register-PAGE`)
+    usePageTitle(`Metro 7 | Register`)
+    useBodyAddClass(`Register-PAGE`)
 
     // Fetching Hooks
     const {formData, setFormData, handleSubmit, isLoading, error, success} = useRegisterUser()

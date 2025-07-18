@@ -59,7 +59,7 @@ export default function Header({ AuthenticatedMode, Logout }) {
                         { AuthenticatedMode ?
                             <>
                             { navitems.filter( item => item.CustItem && item.Title !== AuthenticatedMode ).sort((a, b) => a.CustItem !== b.CustItem ? a.CustItem - b.CustItem : a.DropDownItem - b.DropDownItem).map(( item, index ) => (
-                                <Href key={ index } Title={ item.Title } Redirect={ `/customer${item.Redirect}` } DropDown={ item.DropDown } Onclick={ item.Onclick }  />
+                                <Href key={ index } Title={ item.Title } Redirect={ item.Redirect && `/customer${item.Redirect}` } Onclick={ item.Onclick } />
                             ))}
                             </>
                             :

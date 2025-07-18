@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Menu.sass'
-import { Title, Body_addclass, Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useFetchProduct, useFetchOrder, useCreateOrder, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
+import { Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useFetchProduct, useFetchOrder, useCreateOrder, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
 export default function MenuPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Menu`)
-    Body_addclass(`Menu-PAGE`)
+    usePageTitle(`Metro 7 | Menu`)
+    useBodyAddClass(`Menu-PAGE`)
 
     // Fetching Hooks
 

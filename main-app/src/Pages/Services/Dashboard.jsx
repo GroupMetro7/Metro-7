@@ -380,24 +380,9 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
           OnSubmit={submitOrder}
         >
           <Group Class="outputfetch" Wrap>
-            <Outputfetch
-              Title="Customer Name"
-              Value={customer}
-              OutCol
-              OutWhite
-            />
-            <Outputfetch
-              Title="Date"
-              Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`}
-              OutCol
-              OutWhite
-            />
-            <Outputfetch
-              Title="Order Options"
-              Value={diningOpt}
-              OutCol
-              OutWhite
-            />
+            <Outputfetch Title="Customer Name" Value={customer} OutCol OutWhite />
+            <Outputfetch Title="Date" Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`} OutCol OutWhite />
+            <Outputfetch Title="Options" Value={diningOpt} OutCol OutWhite />
           </Group>
           <Group Class="outputfetch orderside" Col>
             <div>
@@ -411,34 +396,16 @@ const removeItemFromOrder = (itemId, isFreeItem = null) => {
                 <Outputfetch Value={product.product_name} OutWhite />
                 <Outputfetch Value={`x${product.quantity}`} OutWhite />
                 <Outputfetch Value={`₱${product.price}`} OutWhite />
-                <Outputfetch
-                  Value={`₱${product.price * product.quantity}`}
-                  OutWhite
-                />
+                <Outputfetch Value={`₱${product.price * product.quantity}`} OutWhite />
               </div>
             ))}
           </Group>
           <Group Class="outputfetch" Wrap>
-            <Outputfetch
-              Title="Total Price"
-              Value={`₱${totalPrice - discount}`}
-              OutCol
-              OutWhite
-            />
+            <Outputfetch Title="Total Price" Value={`₱${totalPrice - discount}`} OutCol OutWhite />
             {discount && (
-              <Outputfetch
-                Title="Discount"
-                Value={`₱${discount}`}
-                OutCol
-                OutWhite
-              />
+              <Outputfetch Title="Discount" Value={`₱${discount}`} OutCol OutWhite />
             )}
-            <Outputfetch
-              Title="Down Payment Price"
-              Value="₱0"
-              OutCol
-              OutWhite
-            />
+            <Outputfetch Title="Down Payment Price" Value="₱0" OutCol OutWhite />
           </Group>
           <Group Class="buttonside">
             <Button Title="CANCEL" CloseModal BtnWhite />

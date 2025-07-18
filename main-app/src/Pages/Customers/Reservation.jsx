@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Reservation.sass'
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
 
 export default function ReservationPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Reservation`)
-    Body_addclass(`Reservation-PAGE`)
+    usePageTitle(`Metro 7 | Reservation`)
+    useBodyAddClass(`Reservation-PAGE`)
 
     // Fetching Hooks
     const {

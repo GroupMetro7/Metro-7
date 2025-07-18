@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../Assets/CSS/Pages/Services/Profile.sass";
-import {
-  ScreenWidth,
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Box,
-  Inputbox,
-  Section,
-  Button,
-  Modal,
-  Form,
-  DateText,
-  TimeText,
-  SubmitButton,
-  Graph
-} from "../../Exporter/Component_Exporter";
+import { ScreenWidth, Title, Body_addclass, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton, Graph } from "../../Exporter/Component_Exporter";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import useAttendanceStaff from "../../hooks/service/attendance";
 import useModifyData from "../../hooks/customer/profile/modifyData"

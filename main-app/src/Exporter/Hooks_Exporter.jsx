@@ -1,5 +1,7 @@
 export { useStateContext } from '../Contexts/ContextProvider'
 
+export { default as usePageTitle } from '../Hooks/Universal/Page_Title'
+export { default as useBodyAddClass } from '../Hooks/Universal/Body_Class'
 export { default as useScreenWidth } from '../Hooks/Universal/Screen_Width'
 
 export { default as useAuthentication } from '../Hooks/Users/Authentication'

@@ -1,14 +1,14 @@
 import React from 'react'
 import '../Assets/CSS/Pages/Landing.sass'
-import { Title, Body_addclass, PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth } from '../Exporter/Hooks_Exporter'
+import { PreOrderSectionHeight, Main, Section, Group, Button, GMap } from '../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth } from '../Exporter/Hooks_Exporter'
 import { Logo } from '../Exporter/Public_Exporter'
 
 export default function LandingPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7`)
-    Body_addclass(`Landing-PAGE`)
+    usePageTitle(`Metro 7`)
+    useBodyAddClass(`Landing-PAGE`)
 
     // UI Hooks
     const screenwidth = useScreenWidth()

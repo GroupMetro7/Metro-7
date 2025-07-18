@@ -1,35 +1,22 @@
 import React, { useState } from "react";
 import "../../Assets/CSS/Pages/Customers/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton, Selectionbox } from "../../Exporter/Component_Exporter";
-import { useStateContext } from "../../Contexts/ContextProvider";
+import { Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from "../../Exporter/Component_Exporter";
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth } from "../../Exporter/Hooks_Exporter"
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
-import useDateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format"
-// import { useOCRReceipt } from "../../Exporter/Hooks_Exporter"
 
 export default function ProfilePage() {
-  // this file is subject for optimization
-  const { reservations, preOrders, fetchData } = useFetchUserRes();
-
-  const {
-    user,
-    formData,
-    handleInputChange,
-    isLoading,
-    handleUpdateUser,
-    selectedOrder,
-    editData,
-    selectedReservation,
-    viewOrder,
-    deleteReservation,
-  } = useModifyData(fetchData);
-
-  // const handleReceiptUpload = useOCRReceipt(setSelectedOrder)
 
   // Page title and body class
-  Title(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
-  Body_addclass("Profile-Customer-PAGE");
-  const screenwidth = ScreenWidth();
+    const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation } = useModifyData(fetchData);
+    usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
+    useBodyAddClass("Profile-Customer-PAGE");
+
+
+    const screenwidth = useScreenWidth();
+
+  // this file is subject for optimization
+  const { reservations, preOrders, fetchData } = useFetchUserRes();
 
   // Table data
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];

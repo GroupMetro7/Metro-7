@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Forgot_Password.sass'
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useFetchEmailUser } from '../../Exporter/Hooks_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useFetchEmailUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ForgetPasswordPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Forget Password`)
-    Body_addclass(`FPass-PAGE`)
+    usePageTitle(`Metro 7 | Forget Password`)
+    useBodyAddClass(`FPass-PAGE`)
 
     // Fetching Hooks
     const {email, setEmail, handleSubmit, isLoading, error, success} = useFetchEmailUser()

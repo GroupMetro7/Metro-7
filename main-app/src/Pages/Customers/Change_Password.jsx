@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Forgot_Password.sass'
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useChangePassUser } from '../../Exporter/Hooks_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useChangePassUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ChangePasswordPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Change Password`)
-    Body_addclass(`FPass-PAGE`)
+    usePageTitle(`Metro 7 | Change Password`)
+    useBodyAddClass(`FPass-PAGE`)
 
     // Fetching Hooks
     const {password, setPassword, passwordConfirmation, setPasswordConfirmation, handleSubmit, isLoading, error, success} = useChangePassUser()

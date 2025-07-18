@@ -1,13 +1,13 @@
 import React from 'react'
 import '../Assets/CSS/Pages/Login.sass'
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
-import { useStateContext, useScreenWidth, useAuthentication } from '../Exporter/Hooks_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton, Href, Button } from '../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useAuthentication } from '../Exporter/Hooks_Exporter'
 
 export default function LoginPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    Title(`Metro 7 | Login`)
-    Body_addclass(`Login-PAGE`)
+    usePageTitle(`Metro 7 | Login`)
+    useBodyAddClass(`Login-PAGE`)
 
     // Fetching Hooks
     const {formData, setFormData, handleSubmit, isLoading, error} = useAuthentication()

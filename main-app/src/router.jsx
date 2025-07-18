@@ -120,16 +120,16 @@ const router = createBrowserRouter([
 				element: <StaffOrderList />
 			},
 			{
+				path: 'reservationlist',
+				element: <ReservationListPage />
+			},
+			{
 				path: 'profile',
 				element: <StaffProfile />
 			},
 			{
 				path: 'order_history',
 				element: <OrderHistoryPage />
-			},
-			{
-				path: 'reservationlist',
-				element: <ReservationListPage />
 			}
 		]
 	},
@@ -162,6 +162,14 @@ const router = createBrowserRouter([
 			{
 				path: 'customer_management',
 				element: <CustomerManagementPage />
+			},
+			{
+				path: 'orderlist',
+				element: <StaffOrderList />
+			},
+			{
+				path: 'reservationlist',
+				element: <ReservationListPage />
 			},
 			{
 				path: 'order_history',
