@@ -11,6 +11,6 @@ Route::get('/authverify-email/{verification_code}', [AuthController::class, 'ver
 
 Route::get('/change_password/{token}', function ($token) {
     $email = request()->query('email');
-    return redirect("http://localhost:8888/change_password/{$token}?email={$email}");
+    return redirect("https://metro7.shop/change_password/{$token}?email={$email}");
 })->name('password.reset');
 

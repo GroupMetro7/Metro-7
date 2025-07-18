@@ -347,7 +347,7 @@ export default function ProfilePage() {
         )}
       </Modal>
       <Modal Modal="Reservations-cancel-modal">
-        {selectedReservation && 
+        {selectedReservation &&
           <Form Title="CANCEL RESERVATION" FormTwolayers OnSubmit={deleteReservation} >
             <Group Class="outputfetch" Wrap>
               <Outputfetch
