@@ -1,418 +1,257 @@
-import { useState } from "react";
-import "../../Assets/CSS/Pages/Services/Dashboard.sass";
-import { Title, Body_addclass, Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from "../../Exporter/Component_Exporter"
-import { useStateContext, useScreenWidth, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
-import axiosClient from "../../axiosClient";
-import useFetchOrder from "../../hooks/Universal/fetchProducts";
-import useFetchProduct from "../../hooks/service/fetchProducts";
-import useFetchOrderWithNotification from "../../hooks/orders/fetchOrder";
+import { useState } from 'react'
+import '../../Assets/CSS/Pages/Services/Dashboard.sass'
+import { Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useRetrieveMenuList, useCreateOrders, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
 export default function StaffDashboard() {
+    // Basic Hooks
     const { user } = useStateContext()
-  Title("Metro 7");
-  Body_addclass("Dashboard-Service-PAGE")
-  // this file is subject for optimization
-  const { categories } = useFetchOrder();
-  const { menuItems, selectedCategory, setSelectedCategory, setSearchItem } =
-    useFetchProduct();
+    usePageTitle(`Metro 7`)
+    useBodyAddClass(`Dashboard-Service-PAGE`)
 
-  useFetchOrderWithNotification();
+    // Fetching Hooks
 
-  const [order, setOrder] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [customer, setCustomer] = useState();
-  const [paymentOpt, setPaymentOpt] = useState();
-  const [diningOpt, setDiningOpt] = useState();
-  const [cashPayment, setCashPayment] = useState(0);
-  const [onlinePayment, setOnlinePayment] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [mealStub, setMealStub] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [freeItemsRemaining, setFreeItemsRemaining] = useState(0);
+        // For Menu List
+        const {
+            menuItems,
+            categories,
+            setSearchItem,
+            selectedCategory,
+            setSelectedCategory,
+        } = useRetrieveMenuList()
 
+        // For Checked Orders
+        const {
+            totalPrice,
+            customer,
+            setCustomer,
+            cashPayment,
+            setCashPayment,
+            onlinePayment,
+            setOnlinePayment,
+            mealStub,
+            setMealStub,
+            freeItemsRemaining,
+            order,
+            addItemToOrder,
+            removeItemToOrder,
+            submitOrder,
+            discount,
+            setDiscount,
+            diningOpt,
+            setDiningOpt,
+            isLoading,
+            error,
+            success,
+        } = useCreateOrders({ ServiceMode: user.id })
 
+    // UI Hooks
+    const screenwidth = useScreenWidth()
 
+        // Displaying Clock Text
+        const {time, date} = useClockText()
 
-  const orderlist = menuItems.map((product) => ({
-    ...product,
-  }));
+        // Displaying Menu List
+        const menulistdata = menuItems.map((product) => ({
+            id: product.id,
+            product_name: product.product_name,
+            quantity: order.find((item) => item.id === product.id)?.quantity || 0,
+            price: product.price,
+            is_available: product.is_available,
+        }))
 
-const checkedorders = order.map((product, index) => ({
-  id: product.id,
-  product_name: product.is_free_item
-    ? `${product.product_name}`
-    : product.product_name,
-  price: product.price,
-  quantity: product.quantity,
-  is_free_item: product.is_free_item || false,
-  unique_key: `${product.id}_${product.is_free_item ? 'free' : 'paid'}_${index}` // For React keys
-}));
+        // Displaying Checked Orders
+        const checkedorders = order.map((product) => ({
+            id: product.id,
+            product_name: product.product_name,
+            price: product.price,
+            quantity: product.quantity,
+        }))
 
-const {time, date} = useClockText()
-
-const addItemToOrder = (item) => {
-  const existingItem = order.find((orderItem) => orderItem.id === item.id);
-  const existingFreeItem = order.find((orderItem) => orderItem.id === item.id && orderItem.is_free_item === true);
-  const existingPaidItem = order.find((orderItem) => orderItem.id === item.id && !orderItem.is_free_item);
-  let updatedOrder;
-
-  if (item.is_customizable === 1) {
-    // Handle customizable items (buckets)
-    if (existingItem) {
-      updatedOrder = order.map((orderItem) =>
-        orderItem.id === item.id
-          ? { ...orderItem, quantity: orderItem.quantity + 1 }
-          : orderItem
-      );
-    } else {
-      updatedOrder = [...order, { ...item, quantity: 1 }];
-    }
-  } else if (freeItemsRemaining > 0 && item.category_id === 3) {
-    // Add as free item
-    if (existingFreeItem) {
-      updatedOrder = order.map((orderItem) =>
-        orderItem.id === item.id && orderItem.is_free_item === true
-          ? { ...orderItem, quantity: orderItem.quantity + 1 }
-          : orderItem
-      );
-    } else {
-      updatedOrder = [...order, { ...item, quantity: 1, price: 0, is_free_item: true }];
-    }
-  } else {
-    // Add as paid item (regular price)
-    if (existingPaidItem) {
-      updatedOrder = order.map((orderItem) =>
-        orderItem.id === item.id && !orderItem.is_free_item
-          ? { ...orderItem, quantity: orderItem.quantity + 1 }
-          : orderItem
-      );
-    } else {
-      updatedOrder = [...order, { ...item, quantity: 1, is_free_item: false }];
-    }
-  }
-
-  setOrder(updatedOrder);
-  calculateTotalPrice(updatedOrder);
-  updateFreeItemsRemaining(updatedOrder);
-};
-
-  const calculateTotalPrice = (updatedOrder) => {
-    const total = updatedOrder.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-    setTotalPrice(total);
-  };
-
-const updateFreeItemsRemaining = (currentOrder) => {
-  // Count total customizable items and their quantities
-  const totalCustomizableItems = currentOrder
-    .filter(item => item.is_customizable === 1)
-    .reduce((total, item) => total + item.quantity, 0);
-
-  // Count used free items
-  const usedFreeItems = currentOrder
-    .filter(item => item.is_free_item === true)
-    .reduce((total, item) => total + item.quantity, 0);
-
-  // Calculate remaining free items (6 per customizable item)
-  const totalAllowedFreeItems = totalCustomizableItems * 6;
-  const remainingFreeItems = Math.max(0, totalAllowedFreeItems - usedFreeItems);
-
-  setFreeItemsRemaining(remainingFreeItems);
-};
-
-const removeItemFromOrder = (itemId, isFreeItem = null) => {
-  let updatedOrder;
-
-  if (isFreeItem !== null) {
-    // When called with specific free item status
-    updatedOrder = order
-      .map((orderItem) => {
-        if (orderItem.id === itemId && (orderItem.is_free_item || false) === isFreeItem) {
-          if (orderItem.quantity > 1) {
-            return { ...orderItem, quantity: orderItem.quantity - 1 };
-          } else {
-            return null; // Remove item completely
-          }
+        // Hooks for Elements for Checkout
+        const InputOutputfetches = {
+            Firstform: {
+                first: [
+                    { Title: `Customer Name`, Type: `text`, ID: `cname-in`, Value: customer, OnChange: (e) => setCustomer(e.target.value), InCol: true, InWhite: true },
+                    { Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Value: cashPayment, OnChange: (e) => setCashPayment(e.target.value), InCol: true, InWhite: true },
+                    { Title: `Online Payment`, Type: `number`, ID: `o-payment-in`, Value: onlinePayment, OnChange: (e) => setOnlinePayment(e.target.value), InCol: true, InWhite: true },
+                    { Title: `Discount`, Type: `number`, ID: `discount-in`, Value: discount, OnChange: (e) => setDiscount(e.target.value), InCol: true, InWhite: true }
+                ],
+                second: [
+                    { Title: `Total Price`, Value: `₱${(Number(totalPrice) - Number(discount) || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                    { Title: `Payment Amount`, Value: `₱${((Number(cashPayment) + Number(onlinePayment)) || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                    { Title: `Down Payment Price`, Value: `₱${(Number(totalPrice) - Number(discount) - (Number(cashPayment) + Number(onlinePayment)) || 0).toFixed(2) }`, OutCol: true, OutWhite: true }
+                ]
+            },
+            Secondform: {
+                first: [
+                    { Title: `Name`, Value: customer, OutCol: true, OutWhite: true },
+                    { Title: `Date`, Value: `${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`, OutCol: true, OutWhite: true },
+                    { Title: `Options`, Value: diningOpt, OutCol: true, OutWhite: true }
+                ],
+                second: {
+                    Title: [
+                        { Title: `Items`, OutWhite: true },
+                        { Title: `Quantity`, OutWhite: true },
+                        { Title: `Unit Price`, OutWhite: true },
+                        { Title: `Total Price`, OutWhite: true }
+                    ],
+                    Value: order.map((product) => ([
+                        { Value: product.product_name, OutWhite: true },
+                        { Value: `x${product.quantity}`, OutWhite: true },
+                        { Value: `₱${Number(product.price).toFixed(2)}`, OutWhite: true },
+                        { Value: `₱${(Number(product.price) * Number(product.quantity)).toFixed(2)}`, OutWhite: true }
+                    ]))
+                },
+                third: [
+                    { Title: `Total Price`, Value: `₱${(Number(totalPrice) - Number(discount) || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                    { Title: `Payment Amount`, Value: `₱${((Number(cashPayment) + Number(onlinePayment)) || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                    { Title: `Discount`, Value: `₱${Number(discount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                    { Title: `Down Payment Price`, Value: `₱${(Number(totalPrice) - Number(discount) - (Number(cashPayment) + Number(onlinePayment)) || 0).toFixed(2) }`, OutCol: true, OutWhite: true }
+                ]
+            }
         }
-        return orderItem;
-      })
-      .filter((orderItem) => orderItem !== null);
-  } else {
-    // When called with just itemId (backward compatibility)
-    updatedOrder = order
-      .map((orderItem) => {
-        if (orderItem.id === itemId) {
-          if (orderItem.quantity > 1) {
-            return { ...orderItem, quantity: orderItem.quantity - 1 };
-          } else {
-            return null; // Remove item completely
-          }
-        }
-        return orderItem;
-      })
-      .filter((orderItem) => orderItem !== null);
-  }
 
-  setOrder(updatedOrder);
-  calculateTotalPrice(updatedOrder);
-  updateFreeItemsRemaining(updatedOrder);
-};
-
-  const submitOrder = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    if (!order.length) {
-      alert("No items in the order. Please add items before submitting.");
-      return;
-    }
-
-    const formattedOrder = {
-      amount: totalPrice,
-      customer_name: customer,
-      discount: discount,
-      cashPayment: cashPayment,
-      onlinePayment: onlinePayment,
-      option: diningOpt,
-      status: "pending",
-      tickets: order.map((item) => ({
-        product_id: item.id,
-        product_name: item.product_name,
-        quantity: item.quantity,
-        unit_price: item.price,
-        total_price: item.price * item.quantity,
-      })),
-    };
-
-    try {
-      await axiosClient.post("/orders", formattedOrder);
-      alert("Order submitted successfully!");
-      setOrder([]);
-      setTotalPrice(0);
-      setCustomer("");
-      setPaymentOpt("");
-      setDiningOpt("");
-      console.log("Order submitted:", formattedOrder);
-      window.location.reload();
-    } catch (error) {
-      const msg =
-        error?.response?.data?.message ||
-        "Failed to submit order. Please try again.";
-      alert(`Failed to submit order: ${msg}`);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-      const screenwidth = useScreenWidth()
-
-  return (
-    <>
-      <Group>
-        <Main Row>
-          <Section Title="MENU ORDER" Class="menu">
-            <Group Col>
-              <Box Class="search">
-                <Inputbox
-                  Title="Search"
-                  Type="search"
-                  OnChange={(e) => setSearchItem(e.target.value)}
-                />
-              </Box>
-              <Group Class="filter">
-                {categories.map((cat) => (
-                  <Radio
-                    key={cat.id}
-                    Title={cat.name}
-                    Value={cat.id}
-                    RadioName="Category"
-                    Checked={selectedCategory === cat.id}
-                    OnChange={() => setSelectedCategory(cat.id)}
-                    BtnWhite
-                  />
-                ))}
-              </Group>
-              <Group Class="items" Wrap>
-                <ItemMenu
-                  List={orderlist}
-                  addItemToOrder={addItemToOrder}
-                  removeItemFromOrder={removeItemFromOrder}
-                  ServiceMode
-                />
-              </Group>
+    return (
+        <>
+            <Group>
+                <Main Row>
+                    <Section Title={`MENU ORDER`} ID={`menuorder`} Class={`menu`}>
+                        <Group Col>
+                            <Box Class={`search`}>
+                                <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
+                            </Box>
+                            <Group Class={`filter`}>
+                                {categories.map((cat) => (
+                                    <Radio
+                                        key={cat.id}
+                                        Title={cat.name}
+                                        Value={cat.id}
+                                        RadioName={`Category`}
+                                        Checked={selectedCategory === cat.id}
+                                        OnChange={() => setSelectedCategory(cat.id)}
+                                        BtnWhite
+                                    />
+                                ))}
+                            </Group>
+                            <Group Class={`items`} Wrap>
+                                <ItemMenu List={menulistdata} ServiceMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                            </Group>
+                        </Group>
+                    </Section>
+                    <Box ID={`checkedorders`} Class={`checkout`} BoxCol>
+                        <Group Class={`datetime`} Col>
+                            <h3>{date} <br /> {time}</h3>
+                            <hr />
+                        </Group>
+                        <Group Class={`opts`}>
+                            <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} />
+                            <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} />
+                        </Group>
+                        <hr />
+                        <Group Class={`totalitem`}>
+                            <h3>ORDER SUMMARY</h3>
+                            {freeItemsRemaining > 0 &&
+                                <h5>{freeItemsRemaining} Free Items Remaining</h5>
+                            }
+                            <div className={`itemlist`}>
+                                <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                            </div>
+                        </Group>
+                        {checkedorders != 0 && (
+                            <>
+                                <hr />
+                                <Group Class={`paymentsum`} Col>
+                                    <article>
+                                        <h3>TOTAL:</h3>
+                                        <h3>₱{Number(totalPrice)?.toFixed(2)}</h3>
+                                    </article>
+                                    <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`first-checkout-modal`} Disabled={!diningOpt} />
+                                </Group>
+                            </>
+                        )}
+                    </Box>
+                </Main>
             </Group>
-          </Section>
-          <Box Class="checkout" BoxCol>
-            <Group Class="datetime" Col>
-              <h3>
-                {date}
-                <br />
-                {time}
-              </h3>
-              <hr />
-            </Group>
-            <Group Class="diningopts">
-              <Radio
-                Title="DINE-IN"
-                RadioName="Options"
-                Value="DINE-IN"
-                Checked={diningOpt === "DINE-IN"}
-                OnChange={(e) => setDiningOpt(e.target.value)}
-              />
-              <Radio
-                Title="TAKE-OUT"
-                RadioName="Options"
-                Value="TAKE-OUT"
-                Checked={diningOpt === "TAKE-OUT"}
-                OnChange={(e) => setDiningOpt(e.target.value)}
-              />
-            </Group>
-            <hr />
-            <Group Class="totalitem">
-              <h3>TOTAL ITEM</h3>
-              {freeItemsRemaining > 0 && (
-                <p style={{ color: 'green', fontSize: '14px' }}>
-                  {freeItemsRemaining} free items remaining
-                </p>
-              )}
-              <div className="itemlist">
-                <CheckedItem
-                  List={checkedorders}
-                  addItemToOrder={addItemToOrder}
-                  removeItemFromOrder={removeItemFromOrder}
-                />
-              </div>
-            </Group>
-            {checkedorders != 0 && (
-              <>
-                <hr />
-                <Group Class="paymentsum" Col>
-                  <article>
-                    <h3>TOTAL:</h3>
-                    <h3>₱{totalPrice.toFixed(2)}</h3>
-                  </article>
-                  <Button Title="CHECKOUT" OpenModal="first-checkout-modal" Disabled={!diningOpt} />
-                </Group>
-              </>
-            )}
-          </Box>
-        </Main>
-      </Group>
-      <Modal Modal="first-checkout-modal">
-        <Form Title="CHECKOUT" {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
-          <Group Class="inputside">
-            <Inputbox
-              Type="text"
-              Title="Customer Name"
-              value={customer}
-              OnChange={(e) => setCustomer(e.target.value)}
-              InCol
-              InWhite
-            />
-          </Group>
-          <Group Class="inputside" Wrap>
-            <Inputbox
-              Type="number"
-              Title="Cash Payment"
-              value={cashPayment}
-              OnChange={(e) => setCashPayment(e.target.value)}
-              InCol
-              InWhite
-            />
-            <Inputbox
-              Type="number"
-              Title="Online Payment"
-              value={onlinePayment}
-              OnChange={(e) => setOnlinePayment(e.target.value)}
-              InCol
-              InWhite
-            />
-            <Inputbox
-              Type="number"
-              Title="Discount"
-              value={discount}
-              OnChange={(e) => setDiscount(e.target.value)}
-              InCol
-              InWhite
-            />
-          </Group>
-          <Group Wrap>
-            <Group Class="outputfetch" Wrap>
-              <Outputfetch
-                Title="Payment Amount"
-                Value={`₱${Number(cashPayment) + Number(onlinePayment) || 0}`}
-                OutCol
-                OutWhite
-              />
-              <Outputfetch
-                Title="Total Price"
-                Value={`₱${totalPrice - Number(discount) || 0} `}
-                OutCol
-                OutWhite
-              />
-              <Outputfetch
-                Title="Change"
-                Value={`₱${
-                  totalPrice -
-                    Number(discount) -
-                    (Number(cashPayment) + Number(onlinePayment)) || 0
-                }`}
-                OutCol
-                OutWhite
-              />
-            </Group>
-          </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
-            <Button Title="CHECKOUT" OpenModal="second-checkout-modal" BtnWhite />
-          </Group>
-        </Form>
-      </Modal>
-
-      <Modal Modal="second-checkout-modal">
-        <Form
-          Title="CHECKOUT"
-          {...(screenwidth > 1023
-            ? { FormThreelayers: true }
-            : { FormTwolayers: true })}
-          OnSubmit={submitOrder}
-        >
-          <Group Class="outputfetch" Wrap>
-            <Outputfetch Title="Customer Name" Value={customer} OutCol OutWhite />
-            <Outputfetch Title="Date" Value={`${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`} OutCol OutWhite />
-            <Outputfetch Title="Options" Value={diningOpt} OutCol OutWhite />
-          </Group>
-          <Group Class="outputfetch orderside" Col>
-            <div>
-              <Outputfetch Title="Items" OutWhite />
-              <Outputfetch Title="Quantity" OutWhite />
-              <Outputfetch Title="Unit Price" OutWhite />
-              <Outputfetch Title="Total Price" OutWhite />
-            </div>
-            {order.map((product, index) => (
-              <div key={index}>
-                <Outputfetch Value={product.product_name} OutWhite />
-                <Outputfetch Value={`x${product.quantity}`} OutWhite />
-                <Outputfetch Value={`₱${product.price}`} OutWhite />
-                <Outputfetch Value={`₱${product.price * product.quantity}`} OutWhite />
-              </div>
-            ))}
-          </Group>
-          <Group Class="outputfetch" Wrap>
-            <Outputfetch Title="Total Price" Value={`₱${totalPrice - discount}`} OutCol OutWhite />
-            {discount && (
-              <Outputfetch Title="Discount" Value={`₱${discount}`} OutCol OutWhite />
-            )}
-            <Outputfetch Title="Down Payment Price" Value="₱0" OutCol OutWhite />
-          </Group>
-          <Group Class="buttonside">
-            <Button Title="CANCEL" CloseModal BtnWhite />
-            <SubmitButton Title="CHECKOUT" BtnWhite Disabled={loading}/>
-          </Group>
-        </Form>
-      </Modal>
-    </>
-  );
+            <Modal Modal={`first-checkout-modal`}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
+                    <Group Class={`inputside`} Wrap>
+                        {InputOutputfetches.Firstform.first.map((Input, Index) => (
+                            <Inputbox
+                                Key={Index}
+                                Title={Input.Title}
+                                Type={Input.Type}
+                                ID={Input.ID}
+                                Value={Input.Value}
+                                OnChange={Input.OnChange}
+                                InCol={Input.InCol}
+                                InWhite={Input.InWhite}
+                            />
+                        ))}
+                    </Group>
+                    <Group Class={`outputfetch`} Wrap>
+                        {InputOutputfetches.Firstform.second.map((output) => (
+                            <Outputfetch
+                                Title={output.Title}
+                                Value={output.Value}
+                                OutCol={output.OutCol}
+                                OutWhite={output.OutWhite}
+                            />
+                        ))}
+                    </Group>
+                    <Group Class={`buttonside`}>
+                        <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`second-checkout-modal`} BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+            <Modal Modal={`second-checkout-modal`}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
+                    {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
+                    success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
+                    <Group Class={`outputfetch`} Wrap>
+                        {InputOutputfetches.Secondform.first.map((output) => (
+                            <Outputfetch
+                                Title={output.Title}
+                                Value={output.Value}
+                                OutCol={output.OutCol}
+                                OutWhite={output.OutWhite}
+                            />
+                        ))}
+                    </Group>
+                    <Group Class={`outputfetch orderside`} Col>
+                        {[InputOutputfetches.Secondform.second.Title, ...InputOutputfetches.Secondform.second.Value].map((output, index) => (
+                            <div key={index}>
+                                {output.map((entry, colindex) => (
+                                    <Outputfetch
+                                        key={`cell-${index}-${colindex}`}
+                                        {...(entry.Title && { Title: entry.Title })}
+                                        {...(entry.Value && { Value: entry.Value })}
+                                        OutWhite={entry.OutWhite}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </Group>
+                    <Group Class={`outputfetch`} Wrap>
+                        {InputOutputfetches.Secondform.third.map((output) => {
+                            if (output.Title === `Discount` && !Number(discount)) return null;
+                            return (
+                                <Outputfetch
+                                    Title={output.Title}
+                                    Value={output.Value}
+                                    OutCol={output.OutCol}
+                                    OutWhite={output.OutWhite}
+                                />
+                            );
+                        })}
+                    </Group>
+                    <Group Class={`buttonside`}>
+                        <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                    </Group>
+                </Form>
+            </Modal>
+        </>
+    )
 }

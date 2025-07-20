@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axiosClient from '../../axiosClient'
 
-export default function useRegisterUser() {
+export default function useCreateUser() {
     const [formData, setFormData] = useState({
         firstname: ``,
         lastname: ``,
@@ -12,17 +12,17 @@ export default function useRegisterUser() {
         passwordConfirmation: ``,
     })
 
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         setError(null)
         setSuccess(null)
-        setIsLoading(true)
 
         try {
             const {firstname, lastname, email, contact, password, passwordConfirmation} = formData
@@ -43,6 +43,7 @@ export default function useRegisterUser() {
             setError(
                 err.response?.data?.message || `Registration failed, please try again.`
             )
+            console.error("Error registration:", error);
         }
         finally {
             setIsLoading(false)

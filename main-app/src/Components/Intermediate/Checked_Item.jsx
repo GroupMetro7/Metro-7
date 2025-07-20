@@ -2,7 +2,7 @@ import React from 'react'
 import '../../Assets/CSS/Components/Checked_Item.sass'
 import { Button } from '../../Exporter/Component_Exporter'
 
-export default function CheckedItem({ Class, List, addItemToOrder, removeItemFromOrder }) {
+export default function CheckedItem({ Class, List, AddItem, RemoveItem }) {
 
     return(
         <>
@@ -14,9 +14,9 @@ export default function CheckedItem({ Class, List, addItemToOrder, removeItemFro
                             <h4>₱{Menu.price}</h4>
                         </div>
                         <div>
-                            <Button Title={`<`} ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-rm-btn`} Onclick={() => removeItemFromOrder(Menu.id)} />
+                            <Button Title={`<`} ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-rm-btn`} Onclick={() => RemoveItem(Menu.id)} />
                             <h3>x{Menu.quantity}</h3>
-                            <Button Title={`>`} ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-add-btn`} Onclick={() => addItemToOrder(Menu)} />
+                            <Button Title={`>`} ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-add-btn`} Onclick={() => AddItem(Menu)} />
                         </div>
                     </div>
                 ))

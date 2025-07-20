@@ -81,6 +81,27 @@ div.form
                     > label
                         flex: 1 !important
 
+            &.qrside
+                width: 628px !important
+
+                > div.group
+                    height: 145px !important
+                    gap: 23px !important
+
+                    > img
+                        background-color: white !important
+                        width: 145px !important
+                        aspect-ratio: 1 !important
+
+                    > div.group
+                        gap: 23px !important
+                        align-items: center !important
+
+                        > p
+                            color: v.$color-white !important
+                            text-align: justify !important
+                            text-transform: uppercase !important
+
             &.buttonside
                 width: 100% !important
                 justify-content: center !important
@@ -107,3 +128,33 @@ div.form
 
         button, input[type="submit"], label.btnfile:has(input[type="file"]):has(h3)
             height: v.$elem-h-size-secondary !important
+
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    div.form
+
+        > form
+
+            div.group
+
+                &.qrside
+                    width: unset !important
+
+@media only screen and (max-width: 766px) 
+
+    div.form
+
+        > form
+
+            div.group
+
+                &.qrside
+                    width: unset !important
+
+                    > div.group
+                        height: unset !important
+                        gap: 23px !important
+
+                        > img
+                            width: 100% !important
+

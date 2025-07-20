@@ -17,8 +17,8 @@ export default function LoginPage() {
 
         // Hooks for forms
         const Inputboxes = [
-            { Title: `Email`, Type: `email`, ID: `email-in`, InCol: true, InWhite: true, Value: formData.email, OnChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })) },
-            { Title: `Password`, Type: `password`, ID: `password-in`, InCol: true, InWhite: true, Value: formData.password, OnChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })) }
+            { Title: `Email`, Type: `email`, ID: `email-in`, Value: formData.email, OnChange: (e) => setFormData(prev => ({ ...prev, email: e.target.value })), InCol: true, InWhite: true },
+            { Title: `Password`, Type: `password`, ID: `password-in`, Value: formData.password, OnChange: (e) => setFormData(prev => ({ ...prev, password: e.target.value })), InCol: true, InWhite: true }
         ]
 
     return (
@@ -33,10 +33,10 @@ export default function LoginPage() {
                                 Title={Input.Title}
                                 Type={Input.Type}
                                 ID={Input.ID}
-                                InCol={Input.InCol}
-                                InWhite={Input.InWhite}
                                 Value={Input.Value}
                                 OnChange={Input.OnChange}
+                                InCol={Input.InCol}
+                                InWhite={Input.InWhite}
                             />
                         ))}
                     </Group>

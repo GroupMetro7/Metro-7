@@ -141,14 +141,7 @@ export default function ProfilePage() {
       </Main>
       <Modal Modal="editprofile-modal">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>
-          <Group Class="imageside">
-            <img src="" />
-            <InsertFileButton Title="EDIT PICTURE" BtnWhite />
-          </Group>
-          <Group
-            Class="inputside"
-            {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
-          >
+          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
             {Inputboxes.map((Input, Index) => (
               <Inputbox
                 Key={Index}

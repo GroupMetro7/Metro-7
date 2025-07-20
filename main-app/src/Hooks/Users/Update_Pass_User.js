@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import axiosClient from '../../axiosClient'
 
-export default function useChangePassUser() {
+export default function useUpdatePassUser() {
     const [password, setPassword] = useState(``)
     const [passwordConfirmation, setPasswordConfirmation] = useState(``)
 
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
     const { token } = useParams()
@@ -18,8 +18,8 @@ export default function useChangePassUser() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setError(null)
         setIsLoading(true)
+        setError(null)
 
         try {
             await axiosClient.post(`/reset-password`, {

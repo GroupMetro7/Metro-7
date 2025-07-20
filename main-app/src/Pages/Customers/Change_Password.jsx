@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Forgot_Password.sass'
 import { Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useChangePassUser } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useUpdatePassUser } from '../../Exporter/Hooks_Exporter'
 
 export default function ChangePasswordPage() {
     // Basic Hooks
@@ -10,7 +10,7 @@ export default function ChangePasswordPage() {
     useBodyAddClass(`FPass-PAGE`)
 
     // Fetching Hooks
-    const {password, setPassword, passwordConfirmation, setPasswordConfirmation, handleSubmit, isLoading, error, success} = useChangePassUser()
+    const {password, setPassword, passwordConfirmation, setPasswordConfirmation, handleSubmit, isLoading, error, success} = useUpdatePassUser()
 
     // UI Hooks
     const screenwidth = useScreenWidth()

@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import axiosClient from '../../axiosClient'
 
-export default function useFetchEmailUser() {
+export default function useRetrieveEmailUser() {
     const [email, setEmail] = useState(``)
 
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         setError(null)
         setSuccess(null)
-        setIsLoading(true)
 
         try {
             await axiosClient.post(`/forgot-password`, { email })

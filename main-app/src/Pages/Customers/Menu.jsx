@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Menu.sass'
 import { Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useFetchProduct, useFetchOrder, useCreateOrder, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useRetrieveMenuList, useCreateOrders, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
 
 export default function MenuPage() {
     // Basic Hooks
@@ -13,26 +13,29 @@ export default function MenuPage() {
 
         // For Menu List
         const { 
-            menuItems, 
-            categories, 
-            selectedCategory, 
-            setSelectedCategory, 
-            setSearchItem 
-        } = useFetchProduct()
+            menuItems,
+            categories,
+            setSearchItem,
+            selectedCategory,
+            setSelectedCategory,
+        } = useRetrieveMenuList()
 
         // For Checked Orders
         const {
-            order,
-            diningOpt,
-            setDiningOpt,
-            discount,
-            addItemToOrder,
-            removeItemFromOrder,
-            submitOrder,
             formData,
             setFormData,
-            isLoading
-        } = useCreateOrder()
+            order,
+            addItemToOrder,
+            removeItemToOrder,
+            submitOrder,
+            discount,
+            setDiscount,
+            diningOpt,
+            setDiningOpt,
+            isLoading,
+            error,
+            success,
+        } = useCreateOrders({ AuthenticatedMode: user.id })
 
         // For Handling OCR via GCash
         const handleReceiptUpload = useOCRReceipt({ setFormData })
@@ -64,16 +67,16 @@ export default function MenuPage() {
         // Hooks for OutputFetch for Checkout
         const Outputfetches = {
             first: [
-                { Title: "Customer Name", Value: `${user?.firstname} ${user?.lastname}`, OutCol: true, OutWhite: true },
-                { Title: "Date", Value: `${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`, OutCol: true, OutWhite: true },
-                { Title: "Order Options", Value: diningOpt, OutCol: true, OutWhite: true }
+                { Title: `Name`, Value: `${user?.firstname} ${user?.lastname}`, OutCol: true, OutWhite: true },
+                { Title: `Date`, Value: `${useDateFormat(new Date())} | ${useTimeFormat(new Date())}`, OutCol: true, OutWhite: true },
+                { Title: `Options`, Value: diningOpt, OutCol: true, OutWhite: true }
             ],
             second: {
                 Title: [
-                    { Title: "Items", OutWhite: true },
-                    { Title: "Quantity", OutWhite: true },
-                    { Title: "Unit Price", OutWhite: true },
-                    { Title: "Total Price", OutWhite: true }
+                    { Title: `Items`, OutWhite: true },
+                    { Title: `Quantity`, OutWhite: true },
+                    { Title: `Unit Price`, OutWhite: true },
+                    { Title: `Total Price`, OutWhite: true }
                 ],
                 Value: order.map((product) => ([
                     { Value: product.product_name, OutWhite: true },
@@ -83,10 +86,10 @@ export default function MenuPage() {
                 ]))
             },
             third: [
-                { Title: "Total Price", Value: `₱${Number(formData?.totalPrice || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
-                { Title: "Discount", Value: `₱${Number(discount?.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
-                { Title: "Reference Number", Value: formData.refNumber, OutCol: true, OutWhite: true },
-                { Title: "Down Payment Price", Value: `₱${Number(formData.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true }
+                { Title: `Total Price`, Value: `₱${Number(formData?.totalPrice || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: `Discount`, Value: `₱${Number(discount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: `Down Payment Price`, Value: `₱${Number(formData.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: `Reference Number`, Value: formData.refNumber, OutCol: true, OutWhite: true }
             ]
         }
 
@@ -113,7 +116,7 @@ export default function MenuPage() {
                                                 Title={category.name}
                                                 ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
                                                 Value={category.id}
-                                                RadioName={"Category"}
+                                                RadioName={`Category`}
                                                 Checked={selectedCategory === category.id}
                                                 OnChange={() => setSelectedCategory(category.id)}
                                                 BtnWhite
@@ -121,18 +124,14 @@ export default function MenuPage() {
                                         ))}
                                     </Group>
                                     <Group Class={`items`} Wrap>
-                                        <ItemMenu List={menulistdata} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} AuthenticatedMode={user.id} />
+                                        <ItemMenu List={menulistdata} AuthenticatedMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                     </Group>
                                 </Group>
                             </Section>
                         </Group>
                         <Box ID={`checkedorders`} Class={`rightside`} BoxCol>
                             <Group Class={`datetime`} Col>
-                                <h3>
-                                    { date }
-                                    <br />
-                                    { time }
-                                </h3>
+                                <h3>{date} <br /> {time}</h3>
                                 <hr />
                             </Group>
                             <Group Class={`opts`}>
@@ -143,7 +142,7 @@ export default function MenuPage() {
                             <Group Class={`totalitem`}>
                                 <h3>ORDER SUMMARY</h3>
                                 <div className={`itemlist`}>
-                                    <CheckedItem List={checkedorders} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} />
+                                    <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </div>
                             </Group>
                             {checkedorders != 0 && (
@@ -152,7 +151,7 @@ export default function MenuPage() {
                                     <Group Class={`paymentsum`} Col>
                                         <article>
                                             <h3>TOTAL:</h3>
-                                            <h3>₱{Number(formData.totalPrice).toFixed(2)}</h3>
+                                            <h3>₱{Number(formData.totalPrice)?.toFixed(2)}</h3>
                                         </article>
                                         <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`checkout-modal`} Disabled={!diningOpt} />
                                     </Group>
@@ -180,7 +179,7 @@ export default function MenuPage() {
                                             Title={category.name}
                                             ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
                                             Value={category.id}
-                                            RadioName={"Category"}
+                                            RadioName={`Category`}
                                             Checked={selectedCategory === category.id}
                                             OnChange={() => setSelectedCategory(category.id)}
                                             BtnWhite
@@ -188,7 +187,7 @@ export default function MenuPage() {
                                     ))}
                                 </Group>
                                 <Group Class={`items`} Wrap>
-                                    <ItemMenu List={menulistdata} addItemToOrder={addItemToOrder} removeItemFromOrder={removeItemFromOrder} AuthenticatedMode={user.id} />
+                                    <ItemMenu List={menulistdata} AuthenticatedMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </Group>
                             </Group>
                         </Section>
@@ -207,7 +206,7 @@ export default function MenuPage() {
                                         Title={category.name}
                                         ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
                                         Value={category.id}
-                                        RadioName={"Category"}
+                                        RadioName={`Category`}
                                         Checked={selectedCategory === category.id}
                                         OnChange={() => setSelectedCategory(category.id)}
                                         BtnWhite
@@ -224,10 +223,11 @@ export default function MenuPage() {
             {user && user.id && 
                 <Modal Modal={`checkout-modal`}>
                     <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={submitOrder} >
+                        {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
+                        success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                         <Group Class={`outputfetch`} Wrap>
-                            {Outputfetches.first.map((output, index) => (
-                                <Outputfetch 
-                                    key={index}
+                            {Outputfetches.first.map((output) => (
+                                <Outputfetch
                                     Title={output.Title} 
                                     Value={output.Value} 
                                     OutCol={output.OutCol}
@@ -235,7 +235,7 @@ export default function MenuPage() {
                                 />
                             ))}
                         </Group>
-                        <Group Class={`outputfetch`} Col>
+                        <Group Class={`outputfetch orderside`} Col>
                             {[Outputfetches.second.Title, ...Outputfetches.second.Value].map((output, index) => (
                                 <div key={index}>
                                     {output.map((entry, colindex) => (
@@ -250,17 +250,19 @@ export default function MenuPage() {
                             ))}
                         </Group>
                         <Group Class={`outputfetch`} Wrap>
-                            {Outputfetches.third.map((output, index) => (
-                                <Outputfetch 
-                                    key={index}
-                                    Title={output.Title} 
-                                    Value={output.Value} 
-                                    OutCol={output.OutCol}
-                                    OutWhite={output.OutWhite}
-                                />
-                            ))}
+                            {Outputfetches.third.map((output) => {
+                                if (output.Title === `Discount` && !Number(discount)) return null
+                                return (
+                                    <Outputfetch 
+                                        Title={output.Title} 
+                                        Value={output.Value} 
+                                        OutCol={output.OutCol}
+                                        OutWhite={output.OutWhite}
+                                    />
+                                )
+                            })}
                         </Group>
-                        <Group Class={`outputfetch`} Col>
+                        <Group Class={`outputfetch qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
                             <Group {...(screenwidth < 767 && { Col: true })}>
                                 <img />

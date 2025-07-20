@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Register.sass'
 import { Main, Section, Form, Group, Inputbox, SubmitButton } from '../../Exporter/Component_Exporter'
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useRegisterUser } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useCreateUser } from '../../Exporter/Hooks_Exporter'
 
 export default function RegisterPage() {
     // Basic Hooks
@@ -10,7 +10,7 @@ export default function RegisterPage() {
     useBodyAddClass(`Register-PAGE`)
 
     // Fetching Hooks
-    const {formData, setFormData, handleSubmit, isLoading, error, success} = useRegisterUser()
+    const {formData, setFormData, handleSubmit, isLoading, error, success} = useCreateUser()
 
     // UI Hooks
     const screenwidth = useScreenWidth()
