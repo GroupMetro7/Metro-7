@@ -95,7 +95,7 @@ export default function ProfilePage() {
     <>
       <Main>
         <Section Title="My Profile" ID="myprofile">
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Box Class="profile">
               <article>
                 <h2>
@@ -107,7 +107,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
-          : 
+          :
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
@@ -156,7 +156,7 @@ export default function ProfilePage() {
               />
             ))}
           </Group>
-          {screenwidth > 766 ? 
+          {screenwidth > 766 ?
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton
@@ -166,7 +166,7 @@ export default function ProfilePage() {
                 BtnWhite
               />
             </Group>
-          : 
+          :
             <Group Class="buttonside" Col>
               <SubmitButton
                 Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
@@ -180,7 +180,7 @@ export default function ProfilePage() {
         </Form>
       </Modal>
       <Modal Modal="OHistory-view-modal">
-        {selectedOrder && 
+        {selectedOrder &&
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
             <Group Class="outputfetch" Wrap>
               <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
@@ -286,7 +286,7 @@ export default function ProfilePage() {
         }
       </Modal>
       <Modal Modal="Reservations-edit-modal">
-        {selectedReservation && 
+        {selectedReservation &&
           <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
             <Group
               Class="inputside"
@@ -342,7 +342,7 @@ export default function ProfilePage() {
         }
       </Modal>
       <Modal Modal="Reservations-cancel-modal">
-        {selectedReservation && 
+        {selectedReservation &&
           <Form Title="CANCEL RESERVATION" FormTwolayers OnSubmit={deleteReservation} >
             <Group Class="outputfetch" Wrap>
               <Outputfetch
@@ -356,9 +356,9 @@ export default function ProfilePage() {
               <Outputfetch Title="Type" Value={selectedReservation.reservation_type} OutCol OutWhite />
             </Group>
             <Group Class="buttonside">
-              <Button Title="CANCEL" CloseModal BtnWhite />
+              <Button Title="BACK" CloseModal BtnWhite />
               <SubmitButton
-                Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
+                Title={isLoading ? `CANCELLING...` : `CANCEL`}
                 ID={`submit-btn`}
                 Disabled={isLoading}
                 BtnWhite

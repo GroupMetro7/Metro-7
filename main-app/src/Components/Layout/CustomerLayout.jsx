@@ -9,15 +9,18 @@ export default function CustomerLayout() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
         axiosClient.get("/user")
             .then(({ data }) => {
                 setUser(data);
-                setLoading(false); // Stop loading once user data is fetched
             })
             .catch((error) => {
                 console.error("Failed to fetch user:", error);
-                setLoading(false); // Stop loading even if the request fails
             });
+
+            return () => clearTimeout(timer);
     }, []);
 
     if (loading) {
