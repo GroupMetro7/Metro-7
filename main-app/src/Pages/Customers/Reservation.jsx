@@ -27,13 +27,13 @@ export default function ReservationPage() {
 
         // Hooks for forms
         const Inputboxes = [
-            { Select: true, Title: `Reservation Type`, ID: `restype-slt`, Name: `reservationType`, Value: formData.reservationType, SltCol: true, SltWhite: true, OnChange: handleInputChange, 
+            { Select: true, Title: `Reservation Type`, ID: `restype-slt`, Name: `reservationType`, Value: formData.reservationType, SltCol: true, SltWhite: true, OnChange: handleInputChange,
                 Options: [
                     { label: `Solo`, value: `Solo` },
                     { label: `Group`, value: `Group` },
                     { label: `Event`, value: `Event` }
             ]},
-            { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.partySize, OnChange: handleInputChange },
+            { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.reservationType === 'Solo' ? 1 : formData.partySize, OnChange: handleInputChange, Disabled: formData.reservationType === 'Solo'},
             { Input: true, Title: `Date`, Type: `date`, ID: `date-in`, Name: `date`, InCol: true, InWhite: true, Value: formData.date, MinDate: today, OnChange: handleInputChange },
             { Input: true, Title: `Time`, Type: `time`, ID: `time-in`, Name: `time`, InCol: true, InWhite: true, Value: formData.time, MinDate: minDateTime, OnChange: handleInputChange }
         ]
@@ -45,7 +45,7 @@ export default function ReservationPage() {
                     {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                     success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                     <Group Col>
-                        {!error && !success && 
+                        {!error && !success &&
                             <>
                             <Group Class={`infoside`} Col>
                                 <h5>HOURS: OPEN - CLOSES 10:00PM</h5>
@@ -80,6 +80,7 @@ export default function ReservationPage() {
                                     Value={Input.Value}
                                     MinDate={Input.MinDate}
                                     OnChange={Input.OnChange}
+                                    Disabled={Input.Disabled}
                                 />
                             )}
                         </Group>
