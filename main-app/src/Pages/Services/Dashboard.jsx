@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import '../../Assets/CSS/Pages/Services/Dashboard.sass'
 import { Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useRetrieveMenuList, useCreateOrders, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
@@ -35,7 +35,7 @@ export default function StaffDashboard() {
             order,
             addItemToOrder,
             removeItemToOrder,
-            submitOrder,
+            handleSubmit,
             discount,
             setDiscount,
             diningOpt,
@@ -43,7 +43,7 @@ export default function StaffDashboard() {
             isLoading,
             error,
             success,
-        } = useCreateOrders({ ServiceMode: user.id })
+        } = useCreateOrders({ ServiceMode: !!user.id })
 
     // UI Hooks
     const screenwidth = useScreenWidth()
@@ -174,7 +174,7 @@ export default function StaffDashboard() {
                 </Main>
             </Group>
             <Modal Modal={`first-checkout-modal`}>
-                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={handleSubmit}>
                     <Group Class={`inputside`} Wrap>
                         {InputOutputfetches.Firstform.first.map((Input, Index) => (
                             <Inputbox
@@ -189,7 +189,7 @@ export default function StaffDashboard() {
                             />
                         ))}
                     </Group>
-                    <Group Class={`outputfetch`} Wrap>
+                    <Group Class={`outputside`} Wrap>
                         {InputOutputfetches.Firstform.second.map((output) => (
                             <Outputfetch
                                 Title={output.Title}
@@ -206,10 +206,10 @@ export default function StaffDashboard() {
                 </Form>
             </Modal>
             <Modal Modal={`second-checkout-modal`}>
-                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={submitOrder}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={handleSubmit}>
                     {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                     success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
-                    <Group Class={`outputfetch`} Wrap>
+                    <Group Class={`outputside`} Wrap>
                         {InputOutputfetches.Secondform.first.map((output) => (
                             <Outputfetch
                                 Title={output.Title}
@@ -219,7 +219,7 @@ export default function StaffDashboard() {
                             />
                         ))}
                     </Group>
-                    <Group Class={`outputfetch orderside`} Col>
+                    <Group Class={`outputside orderside`} Col>
                         {[InputOutputfetches.Secondform.second.Title, ...InputOutputfetches.Secondform.second.Value].map((output, index) => (
                             <div key={index}>
                                 {output.map((entry, colindex) => (
@@ -233,7 +233,7 @@ export default function StaffDashboard() {
                             </div>
                         ))}
                     </Group>
-                    <Group Class={`outputfetch`} Wrap>
+                    <Group Class={`outputside`} Wrap>
                         {InputOutputfetches.Secondform.third.map((output) => {
                             if (output.Title === `Discount` && !Number(discount)) return null;
                             return (

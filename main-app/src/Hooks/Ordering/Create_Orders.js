@@ -20,73 +20,75 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
     const [mealStub, setMealStub] = useState("")
 
     const [discount, setDiscount] = useState(0)
+
+    const [freeItemsRemaining, setFreeItemsRemaining] = useState(0)
+    
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
-    const [freeItemsRemaining, setFreeItemsRemaining] = useState(0)
 
     const audioRef = useRef(null)
 
     const calculateTotalPrice = (updatedOrder) => {
-        const total = updatedOrder.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const total = updatedOrder.reduce((sum, item) => sum + item.price * item.quantity, 0)
         if (AuthenticatedMode) {
-            setFormData(prev => ({ ...prev, totalPrice: total }));
+            setFormData(prev => ({ ...prev, totalPrice: total }))
         }
         if (ServiceMode) {
-            setTotalPrice(total);
+            setTotalPrice(total)
         } 
-    };
+    }
 
     const updateFreeItemsRemaining = (currentOrder) => {
         const totalCustomizableItems = currentOrder
             .filter(item => item.is_customizable === 1)
-            .reduce((sum, item) => sum + item.quantity, 0);
+            .reduce((sum, item) => sum + item.quantity, 0)
         const usedFreeItems = currentOrder
             .filter(item => item.is_free_item)
-            .reduce((sum, item) => sum + item.quantity, 0);
-        setFreeItemsRemaining(Math.max(0, totalCustomizableItems * 6 - usedFreeItems));
+            .reduce((sum, item) => sum + item.quantity, 0)
+        setFreeItemsRemaining(Math.max(0, totalCustomizableItems * 6 - usedFreeItems))
     }
 
     const addItemToOrder = (item) => {
         setOrder(prev => {
-            let updatedOrder;
+            let updatedOrder
             const existing = prev.find(i =>
                 i.id === item.id &&
                 (ServiceMode ? i.is_free_item === (item.is_free_item || false) : true)
-            );
+            )
 
             if (ServiceMode) {
                 if (item.is_customizable === 1) {
                     updatedOrder = existing
                         ? prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
-                        : [...prev, { ...item, quantity: 1 }];
+                        : [...prev, { ...item, quantity: 1 }]
                 } 
                 else if (freeItemsRemaining > 0 && item.category_id === 3) {
                     updatedOrder = existing
                         ? prev.map(i => (i.id === item.id && i.is_free_item)
                             ? { ...i, quantity: i.quantity + 1 }
                             : i)
-                        : [...prev, { ...item, quantity: 1, price: 0, is_free_item: true }];
+                        : [...prev, { ...item, quantity: 1, price: 0, is_free_item: true }]
                 } 
                 else {
                     updatedOrder = existing
                         ? prev.map(i => (i.id === item.id && !i.is_free_item)
                             ? { ...i, quantity: i.quantity + 1 }
                             : i)
-                        : [...prev, { ...item, quantity: 1, is_free_item: false }];
+                        : [...prev, { ...item, quantity: 1, is_free_item: false }]
                 }
             } 
             else {
                 updatedOrder = existing
                     ? prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
-                    : [...prev, { ...item, quantity: 1 }];
+                    : [...prev, { ...item, quantity: 1 }]
             }
 
             calculateTotalPrice(updatedOrder)
             if (ServiceMode) updateFreeItemsRemaining(updatedOrder)
             return updatedOrder
-        });
-    };
+        })
+    }
 
     const removeItemToOrder = (itemId, isFreeItem = null) => {
         setOrder(prev => {
@@ -105,27 +107,27 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
             calculateTotalPrice(updatedOrder)
             if (ServiceMode) updateFreeItemsRemaining(updatedOrder)
             return updatedOrder
-        });
-    };
+        })
+    }
 
     useEffect(() => {
         audioRef.current = new Audio("/notification_tone.mp3")
-        audioRef.current.preload = "auto";
+        audioRef.current.preload = "auto"
     }, [])
 
     const playNotificationSound = () => {
         if (audioRef.current) {
             audioRef.current.play().catch((error) => {
-                console.log("Audio play failed:", error);
+                console.log("Audio play failed:", error)
             })
         }
     }
 
-    const submitOrder = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError(null);
-        setSuccess(null);
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        setError(null)
+        setSuccess(null)
 
         const payload = {
             option: diningOpt,
@@ -152,10 +154,10 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
         }
 
         try {
-            await axiosClient.post(ServiceMode ? "/orders" : "/create-order-Customer", payload);
-            setSuccess("Order submitted successfully!");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            setTimeout(() => window.location.reload(), 2000);
+            await axiosClient.post(ServiceMode ? "/orders" : "/create-order-Customer", payload)
+            setSuccess("Order submitted successfully!")
+            document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
+            setTimeout(() => window.location.reload(), 2000)
 
             if (AuthenticatedMode) {
                 setFormData({ 
@@ -180,34 +182,38 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
             setError(
                 err.response?.data?.message || `Submitting order failed, please try again.`
             )
-            console.error(`Error submitting order:`, error);
+            console.error(`Error submitting order:`, err)
         }
         finally {
             setIsLoading(false)
         }
     }
 
+    const sharedValues = {
+        order,
+        addItemToOrder,
+        removeItemToOrder,
+        handleSubmit,
+        discount,
+        setDiscount,
+        diningOpt,
+        setDiningOpt,
+        isLoading,
+        error,
+        success,
+    }
+
     if (AuthenticatedMode) {
         return {
+            ...sharedValues,
             formData,
             setFormData,
-
-            order,
-            addItemToOrder,
-            removeItemToOrder,
-            submitOrder,
-            discount,
-            setDiscount,
-            diningOpt,
-            setDiningOpt,
-            isLoading,
-            error,
-            success,
         }
     }
 
     if (ServiceMode) {
         return {
+            ...sharedValues,
             totalPrice,
             customer,
             setCustomer,
@@ -218,18 +224,21 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
             mealStub,
             setMealStub,
             freeItemsRemaining,
-
-            order,
-            addItemToOrder,
-            removeItemToOrder,
-            submitOrder,
-            discount,
-            setDiscount,
-            diningOpt,
-            setDiningOpt,
-            isLoading,
-            error,
-            success,
         }
+    }
+    return {
+        ...sharedValues,
+        formData: {},
+        setFormData: () => {},
+        totalPrice: 0,
+        customer: "",
+        setCustomer: () => {},
+        cashPayment: 0,
+        setCashPayment: () => {},
+        onlinePayment: 0,
+        setOnlinePayment: () => {},
+        mealStub: "",
+        setMealStub: () => {},
+        freeItemsRemaining: 0,
     }
 }

@@ -27,7 +27,7 @@ export default function MenuPage() {
             order,
             addItemToOrder,
             removeItemToOrder,
-            submitOrder,
+            handleSubmit,
             discount,
             setDiscount,
             diningOpt,
@@ -35,7 +35,7 @@ export default function MenuPage() {
             isLoading,
             error,
             success,
-        } = useCreateOrders({ AuthenticatedMode: user.id })
+        } = useCreateOrders({ AuthenticatedMode: !!user.id })
 
         // For Handling OCR via GCash
         const handleReceiptUpload = useOCRReceipt({ setFormData })
@@ -222,10 +222,10 @@ export default function MenuPage() {
             }
             {user && user.id && 
                 <Modal Modal={`checkout-modal`}>
-                    <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={submitOrder} >
+                    <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleSubmit} >
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
-                        <Group Class={`outputfetch`} Wrap>
+                        <Group Class={`outputside`} Wrap>
                             {Outputfetches.first.map((output) => (
                                 <Outputfetch
                                     Title={output.Title} 
@@ -235,7 +235,7 @@ export default function MenuPage() {
                                 />
                             ))}
                         </Group>
-                        <Group Class={`outputfetch orderside`} Col>
+                        <Group Class={`outputside orderside`} Col>
                             {[Outputfetches.second.Title, ...Outputfetches.second.Value].map((output, index) => (
                                 <div key={index}>
                                     {output.map((entry, colindex) => (
@@ -249,7 +249,7 @@ export default function MenuPage() {
                                 </div>
                             ))}
                         </Group>
-                        <Group Class={`outputfetch`} Wrap>
+                        <Group Class={`outputside`} Wrap>
                             {Outputfetches.third.map((output) => {
                                 if (output.Title === `Discount` && !Number(discount)) return null
                                 return (
@@ -262,7 +262,7 @@ export default function MenuPage() {
                                 )
                             })}
                         </Group>
-                        <Group Class={`outputfetch qrside`} Col>
+                        <Group Class={`outputside qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
                             <Group {...(screenwidth < 767 && { Col: true })}>
                                 <img />

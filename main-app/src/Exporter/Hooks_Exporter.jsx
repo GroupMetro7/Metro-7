@@ -13,6 +13,9 @@ export { default as useRetrieveMenuList } from '../Hooks/Ordering/Retrieve_Menu_
 export { default as useCreateOrders } from '../Hooks/Ordering/Create_Orders'
 export { default as useOCRReceipt } from '../Hooks/Ordering/OCR_GCash_Receipt'
 
+export { default as useRetrieveOrdersList } from '../Hooks/Ordering/Retrieve_Orders_List'
+export { default as useUpdateOrders } from '../Hooks/Ordering/Update_Orders'
+
 export { default as useFetchProduct } from '../Hooks/service/fetchProducts'
 export { default as useCreateOrder } from '../Hooks/orders/createOrderCustomer'
 export { default as useCreateReservation } from '../Hooks/customer/reservation/createReservation'
