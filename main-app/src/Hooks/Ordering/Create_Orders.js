@@ -22,7 +22,7 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
     const [discount, setDiscount] = useState(0)
 
     const [freeItemsRemaining, setFreeItemsRemaining] = useState(0)
-    
+
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
@@ -36,7 +36,7 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
         }
         if (ServiceMode) {
             setTotalPrice(total)
-        } 
+        }
     }
 
     const updateFreeItemsRemaining = (currentOrder) => {
@@ -62,14 +62,14 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
                     updatedOrder = existing
                         ? prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
                         : [...prev, { ...item, quantity: 1 }]
-                } 
+                }
                 else if (freeItemsRemaining > 0 && item.category_id === 3) {
                     updatedOrder = existing
                         ? prev.map(i => (i.id === item.id && i.is_free_item)
                             ? { ...i, quantity: i.quantity + 1 }
                             : i)
                         : [...prev, { ...item, quantity: 1, price: 0, is_free_item: true }]
-                } 
+                }
                 else {
                     updatedOrder = existing
                         ? prev.map(i => (i.id === item.id && !i.is_free_item)
@@ -77,7 +77,7 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
                             : i)
                         : [...prev, { ...item, quantity: 1, is_free_item: false }]
                 }
-            } 
+            }
             else {
                 updatedOrder = existing
                     ? prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
@@ -160,27 +160,27 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
             setTimeout(() => window.location.reload(), 2000)
 
             if (AuthenticatedMode) {
-                setFormData({ 
-                    totalPrice: "", 
-                    downpayment: "", 
-                    refNumber: "" 
+                setFormData({
+                    totalPrice: "",
+                    downpayment: "",
+                    refNumber: ""
                 })
             }
             if (ServiceMode) {
                 playNotificationSound()
-                
+
                 setTotalPrice(0)
                 setCustomer("")
                 setCashPayment(0)
                 setOnlinePayment(0)
                 setFreeItemsRemaining(0)
-            } 
+            }
             setDiscount(0)
             setOrder([])
         } 
         catch (err) {
             setError(
-                err.response?.data?.message || `Submitting order failed, please try again.`
+                err.response?.data?.error || `Submitting order failed, please try again.`
             )
             console.error(`Error submitting order:`, err)
         }

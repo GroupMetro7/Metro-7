@@ -94,6 +94,12 @@ export default function MenuManagementPage() {
     }))
   }
 
+  const getCurrentStock = (sku) => {
+  if (!sku) return "0";
+  const ingredient = ingredients.find((ing) => ing.SKU_NUMBER === sku);
+  return ingredient ? ingredient.STOCK.toString() : "0";
+};
+
   return (
     <>
       <Group>
@@ -324,7 +330,11 @@ export default function MenuManagementPage() {
               OnChange={handleInputChange}
             />
             <Group Class="ingredients" Col>
-              <h4>Ingredients:</h4>
+                <Group>
+                  <h4>Ingredients:</h4>
+                  <h4>Quantity:</h4>
+                  <h4>Current stock:</h4>
+                </Group>
               {selects.map(({ sku, quantity }, idx) => (
                 <Group key={idx}>
                   <Selectionbox
@@ -350,6 +360,7 @@ export default function MenuManagementPage() {
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
                   />
+                  <Outputfetch Value={getCurrentStock(sku)} OutCol OutWhite/>
                   <Button
                     Icon={DeleteLogo}
                     Onclick={() => removeSelectBox(idx)}

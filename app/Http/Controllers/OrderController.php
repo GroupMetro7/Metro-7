@@ -55,6 +55,10 @@ class OrderController extends Controller
       return response()->json(['error' => 'Unauthorized'], 401);
     }
 
+    //validate the ingredients if available
+
+
+    // validate the request data
     $validated = $request->validate([
       'customer_name' => 'string|max:255',
       'option' => 'string|max:255',
@@ -70,6 +74,25 @@ class OrderController extends Controller
       'tickets.*.unit_price' => 'required|numeric|min:0',
       'tickets.*.total_price' => 'required|numeric|min:0',
     ]);
+if ($request->has('tickets')) {
+    foreach ($request->tickets as $ticket) {
+        $product = Product::with('ingredients')->find($ticket['product_id']);
+        if (!$product || !$product->ingredients->count()) {
+            return response()->json(['error' => 'Product ingredients not available'], 422);
+        }
+        foreach ($product->ingredients as $ingredient) {
+            // Required quantity for this ingredient
+            $requiredQty = $ingredient->pivot->quantity * $ticket['quantity'];
+            // Get current stock from StockManagement table
+            $stock = $ingredient->STOCK; // assuming 'stock' is a column in StockManagement
+            if ($stock < $requiredQty) {
+                return response()->json([
+                    'error' => "Insufficient stock for ingredient: {$ingredient->COMPOSITE_NAME}"
+                ], 422);
+            }
+        }
+    }
+}
 
     $orderNumber = $this->generateOrderNumber();
     // Create the order
