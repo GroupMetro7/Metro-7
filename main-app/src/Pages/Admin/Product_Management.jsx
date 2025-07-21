@@ -235,7 +235,7 @@ export default function MenuManagementPage() {
                     Name="sku"
                     Value={sku}
                     Options={ingredients.map((comp) => ({
-                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
+                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER}) - Current Stock : ${comp.STOCK}`,
                       value: comp.SKU_NUMBER,
                     }))}
                     SltCol
@@ -330,18 +330,14 @@ export default function MenuManagementPage() {
               OnChange={handleInputChange}
             />
             <Group Class="ingredients" Col>
-                <Group>
                   <h4>Ingredients:</h4>
-                  <h4>Quantity:</h4>
-                  <h4>Current stock:</h4>
-                </Group>
               {selects.map(({ sku, quantity }, idx) => (
                 <Group key={idx}>
                   <Selectionbox
                     Name="sku"
                     Value={sku}
                     Options={ingredients.map((comp) => ({
-                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER})`,
+                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER}) - Current Stock : ${comp.STOCK}`,
                       value: comp.SKU_NUMBER,
                     }))}
                     SltCol
@@ -360,7 +356,6 @@ export default function MenuManagementPage() {
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
                   />
-                  <Outputfetch Value={getCurrentStock(sku)} OutCol OutWhite/>
                   <Button
                     Icon={DeleteLogo}
                     Onclick={() => removeSelectBox(idx)}
