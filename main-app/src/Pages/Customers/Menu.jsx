@@ -12,7 +12,7 @@ export default function MenuPage() {
     // Fetching Hooks
 
         // For Menu List
-        const { 
+        const {
             menuItems,
             categories,
             setSearchItem,
@@ -35,6 +35,7 @@ export default function MenuPage() {
             isLoading,
             error,
             success,
+            freeItemsRemaining
         } = useCreateOrders({ AuthenticatedMode: !!user.id })
 
         // For Handling OCR via GCash
@@ -48,20 +49,12 @@ export default function MenuPage() {
 
         // Displaying Menu List
         const menulistdata = menuItems.map((product) => ({
-            id: product.id,
-            image: product.image_url,
-            product_name: product.product_name,
-            quantity: order.find((item) => item.id === product.id)?.quantity || 0,
-            price: product.price,
-            is_available: product.is_available,
+...product,
         }))
 
         // Displaying Checked Orders
         const checkedorders = order.map((product) => ({
-            id: product.id,
-            product_name: product.product_name,
-            price: product.price,
-            quantity: product.quantity,
+...product,
         }))
 
         // Hooks for OutputFetch for Checkout
@@ -100,8 +93,8 @@ export default function MenuPage() {
 
     return (
         <>
-            {user && user.id ? 
-                screenwidth > 766 ? 
+            {user && user.id ?
+                screenwidth > 766 ?
                     <Main Row>
                         <Group Class={`leftside`} Col>
                             <Section Title={`Menu Order`} ID={`menuorder`}>
@@ -141,6 +134,11 @@ export default function MenuPage() {
                             <hr />
                             <Group Class={`totalitem`}>
                                 <h3>ORDER SUMMARY</h3>
+                                              {freeItemsRemaining > 0 && (
+                <p style={{ color: 'green', fontSize: '14px' }}>
+                  {freeItemsRemaining} free items remaining
+                </p>
+              )}
                                 <div className={`itemlist`}>
                                     <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </div>
@@ -159,7 +157,7 @@ export default function MenuPage() {
                             )}
                         </Box>
                     </Main>
-                    : 
+                    :
                     <Main>
                         <Section Title={`Menu Order`} ID={`menuorder`} Class={`oneside`} UpperRight={
                             <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`checkout-modal`} BtnWhite />
@@ -192,7 +190,7 @@ export default function MenuPage() {
                             </Group>
                         </Section>
                     </Main>
-                : 
+                :
                 <Main>
                     <Section Title={`Menu Order`} ID={`menuorder`} Class={`oneside`}>
                         <Group Col>
@@ -220,7 +218,7 @@ export default function MenuPage() {
                     </Section>
                 </Main>
             }
-            {user && user.id && 
+            {user && user.id &&
                 <Modal Modal={`checkout-modal`}>
                     <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleSubmit} >
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
@@ -228,8 +226,8 @@ export default function MenuPage() {
                         <Group Class={`outputside`} Wrap>
                             {Outputfetches.first.map((output) => (
                                 <Outputfetch
-                                    Title={output.Title} 
-                                    Value={output.Value} 
+                                    Title={output.Title}
+                                    Value={output.Value}
                                     OutCol={output.OutCol}
                                     OutWhite={output.OutWhite}
                                 />
@@ -253,9 +251,9 @@ export default function MenuPage() {
                             {Outputfetches.third.map((output) => {
                                 if (output.Title === `Discount` && !Number(discount)) return null
                                 return (
-                                    <Outputfetch 
-                                        Title={output.Title} 
-                                        Value={output.Value} 
+                                    <Outputfetch
+                                        Title={output.Title}
+                                        Value={output.Value}
                                         OutCol={output.OutCol}
                                         OutWhite={output.OutWhite}
                                     />
@@ -268,7 +266,7 @@ export default function MenuPage() {
                                 <img />
                                 <Group Col>
                                     <p>
-                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will 
+                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will
                                         remain pending. Failure to pay on time will result in cancellation.
                                     </p>
                                     {screenwidth > 766 && (
@@ -277,12 +275,12 @@ export default function MenuPage() {
                                 </Group>
                             </Group>
                         </Group>
-                        {screenwidth > 766 ? 
+                        {screenwidth > 766 ?
                             <Group Class={`buttonside`}>
                                 <Button Title={`CANCEL`} CloseModal BtnWhite />
                                 <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                             </Group>
-                            : 
+                            :
                             <Group Class={`buttonside`} Col>
                                 <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} BtnWhite/>
                                 <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />

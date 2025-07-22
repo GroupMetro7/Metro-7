@@ -53,19 +53,12 @@ export default function StaffDashboard() {
 
         // Displaying Menu List
         const menulistdata = menuItems.map((product) => ({
-            id: product.id,
-            product_name: product.product_name,
-            quantity: order.find((item) => item.id === product.id)?.quantity || 0,
-            price: product.price,
-            is_available: product.is_available,
+    ...product,
         }))
 
         // Displaying Checked Orders
         const checkedorders = order.map((product) => ({
-            id: product.id,
-            product_name: product.product_name,
-            price: product.price,
-            quantity: product.quantity,
+...product,
         }))
 
         // Hooks for Elements for Checkout
@@ -151,9 +144,11 @@ export default function StaffDashboard() {
                         <hr />
                         <Group Class={`totalitem`}>
                             <h3>ORDER SUMMARY</h3>
-                            {freeItemsRemaining > 0 &&
-                                <h5>{freeItemsRemaining} Free Items Remaining</h5>
-                            }
+              {freeItemsRemaining > 0 && (
+                <p style={{ color: 'green', fontSize: '14px' }}>
+                  {freeItemsRemaining} free items remaining
+                </p>
+              )}
                             <div className={`itemlist`}>
                                 <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                             </div>
