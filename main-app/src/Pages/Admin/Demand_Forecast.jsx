@@ -9,10 +9,12 @@ import {
   Inputbox,
   Table,
   Button,
+  Graph
 } from "../../Exporter/Component_Exporter"
 import useFetchTicketsForAI from "../../hooks/AI/fetchTicketsForAI"
 import axiosClient from "../../axiosClient"
 import useFetchModelPrediction from "../../hooks/AI/Fetch_Model_Prediction"
+import DemandForecast from "../../Hooks/graphs/Demand_Forecast_Chart"
 
 export default function StaffOrderList() {
   Title("Demand Forecast");
@@ -72,6 +74,8 @@ export default function StaffOrderList() {
     }
   };
 
+    const { ModelData, ModelOptions, ModelTopDemand } = DemandForecast(useFetchModelPrediction());
+
   return (
     <>
       <Group>
@@ -79,6 +83,19 @@ export default function StaffOrderList() {
           <Box Class="search">
             <Inputbox Title="Search" Type="search" />
             <Inputbox Title="Filter" Type="text" />
+          </Box>
+          <Box Title="Demand Forecast" Class="demandforecast" BoxCol>
+            <Graph LineGraph Data={ModelData} Options={ModelOptions} />
+            {ModelTopDemand && (
+              <Group>
+                <h3>
+                  Based on the demand forecast, {ModelTopDemand.item} sales are expected to increase over
+                  the next four weeks. To meet this rising demand, the business should restock more {ModelTopDemand.item} by
+                  the end of this week. This proactive step will help prevent stockouts, maintain customer satisfaction,
+                  and keep daily operations running smoothly.
+                </h3>
+              </Group>
+            )}
           </Box>
           <Box Title="DEMAND FORECASTS" UpperRight={
             <Button

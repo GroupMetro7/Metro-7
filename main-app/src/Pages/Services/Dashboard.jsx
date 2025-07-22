@@ -52,14 +52,11 @@ export default function StaffDashboard() {
         const {time, date} = useClockText()
 
         // Displaying Menu List
-        const menulistdata = menuItems.map((product) => ({
-    ...product,
+        const menulistdata = menuItems.map((product) => ({...product
         }))
 
         // Displaying Checked Orders
-        const checkedorders = order.map((product) => ({
-...product,
-        }))
+        const checkedorders = order.map((product) => ({...product}))
 
         // Hooks for Elements for Checkout
         const InputOutputfetches = {

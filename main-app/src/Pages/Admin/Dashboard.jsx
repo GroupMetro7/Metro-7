@@ -94,7 +94,7 @@ export default function DashboardPage() {
 
   const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData());
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
-  const { ModelData, ModelOptions, ModelTopDemand } = DemandForecast(useFetchModelPrediction());
+
 
     const {time, date} = useClockText()
 
@@ -126,18 +126,11 @@ export default function DashboardPage() {
               </Box>
             </Group>
             <Group Class="charts">
-              <Box Title="Demand Forecast" Class="demandforecast" BoxCol>
-                <Graph LineGraph Data={ ModelData } Options={ ModelOptions } />
-                {ModelTopDemand && (
-                 <Group>
-                     <h3>
-                         Based on the demand forecast, {ModelTopDemand.item} sales are expected to increase over 
-                         the next four weeks. To meet this rising demand, the business should restock more {ModelTopDemand.item} by 
-                         the end of this week. This proactive step will help prevent stockouts, maintain customer satisfaction, 
-                         and keep daily operations running smoothly.
-                     </h3>
-                 </Group>
-             )}
+              <Box Title="Daily Revenue" Class="salesstatus" BoxCol>
+                {/* <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } /> */}
+              </Box>
+              <Box Title="Daily Order" Class="salesstatus" BoxCol>
+                {/* <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } /> */}
               </Box>
             </Group>
           </Section>
