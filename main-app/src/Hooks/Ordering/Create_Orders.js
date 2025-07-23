@@ -218,12 +218,26 @@ const removeItemToOrder = (itemId, isFreeItem = null) => {
             setDiscount(0)
             setOrder([])
         }
-        catch (err) {
-            setError(
-                err.response?.data?.error || `Submitting order failed, please try again.`
-            )
-            console.error(`Error submitting order:`, err)
+catch (err) {
+    if (err.response?.status === 422) {
+        // Handle validation errors
+        const validationErrors = err.response?.data?.errors;
+        if (validationErrors) {
+            // Show specific field errors
+            const errorMessages = Object.values(validationErrors).flat();
+            setError(errorMessages.join(' '));
+        } else {
+            // Show general validation error
+            setError(err.response?.data?.error || 'Validation failed. Please check your input.');
         }
+    } else {
+        setError(
+            err.response?.data?.error || `Submitting order failed, please try again.`
+        );
+    }
+    console.error(`Error submitting order:`, err);
+    document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" });
+}
         finally {
             setIsLoading(false)
         }

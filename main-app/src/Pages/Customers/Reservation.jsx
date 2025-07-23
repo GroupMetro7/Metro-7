@@ -19,7 +19,7 @@ export default function ReservationPage() {
         success,
         error,
         today,
-        minDateTime
+        minDateTimez
     } = useCreateReservation()
 
     // UI Hooks

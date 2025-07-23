@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerOrderRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\StockLog;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\OrderNotification;
+use App\Models\ReferenceNumber;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -153,87 +155,88 @@ class OrderController extends Controller
   }
 
   //customer create order function
-  public function storeCustomerOrder(Request $request)
-  {
-
-    $user = Auth::user();
-    if (!$user) {
-      return response()->json(['error' => 'Unauthorized'], 401);
-    }
-
-    $validated = $request->validate([
-      'option' => 'string|max:255',
-      'amount' => 'numeric',
-      'downpayment' => 'nullable|numeric',
-      'refNumber' => 'nullable',
-      'status' => 'nullable|string',
-      'cashPayment' => 'nullable|numeric',
-      'discount' => 'nullable|numeric',
-      'tickets' => 'required|array',
-      'tickets.*.product_id' => 'required|integer|exists:products,id',
-      'tickets.*.product_name' => 'required|string|max:255',
-      'tickets.*.quantity' => 'required|integer|min:1',
-      'tickets.*.unit_price' => 'required|numeric|min:0',
-      'tickets.*.total_price' => 'required|numeric|min:0',
-    ]);
-
-    // Validate the ingredients before creating the order
-    if ($request->has('tickets')) {
-      foreach ($request->tickets as $ticket) {
-        $product = Product::with('ingredients')->find($ticket['product_id']);
-        // if (!$product || !$product->ingredients->count()) {
-        //   return response()->json(['error' => 'Product ingredients not available'], 422);
-        // }
-        foreach ($product->ingredients as $ingredient) {
-          // Required quantity for this ingredient
-          $requiredQty = $ingredient->pivot->quantity * $ticket['quantity'];
-
-          // Get current stock from StockManagement table
-          $stock = $ingredient->STOCK;
-          if ($stock < $requiredQty) {
-            return response()->json([
-              'error' => "Insufficient stock for ingredient: {$ingredient->COMPOSITE_NAME}"
-            ], 422);
-          }
+    public function storeCustomerOrder(StoreCustomerOrderRequest $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-      }
+
+        $validated = $request->validated();
+
+        // Additional validation: Check if reference number amount matches downpayment
+        if ($validated['refNumber']) {
+            $referenceRecord = ReferenceNumber::where('reference_number', $validated['refNumber'])->first();
+
+            if ($referenceRecord && $referenceRecord->amount != $validated['downpayment']) {
+                return response()->json([
+                    'error' => 'The downpayment amount does not match the reference number amount.'
+                ], 422);
+            }
+        }
+
+        // Validate the ingredients before creating the order
+        if ($request->has('tickets')) {
+            foreach ($request->tickets as $ticket) {
+                $product = Product::with('ingredients')->find($ticket['product_id']);
+
+                foreach ($product->ingredients as $ingredient) {
+                    // Required quantity for this ingredient
+                    $requiredQty = $ingredient->pivot->quantity * $ticket['quantity'];
+
+                    // Get current stock from StockManagement table
+                    $stock = $ingredient->STOCK;
+                    if ($stock < $requiredQty) {
+                        return response()->json([
+                            'error' => "Insufficient stock for ingredient: {$ingredient->COMPOSITE_NAME}"
+                        ], 422);
+                    }
+                }
+            }
+        }
+
+        try {
+            $orderNumber = $this->generateOrderNumber();
+
+            // Create the order
+            $order = Order::create([
+                'name' => $user->firstname . ' ' . $user->lastname . '(Online)',
+                'order_number' => $orderNumber,
+                'status' => $validated['status'] ?? 'pending',
+                'amount' => $validated['amount'],
+                'cashPayment' => $validated['cashPayment'] ?? 0,
+                'onlinePayment' => $validated['downpayment'] ?? 0,
+                'reference_Number' => $validated['refNumber'] ?? null,
+                'downpayment' => $validated['downpayment'] ?? 0,
+                'option' => $validated['option'],
+                'discount' => $validated['discount'],
+                'user_id' => $user->id,
+            ]);
+
+            $order->load('tickets');
+
+            foreach ($validated['tickets'] as $ticketData) {
+                Ticket::create([
+                    'order_id' => $order->id,
+                    'product_id' => $ticketData['product_id'],
+                    'product_name' => $ticketData['product_name'],
+                    'quantity' => $ticketData['quantity'],
+                    'unit_price' => $ticketData['unit_price'],
+                    'total_price' => $ticketData['total_price'],
+                ]);
+            }
+
+            // Send email notification
+            Mail::to($user->email)->send(new OrderNotification($user, $order));
+
+            return response()->json([
+                'message' => 'Order and tickets created successfully!',
+                'order' => $order
+            ], 201);
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-
-
-    try {
-      $orderNumber = $this->generateOrderNumber();
-      // Create the order
-      $order = Order::create([
-        'name' => $user->firstname . ' ' . $user->lastname . '(Online)',
-        'order_number' => $orderNumber,
-        'status' => $validated['status'] ?? 'pending',
-        'amount' => $validated['amount'],
-        'cashPayment' => $validated['cashPayment'] ?? 0,
-        'onlinePayment' => $validated['downpayment'] ?? 0,
-        'reference_Number' => $validated['refNumber'] ?? null,
-        'downpayment' => $validated['downpayment'] ?? 0,
-        'option' => $validated['option'],
-        'discount' => $validated['discount'],
-        'user_id' => $user->id,
-      ]);
-      $order->load('tickets');
-
-      foreach ($validated['tickets'] as $ticketData) {
-        Ticket::create([
-          'order_id' => $order->id,
-          'product_id' => $ticketData['product_id'],
-          'product_name' => $ticketData['product_name'],
-          'quantity' => $ticketData['quantity'],
-          'unit_price' => $ticketData['unit_price'],
-          'total_price' => $ticketData['total_price'],
-        ]);
-
-        Mail::to($user->email)->send(new OrderNotification($user, $order));
-      }
-      return response()->json(['message' => 'Order and tickets created successfully!', 'order' => $order], 201);
-    } catch (\Exception $e) {
-      \Log::error($e);
-      return response()->json(['error' => $e->getMessage()], 500);
-    }
-  }
 }
