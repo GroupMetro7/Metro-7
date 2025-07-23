@@ -30,6 +30,7 @@ import useFetchDashboardData from '../../hooks/admin/fetchData';
 import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
 import { useStateContext, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
 import { createWorker } from "tesseract.js";
+import DailyOrdersGraphs from "../../Hooks/graphs/Daily_Orders_Graphs";
 
 export default function DashboardPage() {
   Title("Dashboard");
@@ -46,7 +47,7 @@ export default function DashboardPage() {
     fetchOrder
   } = useFetchOrder();
 
-  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
+  const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, dailyOrders } = UseKpi()
 
   const { formData, setFormData, handleUpdateOrder, error, success } =
     useModifyOrderList(selectedOrder, fetchOrder);
@@ -94,6 +95,7 @@ export default function DashboardPage() {
 
   const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData());
   const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData());
+  const { dailyOrdersData, dailyOrdersOptions, dailyRevenueData, dailyRevenueOptions } = DailyOrdersGraphs(useFetchDashboardData());
 
 
     const {time, date} = useClockText()
@@ -127,10 +129,10 @@ export default function DashboardPage() {
             </Group>
             <Group Class="charts">
               <Box Title="Daily Revenue" Class="salesstatus" BoxCol>
-                {/* <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } /> */}
+                <Graph BarGraph Data={ dailyRevenueData } Options={ dailyRevenueOptions } />
               </Box>
               <Box Title="Daily Order" Class="salesstatus" BoxCol>
-                {/* <Graph BarGraph Data={ SalesReportData } Options={ SalesReportOptions } /> */}
+                <Graph BarGraph Data={ dailyOrdersData } Options={ dailyOrdersOptions } />
               </Box>
             </Group>
           </Section>

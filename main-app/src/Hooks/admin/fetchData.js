@@ -9,6 +9,7 @@ export default function useFetchDashboardData() {
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
   const [mostSoldProduct, setMostSoldProduct] = useState(null);
   const [productRevenue, setProductRevenue] = useState([]);
+  const [ dailyOrders, setDailyOrders ] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,8 +22,8 @@ export default function useFetchDashboardData() {
         setMonthlyRevenue(response.data.monthly_revenue);
         setMonthlyExpenses(response.data.monthly_expenses || []);
         setMostSoldProduct(response.data.most_sold_product || null);
+        setDailyOrders(response.data.daily_orders || []);
         setLoading(false);
-        console.log('Product Revenue Data:', productRevenue);
       })
 
       .catch((error) => {
@@ -64,5 +65,6 @@ export default function useFetchDashboardData() {
     totalPages,
     currentPage,
     productRevenue,
+    dailyOrders
   };
 }

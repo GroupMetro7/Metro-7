@@ -17,6 +17,7 @@ export default function UseKpi() {
     });
   }, []);
 
+
   return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders }
     // <>
     //   <KPI Title="TOTAL REVENUE" Integer={'₱' + monthlyRevenue + ' ' + '/Month'} />
@@ -24,5 +25,5 @@ export default function UseKpi() {
     //   <KPI Title="STOCK VALUE" Integer={'₱' + stockValue.toFixed(2) } />
     //   <KPI Title="TOTAL SOLD" Integer={totalOrders} />
     // </>
-  
+
 }

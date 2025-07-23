@@ -24,6 +24,7 @@ class RetrieveDataController extends Controller
 
     $monthlyRevenue = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, DATE_FORMAT(created_at, "%M") as month_name, SUM(amount) as revenue')
       ->where('created_at', '>=', now()->subMonths(12))
+      ->where('status', 'completed')
       ->groupBy('year', 'month', 'month_name')
       ->orderBy('year', 'desc')
       ->orderBy('month', 'desc')
@@ -38,11 +39,19 @@ class RetrieveDataController extends Controller
 
     $orders = Order::with('tickets')->paginate(10);
 
+    $dailOrders = Order::selectRaw('DATE(created_at) as date, COUNT(*) as total_orders, SUM(amount) as total_amount')
+      ->where('status', 'completed')
+      ->groupBy('date')
+      ->orderBy('date', 'desc')
+      ->get();
+
+
     return response()->json([
       'orders' => $orders,
       'monthly_expenses' => $monthlyExpenses,
       'monthly_revenue' => $monthlyRevenue,
       'most_sold_product' => $mostSold,
+      'daily_orders' => $dailOrders,
     ]);
   }
 
