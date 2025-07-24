@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
+import usePagination from "../Universal/pagination_function";
 
 export default function useFetchDashboardData() {
   const [orders, setOrders] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [monthlyRevenue, setMonthlyRevenue] = useState([]);
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
   const [mostSoldProduct, setMostSoldProduct] = useState(null);
@@ -12,6 +11,7 @@ export default function useFetchDashboardData() {
   const [ dailyOrders, setDailyOrders ] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
 
   // Fetching admin dashboard data (KPI, Monthly Revenue, Expenses, Stock Value, Most Sold Product)
 
@@ -48,12 +48,11 @@ export default function useFetchDashboardData() {
     const fetchOrder = (page) => {
       axiosClient.get(`/orders?page=${page}`).then(({ data }) => {
         setOrders(data.data);
-        setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
       });
     };
     fetchOrder(currentPage);
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
 
   return {
     monthlyRevenue,
@@ -65,6 +64,7 @@ export default function useFetchDashboardData() {
     totalPages,
     currentPage,
     productRevenue,
-    dailyOrders
+    dailyOrders,
+    handlePageChange
   };
 }

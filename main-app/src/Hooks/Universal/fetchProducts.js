@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
-// import { fetchMenu } from "../../functions/MenuFunctions";
+import usePagination from "./pagination_function";
+
 
 export default function useFetchOrder() {
   const [menuProduct, setMenu] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [ingredients, setIngredients] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchItem, setSearchItem] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
 
 
     useEffect(() => {
     fetchMenu(currentPage, searchItem, selectedCategory);
-  }, [currentPage, searchItem, selectedCategory]);
+  }, [currentPage, searchItem, selectedCategory, totalPages]);
 
   function fetchMenu(page, search, categoryId) {
     let url = `/adminmenu?page=${page}`;
@@ -28,7 +28,6 @@ export default function useFetchOrder() {
 
       axiosClient.get(url).then(({ data }) => {
         setMenu(data.data);
-        setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
       });
   }
@@ -59,7 +58,6 @@ export default function useFetchOrder() {
     menuProduct,
     setMenu,
     currentPage,
-    setCurrentPage,
     totalPages,
     setTotalPages,
     ingredients,
@@ -70,5 +68,6 @@ export default function useFetchOrder() {
     fetchCategories,
     setSearchItem,
     setSelectedCategory,
+    handlePageChange
   };
 }

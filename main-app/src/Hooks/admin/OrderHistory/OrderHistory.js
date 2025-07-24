@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
+import usePagination from "../../Universal/pagination_function";
 
 export default function useOrderHistory() {
   const [orderHistory, setOrderHistory] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [searchItem, setSearchItem] = useState("");
   const [filterDate, setFilterDate] = useState('');
+  const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
 
   useEffect(() => {
     fetchOrder(currentPage, searchItem, filterDate);
-  }, [currentPage, searchItem, filterDate]);
+  }, [currentPage, searchItem, filterDate, totalPages]);
 
 
   const fetchOrder = (page, search, filterDate) => {
@@ -23,7 +23,6 @@ export default function useOrderHistory() {
     }
     axiosClient.get(url).then(({ data }) => {
       setOrderHistory(data.completedOrders.data);
-      setCurrentPage(data.completedOrders.current_page);
       setTotalPages(data.completedOrders.last_page);
     });
   };
@@ -32,8 +31,8 @@ export default function useOrderHistory() {
     orderHistory,
     currentPage,
     totalPages,
-    setCurrentPage,
     setSearchItem,
-    setFilterDate
+    setFilterDate,
+    handlePageChange
   };
 }

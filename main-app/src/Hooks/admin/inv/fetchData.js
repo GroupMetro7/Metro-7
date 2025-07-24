@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
+import usePagination from "../../Universal/pagination_function";
 
 export default function useFetchData(){
 
   const [products, setProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
   const [searchItem, setSearchItem] = useState("");
   const [filterStock, setFilterStock] = useState('');
 
   useEffect(() => {
   fetchProducts(currentPage, searchItem, filterStock);
-}, [currentPage, searchItem, filterStock]);
+}, [currentPage, searchItem, filterStock, totalPages]);
 
 
     const fetchProducts = (page, search, filterStock) => {
@@ -24,7 +24,6 @@ export default function useFetchData(){
       }
         axiosClient.get(url).then(({ data }) => {
         setProducts(data.data);
-        setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
     });
   };
@@ -33,11 +32,11 @@ export default function useFetchData(){
     products,
     setProducts,
     currentPage,
-    setCurrentPage,
     totalPages,
     setTotalPages,
     setSearchItem,
     fetchProducts,
-    setFilterStock
+    setFilterStock,
+    handlePageChange
   };
 }

@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import axiosClient from "../../axiosClient"
+import usePagination from "../Universal/pagination_function";
 
 export default function useFetchOrder() {
     const [menuProduct, setMenu] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [ingredients, setIngredients] = useState([]);
     const [categories, setCategories] = useState([]);
     const [orders, setOrders] = useState([]);
@@ -13,6 +12,7 @@ export default function useFetchOrder() {
     const intervalRef = useRef(null);
     const audioRef = useRef(null);
     const previousOrderIdsRef = useRef([]);
+    const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
 
     const fetchMenu = (page, setMenu, setCurrentPage, setTotalPages) => {
     axiosClient.get(`/menu?page=${page}`).then(({ data }) => {
@@ -44,7 +44,7 @@ export default function useFetchOrder() {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [currentPage, searchItem]);
+    }, [currentPage, searchItem, totalPages]);
 
     function fetchOrderSilent(page, search) {
         let url = `/orders?page=${page}`;
@@ -58,7 +58,6 @@ export default function useFetchOrder() {
             // Update previous IDs without notification
             previousOrderIdsRef.current = newOrderIds;
             setOrders(newOrders);
-            setCurrentPage(data.data.current_page);
             setTotalPages(data.data.last_page);
         });
     }
@@ -82,7 +81,6 @@ export default function useFetchOrder() {
 
             previousOrderIdsRef.current = newOrderIds;
             setOrders(newOrders);
-            setCurrentPage(data.data.current_page);
             setTotalPages(data.data.last_page);
         });
     }
@@ -93,10 +91,6 @@ export default function useFetchOrder() {
                 console.log("Audio play failed:", error);
             });
         }
-    };
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
     };
 
     useEffect(() => {
@@ -120,7 +114,6 @@ export default function useFetchOrder() {
         menuProduct,
         setMenu,
         currentPage,
-        setCurrentPage,
         totalPages,
         setTotalPages,
         ingredients,
@@ -132,5 +125,6 @@ export default function useFetchOrder() {
         handlePageChange,
         setSearchItem,
         fetchOrder,
+        handlePageChange
     };
 }

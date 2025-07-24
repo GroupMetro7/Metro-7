@@ -23,7 +23,7 @@ export default function StaffOrderList() {
     orderHistory,
     currentPage,
     totalPages,
-    setCurrentPage,
+    handlePageChange,
     setSearchItem,
     setFilterDate
   } = useOrderHistory();
@@ -31,7 +31,7 @@ export default function StaffOrderList() {
   const { user } = useStateContext();
 
   const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
-  
+
           const handleReceiptUpload = useOCRReceipt({ setFormData })
 
   const tborderhistory = {
@@ -62,9 +62,7 @@ export default function StaffOrderList() {
     }))
   }
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

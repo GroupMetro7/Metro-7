@@ -17,11 +17,11 @@ export default function Test() {
         products,
         totalPages,
         currentPage,
-        setCurrentPage,
         setSearchItem,
         fetchCategories,
         fetchProducts,
-        setFilterStock
+        setFilterStock,
+        handlePageChange
     } = useFetchData();
     const {
         formData,
@@ -57,9 +57,7 @@ export default function Test() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+
 
     // Table headers and rows
     const tbinventorylist = {
@@ -120,7 +118,7 @@ export default function Test() {
                         </>
                     } BoxCol >
                         <Table HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
             </Group>
@@ -184,7 +182,7 @@ export default function Test() {
                     </Group>
                 </Form>
             </Modal>
-            
+
         </>
     );
 }

@@ -19,7 +19,8 @@ export default function ReservationPage() {
         success,
         error,
         today,
-        minDateTimez
+        minDateTime,
+        handleReservationTypeChange
     } = useCreateReservation()
 
     // UI Hooks
@@ -27,12 +28,12 @@ export default function ReservationPage() {
 
         // Hooks for forms
         const Inputboxes = [
-            { Select: true, Title: `Reservation Type`, ID: `restype-slt`, Name: `reservationType`, Value: formData.reservationType, SltCol: true, SltWhite: true, OnChange: handleInputChange,
-                Options: [
-                    { label: `Solo`, value: `Solo` },
-                    { label: `Group`, value: `Group` },
-                    { label: `Event`, value: `Event` }
-            ]},
+        { Select: true, Title: `Reservation Type`, ID: `restype-slt`, Name: `reservationType`, Value: formData.reservationType, SltCol: true, SltWhite: true, OnChange: handleReservationTypeChange,
+            Options: [
+                { label: `Solo`, value: `Solo` },
+                { label: `Group`, value: `Group` },
+                { label: `Event`, value: `Event` }
+        ]},
             { Input: true, Title: `Party Size`, Type: `number`, ID: `party-in`, Name: `partySize`, InCol: true, InWhite: true, Value: formData.reservationType === 'Solo' ? 1 : formData.partySize, OnChange: handleInputChange, Disabled: formData.reservationType === 'Solo'},
             { Input: true, Title: `Date`, Type: `date`, ID: `date-in`, Name: `date`, InCol: true, InWhite: true, Value: formData.date, MinDate: today, OnChange: handleInputChange },
             { Input: true, Title: `Time`, Type: `time`, ID: `time-in`, Name: `time`, InCol: true, InWhite: true, Value: formData.time, MinDate: minDateTime, OnChange: handleInputChange }

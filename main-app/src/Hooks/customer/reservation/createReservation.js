@@ -57,6 +57,16 @@ export default function useCreateReservation() {
         }
     }
 
+    const handleReservationTypeChange = (e) => {
+        const value = e.target.value
+        handleInputChange(e) // Update reservation type
+
+        // Auto-set party size to 1 if Solo is selected
+        if (value === 'Solo') {
+            setFormData(prev => ({ ...prev, partySize: 1 }))
+        }
+    }
+
     return {
         formData,
         setFormData,
@@ -66,6 +76,7 @@ export default function useCreateReservation() {
         success,
         error,
         today,
-        minDateTime
+        minDateTime,
+        handleReservationTypeChange
     }
 }
