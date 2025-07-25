@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ReservationEmail;
 use App\Models\Order;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -78,6 +79,23 @@ public function updateReservationStatus(Request $request, $id){
             'partySize' => 'required|integer|min:1',
             'reservationType' => 'required|string|max:255',
         ]);
+            $reservationCount = Reservation::whereDate('date', $validated['date'])
+        ->whereIn('status', ['pending', 'confirmed'])
+        ->sum('party_size');
+
+    $maxCapacity = 50; // Same as in checkAvailability function
+    $remainingCapacity = $maxCapacity - $reservationCount;
+
+    // Check if the new party size would exceed capacity
+    if ($validated['partySize'] > $remainingCapacity) {
+        return response()->json([
+            'error' => 'Capacity exceeded',
+            'message' => "Cannot accommodate party of {$validated['partySize']}. Only {$remainingCapacity} spots remaining for this date.",
+            'capacity_used' => $reservationCount,
+            'max_capacity' => $maxCapacity,
+            'remaining_capacity' => $remainingCapacity
+        ], 422);
+    }
 
         $validated = Reservation::create([
             'user_id' => $user->id,
@@ -110,4 +128,55 @@ public function updateReservationStatus(Request $request, $id){
         $reservation->delete();
         return response()->json(['message' => 'Reservation deleted successfully']);
     }
+
+    public function checkAvailability(Request $request)
+{
+    $date = $request->input('date');
+    $month = $request->input('month');
+    $year = $request->input('year');
+
+    // If checking specific date
+    if ($date) {
+        $reservationCount = Reservation::whereDate('date', $date)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->sum('party_size');
+
+        // Assuming max capacity per day is 100 (adjust as needed)
+        $maxCapacity = 50;
+        $isAvailable = $reservationCount < $maxCapacity;
+
+        return response()->json([
+            'available' => $isAvailable,
+            'capacity_used' => $reservationCount,
+            'max_capacity' => $maxCapacity
+        ]);
+    }
+
+    // If checking month availability
+    if ($month && $year) {
+        $startDate = Carbon::create($year, $month, 1)->startOfMonth();
+        $endDate = Carbon::create($year, $month, 1)->endOfMonth();
+
+        $reservations = Reservation::whereBetween('date', [$startDate, $endDate])
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->selectRaw('DATE(date) as reservation_date, SUM(party_size) as total_party_size')
+            ->groupBy('reservation_date')
+            ->get();
+
+        $availability = [];
+        $maxCapacity = 50; // Adjust as needed
+
+        foreach ($reservations as $reservation) {
+            $availability[$reservation->reservation_date] = [
+                'available' => $reservation->total_party_size < $maxCapacity,
+                'capacity_used' => $reservation->total_party_size,
+                'max_capacity' => $maxCapacity
+            ];
+        }
+
+        return response()->json($availability);
+    }
+
+    return response()->json(['error' => 'Invalid parameters'], 400);
+}
 }

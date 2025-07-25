@@ -1,0 +1,307 @@
+/* Main calendar container with high specificity */
+.reservation-calendar {
+    width: 500px !important;
+    min-height: 550px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    padding: 0 20px !important;
+    z-index: 1000 !important;
+    font-family: inherit !important;
+    position: relative !important;
+}
+
+/* Calendar header */
+.reservation-calendar .calendar-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    align-items: center !important;
+    height: 80px !important;
+}
+
+.reservation-calendar .calendar-header h3 {
+    margin: 0 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    display: flex !important;
+    justify-content: center !important;
+    height: 100% !important;
+    width: 100% !important;
+    align-items: center;
+}
+
+.reservation-calendar .nav-button {
+    background: #f0f0f0 !important;
+    border: none !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    color: #333 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.reservation-calendar .nav-button:hover {
+    background: #e0e0e0 !important;
+}
+
+/* Calendar grid */
+.reservation-calendar .calendar-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    align-items: center !important;
+    gap: 2px !important;
+    row-gap: 10px !important;
+    width: 90% !important;
+}
+
+.reservation-calendar .day-header {
+    text-align: center !important;
+    font-weight: 600 !important;
+    padding: 10px 5px !important;
+    font-size: 0.9rem !important;
+    color: #666 !important;
+    background: #f8f9fa !important;
+    border-radius: 4px !important;
+}
+
+/* Calendar day cells */
+.reservation-calendar .calendar-day {
+    aspect-ratio: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #e0e0e0 !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    position: relative !important;
+    min-height: 40px !important;
+    background: white !important;
+    color: #333 !important;
+    transition: all 0.2s ease !important;
+    border-radius: 4px !important;
+}
+
+.reservation-calendar .calendar-day.empty {
+    cursor: default !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.reservation-calendar .calendar-day.available {
+    background: #f0f9ff !important;
+    border-color: #3b82f6 !important;
+    color: #1d4ed8 !important;
+}
+
+.reservation-calendar .calendar-day.available:hover {
+    background: #dbeafe !important;
+    transform: scale(1.05) !important;
+}
+
+.reservation-calendar .calendar-day.fully-booked {
+    background: #fef2f2 !important;
+    border-color: #ef4444 !important;
+    color: #dc2626 !important;
+    cursor: not-allowed !important;
+}
+
+.reservation-calendar .calendar-day.disabled {
+    background: #f9fafb !important;
+    color: #9ca3af !important;
+    cursor: not-allowed !important;
+    border-color: #d1d5db !important;
+}
+
+.reservation-calendar .calendar-day.selected {
+    background: #3b82f6 !important;
+    color: white !important;
+    border-color: #2563eb !important;
+    font-weight: 600 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Capacity indicator */
+.reservation-calendar .capacity-indicator {
+    font-size: 0.65rem !important;
+    position: absolute !important;
+    bottom: 2px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    white-space: nowrap !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    padding: 1px 3px !important;
+    border-radius: 2px !important;
+    font-weight: 500 !important;
+}
+
+/* Calendar legend */
+.reservation-calendar .calendar-legend {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    position: absolute !important;
+    bottom: 20px !important;
+    font-size: 0.8rem !important;
+    flex-wrap: wrap !important;
+}
+
+.reservation-calendar .legend-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    color: #666 !important;
+}
+
+.reservation-calendar .legend-color {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 2px !important;
+    flex-shrink: 0 !important;
+}
+
+.reservation-calendar .legend-color.available {
+    background: #f0f9ff !important;
+    border: 1px solid #3b82f6 !important;
+}
+
+.reservation-calendar .legend-color.fully-booked {
+    background: #fef2f2 !important;
+    border: 1px solid #ef4444 !important;
+}
+
+.reservation-calendar .legend-color.disabled {
+    background: #f9fafb !important;
+    border: 1px solid #9ca3af !important;
+}
+
+/* Loading state */
+.reservation-calendar .loading {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    backdrop-filter: blur(5px) !important;
+    font-size: 2rem !important;
+    color: #374151 !important;
+}
+
+/* Calendar toggle button with high priority */
+.calendar-toggle-button {
+    border-radius: 50% !important;
+    width: 40px !important;
+
+}
+
+.calendar-toggle-button:hover {
+    background: #2563eb !important;
+}
+
+.calendar-toggle-button:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Calendar container with high priority */
+.calendar-container {
+    margin-top: 15px !important;
+    padding: 15px !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 8px !important;
+    background: #f9fafb !important;
+    position: relative !important;
+    z-index: 999 !important;
+}
+
+/* Additional overrides for common conflicting styles */
+.reservation-calendar * {
+    box-sizing: border-box !important;
+}
+
+.reservation-calendar button {
+    font-family: inherit !important;
+    outline: none !important;
+}
+
+.reservation-calendar h1,
+.reservation-calendar h2,
+.reservation-calendar h3,
+.reservation-calendar h4,
+.reservation-calendar h5,
+.reservation-calendar h6 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .reservation-calendar {
+        max-width: 100% !important;
+        padding: 15px !important;
+    }
+
+    .reservation-calendar .calendar-day {
+        min-height: 35px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .reservation-calendar .capacity-indicator {
+        font-size: 0.6rem !important;
+    }
+
+    .reservation-calendar .calendar-legend {
+        gap: 10px !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Force override any external styles that might interfere */
+.Main .Section .Form .Group .calendar-container .reservation-calendar {
+    display: block !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    background: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    padding: 20px !important;
+    position: relative !important;
+    z-index: 1000 !important;
+    font-family: inherit !important;
+}
+
+/* Fix the calendar day cells */
+.Main .Section .Form .Group .calendar-container .reservation-calendar .calendar-day {
+    aspect-ratio: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #e0e0e0 !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    position: relative !important;
+    min-height: 40px !important;
+    background: white !important;
+    color: #333 !important;
+    transition: all 0.2s ease !important;
+    border-radius: 4px !important;
+}
+
+/* Additional fix for day headers */
+.Main .Section .Form .Group .calendar-container .reservation-calendar .day-header {
+    text-align: center !important;
+    font-weight: 600 !important;
+    padding: 10px 5px !important;
+    font-size: 0.9rem !important;
+    color: #666 !important;
+    background: #f8f9fa !important;
+    border-radius: 4px !important;
+}

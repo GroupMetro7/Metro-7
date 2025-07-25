@@ -14,7 +14,13 @@ export default function useCreateReservation() {
     const token = localStorage.getItem(`ACCESS_TOKEN`)
 
     const today = `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, `0`)}-${new Date().getDate().toString().padStart(2, `0`)}`
-    const [minDateTime, setMinDateTime] = useState(``)
+    const [minDateTime, setMinDateTime] = useState(``);
+    const [showCalendar, setShowCalendar] = useState(false);
+
+    const handleDateSelect = (selectedDate) => {
+    setFormData(prev => ({ ...prev, date: selectedDate }));
+    setShowCalendar(false);
+};
 
     const handleInputChange = (e) => {
         const { name, value, files } = e.target
@@ -77,6 +83,9 @@ export default function useCreateReservation() {
         error,
         today,
         minDateTime,
-        handleReservationTypeChange
+        handleReservationTypeChange,
+        handleDateSelect,
+        showCalendar,
+        setShowCalendar
     }
 }

@@ -83,7 +83,7 @@ Route::middleware('auth:sanctum')->get('/myReservations', [ReservationController
 Route::get('/reservations', [ReservationController::class, 'Reservations']);
 Route::middleware('auth:sanctum')->put('/update-Reservation-Status/{id}', [ReservationController::class, 'updateReservationStatus']);
 Route::middleware('auth:sanctum')->delete('/delete-reservation/{id}', [ReservationController::class, 'deleteReservation']);
-
+Route::get('/reservations/availability', [ReservationController::class, 'checkAvailability']);
 
 
 //attendance
