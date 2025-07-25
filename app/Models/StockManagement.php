@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\LowOnStockAlert;
 use App\Mail\OutOfStockNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class StockManagement extends Model
     'STOCK_VALUE',
     'STATUS',
     'SOLD_BY',
+    'warning_threshold',
   ];
 
   protected static function boot()
@@ -28,10 +30,11 @@ class StockManagement extends Model
     parent::boot();
 
     static::saving(function ($model) {
+      $warningThreshold = $model->warning_threshold ?? 5;
       if ($model->STOCK <= 0) {
         $model->STATUS = 'Unavailable';
-      } elseif ($model->STOCK <= 15) {
-        $model->STATUS = 'Warning';
+      } elseif ($model->STOCK <= $warningThreshold) {
+        $model->STATUS = 'Low Stock';
       } else {
         $model->STATUS = 'Available';
       }
@@ -44,10 +47,17 @@ class StockManagement extends Model
     });
 
     static::updated(function ($stockItem) {
+      $warningThreshold = $model->warning_threshold ?? 5;
       if ($stockItem->STOCK <= 0 && $stockItem->getOriginal('STOCK') > 0) {
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
           Mail::to($admin->email)->send(new OutOfStockNotification($stockItem));
+        }
+      } elseif ($stockItem->STOCK <= $warningThreshold && $stockItem->getOriginal('STOCK') > $warningThreshold) {
+        // Notify admins about low stock
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+          Mail::to($admin->email)->send(new LowOnStockAlert($stockItem));
         }
       }
     });

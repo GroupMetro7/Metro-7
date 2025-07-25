@@ -59,6 +59,7 @@ class StockManagementController extends Controller
     $product->STOCK = $validated['STOCK'];
     $product->COST_PER_UNIT = $validated['STOCK_VALUE'] / $validated['STOCK'];
     $product->SOLD_BY = $validated['SOLD_BY'];
+    $product->warning_threshold = $validated['warning_threshold'];
     $product->save();
 
 
@@ -96,7 +97,8 @@ class StockManagementController extends Controller
       'STOCK' => 'sometimes|required',
       'COST_PER_UNIT' => 'sometimes|required|numeric',
       'SOLD_BY' => 'required',
-      'remarks' => 'sometimes|string|max:255'
+      'remarks' => 'sometimes|string|max:255',
+      'warning_threshold' => 'sometimes|integer',
     ]);
 
     $product = StockManagement::findOrFail($id);
@@ -118,6 +120,9 @@ class StockManagementController extends Controller
     }
     if (isset($validated['SOLD_BY'])) {
       $product->SOLD_BY = $validated['SOLD_BY'];
+    }
+    if (isset($validated['warning_threshold'])) {
+      $product->warning_threshold = $validated['warning_threshold'];
     }
 
     // Update the STOCK_VALUE based on the new STOCK and COST_PER_UNIT

@@ -132,11 +132,7 @@ export default function Test() {
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
                         <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite OnChange={handleInputChange} />
-                        <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
-                            Options={categories.map((cat) => ({
-                            label: cat.name,
-                            value: cat.id,
-                        }))} SltCol SltWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Low Stock Alert" Type="number" Name="warning_threshold" Value={formData.warning_threshold} InCol InWhite OnChange={handleInputChange} />
                         <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
                             Options={[
                             { label: "Each", value: "each" },
@@ -162,11 +158,7 @@ export default function Test() {
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
                         <Inputbox Title="Item Name" Type="text" Name="COMPOSITE_NAME" Value={formData.COMPOSITE_NAME} InCol InWhite OnChange={handleInputChange} />
-                        <Selectionbox Title="Category" Name="category_id" Value={formData.category_id}
-                            Options={categories.map((cat) => ({
-                            label: cat.name,
-                            value: cat.id,
-                        }))} SltCol SltWhite OnChange={handleInputChange} />
+                        <Inputbox Title="Low Stock Alert" Type="number" Name="warning_threshold" Value={formData.warning_threshold} InCol InWhite OnChange={handleInputChange} />
                         <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
                             Options={[
                             { label: "Each", value: "each" },

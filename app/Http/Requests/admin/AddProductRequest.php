@@ -27,6 +27,7 @@ class AddProductRequest extends FormRequest
             'STOCK' => 'required',
             'STOCK_VALUE' => 'required|numeric',
             'SOLD_BY' => 'required',
+            'warning_threshold' => 'nullable|integer'
         ];
     }
 }

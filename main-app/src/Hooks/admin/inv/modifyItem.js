@@ -9,6 +9,7 @@ export default function useModifyItem(fetchProducts) {
     STOCK_VALUE: "",
     SOLD_BY: "",
     COST_PER_UNIT: "",
+    warning_threshold: "",
     remarks: "",
   });
   const [currentProductId, setCurrentProductId] = useState(null);
@@ -23,6 +24,7 @@ export default function useModifyItem(fetchProducts) {
       STOCK_VALUE: product.STOCK_VALUE,
       SOLD_BY: product.SOLD_BY,
       COST_PER_UNIT: product.COST_PER_UNIT,
+      warning_threshold: product.warning_threshold,
     });
     setCurrentProductId(product.id);
   };
@@ -42,6 +44,7 @@ export default function useModifyItem(fetchProducts) {
       STOCK_VALUE: "",
       SOLD_BY: "",
       COST_PER_UNIT: "",
+      warning_threshold: "",
       remarks: "",
     });
       fetchProducts();
