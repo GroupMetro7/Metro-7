@@ -39,7 +39,7 @@ export default function Test() {
     } = useAddCategory(fetchCategories);
 
 
-    const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders } = UseKpi()
+    const { stockValue, UnavailableItems, LowStockItems, AvailableItems } = UseKpi()
 
     const { categories } = useFetchOrder();
 
@@ -93,9 +93,9 @@ export default function Test() {
 
     const kpis = [
         { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
-        { Title: `UNAVAILABLE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
-        { Title: `LOW ON STOCK`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
-        { Title: `AVAILABLE`, Integer: `${totalOrders}` }
+        { Title: `UNAVAILABLE`, Integer: `${UnavailableItems}` },
+        { Title: `LOW ON STOCK`, Integer: `${LowStockItems}` },
+        { Title: `AVAILABLE`, Integer: `${AvailableItems}` }
     ]
 
     return (

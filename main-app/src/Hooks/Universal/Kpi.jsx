@@ -8,6 +8,11 @@ export default function UseKpi() {
   const [stockValue, setStockValue] = useState(0);
   const [monthlyStockExpense, setMonthlyStockExpense] = useState(0);
 
+  // inventory KPI
+  const [ UnavailableItems, setUnavailableItems ] = useState(0);
+  const [ LowStockItems, setLowStockItems ] = useState(0);
+  const [ AvailableItems, setAvailableItems ] = useState(0);
+
   useEffect(() => {
     axiosClient.get("/completed-order").then(({ data }) => {
       setMonthlyRevenue(data.actualSales);
@@ -17,8 +22,23 @@ export default function UseKpi() {
     });
   }, []);
 
+  useEffect(() => {
+    getInventoryKPI();
+  }, []);
 
-  return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders }
+const getInventoryKPI = async () => {
+  try {
+    const { data } = await axiosClient.get("/inventory-kpi");
+    setUnavailableItems(data.totalUnavailableItems);
+    setLowStockItems(data.totalLowStockItems);
+    setAvailableItems(data.totalAvailableItems);
+  } catch (error) {
+    console.error("Error fetching inventory KPI:", error);
+  }
+}
+
+
+  return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, UnavailableItems, LowStockItems, AvailableItems };
     // <>
     //   <KPI Title="TOTAL REVENUE" Integer={'₱' + monthlyRevenue + ' ' + '/Month'} />
     //   <KPI Title="STOCK EXPENSES" Integer={'₱' + monthlyStockExpense.toFixed(2) + ' ' + '/Month'} />

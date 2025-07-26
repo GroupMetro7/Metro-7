@@ -130,4 +130,17 @@ class RetrieveDataController extends Controller
     $productSold = Ticket::all();
     return response()->json($productSold);
   }
+
+  public function getInventoryKPI()
+  {
+    $totalUnavailableItems = StockManagement::where('STATUS', 'Unavailable')->count();
+    $totalAvailableItems = StockManagement::where('STATUS', 'Available')->count();
+    $totalLowStockItems = StockManagement::where('STATUS', 'Low Stock')->count();
+
+    return response()->json([
+      'totalUnavailableItems' => $totalUnavailableItems,
+      'totalAvailableItems' => $totalAvailableItems,
+      'totalLowStockItems' => $totalLowStockItems,
+    ]);
+  }
 }

@@ -68,6 +68,8 @@ Route::get('/orders', [OrderController::class, 'index']);
 
 Route::get('/dashboard-data', [RetrieveDataController::class, 'AdminData']);
 Route::get('/sales-product-revenue', [RetrieveDataController::class, 'salesProductRevenue']);
+//kpi
+Route::get('/inventory-kpi', [RetrieveDataController::class, 'getInventoryKPI']);
 Route::get('/completed-order', [RetrieveDataController::class, 'index']);
 
 
