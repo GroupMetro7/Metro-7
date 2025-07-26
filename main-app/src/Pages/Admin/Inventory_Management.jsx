@@ -92,10 +92,10 @@ export default function Test() {
     }
 
     const kpis = [
-        { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
-        { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
         { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
-        { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
+        { Title: `UNAVAILABLE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
+        { Title: `LOW ON STOCK`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+        { Title: `AVAILABLE`, Integer: `${totalOrders}` }
     ]
 
     return (
@@ -136,7 +136,8 @@ export default function Test() {
                         <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
                             Options={[
                             { label: "Each", value: "each" },
-                            { label: "Weight", value: "weight" }
+                            { label: "g", value: "g" },
+                            { label: "mL", value: "ml" }
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite OnChange={handleInputChange} />
                         <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
@@ -162,7 +163,8 @@ export default function Test() {
                         <Selectionbox Title="Sold By" Name="SOLD_BY" Value={formData.SOLD_BY}
                             Options={[
                             { label: "Each", value: "each" },
-                            { label: "Weight", value: "weight" }
+                            { label: "g", value: "g" },
+                            { label: "mL", value: "ml" },
                         ]} SltCol SltWhite OnChange={handleInputChange} />
                         <Inputbox Title="Stock" Type="number" Name="STOCK" Value={formData.STOCK} InCol InWhite OnChange={handleInputChange} />
                         <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite OnChange={handleInputChange} />

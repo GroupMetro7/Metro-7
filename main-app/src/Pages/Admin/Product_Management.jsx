@@ -217,7 +217,7 @@ export default function MenuManagementPage() {
               SltWhite
               OnChange={handleInputChange}
             />
-            <Inputbox
+            {/* <Inputbox
               Title="Description"
               Type="text"
               Class="textarea"
@@ -226,7 +226,7 @@ export default function MenuManagementPage() {
               Name="description"
               Value={formData.description}
               OnChange={handleInputChange}
-            />
+            /> */}
             <Group Class="ingredients" Col>
               <h4>Ingredients:</h4>
               {selects.map(({ sku, quantity }, idx) => (
@@ -253,6 +253,11 @@ export default function MenuManagementPage() {
                     OnChange={(e) =>
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
+                  />
+                  <Outputfetch
+                    Value={ingredients.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY || 'N/A'}
+                    OutCol
+                    OutWhite
                   />
                   <Button
                     Icon={DeleteLogo}
@@ -355,6 +360,11 @@ export default function MenuManagementPage() {
                     OnChange={(e) =>
                       handleIngredientChange(idx, "quantity", e.target.value)
                     }
+                  />
+                  <Outputfetch
+                    Value={ingredients.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY || 'N/A'}
+                    OutCol
+                    OutWhite
                   />
                   <Button
                     Icon={DeleteLogo}
