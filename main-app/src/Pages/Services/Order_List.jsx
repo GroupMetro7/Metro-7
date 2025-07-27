@@ -2,6 +2,7 @@ import React from 'react'
 import '../../Assets/CSS/Pages/Services/Management.sass'
 import { Main, Group, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, InsertFileButton, Pagination } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useRetrieveOrdersList, useUpdateOrders, useOCRReceipt, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
+import { GCashQR } from '../../Exporter/Public_Exporter'
 
 export default function StaffOrderList() {
     // Basic Hooks
@@ -193,7 +194,7 @@ export default function StaffOrderList() {
                         <Group Class={`qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
                             <Group>
-                                <img />
+                                <img src={ GCashQR } />
                                 <Group Col>
                                     <p>
                                         Please pay a 50% DOWNPAYMENT. Orders without a payment
