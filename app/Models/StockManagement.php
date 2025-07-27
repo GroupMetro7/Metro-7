@@ -54,7 +54,7 @@ static::updated(function ($stockItem) {
         foreach ($admins as $admin) {
           Mail::to($admin->email)->send(new OutOfStockNotification($stockItem));
         }
-      } elseif ($stockItem->STOCK <= $warningThreshold && $stockItem->getOriginal('STOCK') > $warningThreshold) {
+      } elseif ($stockItem->STOCK > 0 && $stockItem->STOCK <= $warningThreshold && $stockItem->getOriginal('STOCK') > $warningThreshold) {
         // Notify admins about low stock
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
