@@ -8,7 +8,6 @@ export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLengt
     }
 
     return(
-      <div>
         <label className={ `inputbox ${ InCol && `incol` } ${ InWhite && `inwhite` } ${Class}` }>
             { Title && <h4>{ Title }:</h4> }
             <input
@@ -26,8 +25,7 @@ export default function Inputbox({ ID, Class, Title, Type, Value, Name, MinLengt
             accept={ accept }
             placeholder={Placeholder}
             />
+            {CustomButton}
         </label>
-        {CustomButton}
-        </div>
     )
 }

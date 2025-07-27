@@ -11,7 +11,7 @@ export default function useRetrieveOrdersList() {
     const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
 
-    const [searchItem, setSearchItem] = useState("") // string instead of []
+    const [searchItem, setSearchItem] = useState("")
 
     const intervalRef = useRef(null)
     const previousOrderIdsRef = useRef([])

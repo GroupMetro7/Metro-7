@@ -26,3 +26,14 @@ export { default as useClockText } from '../Hooks/UI Display/Clock_Text'
 export { default as useDateFormat } from '../Hooks/UI Display/Date_Fetch_Format'
 export { default as useTimeFormat } from '../Hooks/UI Display/Time_Fetch_Format'
 export { default as useDateTimeFormat } from '../Hooks/UI Display/DateTime_Fetch_Format'
+
+
+
+export { default as useReservationFunctions } from '../Hooks/customer/profile/Reservation_Function'
+export { default as TopCategory } from '../Hooks/graphs/Top_Category'
+export { default as SalesReport } from '../Hooks/graphs/Sales_Report'
+export { default as useFetchOrders } from '../Hooks/orders/fetchOrder'
+export { default as UseKpi } from '../Hooks/Universal/Kpi'
+export { default as useModifyOrderList } from '../Hooks/orders/modifyOrderList'
+export { default as useFetchDashboardData } from '../Hooks/admin/fetchData'
+export { default as DailyOrdersGraphs } from '../Hooks/graphs/Daily_Orders_Graphs'

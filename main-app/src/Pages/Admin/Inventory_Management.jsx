@@ -1,3 +1,4 @@
+import React from 'react'
 import '../../Assets/CSS/Pages/Admin/Management.sass';
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../Exporter/Component_Exporter'
 import useFetchData from "../../hooks/admin/inv/fetchData";
@@ -123,11 +124,7 @@ export default function Test() {
                 </Main>
             </Group>
             <Modal Modal="add-modal">
-                <Form
-                    Title="ADD ITEM"
-                    FormThreelayers
-                    OnSubmit={addProduct}
-                >
+                <Form Title="ADD ITEM" FormThreelayers OnSubmit={addProduct}>
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
@@ -150,11 +147,7 @@ export default function Test() {
                 </Form>
             </Modal>
             <Modal Modal="edit-modal">
-                <Form
-                    Title="EDIT ITEM"
-                    FormThreelayers
-                    OnSubmit={modifyProduct}
-                >
+                <Form Title="EDIT ITEM" FormThreelayers OnSubmit={modifyProduct}>
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>

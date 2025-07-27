@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "../../Assets/CSS/Pages/Admin/Management.sass"
+import React from 'react'
+import '../../Assets/CSS/Pages/Admin/Management.sass'
 import {
   Title,
   Body_addclass,

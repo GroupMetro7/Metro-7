@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
-import { KPI }  from "../../exporter/component_exporter";
 
 export default function UseKpi() {
   const [monthlyRevenuee, setMonthlyRevenue] = useState(0);
@@ -39,11 +38,5 @@ const getInventoryKPI = async () => {
 
 
   return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, UnavailableItems, LowStockItems, AvailableItems };
-    // <>
-    //   <KPI Title="TOTAL REVENUE" Integer={'₱' + monthlyRevenue + ' ' + '/Month'} />
-    //   <KPI Title="STOCK EXPENSES" Integer={'₱' + monthlyStockExpense.toFixed(2) + ' ' + '/Month'} />
-    //   <KPI Title="STOCK VALUE" Integer={'₱' + stockValue.toFixed(2) } />
-    //   <KPI Title="TOTAL SOLD" Integer={totalOrders} />
-    // </>
 
 }

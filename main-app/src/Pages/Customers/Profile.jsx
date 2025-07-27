@@ -7,8 +7,7 @@ import useModifyData from "../../hooks/customer/profile/modifyData";
 
 export default function ProfilePage() {
 
-
-  // Page title and body class
+    // Page title and body class
     const { reservations, preOrders, fetchData } = useFetchUserRes();
     const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation } = useModifyData(fetchData);
     usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);

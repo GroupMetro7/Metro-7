@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from 'react'
 import "../../Assets/CSS/Pages/Services/Profile.sass";
-import { ScreenWidth, Title, Body_addclass, Group, Main, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton, Graph } from "../../Exporter/Component_Exporter";
-import { useStateContext } from "../../Contexts/ContextProvider";
+import { Main, Group, Box, Inputbox, Section, Button, Modal, Form, DateText, TimeText, SubmitButton, Graph } from "../../Exporter/Component_Exporter";
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth } from '../../Exporter/Hooks_Exporter'
 import useAttendanceStaff from "../../hooks/service/attendance";
 import useModifyData from "../../hooks/customer/profile/modifyData"
 import ServiceSalesReport from "../../hooks/graphs/Service_Sales_Report";
 import AttendanceChart from "../../Hooks/graphs/Attendance_Chart";
 
 export default function StaffProfile() {
-  Title("Profile");
-  Body_addclass("Profile-Services-PAGE");
-  const screenwidth = ScreenWidth();
+    // Basic Hooks
+    // const { user } = useStateContext()
+    usePageTitle(`Metro 7 | Profile`)
+    useBodyAddClass(`Profile-Services-PAGE`)
+
+    // UI Hooks
+    const screenwidth = useScreenWidth()
+    
   const { handleTimeInClick, handleTimeOutClick } = useAttendanceStaff();
   const { formData, user, handleInputChange, handleUpdateUser } =
     useModifyData();

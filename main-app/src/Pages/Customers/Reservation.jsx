@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Reservation.sass'
 import '../../Assets/CSS/forCalendar/calendar_styling.css'
-import { Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
+import { Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox, Button } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
 import ReservationCalendar from '../../Hooks/customer/calendar/calendar_component'
 
@@ -75,7 +75,6 @@ export default function ReservationPage() {
                                     OnChange={Input.OnChange}
                                 />
                                 || Input.Input &&
-                                <div key={Index}>
                                     <Inputbox
                                         Key={Index}
                                         Title={Input.Title}
@@ -88,17 +87,10 @@ export default function ReservationPage() {
                                         MinDate={Input.MinDate}
                                         OnChange={Input.OnChange}
                                         Disabled={Input.Disabled}
-                                        CustomButton={Input.CustomButton && (
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowCalendar(!showCalendar)}
-                                            className="calendar-toggle-button"
-                                        >
-                                            {showCalendar ? '-' : '+'}
-                                        </button>
-                                    )}
+                                        CustomButton={Input.CustomButton && 
+                                        <Button Title={showCalendar ? `-` : `+`} Class={`calendar-toggle-button`} ID={`calendar-toggle-btn`} Onclick={() => setShowCalendar(!showCalendar)} />
+                                    }
                                     />
-                                </div>
                             )}
                         </Group>
 

@@ -141,11 +141,9 @@ export default function StaffDashboard() {
                         <hr />
                         <Group Class={`totalitem`}>
                             <h3>ORDER SUMMARY</h3>
-              {freeItemsRemaining > 0 && (
-                <p style={{ color: 'green', fontSize: '14px' }}>
-                  {freeItemsRemaining} free items remaining
-                </p>
-              )}
+                            {freeItemsRemaining > 0 &&
+                                <h5>{freeItemsRemaining} Free Items Remaining</h5>
+                            }
                             <div className={`itemlist`}>
                                 <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                             </div>

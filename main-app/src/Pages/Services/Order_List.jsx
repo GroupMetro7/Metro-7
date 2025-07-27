@@ -120,7 +120,7 @@ export default function StaffOrderList() {
 
             {/* Modal to display tickets for the selected order */}
             <Modal Modal={`edit-modal`} onClose={() => setSelectedOrder(null)}>
-                {selectedOrder && (
+                {selectedOrder && 
                     <Form Title={`EDIT ORDER`} FormThreelayers OnSubmit={handleSubmit}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
@@ -208,7 +208,7 @@ export default function StaffOrderList() {
                             <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
                         </Group>
                     </Form>
-                )}
+                }
             </Modal>
         </>
     )

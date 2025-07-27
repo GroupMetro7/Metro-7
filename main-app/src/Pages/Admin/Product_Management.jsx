@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import "../../Assets/CSS/Pages/Admin/Management.sass";
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Selectionbox, Outputfetch, Pagination, InsertFileButton, } from "../../Exporter/Component_Exporter";
 import { DeleteLogo } from "../../Exporter/public_exporter";

@@ -1,18 +1,6 @@
-import "../../Assets/CSS/Pages/Admin/Management.sass";
-import {
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Box,
-  Inputbox,
-  Table,
-  Button,
-  Pagination,
-  Modal,
-  Form,
-  SubmitButton,
-} from "../../Exporter/Component_Exporter";
+import React from 'react'
+import '../../Assets/CSS/Pages/Admin/Management.sass'
+import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Pagination, Modal, Form, SubmitButton } from "../../Exporter/Component_Exporter";
 import useStockLogs from "../../hooks/admin/activity_logs/activityLogs";
 import useExportCSV from "../../hooks/Universal/fileExporter";
 import DateTimeFormat from "../../hooks/UI Display/DateTime_Fetch_Format";

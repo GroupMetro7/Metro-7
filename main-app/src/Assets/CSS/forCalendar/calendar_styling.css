@@ -196,19 +196,23 @@
 
 /* Calendar toggle button with high priority */
 .calendar-toggle-button {
+    background: none !important;
     border-radius: 50% !important;
     width: 40px !important;
-
+    position: absolute !important;
+    bottom: 0 !important;
+    right: 0 !important;
 }
 
 .calendar-toggle-button:hover {
-    background: #2563eb !important;
+    background: none !important;
+    color: unset !important;
 }
 
-.calendar-toggle-button:focus {
+/* .calendar-toggle-button:focus {
     outline: none !important;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
-}
+} */
 
 /* Calendar container with high priority */
 .calendar-container {

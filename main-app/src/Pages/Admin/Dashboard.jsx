@@ -1,40 +1,14 @@
-import "../../Assets/CSS/Pages/Admin/Dashboard.sass";
-import {
-  Title,
-  Body_addclass,
-  Group,
-  Main,
-  Section,
-  Box,
-  Table,
-  Modal,
-  Form,
-  Outputfetch,
-  Button,
-  SubmitButton,
-  Pagination,
-  Selectionbox,
-  InsertFileButton,
-  Inputbox,
-  Graph,
-  KPI
-} from "../../Exporter/Component_Exporter";
-import TopCategory from "../../Hooks/graphs/Top_Category";
-import SalesReport from "../../Hooks/graphs/Sales_Report";
-import ModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
-import DemandForecast from "../../Hooks/graphs/Demand_Forecast_Chart";
-import UseKpi from "../../hooks/Universal/Kpi";
-import useFetchOrder from "../../hooks/orders/fetchOrder";
-import useModifyOrderList from "../../hooks/orders/modifyOrderList";
-import useFetchDashboardData from '../../hooks/admin/fetchData';
-import useFetchModelPrediction from "../../Hooks/AI/Fetch_Model_Prediction";
-import { useStateContext, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt } from '../../Exporter/Hooks_Exporter'
-import { createWorker } from "tesseract.js";
-import DailyOrdersGraphs from "../../Hooks/graphs/Daily_Orders_Graphs";
+import React from 'react'
+import '../../Assets/CSS/Pages/Admin/Dashboard.sass'
+import { Main, Group, Section, Box, Table, Modal, Form, Outputfetch, Button, SubmitButton, Pagination, Selectionbox, InsertFileButton, Inputbox, Graph, KPI } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt, TopCategory, SalesReport, useFetchOrders, UseKpi, useModifyOrderList, useFetchDashboardData, DailyOrdersGraphs } from '../../Exporter/Hooks_Exporter'
 
 export default function DashboardPage() {
-  Title("Dashboard");
-  Body_addclass("Dashboard-Admin-PAGE");
+    // Basic Hooks
+    const { user } = useStateContext()
+    usePageTitle("Metro 7 | Admin Dashboard")
+    useBodyAddClass("Dashboard-Admin-PAGE")
+
   // optimized
   // needs some updates
   const {
@@ -45,7 +19,7 @@ export default function DashboardPage() {
     totalPages,
     handlePageChange,
     fetchOrder
-  } = useFetchOrder();
+  } = useFetchOrders();
 
   const { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, dailyOrders } = UseKpi()
 

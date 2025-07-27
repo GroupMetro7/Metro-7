@@ -68,17 +68,17 @@ export default function MenuPage() {
                     { Title: `Total Price`, OutWhite: true }
                 ],
                 Value: order.map((product) => ([
-                    { Value: product.product_name, OutWhite: true },
-                    { Value: `x${product.quantity}`, OutWhite: true },
-                    { Value: `₱${Number(product.price).toFixed(2)}`, OutWhite: true },
-                    { Value: `₱${(Number(product.price) * Number(product.quantity)).toFixed(2)}`, OutWhite: true }
+                    { Value: product?.product_name, OutWhite: true },
+                    { Value: `x${product?.quantity}`, OutWhite: true },
+                    { Value: `₱${Number(product?.price).toFixed(2)}`, OutWhite: true },
+                    { Value: `₱${(Number(product?.price) * Number(product?.quantity)).toFixed(2)}`, OutWhite: true }
                 ]))
             },
             third: [
                 { Title: `Total Price`, Value: `₱${Number(formData?.totalPrice || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
                 { Title: `Discount`, Value: `₱${Number(discount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
-                { Title: `Down Payment Price`, Value: `₱${Number(formData.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
-                { Title: `Reference Number`, Value: formData.refNumber, OutCol: true, OutWhite: true }
+                { Title: `Down Payment Price`, Value: `₱${Number(formData?.downpayment || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
+                { Title: `Reference Number`, Value: formData?.refNumber, OutCol: true, OutWhite: true }
             ]
         }
 
@@ -101,19 +101,19 @@ export default function MenuPage() {
                                     <Group Class={`filter`}>
                                         {categories.map((category) => (
                                             <Radio
-                                                Key={category.id}
-                                                Title={category.name}
-                                                ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
-                                                Value={category.id}
+                                                Key={category?.id}
+                                                Title={category?.name}
+                                                ID={`${category?.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                                Value={category?.id}
                                                 RadioName={`Category`}
-                                                Checked={selectedCategory === category.id}
-                                                OnChange={() => setSelectedCategory(category.id)}
+                                                Checked={selectedCategory === category?.id}
+                                                OnChange={() => setSelectedCategory(category?.id)}
                                                 BtnWhite
                                             />
                                         ))}
                                     </Group>
                                     <Group Class={`items`} Wrap>
-                                        <ItemMenu List={menulistdata} AuthenticatedMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                                        <ItemMenu List={menulistdata} AuthenticatedMode={user?.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                     </Group>
                                 </Group>
                             </Section>
@@ -130,11 +130,9 @@ export default function MenuPage() {
                             <hr />
                             <Group Class={`totalitem`}>
                                 <h3>ORDER SUMMARY</h3>
-                                              {freeItemsRemaining > 0 && (
-                <p style={{ color: 'green', fontSize: '14px' }}>
-                  {freeItemsRemaining} free items remaining
-                </p>
-              )}
+                                {freeItemsRemaining > 0 &&
+                                    <h5>{freeItemsRemaining} Free Items Remaining</h5>
+                                }
                                 <div className={`itemlist`}>
                                     <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </div>
@@ -145,7 +143,7 @@ export default function MenuPage() {
                                     <Group Class={`paymentsum`} Col>
                                         <article>
                                             <h3>TOTAL:</h3>
-                                            <h3>₱{Number(formData.totalPrice)?.toFixed(2)}</h3>
+                                            <h3>₱{Number(formData?.totalPrice)?.toFixed(2)}</h3>
                                         </article>
                                         <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`checkout-modal`} Disabled={!diningOpt} />
                                     </Group>
@@ -156,7 +154,7 @@ export default function MenuPage() {
                     :
                     <Main>
                         <Section Title={`Menu Order`} ID={`menuorder`} Class={`oneside`} UpperRight={
-                            <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`checkout-modal`} BtnWhite />
+                            <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(formData?.totalPrice).toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`checkout-modal`} BtnWhite />
                             }>
                             <Group Col>
                                 <Group Class={`opts`}>
@@ -169,19 +167,19 @@ export default function MenuPage() {
                                 <Group Class={`filter`}>
                                     {categories.map((category) => (
                                         <Radio
-                                            key={category.id}
-                                            Title={category.name}
-                                            ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
-                                            Value={category.id}
+                                            Key={category?.id}
+                                            Title={category?.name}
+                                            ID={`${category?.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                            Value={category?.id}
                                             RadioName={`Category`}
-                                            Checked={selectedCategory === category.id}
-                                            OnChange={() => setSelectedCategory(category.id)}
+                                            Checked={selectedCategory === category?.id}
+                                            OnChange={() => setSelectedCategory(category?.id)}
                                             BtnWhite
                                         />
                                     ))}
                                 </Group>
                                 <Group Class={`items`} Wrap>
-                                    <ItemMenu List={menulistdata} AuthenticatedMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                                    <ItemMenu List={menulistdata} AuthenticatedMode={user?.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </Group>
                             </Group>
                         </Section>
@@ -196,13 +194,13 @@ export default function MenuPage() {
                             <Group Class={`filter`}>
                                 {categories.map((category) => (
                                     <Radio
-                                        key={category.id}
-                                        Title={category.name}
-                                        ID={`${category.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
-                                        Value={category.id}
+                                        Key={category?.id}
+                                        Title={category?.name}
+                                        ID={`${category?.name.toLowerCase().replace(/\s+/g, '-')}-opts`}
+                                        Value={category?.id}
                                         RadioName={`Category`}
-                                        Checked={selectedCategory === category.id}
-                                        OnChange={() => setSelectedCategory(category.id)}
+                                        Checked={selectedCategory === category?.id}
+                                        OnChange={() => setSelectedCategory(category?.id)}
                                         BtnWhite
                                     />
                                 ))}
