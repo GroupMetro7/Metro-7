@@ -24,6 +24,9 @@ export default function Test() {
         setFilterStock,
         handlePageChange
     } = useFetchData();
+
+    const { stockValue, UnavailableItems, LowStockItems, AvailableItems, getInventoryKPI } = UseKpi()
+
     const {
         formData,
         setFormData,
@@ -33,14 +36,14 @@ export default function Test() {
         deleteItem,
         addProduct,
         modifyProduct
-    } = useModifyItem(fetchProducts);
+    } = useModifyItem(fetchProducts, getInventoryKPI);
 
     const {
         editCategory,
     } = useAddCategory(fetchCategories);
 
 
-    const { stockValue, UnavailableItems, LowStockItems, AvailableItems } = UseKpi()
+
 
     const { categories } = useFetchOrder();
 
