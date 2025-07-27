@@ -6,8 +6,8 @@ import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useOCRR
 export default function ReservationList() {
     // Basic Hooks
     const { user } = useStateContext()
-    usePageTitle("Metro 7 | Table Reservation List")
-    useBodyAddClass("Management-PAGE")
+    usePageTitle(`Metro 7 | Table Reservation List`)
+    useBodyAddClass(`Management-PAGE`)
 
     // Fetching Hooks
 
@@ -29,13 +29,13 @@ export default function ReservationList() {
         // Hooks for Tables
         const TBRes = {
             head: {
-                resId: "NO.",
-                name: "CUSTOMER",
-                reservationsType: "RES. TYPE",
-                date: "DATE",
-                time: "TIME",
-                partySize: "PARTY SIZE",
-                status: "STATUS",
+                resId: `NO.`,
+                name: `CUSTOMER`,
+                reservationsType: `RES. TYPE`,
+                date: `DATE`,
+                time: `TIME`,
+                partySize: `PARTY SIZE`,
+                status: `STATUS`,
             },
             rows: reservations.map((res) => ({
                 resId: res.id,
@@ -77,7 +77,6 @@ export default function ReservationList() {
                     </Box>
                 </Main>
             </Group>
-
             <Modal Modal={`edit-modal`}>
                 {selectedReservation && (
                     <Form Title={`Reservation`} FormThreelayers OnSubmit={updateReservationStatus}>

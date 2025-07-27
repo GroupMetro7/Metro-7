@@ -9,8 +9,10 @@ export default function useModifyOrderList(selectedOrder, fetchOrder) {
     refNumber: "",
     status: "",
   });
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(null)
 
   useEffect(() => {
     if (selectedOrder) {
@@ -37,21 +39,26 @@ export default function useModifyOrderList(selectedOrder, fetchOrder) {
         refNumber: formData.refNumber,
         status: formData.status,
       });
-      setSuccess("Order updated successfully!");
-      fetchOrder();
-    } catch (error) {
-      setSuccess(null);
-      setError(
-        error.response?.data?.message ||
-          "Failed to update order, please try again!"
-      );
-    }
+            setSuccess("Order updated successfully!")
+            document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
+            fetchOrder()
+    } 
+        catch (err) {
+            setError(
+                err.response?.data?.message || `Updating order failed, please try again.`
+            )
+            console.error(`Error updating order:`, err)
+        }
+        finally {
+            setIsLoading(false)
+        }
   };
 
   return {
     formData,
     setFormData,
     handleUpdateOrder,
+    isLoading,
     error,
     success,
   };

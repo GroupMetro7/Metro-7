@@ -31,8 +31,7 @@ export default function StaffOrderList() {
             handleInputChange, 
             isLoading, 
             error, 
-            success, 
-            today
+            success
         } = useUpdateOrders(selectedOrder, fetchOrder)
 
         // For Handling OCR via GCash
@@ -46,6 +45,7 @@ export default function StaffOrderList() {
             head: {
                 orderId: `NO.`,
                 name: `CUSTOMER`,
+                date: `DATE`,
                 amount: `AMOUNT`,
                 discount: `DISCOUNT`,
                 balance: `BALANCE`,
@@ -55,12 +55,13 @@ export default function StaffOrderList() {
             rows: orders.map((order) => ({
                 orderId: order.order_number,
                 name: order.name,
+                date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
                 amount: order.amount,
                 discount: order.discount,
                 balance: order.unpaid_balance <= 0 ? `Paid` : order.unpaid_balance,
                 option: order.option,
                 status: order.status,
-                edit: () => setSelectedOrder(order),
+                edit: () => setSelectedOrder(order)
             })),
         }
 
@@ -93,8 +94,8 @@ export default function StaffOrderList() {
                 { Title: `Reference Number`, Value: formData?.refNumber, Name: `refNumber`, OnChange: handleInputChange, OutCol: true, OutWhite: true }
             ],
             fourth: [
-                { Input: true, Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Name: `cashPayment`, Value: formData.partySize, OnChange: handleInputChange, InCol: true, InWhite: true },
-                { Input: true, Title: `Online Payment`, Type: `number`, ID: `o-payment-in`, Name: `onlinePayment`, Value: formData.date, MinDate: today, OnChange: handleInputChange, InCol: true, InWhite: true },
+                { Input: true, Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Name: `cashPayment`, Value: formData.cashPayment, OnChange: handleInputChange, InCol: true, InWhite: true },
+                { Input: true, Title: `Online Payment`, Type: `number`, ID: `o-payment-in`, Name: `onlinePayment`, Value: formData.onlinePayment, OnChange: handleInputChange, InCol: true, InWhite: true },
                 { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: formData.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,  
                     Options: [
                         { label: `Pending`, value: `Pending` },
