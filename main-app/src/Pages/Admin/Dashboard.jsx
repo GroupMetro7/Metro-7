@@ -138,7 +138,6 @@ export default function DashboardPage() {
             { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
         ]
 
-
     return (
         <>
             <Group>
