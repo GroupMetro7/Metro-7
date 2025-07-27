@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
+import usePagination from "../../Universal/pagination_function";
 
 export default function useReservationFunctions() {
     const [reservations, setReservations] = useState([]);
@@ -9,18 +10,26 @@ export default function useReservationFunctions() {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
 
+    const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
+    const [ filter, setFilter ] = useState("");
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSelectedReservation((prev) => ({ ...prev, [name]: value }));
     };
 
     useEffect(() => {
-        fetchReservation();
-    }, []);
+        fetchReservation(currentPage, filter);
+    }, [currentPage, filter]);
 
-    const fetchReservation = async () => {
-        const response = await axiosClient.get("/reservations");
-        setReservations(response.data);
+    const fetchReservation = async (page, filter) => {
+        let url = `/reservations?page=${page}`;
+        if (filter) {
+            url += `&search=${encodeURIComponent(filter)}`;
+        }
+        const response = await axiosClient.get(url);
+        setReservations(response.data.data);
+        setTotalPages(response.data.last_page);
     }
 
     const updateReservation = (res) => {
@@ -41,7 +50,7 @@ export default function useReservationFunctions() {
             setSuccess("Reservation updated successfully.")
             document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
             fetchReservation()
-        } 
+        }
         catch (err) {
             setError(
                 err.response?.data?.message || `Updating reservation failed, please try again.`
@@ -61,6 +70,10 @@ export default function useReservationFunctions() {
         handleInputChange,
         isLoading,
         error,
-        success
+        success,
+        currentPage,
+        totalPages,
+        handlePageChange,
+        setFilter,
     }
 }

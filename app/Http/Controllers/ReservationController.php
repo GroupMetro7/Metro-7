@@ -15,8 +15,15 @@ class ReservationController extends Controller
 {
 
     // Display all reservations in admin page and service
-    public function Reservations(){
-      $reservations = Reservation::with('user')->orderBy('created_at', 'desc')->get();
+    public function Reservations(Request $request){
+      $query = Reservation::with('user');
+
+    if ($request->has('search') && trim($request->search)) {
+      $search = trim($request->search);
+      $query->where('id', 'LIKE', "%{$search}%");
+    }
+
+    $reservations = $query->orderBy('created_at', 'desc')->paginate(10);
       return response()->json($reservations);
     }
 

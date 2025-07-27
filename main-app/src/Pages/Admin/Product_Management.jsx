@@ -24,7 +24,8 @@ export default function MenuManagementPage() {
     fetchMenu,
     setSearchItem,
     setSelectedCategory,
-    handlePageChange
+    handlePageChange,
+    setLookStatus
   } = useFetchOrder();
 
   //2. useAddCategory for adding categories
@@ -66,13 +67,14 @@ export default function MenuManagementPage() {
 
   // table headers and rows for displaying products
   const tbproductlist = {
-    head: ["Product Name", "category", "Price", "Cost", "Margin", "Status"],
+    head: ["Product Name", "category", "Price", "Cost", "Profit", "Margin %", "Status"],
     rows: menuProduct.map((product) => ({
       product_name: product.product_name,
       category: getCategoryName(product.category_id),
       price: product.price,
       cost: product.total_ingredient_cost.toFixed(2),
-      margin: product.calculated_margin.toFixed(2),
+      profit: product.calculated_margin.toFixed(2),
+      margin: ((product.price !== 0) ? ((product.calculated_margin / product.price) * 100).toFixed(2)  : "0") + "%",
       status: product.is_available ? "Available" : "Out of Stock",
       edit: () => editProduct(product),
       delete: () => editProduct(product),
@@ -107,7 +109,6 @@ export default function MenuManagementPage() {
               OnChange={(e) => setSearchItem(e.target.value)}
               Placeholder={"Search by Product Name"}
             />
-
           <Selectionbox
             Title="Category"
             Type="search"
@@ -118,7 +119,15 @@ export default function MenuManagementPage() {
             }))
             ]}
           />
-
+          <Selectionbox
+            Title="Status"
+            Type="search"
+            OnChange={(e) => setLookStatus(e.target.value)}
+            Options={[
+              { label: "Available", value: "1"},
+              { label: "Out of Stock", value: "0"},
+            ]}
+          />
           </Box>
           <Box
             Title="PRODUCT LIST"

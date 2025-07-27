@@ -107,7 +107,7 @@ export default function Test() {
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" OnChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for item" />
+                        <Inputbox Title="Search" OnChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for Item or Filter status" />
                         <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
                     </Box>
                 <Group Class="kpis">

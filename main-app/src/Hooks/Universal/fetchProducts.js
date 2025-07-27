@@ -10,20 +10,24 @@ export default function useFetchOrder() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchItem, setSearchItem] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [lookstatus, setLookStatus] = useState();
   const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
 
 
     useEffect(() => {
-    fetchMenu(currentPage, searchItem, selectedCategory);
-  }, [currentPage, searchItem, selectedCategory]);
+    fetchMenu(currentPage, searchItem, selectedCategory, lookstatus);
+  }, [currentPage, searchItem, selectedCategory, lookstatus]);
 
-  function fetchMenu(page, search, categoryId) {
+  function fetchMenu(page, search, categoryId, status) {
     let url = `/adminmenu?page=${page}`;
     if(search){
       url += `&search=${encodeURIComponent(search)}`;
     }
     if(categoryId){
       url += `&category_id=${(categoryId)}`;
+    }
+    if(status){
+      url += `&status=${encodeURIComponent(status)}`;
     }
 
       axiosClient.get(url).then(({ data }) => {
@@ -68,6 +72,7 @@ export default function useFetchOrder() {
     fetchCategories,
     setSearchItem,
     setSelectedCategory,
-    handlePageChange
+    handlePageChange,
+    setLookStatus
   };
 }

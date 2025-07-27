@@ -24,6 +24,10 @@ class ProductController extends Controller
       $query->where('category_id', $request->category_id);
     }
 
+    if($request->has('status') && $request->status !== '') {
+      $query->where('is_available', $request->status);
+    }
+
     $seeProduct = $query->paginate(10);
 
     // Attach pivot quantity to each ingredient

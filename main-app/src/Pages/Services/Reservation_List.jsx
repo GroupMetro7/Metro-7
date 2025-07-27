@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Services/Management.sass'
-import { Main, Group, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox } from '../../Exporter/Component_Exporter'
+import { Main, Group, Box, Inputbox, Table, Button, Modal, Form, Outputfetch, SubmitButton, Selectionbox, Pagination } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useOCRReceipt, useDateFormat, useTimeFormat, useReservationFunctions } from '../../Exporter/Hooks_Exporter'
 
 export default function ReservationList() {
@@ -21,6 +21,10 @@ export default function ReservationList() {
             isLoading,
             error,
             success,
+            currentPage,
+            totalPages,
+            handlePageChange,
+            setFilter
         } = useReservationFunctions()
 
     // UI Hooks
@@ -55,7 +59,7 @@ export default function ReservationList() {
             { Output: true, Title: `Name`, Value: `${selectedReservation?.user.firstname} ${selectedReservation?.user.lastname}`, OutCol: true, OutWhite: true },
             { Output: true, Title: `Date`, Value: `${useDateFormat(new Date(selectedReservation?.date))} | ${selectedReservation?.time}`, OutCol: true, OutWhite: true },
             { Output: true, Title: `Party Size`, Value: selectedReservation?.party_size, OutCol: true, OutWhite: true },
-            { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: selectedReservation?.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,  
+            { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: selectedReservation?.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,
                 Options: [
                     { label: `Pending`, value: `pending` },
                     { label: `Confirmed`, value: `confirmed` },
@@ -69,11 +73,11 @@ export default function ReservationList() {
             <Group>
                 <Main>
                     <Box Class={`search`}>
-                        <Inputbox Type={`search`} Title={`Search`} OnChange={``} Placeholder={`Search Reservation number`}/>
+            <Inputbox Title="Search" OnChange={(e)=> setFilter(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
                     </Box>
                     <Box Title={`RESERVATION`} BoxCol>
                         <Table HeadRows={TBRes.head} DataRows={TBRes.rows} EditBtn />
-                        {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} /> */}
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </Box>
                 </Main>
             </Group>
@@ -91,7 +95,7 @@ export default function ReservationList() {
                                         OutCol={Item.OutCol}
                                         OutWhite={Item.OutWhite}
                                     />
-                                || Item.Select && 
+                                || Item.Select &&
                                     <Selectionbox
                                         Title={Item.Title}
                                         ID={Item.ID}
