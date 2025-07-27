@@ -52,13 +52,13 @@ static::updated(function ($stockItem) {
       if ($stockItem->STOCK <= 0 && $stockItem->getOriginal('STOCK') > 0) {
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-          Mail::to($admin->email)->queue(new OutOfStockNotification($stockItem));
+          Mail::to($admin->email)->send(new OutOfStockNotification($stockItem));
         }
       } elseif ($stockItem->STOCK <= $warningThreshold && $stockItem->getOriginal('STOCK') > $warningThreshold) {
         // Notify admins about low stock
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-          Mail::to($admin->email)->queue(new LowOnStockAlert($stockItem));
+          Mail::to($admin->email)->send(new LowOnStockAlert($stockItem));
         }
       }
     });
