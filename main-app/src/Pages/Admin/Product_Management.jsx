@@ -19,12 +19,12 @@ export default function MenuManagementPage() {
     categories,
     ingredients,
     currentPage,
-    setCurrentPage,
     totalPages,
     fetchCategories,
     fetchMenu,
     setSearchItem,
     setSelectedCategory,
+    handlePageChange
   } = useFetchOrder();
 
   //2. useAddCategory for adding categories
@@ -58,10 +58,6 @@ export default function MenuManagementPage() {
     handleUpdateCategory,
   } = useAddCategory(fetchCategories);
 
-  // Function for handling page changes in pagination component
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   const getCategoryName = (id) => {
     const cat = categories.find((c) => c.id === id);
@@ -342,7 +338,7 @@ export default function MenuManagementPage() {
                     Name="sku"
                     Value={sku}
                     Options={ingredients.map((comp) => ({
-                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER}) - Current Stock : ${comp.STOCK}`,
+                      label: `${comp.COMPOSITE_NAME} (${comp.SKU_NUMBER}) - Current Stock : ${(comp.STOCK).toFixed(2)}`,
                       value: comp.SKU_NUMBER,
                     }))}
                     SltCol

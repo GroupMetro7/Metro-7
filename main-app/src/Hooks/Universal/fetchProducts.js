@@ -15,7 +15,7 @@ export default function useFetchOrder() {
 
     useEffect(() => {
     fetchMenu(currentPage, searchItem, selectedCategory);
-  }, [currentPage, searchItem, selectedCategory, totalPages]);
+  }, [currentPage, searchItem, selectedCategory]);
 
   function fetchMenu(page, search, categoryId) {
     let url = `/adminmenu?page=${page}`;
