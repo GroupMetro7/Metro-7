@@ -114,8 +114,10 @@ export default function Test() {
                 </Group>
                     <Box Title="INVENTORY" UpperRight={
                         <>
+                          <Group Class="buttonside">
                             <Button Title="+" OpenModal="add-modal" />
                             <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
+                          </Group>
                         </>
                     } BoxCol >
                         <Table HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />

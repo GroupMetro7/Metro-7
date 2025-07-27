@@ -8,10 +8,17 @@ export default function useFetchDashboardData() {
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
   const [mostSoldProduct, setMostSoldProduct] = useState(null);
   const [productRevenue, setProductRevenue] = useState([]);
-  const [ dailyOrders, setDailyOrders ] = useState([]);
+  const [dailyOrders, setDailyOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { currentPage, totalPages, setTotalPages, handlePageChange } = usePagination();
+  const { currentPage, totalPages, setTotalPages, handlePageChange } =
+    usePagination();
+
+  const ordersPagination = usePagination();
+  const revenuePagination = usePagination();
+
+  //filter variables
+  const [filterMonth, setFilterMonth] = useState("");
 
   // Fetching admin dashboard data (KPI, Monthly Revenue, Expenses, Stock Value, Most Sold Product)
 
@@ -32,27 +39,38 @@ export default function useFetchDashboardData() {
       });
   }, []);
 
-  useEffect(() => {
-    axiosClient
-      .get("/sales-product-revenue")
-      .then((data) => {
-        setProductRevenue(data.data);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  fetchRevenue(revenuePagination.currentPage, filterMonth);
+}, [revenuePagination.currentPage, filterMonth]);
 
-  useEffect(() => {
-    const fetchOrder = (page) => {
-      axiosClient.get(`/orders?page=${page}`).then(({ data }) => {
-        setOrders(data.data);
-        setTotalPages(data.last_page);
-      });
-    };
-    fetchOrder(currentPage);
-  }, [currentPage, totalPages]);
+const fetchRevenue = async (page, filterMonth) => {
+  let url = `/sales-product-revenue?page=${page}`;
+  if (filterMonth) {
+    url += `&month=${encodeURIComponent(filterMonth)}`;
+  }
+  try {
+    const response = await axiosClient.get(url);
+    setProductRevenue(response.data.data);
+    revenuePagination.setTotalPages(response.data.last_page);
+  } catch (error) {
+    setError(error);
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  const fetchOrder = async (page) => {
+    try {
+      const { data } = await axiosClient.get(`/orders?page=${page}`);
+      setOrders(data.data);
+      ordersPagination.setTotalPages(data.last_page);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+  fetchOrder(ordersPagination.currentPage);
+}, [ordersPagination.currentPage]);
 
   return {
     monthlyRevenue,
@@ -65,6 +83,8 @@ export default function useFetchDashboardData() {
     currentPage,
     productRevenue,
     dailyOrders,
-    handlePageChange
+    handlePageChange,
+    revenuePagination,
+    setFilterMonth
   };
 }

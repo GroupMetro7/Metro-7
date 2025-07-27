@@ -55,22 +55,30 @@ class RetrieveDataController extends Controller
     ]);
   }
 
-  public function salesProductRevenue()
-  {
-    try {
-      $salesData = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
-            ->whereHas('order', function ($query) {
-        $query->where('status', 'completed'); // Adjust this to match valid statuses in your system
+public function salesProductRevenue(Request $request)
+{
+  try {
+    $query = Ticket::selectRaw('product_id, product_name, DATE_FORMAT(created_at, "%M") as month, SUM(quantity * unit_price) as total_product_sales, SUM(quantity) as total_quantity_sold')
+      ->whereHas('order', function ($query) {
+        $query->where('status', 'completed');
       })
-        ->groupBy('product_id', 'product_name', 'month')
-        ->orderBy('total_product_sales', 'desc')
-        ->get();
+      ->groupBy('product_id', 'product_name', 'month');
 
-      return response()->json($salesData);
-    } catch (\Exception $e) {
-      return response()->json(['error' => $e->getMessage()], 500);
+    // Add month filter if needed
+    if ($request->has('month') && $request->month !== '') {
+      $query->havingRaw('month = ?', [$request->month]);
+    }else {
+      $query->havingRaw('month = ?', [now()->format('F')]);
     }
+
+    $salesData = $query->orderBy('total_product_sales', 'desc')
+      ->paginate(10);
+
+    return response()->json($salesData);
+  } catch (\Exception $e) {
+    return response()->json(['error' => $e->getMessage()], 500);
   }
+}
 
 
   public function index(Request $request)

@@ -18,6 +18,7 @@ import {
   Modal,
   Form,
   SubmitButton,
+  Pagination,
 } from "../../Exporter/Component_Exporter";
 import TopCategory from "../../Hooks/graphs/Top_Category";
 import SalesReport from "../../Hooks/graphs/Sales_Report";
@@ -37,8 +38,8 @@ export default function SalesPage() {
     dateRange,
     setDateRange,
   } = useExportCSV();
-  
-  const { monthlyRevenue, productRevenue } = useFetchData();
+
+  const { monthlyRevenue, productRevenue, revenuePagination, setFilterMonth } = useFetchData();
   const revpermonthhead = ["Year", "Month", "Revenue"];
   const revpermonthdata = monthlyRevenue.map((item) => [
     item.year,
@@ -78,13 +79,28 @@ export default function SalesPage() {
     },
   };
 
+    const monthOptions = [
+    { value: "", label: "Current" },
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
+    { value: "July", label: "July" },
+    { value: "August", label: "August" },
+    { value: "September", label: "September" },
+    { value: "October", label: "October" },
+    { value: "November", label: "November" },
+    { value: "December", label: "December" },
+  ];
 
   return (
     <>
       <Group>
         <Main Row>
           <Box Class="search">
-            <Selectionbox Title="Period" />
+            <Selectionbox Title="Period" Options={monthOptions} OnChange={(e) => setFilterMonth(e.target.value)} />
             <Inputbox Title="Date" Type="date" />
           </Box>
           <Section
@@ -102,6 +118,7 @@ export default function SalesPage() {
                 HeadRows={salesReport.display.head}
                 DataRows={salesReport.display.rows}
               />
+            <Pagination currentPage={revenuePagination.currentPage} totalPages={revenuePagination.totalPages} onPageChange={revenuePagination.handlePageChange} />
             </Box>
           </Section>
         </Main>
