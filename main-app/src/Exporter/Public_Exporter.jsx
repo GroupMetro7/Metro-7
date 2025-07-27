@@ -28,3 +28,5 @@ export { default as ViewLogo } from '/Icons/table/VIEW LOGO.png'
 export { default as EditLogo } from '/Icons/table/EDIT LOGO.png'
 export { default as DeleteLogo } from '/Icons/table/DELETE LOGO.png'
 export { default as CancelLogo } from '/Icons/table/CANCEL LOGO.png'
+
+export { default as GCashQR } from '/QR CODE.svg'

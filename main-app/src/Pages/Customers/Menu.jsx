@@ -2,6 +2,7 @@ import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Menu.sass'
 import { Main, Section, Group, Box, Inputbox, ItemMenu, Modal, Form, Outputfetch, InsertFileButton, Button, Radio, CheckedItem, SubmitButton, } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useRetrieveMenuList, useCreateOrders, useOCRReceipt, useClockText, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
+import { GCashQR } from '../../Exporter/Public_Exporter'
 
 export default function MenuPage() {
     // Basic Hooks
@@ -257,7 +258,7 @@ export default function MenuPage() {
                         <Group Class={`outputside qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
                             <Group {...(screenwidth < 767 && { Col: true })}>
-                                <img />
+                                <img src={ GCashQR } /> 
                                 <Group Col>
                                     <p>
                                         Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will
