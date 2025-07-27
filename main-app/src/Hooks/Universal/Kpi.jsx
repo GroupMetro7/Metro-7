@@ -37,6 +37,6 @@ const getInventoryKPI = async () => {
 }
 
 
-  return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, UnavailableItems, LowStockItems, AvailableItems };
+  return { monthlyRevenuee, monthlyStockExpense, stockValue, totalOrders, UnavailableItems, LowStockItems, AvailableItems, getInventoryKPI };
 
 }

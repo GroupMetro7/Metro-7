@@ -46,18 +46,19 @@ class StockManagement extends Model
       }
     });
 
-    static::updated(function ($stockItem) {
-      $warningThreshold = $model->warning_threshold ?? 5;
+static::updated(function ($stockItem) {
+      $warningThreshold = $stockItem->warning_threshold ?? 5;
+
       if ($stockItem->STOCK <= 0 && $stockItem->getOriginal('STOCK') > 0) {
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-          Mail::to($admin->email)->send(new OutOfStockNotification($stockItem));
+          Mail::to($admin->email)->queue(new OutOfStockNotification($stockItem));
         }
       } elseif ($stockItem->STOCK <= $warningThreshold && $stockItem->getOriginal('STOCK') > $warningThreshold) {
         // Notify admins about low stock
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-          Mail::to($admin->email)->send(new LowOnStockAlert($stockItem));
+          Mail::to($admin->email)->queue(new LowOnStockAlert($stockItem));
         }
       }
     });

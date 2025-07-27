@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axiosClient from "../../../axiosClient";
 
-export default function useModifyItem(fetchProducts) {
+export default function useModifyItem(fetchProducts, getInventoryKPI) {
   const [formData, setFormData] = useState({
     COMPOSITE_NAME: "",
     category_id: "",
@@ -62,6 +62,7 @@ export default function useModifyItem(fetchProducts) {
       const response = await axiosClient.put(`/products/${currentProductId}`, formData);
       setSuccess("Item successfully modified");
       fetchProducts();
+      getInventoryKPI();
     }catch (error) {
       console.error('Failed to modify Item:', error);
       setError("Failed to modify Item, please try again!");
