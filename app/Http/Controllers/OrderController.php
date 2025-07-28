@@ -239,4 +239,28 @@ class OrderController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function getMaxQuantity(Request $request) {
+    $productId = $request->input('product_id');
+    $currentCart = $request->input('cart', []);
+
+    $product = Product::with('ingredients')->find($productId);
+    if (!$product) {
+        return response()->json(['error' => 'Product not found'], 404);
+    }
+
+    $maxQuantity = $product->getMaxQuantityWithCart($currentCart);
+
+    return response()->json([
+        'product_id' => $productId,
+        'max_quantity' => $maxQuantity
+    ]);
+}
+
+public function validateOrder(Request $request) {
+    $orderItems = $request->input('items');
+    $validation = Product::validateOrderFeasibility($orderItems);
+
+    return response()->json($validation);
+}
 }

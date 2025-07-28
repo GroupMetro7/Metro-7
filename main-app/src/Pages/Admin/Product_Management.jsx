@@ -67,7 +67,7 @@ export default function MenuManagementPage() {
 
   // table headers and rows for displaying products
   const tbproductlist = {
-    head: ["Product Name", "category", "Price", "Cost", "Profit", "Margin %", "Status"],
+    head: ["Product Name", "category", "Price", "Cost", "Profit", "Margin %", "Status", "Quantity"],
     rows: menuProduct.map((product) => ({
       product_name: product.product_name,
       category: getCategoryName(product.category_id),
@@ -76,6 +76,7 @@ export default function MenuManagementPage() {
       profit: product.calculated_margin.toFixed(2),
       margin: ((product.price !== 0) ? ((product.calculated_margin / product.price) * 100).toFixed(2)  : "0") + "%",
       status: product.is_available ? "Available" : "Out of Stock",
+      quantity: product.quantity,
       edit: () => editProduct(product),
       delete: () => editProduct(product),
     }))
@@ -388,7 +389,7 @@ export default function MenuManagementPage() {
         </Form>
       </Modal>
       <Modal Modal="product-delete-modal">
-        <Form Title="DELETE PRODUCT" FormThreelayers OnSubmit={(e) => deleteItem(e, currentProductId)}>
+        <Form Title="DELETE PRODUCT" FormThreelayers OnSubmit={deleteProduct}>
           <Group Class="outputfetch" Wrap>
             <Outputfetch
               Title="Product ID"

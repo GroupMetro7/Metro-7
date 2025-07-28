@@ -120,6 +120,7 @@ class ProductController extends Controller
       }
     }
 
+    $product->updateEstimatedQuantity();
     return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);
   }
 

@@ -114,7 +114,7 @@ export default function MenuPage() {
                                         ))}
                                     </Group>
                                     <Group Class={`items`} Wrap>
-                                        <ItemMenu List={menulistdata} AuthenticatedMode={user?.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                                        <ItemMenu List={menulistdata} AuthenticatedMode={user?.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} CheckedOrders={checkedorders}/>
                                     </Group>
                                 </Group>
                             </Section>
@@ -135,7 +135,7 @@ export default function MenuPage() {
                                     <h5>{freeItemsRemaining} Free Items Remaining</h5>
                                 }
                                 <div className={`itemlist`}>
-                                    <CheckedItem List={checkedorders} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                                    <CheckedItem List={checkedorders} products={menulistdata} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
                                 </div>
                             </Group>
                             {checkedorders != 0 && (
@@ -258,7 +258,7 @@ export default function MenuPage() {
                         <Group Class={`outputside qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
                             <Group {...(screenwidth < 767 && { Col: true })}>
-                                <img src={ GCashQR } /> 
+                                <img src={ GCashQR } />
                                 <Group Col>
                                     <p>
                                         Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will

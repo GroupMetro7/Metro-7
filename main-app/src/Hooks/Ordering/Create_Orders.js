@@ -58,56 +58,82 @@ const totalCustomizableItems = currentOrder
   setFreeItemsRemaining(remainingFreeItems);
 };
 
-const addItemToOrder = (item) => {
-  setOrder(prev => {
-    let updatedOrder;
+const checkMaxQuantity = async (productId, currentCart) => {
+    try {
+        const response = await axiosClient.post('/create-order-max-quantity', {
+            product_id: productId,
+            cart: currentCart
+        });
 
+        return response.data.max_quantity;
+    } catch (error) {
+        console.error('Error checking max quantity:', error);
+        return 0;
+    }
+};
 
-      // Use the EXACT logic from Dashboard.jsx
-      const existingItem = prev.find((orderItem) => orderItem.id === item.id);
-      const existingFreeItem = prev.find((orderItem) => orderItem.id === item.id && orderItem.is_free_item === true);
-      const existingPaidItem = prev.find((orderItem) => orderItem.id === item.id && !orderItem.is_free_item);
+const addItemToOrder = async (item) => {
+    // Check max quantity before adding
+    const currentCart = order.map(orderItem => ({
+        product_id: orderItem.id,
+        quantity: orderItem.quantity
+    }));
 
-      if (item.is_customizable === 1) {
-        // Handle customizable items (buckets)
-        if (existingItem) {
-          updatedOrder = prev.map((orderItem) =>
-            orderItem.id === item.id
-              ? { ...orderItem, quantity: orderItem.quantity + 1 }
-              : orderItem
-          );
+    const maxQuantity = await checkMaxQuantity(item.id, currentCart);
+    const currentQuantity = order.find(orderItem => orderItem.id === item.id)?.quantity || 0;
+
+    if (currentQuantity >= maxQuantity) {
+        setError("Cannot add more items - insufficient ingredients");
+        return; // Stop execution if max quantity reached
+    }
+
+    setOrder(prev => {
+        let updatedOrder;
+
+        // Use the EXACT logic from Dashboard.jsx
+        const existingItem = prev.find((orderItem) => orderItem.id === item.id);
+        const existingFreeItem = prev.find((orderItem) => orderItem.id === item.id && orderItem.is_free_item === true);
+        const existingPaidItem = prev.find((orderItem) => orderItem.id === item.id && !orderItem.is_free_item);
+
+        if (item.is_customizable === 1) {
+            // Handle customizable items (buckets)
+            if (existingItem) {
+                updatedOrder = prev.map((orderItem) =>
+                    orderItem.id === item.id
+                        ? { ...orderItem, quantity: orderItem.quantity + 1 }
+                        : orderItem
+                );
+            } else {
+                updatedOrder = [...prev, { ...item, quantity: 1 }];
+            }
+        } else if (freeItemsRemaining > 0 && item.category_id === 3) {
+            // Add as free item
+            if (existingFreeItem) {
+                updatedOrder = prev.map((orderItem) =>
+                    orderItem.id === item.id && orderItem.is_free_item === true
+                        ? { ...orderItem, quantity: orderItem.quantity + 1 }
+                        : orderItem
+                );
+            } else {
+                updatedOrder = [...prev, { ...item, quantity: 1, price: 0, is_free_item: true }];
+            }
         } else {
-          updatedOrder = [...prev, { ...item, quantity: 1 }];
+            // Add as paid item (regular price)
+            if (existingPaidItem) {
+                updatedOrder = prev.map((orderItem) =>
+                    orderItem.id === item.id && !orderItem.is_free_item
+                        ? { ...orderItem, quantity: orderItem.quantity + 1 }
+                        : orderItem
+                );
+            } else {
+                updatedOrder = [...prev, { ...item, quantity: 1, is_free_item: false }];
+            }
         }
-      } else if (freeItemsRemaining > 0 && item.category_id === 3) {
-        // Add as free item
-        if (existingFreeItem) {
-          updatedOrder = prev.map((orderItem) =>
-            orderItem.id === item.id && orderItem.is_free_item === true
-              ? { ...orderItem, quantity: orderItem.quantity + 1 }
-              : orderItem
-          );
-        } else {
-          updatedOrder = [...prev, { ...item, quantity: 1, price: 0, is_free_item: true }];
-        }
-      } else {
-        // Add as paid item (regular price)
-        if (existingPaidItem) {
-          updatedOrder = prev.map((orderItem) =>
-            orderItem.id === item.id && !orderItem.is_free_item
-              ? { ...orderItem, quantity: orderItem.quantity + 1 }
-              : orderItem
-          );
-        } else {
-          updatedOrder = [...prev, { ...item, quantity: 1, is_free_item: false }];
-        }
-      }
 
-
-        calculateTotalPrice(updatedOrder)
-        updateFreeItemsRemaining(updatedOrder) // Always call this
-        return updatedOrder
-  });
+        calculateTotalPrice(updatedOrder);
+        updateFreeItemsRemaining(updatedOrder); // Always call this
+        return updatedOrder;
+    });
 };
 
 const removeItemToOrder = (itemId, isFreeItem = null) => {

@@ -46,7 +46,7 @@ class StockManagement extends Model
       }
     });
 
-static::updated(function ($stockItem) {
+    static::updated(function ($stockItem) {
       $warningThreshold = $stockItem->warning_threshold ?? 5;
 
       if ($stockItem->STOCK <= 0 && $stockItem->getOriginal('STOCK') > 0) {
@@ -61,6 +61,9 @@ static::updated(function ($stockItem) {
           Mail::to($admin->email)->send(new LowOnStockAlert($stockItem));
         }
       }
+      $stockItem->products()->each(function ($product) {
+        $product->updateEstimatedQuantity();
+      });
     });
 
     static::saved(function ($model) {
