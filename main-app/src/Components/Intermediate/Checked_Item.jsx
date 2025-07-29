@@ -2,23 +2,10 @@ import React, { useState, useEffect } from 'react'
 import '../../Assets/CSS/Components/Checked_Item.sass'
 import { Button } from '../../Exporter/Component_Exporter'
 import axiosClient from "../../axiosClient"
+import useCheckMaxQuantities from '../../Hooks/Ordering/checkMaxQuantities';
 
 export default function CheckedItem({ Class, List, AddItem, RemoveItem, products }) {
-    const [maxQuantities, setMaxQuantities] = useState({})
-
-    // Function to check max quantity for a specific product
-    const checkMaxQuantity = async (productId, currentCart) => {
-        try {
-            const response = await axiosClient.post('/create-order-max-quantity', {
-                product_id: productId,
-                cart: currentCart
-            });
-            return response.data.max_quantity;
-        } catch (error) {
-            console.error('Error checking max quantity:', error);
-            return 0;
-        }
-    };
+    const { maxQuantities, setMaxQuantities, checkMaxQuantity } = useCheckMaxQuantities();
 
     // Update max quantities when list changes
     useEffect(() => {

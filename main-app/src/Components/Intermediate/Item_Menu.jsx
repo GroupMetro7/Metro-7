@@ -2,24 +2,12 @@ import React, { useState, useEffect } from 'react'
 import '../../Assets/CSS/Components/Item_Menu.sass'
 import { ScreenWidth, Button } from '../../Exporter/Component_Exporter'
 import axiosClient from "../../axiosClient"
+import useCheckMaxQuantities from '../../Hooks/Ordering/checkMaxQuantities'
 
 export default function ItemMenu({ Class, List, AuthenticatedMode, ServiceMode, AddItem, RemoveItem, CheckedOrders = [] }) {
     const screenwidth = ScreenWidth()
-    const [maxQuantities, setMaxQuantities] = useState({})
+    const { maxQuantities, setMaxQuantities, checkMaxQuantity } = useCheckMaxQuantities();
 
-    // Function to check max quantity for a specific product
-    const checkMaxQuantity = async (productId, currentCart) => {
-        try {
-            const response = await axiosClient.post('/create-order-max-quantity', {
-                product_id: productId,
-                cart: currentCart
-            });
-            return response.data.max_quantity;
-        } catch (error) {
-            console.error('Error checking max quantity:', error);
-            return 0;
-        }
-    };
 
     // Update max quantities when checked orders change
     useEffect(() => {

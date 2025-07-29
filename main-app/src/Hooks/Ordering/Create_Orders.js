@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import axiosClient from "../../axiosClient"
+import useCheckMaxQuantities from './checkMaxQuantities'
 
 export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
     const [order, setOrder] = useState([])
@@ -20,6 +21,8 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
     const [mealStub, setMealStub] = useState("")
     const [discount, setDiscount] = useState(0)
     const [freeItemsRemaining, setFreeItemsRemaining] = useState(0)
+
+    const { checkMaxQuantity } = useCheckMaxQuantities();
 
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -58,45 +61,27 @@ const totalCustomizableItems = currentOrder
   setFreeItemsRemaining(remainingFreeItems);
 };
 
-const checkMaxQuantity = async (productId, currentCart) => {
-    try {
-        const response = await axiosClient.post('/create-order-max-quantity', {
-            product_id: productId,
-            cart: currentCart
-        });
 
-        return response.data.max_quantity;
-    } catch (error) {
-        console.error('Error checking max quantity:', error);
-        return 0;
-    }
-};
-
+const [addingItem, setAddingItem] = useState(false);
 const addItemToOrder = async (item) => {
-    // Check max quantity before adding
-    const currentCart = order.map(orderItem => ({
-        product_id: orderItem.id,
-        quantity: orderItem.quantity
-    }));
+      if (addingItem) return;
 
-    const maxQuantity = await checkMaxQuantity(item.id, currentCart);
-    const currentQuantity = order.find(orderItem => orderItem.id === item.id)?.quantity || 0;
+    setAddingItem(true);
+    // const currentQuantity = order.find(orderItem => orderItem.id === item.id)?.quantity || 0;
 
-    if (currentQuantity >= maxQuantity) {
-        setError("Cannot add more items - insufficient ingredients");
-        return; // Stop execution if max quantity reached
-    }
+    // // Simple check: if we already have 10+ of this item, probably hit the limit
+    // if (currentQuantity >= 10) {
+    //     setError("Cannot add more items - maximum quantity reached");
+    //     return;
+    // }
 
     setOrder(prev => {
         let updatedOrder;
-
-        // Use the EXACT logic from Dashboard.jsx
         const existingItem = prev.find((orderItem) => orderItem.id === item.id);
         const existingFreeItem = prev.find((orderItem) => orderItem.id === item.id && orderItem.is_free_item === true);
         const existingPaidItem = prev.find((orderItem) => orderItem.id === item.id && !orderItem.is_free_item);
 
         if (item.is_customizable === 1) {
-            // Handle customizable items (buckets)
             if (existingItem) {
                 updatedOrder = prev.map((orderItem) =>
                     orderItem.id === item.id
@@ -131,9 +116,12 @@ const addItemToOrder = async (item) => {
         }
 
         calculateTotalPrice(updatedOrder);
-        updateFreeItemsRemaining(updatedOrder); // Always call this
+        updateFreeItemsRemaining(updatedOrder);
         return updatedOrder;
     });
+
+    await new Promise(resolve => setTimeout(resolve, 750));
+    setAddingItem(false);
 };
 
 const removeItemToOrder = (itemId, isFreeItem = null) => {
@@ -141,28 +129,26 @@ const removeItemToOrder = (itemId, isFreeItem = null) => {
     let updatedOrder;
 
     if (isFreeItem !== null) {
-      // When called with specific free item status
       updatedOrder = prev
         .map((orderItem) => {
           if (orderItem.id === itemId && (orderItem.is_free_item || false) === isFreeItem) {
             if (orderItem.quantity > 1) {
               return { ...orderItem, quantity: orderItem.quantity - 1 };
             } else {
-              return null; // Remove item completely
+              return null;
             }
           }
           return orderItem;
         })
         .filter((orderItem) => orderItem !== null);
     } else {
-      // When called with just itemId (backward compatibility)
       updatedOrder = prev
         .map((orderItem) => {
           if (orderItem.id === itemId) {
             if (orderItem.quantity > 1) {
               return { ...orderItem, quantity: orderItem.quantity - 1 };
             } else {
-              return null; // Remove item completely
+              return null;
             }
           }
           return orderItem;

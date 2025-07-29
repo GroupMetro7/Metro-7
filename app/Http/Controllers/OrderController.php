@@ -240,20 +240,21 @@ class OrderController extends Controller
         }
     }
 
-    public function getMaxQuantity(Request $request) {
-    $productId = $request->input('product_id');
+public function getMaxQuantities(Request $request) {
+    $productIds = $request->input('product_ids', []);
     $currentCart = $request->input('cart', []);
 
-    $product = Product::with('ingredients')->find($productId);
-    if (!$product) {
-        return response()->json(['error' => 'Product not found'], 404);
+    $maxQuantities = [];
+
+    foreach ($productIds as $productId) {
+        $product = Product::with('ingredients')->find($productId);
+        if ($product) {
+            $maxQuantities[$productId] = $product->getMaxQuantityWithCart($currentCart);
+        }
     }
 
-    $maxQuantity = $product->getMaxQuantityWithCart($currentCart);
-
     return response()->json([
-        'product_id' => $productId,
-        'max_quantity' => $maxQuantity
+        'max_quantities' => $maxQuantities
     ]);
 }
 
