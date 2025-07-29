@@ -131,8 +131,6 @@ const addItemToOrder = async (item) => {
         updateFreeItemsRemaining(updatedOrder);
         return updatedOrder;
     });
-
-    await new Promise(resolve => setTimeout(resolve, 500));
     setAddingItem(false);
 };
 

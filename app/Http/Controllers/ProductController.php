@@ -69,7 +69,7 @@ class ProductController extends Controller
       'product_name' => 'required|string|max:255',
       'price' => 'required|numeric',
       'description' => 'nullable|string',
-      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
       'category_id' => 'required|string',
     ]);
 
