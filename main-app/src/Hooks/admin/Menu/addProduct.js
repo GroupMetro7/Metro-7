@@ -42,19 +42,24 @@ export default function useAddProduct(fetchMenu) {
 
   //function for adding product
 
-  const handleAddProduct = async (e) => {
+const handleAddProduct = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
 
+    console.log('Form Data:', formData);
+    console.log('Selects:', selects);
+
     // Prepare FormData for file upload
     const data = new FormData();
     data.append("product_name", formData.product_name);
-    data.append("description", formData.description);
+    data.append("description", formData.description || "");
     data.append("price", formData.price);
-  if (formData.image) {
-    data.append("image", formData.image);
-  }
+
+    if (formData.image_url) {
+        data.append("image", formData.image_url);
+    }
+
     data.append("category_id", formData.category_id);
 
     // Only include ingredients with both sku and quantity
@@ -66,20 +71,39 @@ export default function useAddProduct(fetchMenu) {
       }));
     data.append("ingredients", JSON.stringify(ingredientsToSend));
 
+    // Debug: Log what's being sent
+    console.log('Ingredients to send:', ingredientsToSend);
+    for (let pair of data.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
     try {
-      await axiosClient.post("/menu", data);
+      const response = await axiosClient.post("/menu", data, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
       setSuccess("Product added successfully");
       fetchMenu([]);
       setFormData({
         product_name: "",
         description: "",
         price: "",
-        image: null,
+        image_url: null,
         category_id: "",
       });
       setSelects([{ sku: "", quantity: "" }]);
     } catch (err) {
-      setError("Failed to add product, please try again.");
+      console.error('Full error object:', err);
+      console.error('Error response:', err.response);
+      console.error('Error response data:', err.response?.data);
+
+      // Display specific validation errors if available
+      if (err.response?.data?.errors) {
+        const validationErrors = Object.values(err.response.data.errors).flat();
+        setError(validationErrors.join(', '));
+        console.error('Validation errors:', validationErrors);
+      } else {
+        setError(err.response?.data?.message || "Failed to add product, please try again.");
+      }
     }
   };
 

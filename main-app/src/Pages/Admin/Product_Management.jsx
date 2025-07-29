@@ -181,14 +181,14 @@ export default function MenuManagementPage() {
               </Group>
             ))}
           <Group Class="imageside">
-            {formData.image && (
-              <img src={URL.createObjectURL(formData.image)} alt="" />
+            {formData.image_url && (
+              <img src={URL.createObjectURL(formData.image_url)} alt="" />
             )}
             <InsertFileButton
               Title="ADD PICTURE"
               BtnWhite
               Accept={"image/*"}
-              Name="image"
+              Name="image_url"
               OnChange={handleInputChange}
             />
           </Group>
@@ -305,7 +305,7 @@ export default function MenuManagementPage() {
               Title="ADD PICTURE"
               BtnWhite
               Accept={"image/*"}
-              Name="image"
+              Name="image_url"
               OnChange={handleInputChange}
             />
           </Group>
