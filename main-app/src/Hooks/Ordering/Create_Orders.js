@@ -22,7 +22,7 @@ export default function useCreateOrders({ AuthenticatedMode, ServiceMode }) {
     const [discount, setDiscount] = useState(0)
     const [freeItemsRemaining, setFreeItemsRemaining] = useState(0)
 
-    const { checkMaxQuantity } = useCheckMaxQuantities();
+    const { checkMaxQuantity, maxQuantities } = useCheckMaxQuantities();
 
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -63,17 +63,29 @@ const totalCustomizableItems = currentOrder
 
 
 const [addingItem, setAddingItem] = useState(false);
+
 const addItemToOrder = async (item) => {
       if (addingItem) return;
 
     setAddingItem(true);
-    // const currentQuantity = order.find(orderItem => orderItem.id === item.id)?.quantity || 0;
+    const checkedItem = order.find(orderItem => orderItem.id === item.id);
+    const currentQuantity = checkedItem ? checkedItem.quantity : 0;
+    const currentCart = order.map(orderItem => ({
+        product_id: orderItem.id,
+        quantity: orderItem.quantity
+    }));
 
-    // // Simple check: if we already have 10+ of this item, probably hit the limit
-    // if (currentQuantity >= 10) {
-    //     setError("Cannot add more items - maximum quantity reached");
-    //     return;
-    // }
+    const maxQuantity = await checkMaxQuantity(item.id, currentCart);
+
+    // Check if adding one more would exceed the maximum
+    const newQuantity = currentQuantity + 1;
+    const isMaxQuantityReached = newQuantity > maxQuantity;
+
+    if (isMaxQuantityReached && maxQuantity > 0) {
+        setError(`Cannot add more items - maximum quantity (${maxQuantity}) reached`);
+        setAddingItem(false);
+        return;
+    }
 
     setOrder(prev => {
         let updatedOrder;
@@ -120,7 +132,7 @@ const addItemToOrder = async (item) => {
         return updatedOrder;
     });
 
-    await new Promise(resolve => setTimeout(resolve, 750));
+    await new Promise(resolve => setTimeout(resolve, 500));
     setAddingItem(false);
 };
 

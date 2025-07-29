@@ -46,7 +46,7 @@ export default function CheckedItem({ Class, List, AddItem, RemoveItem, products
                                 <h4>₱{Menu.price}</h4>
                                 <h5>
                                     Stock: {isMaxReached
-                                        ? "Maxed (Ingredients Limited)"
+                                        ? "Maxed"
                                         : `${maxQuantity - Menu.quantity} more available`
                                     }
                                 </h5>
