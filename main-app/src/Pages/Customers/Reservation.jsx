@@ -1,6 +1,5 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Customers/Reservation.sass'
-import '../../Assets/CSS/forCalendar/calendar_styling.css'
 import { Main, Section, Form, Group, Inputbox, SubmitButton, Selectionbox, Button } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useCreateReservation } from '../../Exporter/Hooks_Exporter'
 import ReservationCalendar from '../../Hooks/customer/calendar/calendar_component'

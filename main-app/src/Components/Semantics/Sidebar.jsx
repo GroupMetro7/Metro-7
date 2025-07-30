@@ -44,12 +44,12 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
                     )} */}
                     { ServiceMode && 
                         navitems.filter( item => item.ServiceItem ).sort((item1, item2) => item1.ServiceItem - item2.ServiceItem).map(( item, index ) => (
-                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } Redirect={ item.Redirect && `/service${item.Redirect}` } Onclick={ item.Onclick } />
+                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } IconBadge={ item.IconBadge } Redirect={ item.Redirect && `/service${item.Redirect}` } Onclick={ item.Onclick } />
                         )) 
                     ||
                     AdminMode && 
                         navitems.filter( item => item.AdminItem ).sort((item1, item2) => item1.AdminItem - item2.AdminItem).map(( item, index ) => (
-                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } Redirect={ item.Redirect && `/admin${item.Redirect}` } Onclick={ item.Onclick } />
+                            <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } IconBadge={ item.IconBadge } Redirect={ item.Redirect && `/admin${item.Redirect}` } Onclick={ item.Onclick } />
                         )) 
                     }
                     {/* {showScrollButtons && (

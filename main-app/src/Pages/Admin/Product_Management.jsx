@@ -181,9 +181,10 @@ export default function MenuManagementPage() {
               </Group>
             ))}
           <Group Class="imageside">
-            {formData.image_url && (
+            {formData.image_url ?
               <img src={URL.createObjectURL(formData.image_url)} alt="" />
-            )}
+              : <div />
+            }
             <InsertFileButton
               Title="ADD PICTURE"
               BtnWhite
@@ -261,7 +262,7 @@ export default function MenuManagementPage() {
                     }
                   />
                   <Outputfetch
-                    Value={ingredients.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY || 'N/A'}
+                    Value={ingredients?.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY}
                     OutCol
                     OutWhite
                   />
@@ -298,9 +299,10 @@ export default function MenuManagementPage() {
               </Group>
             ))}
           <Group Class="imageside">
-            {formData.image_url && (
-              <img src={formData.image_url} alt="Product" />
-            )}
+            {formData.image_url ?
+              <img src={URL.createObjectURL(formData.image_url)} alt="" />
+              : <div />
+            }
             <InsertFileButton
               Title="ADD PICTURE"
               BtnWhite
@@ -368,7 +370,7 @@ export default function MenuManagementPage() {
                     }
                   />
                   <Outputfetch
-                    Value={ingredients.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY || 'N/A'}
+                    Value={ingredients?.find((ing) => ing.SKU_NUMBER === sku)?.SOLD_BY}
                     OutCol
                     OutWhite
                   />
