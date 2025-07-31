@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import axiosClient from "../../axiosClient"
+import { useStateContext } from '../../contexts/ContextProvider'
 
 export default function useUpdateOrders( selectedOrder, fetchOrder ) {
     const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ export default function useUpdateOrders( selectedOrder, fetchOrder ) {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
+
+    const { getPendingOrdersCount } = useStateContext();
 
     useEffect(() => {
         if (selectedOrder) {
@@ -47,7 +50,8 @@ export default function useUpdateOrders( selectedOrder, fetchOrder ) {
             })
             setSuccess("Order updated successfully!")
             document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
-            fetchOrder()
+            fetchOrder();
+            getPendingOrdersCount();
         }
         catch (err) {
             setError(

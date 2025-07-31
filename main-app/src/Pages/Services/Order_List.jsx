@@ -25,13 +25,13 @@ export default function StaffOrderList() {
         } = useRetrieveOrdersList()
 
         // For Retrieving & Modifying Selected Order
-        const { 
-            formData, 
-            setFormData, 
-            handleSubmit, 
-            handleInputChange, 
-            isLoading, 
-            error, 
+        const {
+            formData,
+            setFormData,
+            handleSubmit,
+            handleInputChange,
+            isLoading,
+            error,
             success
         } = useUpdateOrders(selectedOrder, fetchOrder)
 
@@ -97,7 +97,7 @@ export default function StaffOrderList() {
             fourth: [
                 { Input: true, Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Name: `cashPayment`, Value: formData.cashPayment, OnChange: handleInputChange, InCol: true, InWhite: true },
                 { Input: true, Title: `Online Payment`, Type: `number`, ID: `o-payment-in`, Name: `onlinePayment`, Value: formData.onlinePayment, OnChange: handleInputChange, InCol: true, InWhite: true },
-                { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: formData.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,  
+                { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: formData.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,
                     Options: [
                         { label: `Pending`, value: `Pending` },
                         { label: `Completed`, value: `Completed` },
@@ -122,7 +122,7 @@ export default function StaffOrderList() {
 
             {/* Modal to display tickets for the selected order */}
             <Modal Modal={`edit-modal`} onClose={() => setSelectedOrder(null)}>
-                {selectedOrder && 
+                {selectedOrder &&
                     <Form Title={`EDIT ORDER`} FormThreelayers OnSubmit={handleSubmit}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}

@@ -4,13 +4,13 @@ import '../../Assets/CSS/Components/Href.sass'
 
 export default function Href({ ID, Class, Title, Icon, Redirect, Onclick, OpenModal, CloseModal, DropDown, Scroll, IconBadge, HrefWhite }) {
     return(
-        Redirect ? 
+        Redirect ?
             <Link id={ ID } className={ `${HrefWhite && `hrefwhite` } ${Class}` }
                 to={ Redirect }>
                 { Icon && <div><img src={ Icon }/>{ IconBadge && <div className={`badge`}>{ IconBadge }</div>}</div> }
                 { Title }
             </Link>
-        : 
+        :
             <a id={ ID } className={ `${HrefWhite && `hrefwhite` } ${Class}` }
                 href={ `#${ Scroll }` }
                 onClick={ Onclick }

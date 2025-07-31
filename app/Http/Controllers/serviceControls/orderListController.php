@@ -5,6 +5,7 @@ namespace App\Http\Controllers\serviceControls;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Reservation;
 use App\Models\StockLog;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
@@ -83,5 +84,16 @@ private function processStockDeductionRaw($orderId, $tickets)
                 ]);
         }
     }
+}
+
+public function getPendingOrder()
+{
+  $getPendingOrder = Order::where('status', 'pending')->count();
+  $getPendingRes = Reservation::where('status', 'pending')->count();
+
+  return response()->json([
+    'pending_orders' => $getPendingOrder,
+    'pending_res' => $getPendingRes
+  ]);
 }
 }

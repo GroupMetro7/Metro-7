@@ -2,14 +2,17 @@ import React, { useRef, useEffect, useState } from 'react'
 import '../../Assets/CSS/Components/Sidebar.sass'
 import { Href, SideBarWeight } from '../../Exporter/Component_Exporter'
 import { M7Logo, DashboardLogo, OrderlistLogo, ProfileLogo, SalesLogo, InventoryLogo, EmployeeLogo, CustomerLogo, LogoutLogo, OrderhistoryLogo, ActivityLogsLogo } from '../../Exporter/Public_Exporter'
+import { useStateContext } from '../../contexts/ContextProvider'
 
 export default function SideBar({ ServiceMode, AdminMode, Logout }) {
     SideBarWeight()
 
+    const { badgeCount, badgeCountRes } = useStateContext();
+
     const navitems = [
         { ServiceItem: 1, AdminItem: 1, Title: `Dashboard`, Icon: DashboardLogo, Redirect: `/` },
-        { ServiceItem: 2, AdminItem: 4, Title: `Order List`, Icon: OrderlistLogo, Redirect: `/orderlist` },
-        { ServiceItem: 3, AdminItem: 5, Title: `Res. List`, Icon: OrderlistLogo, Redirect: `/reservationlist` },
+        { ServiceItem: 2, AdminItem: 4, Title: `Order List`, Icon: OrderlistLogo, Redirect: `/orderlist`, IconBadge: badgeCount > 0 ? badgeCount : null },
+        { ServiceItem: 3, AdminItem: 5, Title: `Res. List`, Icon: OrderlistLogo, Redirect: `/reservationlist`, IconBadge: badgeCountRes > 0 ? badgeCountRes : null },
         { ServiceItem: 4, AdminItem: 6, Title: `Order History`, Icon: OrderhistoryLogo, Redirect: `/order_history` },
 
         { ServiceItem: 5, Title: `Profile`, Icon: ProfileLogo, Redirect: `/profile` },
@@ -42,15 +45,15 @@ export default function SideBar({ ServiceMode, AdminMode, Logout }) {
                     {/* { showScrollButtons && (
                         <Href Title={ <span>Previous</span> } Icon={ PrevLogo } Onclick={handlePrev} />
                     )} */}
-                    { ServiceMode && 
+                    { ServiceMode &&
                         navitems.filter( item => item.ServiceItem ).sort((item1, item2) => item1.ServiceItem - item2.ServiceItem).map(( item, index ) => (
                             <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } IconBadge={ item.IconBadge } Redirect={ item.Redirect && `/service${item.Redirect}` } Onclick={ item.Onclick } />
-                        )) 
+                        ))
                     ||
-                    AdminMode && 
+                    AdminMode &&
                         navitems.filter( item => item.AdminItem ).sort((item1, item2) => item1.AdminItem - item2.AdminItem).map(( item, index ) => (
                             <Href key={ index } Title={ <span>{ item.Title }</span> } Icon={ item.Icon } IconBadge={ item.IconBadge } Redirect={ item.Redirect && `/admin${item.Redirect}` } Onclick={ item.Onclick } />
-                        )) 
+                        ))
                     }
                     {/* {showScrollButtons && (
                         <Href Title={ <span>Next</span> } Icon={ NextLogo } Onclick={handleNext} />

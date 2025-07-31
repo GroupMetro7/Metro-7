@@ -50,7 +50,6 @@ Route::get('/employees', [AuthController::class, 'index']);
 Route::get('/customers', [AuthController::class, 'index_customer']);
 
 // products operations
-// Route::get('/menu', [ProductController::class, 'index']);
 Route::get('/adminmenu', [ProductController::class, 'adminindex']);
 Route::post('/menu', [ProductController::class, 'store']);
 Route::put('/menu/{id}', [ProductController::class, 'update']);
@@ -108,3 +107,6 @@ Route::get('/FetchAIData', [RetrieveDataController::class, 'getTicketsData']);
 
 //export files
 Route::get('/export-logs', [ExportCSV::class, 'exportCSV']);
+
+//badge notifcation
+Route::get('/badge-notification', [orderListController::class, 'getPendingOrder']);
