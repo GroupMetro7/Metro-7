@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmedResrvation;
 use App\Mail\ReservationEmail;
 use App\Models\Order;
 use App\Models\Reservation;
@@ -29,8 +30,6 @@ class ReservationController extends Controller
 
     //update the status of a reservation by admin or service
 public function updateReservationStatus(Request $request, $id){
-    Log::info("Update reservation status called", ['user_id' => Auth::id(), 'reservation_id' => $id, 'request' => $request->all()]);
-
     $user = Auth::user();
     if (!$user) {
         Log::warning("Unauthorized access attempt", ['reservation_id' => $id]);
@@ -51,8 +50,8 @@ public function updateReservationStatus(Request $request, $id){
         $reservation->status = $validated['status'];
     }
     $reservation->save();
+    Mail::to($reservation->user->email)->send(new ConfirmedResrvation($reservation->user, $reservation));
 
-    Log::info("Reservation status updated successfully", ['reservation_id' => $id, 'status' => $reservation->status]);
     return response()->json(['message' => 'Status updated', 'reservation' => $reservation]);
 }
 
