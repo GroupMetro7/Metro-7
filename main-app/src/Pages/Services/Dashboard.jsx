@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../../Assets/CSS/Pages/Services/Dashboard.sass'
 import { Main, Section, Form, Group, Inputbox, Button, Box, ItemMenu, Radio, CheckedItem, Modal, Outputfetch, SubmitButton } from '../../Exporter/Component_Exporter'
 import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useRetrieveMenuList, useCreateOrders, useDateFormat, useTimeFormat } from '../../Exporter/Hooks_Exporter'
@@ -10,7 +10,6 @@ export default function StaffDashboard() {
     useBodyAddClass(`Dashboard-Service-PAGE`)
 
     // Fetching Hooks
-
         // For Menu List
         const {
             menuItems,
@@ -45,6 +44,7 @@ export default function StaffDashboard() {
             success,
         } = useCreateOrders({ ServiceMode: !!user.id })
 
+        
     // UI Hooks
     const screenwidth = useScreenWidth()
 

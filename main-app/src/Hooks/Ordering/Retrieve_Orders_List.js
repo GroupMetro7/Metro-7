@@ -57,7 +57,6 @@ export default function useRetrieveOrdersList() {
         fetchOrder(currentPage, searchItem)
         fetchIngredients()
         fetchCategories()
-
         intervalRef.current = setInterval(() => {
             fetchOrder(currentPage, searchItem)
         }, 10000)

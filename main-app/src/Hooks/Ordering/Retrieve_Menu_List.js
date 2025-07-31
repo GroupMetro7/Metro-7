@@ -11,6 +11,7 @@ export default function useRetrieveMenuList() {
 
     const intervalRef = useRef([]);
 
+
     // Retrieve Categories
     const fetchCategories = () => {
         axiosClient.get(`/categories`).then((res) => {
@@ -29,7 +30,7 @@ export default function useRetrieveMenuList() {
             .then(res => setMenuItems(res.data))
             .catch(err => console.error(`Error fetching menu data:`, err))
     }
-    
+
     useEffect(() => {
         fetchCategories()
         fetchMenuData(selectedCategory, searchItem)

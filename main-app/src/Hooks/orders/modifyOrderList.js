@@ -20,7 +20,7 @@ export default function useModifyOrderList(selectedOrder, fetchOrder) {
         cashPayment: selectedOrder.cashPayment ?? "",
         onlinePayment: selectedOrder.onlinePayment ?? "",
         downpayment: selectedOrder.downpayment ?? "",
-        refNumber: selectedOrder.refNumber ?? "",
+        refNumber: selectedOrder.reference_Number ?? "",
         status: selectedOrder.status ?? "",
       });
     }
@@ -42,7 +42,7 @@ export default function useModifyOrderList(selectedOrder, fetchOrder) {
             setSuccess("Order updated successfully!")
             document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
             fetchOrder()
-    } 
+    }
         catch (err) {
             setError(
                 err.response?.data?.message || `Updating order failed, please try again.`

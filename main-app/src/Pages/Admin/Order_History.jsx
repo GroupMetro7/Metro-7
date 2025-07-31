@@ -203,7 +203,7 @@ export default function StaffOrderList() {
                 Title="Down Payment Price"
                 Name="downpayment"
                 Value={"₱" + formData.downpayment}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
@@ -211,7 +211,7 @@ export default function StaffOrderList() {
                 Title="Reference Number"
                 Name="refNumber"
                 Value={formData.refNumber}
-                onChange={handleInputChange}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
@@ -225,26 +225,7 @@ export default function StaffOrderList() {
                 SltWhite
               />
             </Group>
-            <Group Class="outputfetch" Col>
-              <Outputfetch Title="QR Code" OutWhite />
-              <Group>
-                <img />
-                <Group Col>
-                  <p>
-                    Please pay a 50% DOWNPAYMENT. Orders without a payment
-                    receipt will remain pending. Failure to pay on time will
-                    result in cancellation.
-                  </p>
-                  <InsertFileButton
-                    Title="ADD OCR PICTURE"
-                    BtnWhite
-                    Accept={"image/*"}
-                    Name="image"
-                    OnChange={handleReceiptUpload}
-                  />
-                </Group>
-              </Group>
-            </Group>
+
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />

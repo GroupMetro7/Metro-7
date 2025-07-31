@@ -117,7 +117,7 @@ export default function DashboardPage() {
                 { Title: `Total Price`, Value: `₱${Number(selectedOrder?.amount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
                 { Title: `Discount`, Value: `₱${Number(selectedOrder?.discount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
                 { Title: `Down Payment Price`, Value: `₱${Number(formData?.downpayment || 0).toFixed(2)}`, Name: `downpayment`, OnChange: handleInputChange, OutCol: true, OutWhite: true },
-                { Title: `Reference Number`, Value: selectedOrder.reference_Number || formData?.refNumber, Name: `refNumber`, OnChange: handleInputChange, OutCol: true, OutWhite: true }
+                { Title: `Reference Number`, Value: formData.refNumber || formData?.refNumber, Name: `refNumber`, OnChange: handleInputChange, OutCol: true, OutWhite: true }
             ],
             fourth: [
                 { Input: true, Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Name: `cashPayment`, Value: formData.cashPayment, OnChange: handleInputChange, InCol: true, InWhite: true },
