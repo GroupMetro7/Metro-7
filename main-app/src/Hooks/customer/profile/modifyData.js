@@ -8,11 +8,14 @@ export default function useModifyData(fetchData) {
     lastname: "",
     email: "",
     contact: "",
+    refNumber: ""
   });
   const { user, setUser } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOrder, setSelectedOrder ] = useState(null);
   const [selectedReservation, setSelectedReservation] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const editData = (res) => {
     setSelectedReservation(res);
@@ -80,6 +83,18 @@ export default function useModifyData(fetchData) {
     }
   }
 
+  const handleUpdateOrder = async (e) => {
+    e.preventDefault();
+    setSuccess(null);
+    setError(null);
+    try {
+      await axiosClient.put(`/orderList/${selectedOrder.id}`, formData);
+      setSuccess("Order updated successfully!");
+    } catch (error) {
+      setError("Failed to update order. Please try again.");
+    }
+  }
+
     return {
       user,
       formData,
@@ -91,6 +106,10 @@ export default function useModifyData(fetchData) {
       selectedOrder,
       selectedReservation,
       viewOrder,
-      deleteReservation
+      deleteReservation,
+      setFormData,
+      handleUpdateOrder,
+      error,
+      success
     }
 }

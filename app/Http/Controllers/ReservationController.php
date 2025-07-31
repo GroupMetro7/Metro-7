@@ -50,7 +50,11 @@ public function updateReservationStatus(Request $request, $id){
         $reservation->status = $validated['status'];
     }
     $reservation->save();
-    Mail::to($reservation->user->email)->send(new ConfirmedResrvation($reservation->user, $reservation));
+
+    if($validated['status'] === 'confirmed' && $reservation->user) {
+      Mail::to($reservation->user->email)->send(new ConfirmedResrvation($reservation->user, $reservation));
+    }
+
 
     return response()->json(['message' => 'Status updated', 'reservation' => $reservation]);
 }
@@ -89,10 +93,9 @@ public function updateReservationStatus(Request $request, $id){
         ->whereIn('status', ['pending', 'confirmed'])
         ->sum('party_size');
 
-    $maxCapacity = 50; // Same as in checkAvailability function
+    $maxCapacity = 50;
     $remainingCapacity = $maxCapacity - $reservationCount;
 
-    // Check if the new party size would exceed capacity
     if ($validated['partySize'] > $remainingCapacity) {
         return response()->json([
             'error' => 'Capacity exceeded',
@@ -114,6 +117,8 @@ public function updateReservationStatus(Request $request, $id){
         Mail::to($user->email)->send(new ReservationEmail($user, $validated));
         return response()->json(['message' => 'Reservation created successfully', 'reservation' => $validated], 201);
     }
+
+
 
     public function deleteReservation($id)
     {
@@ -141,13 +146,12 @@ public function updateReservationStatus(Request $request, $id){
     $month = $request->input('month');
     $year = $request->input('year');
 
-    // If checking specific date
     if ($date) {
         $reservationCount = Reservation::whereDate('date', $date)
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->where('status', 'confirmed')
             ->sum('party_size');
 
-        // Assuming max capacity per day is 100 (adjust as needed)
+
         $maxCapacity = 50;
         $isAvailable = $reservationCount < $maxCapacity;
 
@@ -164,13 +168,13 @@ public function updateReservationStatus(Request $request, $id){
         $endDate = Carbon::create($year, $month, 1)->endOfMonth();
 
         $reservations = Reservation::whereBetween('date', [$startDate, $endDate])
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->where('status', 'confirmed')
             ->selectRaw('DATE(date) as reservation_date, SUM(party_size) as total_party_size')
             ->groupBy('reservation_date')
             ->get();
 
         $availability = [];
-        $maxCapacity = 50; // Adjust as needed
+        $maxCapacity = 50;
 
         foreach ($reservations as $reservation) {
             $availability[$reservation->reservation_date] = [

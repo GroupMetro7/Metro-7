@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import "../../Assets/CSS/Pages/Customers/Profile.sass";
 import { Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from "../../Exporter/Component_Exporter";
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth } from "../../Exporter/Hooks_Exporter"
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useOCRReceipt, useUpdateOrders } from "../../Exporter/Hooks_Exporter"
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
+import { GCashQR } from "../../Exporter/Public_Exporter";
 
 export default function ProfilePage() {
 
     // Page title and body class
     const { reservations, preOrders, fetchData } = useFetchUserRes();
-    const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation } = useModifyData(fetchData);
+    const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation, setFormData, handleUpdateOrder, error, success } = useModifyData(fetchData);
     usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
     useBodyAddClass("Profile-Customer-PAGE");
 
 
     const screenwidth = useScreenWidth();
 
-  // this file is subject for optimization
-
+  const handleReceiptUpload = useOCRReceipt({ setFormData })
 
   // Table data
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];
@@ -180,7 +180,9 @@ export default function ProfilePage() {
       </Modal>
       <Modal Modal="OHistory-view-modal">
         {selectedOrder &&
-          <Form Title="VIEW ORDER" FormThreelayers OnSubmit="">
+          <Form Title="VIEW ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
+                                    {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
+                                    success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
             <Group Class="outputfetch" Wrap>
               <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
               <Outputfetch
@@ -249,34 +251,34 @@ export default function ProfilePage() {
               <Outputfetch
                 Title="Down Payment Price"
                 Name="downpayment"
-                Value={selectedOrder.downpayment || 0}
-                OnChange=""
+                Value={(formData?.downpayment || 0).toFixed(2)}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
               <Outputfetch
                 Title="Reference Number"
                 Name="refNumber"
-                Value={selectedOrder.reference_Number || "-"}
-                OnChange=""
+                Value={formData?.refNumber || selectedOrder?.reference_Number}
+                OnChange={handleInputChange}
                 OutCol
                 OutWhite
               />
             </Group>
-            {/* <Group Class={`outputfetch`} Col>
-              <Outputfetch Title={`QR Code`} OutWhite />
-              <Group {...(screenwidth < 767 && { Col: true })}>
-                <img />
-                <Group Col>
-                  <p>
-                    Please settle your pending balance.
-                  </p>
-                  {screenwidth > 766 && (
-                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
-                  )}
-                </Group>
-              </Group>
-            </Group> */}
+                        <Group Class={`qrside`} Col>
+                            <Outputfetch Title={`QR Code`} OutWhite />
+                            <Group>
+                                <img src={ GCashQR } />
+                                <Group Col>
+                                    <p>
+                                        Please pay a 50% DOWNPAYMENT. Orders without a payment
+                                        receipt will remain pending. Failure to pay on time will
+                                        result in cancellation.
+                                    </p>
+                                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
+                                </Group>
+                            </Group>
+                        </Group>
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />
