@@ -24,7 +24,7 @@ class ReservationController extends Controller
       $query->where('id', 'LIKE', "%{$search}%");
     }
 
-    $reservations = $query->orderBy('created_at', 'desc')->paginate(10);
+    $reservations = $query->orderByRaw("FIELD(status, 'pending', 'confirmed', 'completed', 'cancelled')")->orderBy('created_at', 'desc')->paginate(10);
       return response()->json($reservations);
     }
 
@@ -67,9 +67,9 @@ public function updateReservationStatus(Request $request, $id){
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    $reservations = Reservation::where('user_id', $user->id)->with('user')->orderBy('created_at', 'desc')->get();
+    $reservations = Reservation::where('user_id', $user->id)->with('user')->orderBy('created_at', 'desc')->paginate(10);
 
-    $preOrders = Order::with('tickets')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+    $preOrders = Order::with('tickets')->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
 
     return response()->json([
       'reserved' => $reservations,

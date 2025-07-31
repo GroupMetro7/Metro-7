@@ -219,7 +219,6 @@ const removeItemToOrder = (itemId, isFreeItem = null) => {
             await axiosClient.post(ServiceMode ? "/orders" : "/create-order-Customer", payload)
             setSuccess("Order submitted successfully!")
             document.querySelector(".modal")?.scrollTo({ top: 0, behavior: "smooth" })
-            setTimeout(() => window.location.reload(), 2000)
 
             if (AuthenticatedMode) {
                 setFormData({

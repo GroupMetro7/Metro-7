@@ -4,30 +4,16 @@ import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal,
 import useAttendanceStatusAdmin from "../../hooks/admin/employee/attendanceStatus";
 import useModifyEmployee from "../../hooks/admin/employee/modifyEmployee";
 import axiosClient from "../../axiosClient";
+import useFetchEmployees from "../../Hooks/service/fetchData";
 
 export default function EmployeeManagementPage() {
   // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [users, setUsers] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
+    const {users, currentPage, totalPages, handlePageChange, setSearch, search} = useFetchEmployees();
     const { modifyEmployee, formData, handleInputChange, updateEmployee, error, success } = useModifyEmployee();
     const { staff } = useAttendanceStatusAdmin();
 
-    const fetchEmployees = async (page) => {
-      axiosClient.get(`/employees?page=${page}`).then(({data}) => {
-        setUsers(data.data);
-        setCurrentPage(data.current_page);
-        setTotalPages(data.last_page);
-      })
-    }
-
-    useEffect(()=> {
-      fetchEmployees(currentPage);
-    }, [currentPage]);
-
-    //table
     const tbhead = [
         "FIRSTNAME",
         "LASTNAME",
@@ -55,19 +41,13 @@ export default function EmployeeManagementPage() {
     });
 
 
-    // handle page change
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-
 
     return (
         <>
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
+                        <Inputbox Title="Search" Type="search" Value={search} OnChange={(e) => setSearch(e.target.value)} />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Box Title="EMPLOYEES" BoxCol >

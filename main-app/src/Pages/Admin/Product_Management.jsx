@@ -160,11 +160,6 @@ export default function MenuManagementPage() {
               EditBtn
               DeleteBtn
             />
-            {/* <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            /> */}
           </Box>
         </Main>
       </Group>
@@ -224,16 +219,6 @@ export default function MenuManagementPage() {
               SltWhite
               OnChange={handleInputChange}
             />
-            {/* <Inputbox
-              Title="Description"
-              Type="text"
-              Class="textarea"
-              InCol
-              InWhite
-              Name="description"
-              Value={formData.description}
-              OnChange={handleInputChange}
-            /> */}
             <Group Class="ingredients" Col>
               <h4>Ingredients:</h4>
               {selects.map(({ sku, quantity }, idx) => (
@@ -299,10 +284,10 @@ export default function MenuManagementPage() {
               </Group>
             ))}
           <Group Class="imageside">
-            {formData.image_url ?
-              <img src={URL.createObjectURL(formData.image_url)} alt="" />
-              : <div />
-            }
+            <img
+              src={formData.image}
+              alt=""
+            />
             <InsertFileButton
               Title="ADD PICTURE"
               BtnWhite

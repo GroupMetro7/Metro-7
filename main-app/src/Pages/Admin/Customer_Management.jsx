@@ -3,27 +3,16 @@ import '../../Assets/CSS/Pages/Admin/Management.sass'
 import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Selectionbox, Outputfetch } from '../../Exporter/Component_Exporter'
 import useModifyCustomer from '../../hooks/admin/customer_management/modifyCustomer';
 import axiosClient from '../../axiosClient';
+import useFetchCustomers from '../../Hooks/admin/customer_management/fetchCustomers';
 
 export default function CustomerManagementPage() {
     // this file is subject for optimization
     Title("Employee Management");
     Body_addclass("Management-PAGE");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [users, setUsers] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
+    const { users, currentPage, totalPages, handlePageChange, setSearch, search } = useFetchCustomers();
     const { modifyCust, formData, updateCustomer, handleInputChange, error, success} = useModifyCustomer();
 
-    const fetchCustomers = async (page) => {
-      axiosClient.get(`/customers?page=${page}`).then(({data}) => {
-        setUsers(data.data);
-        setCurrentPage(data.current_page);
-        setTotalPages(data.last_page);
-      })
-    }
 
-    useEffect(()=> {
-      fetchCustomers(currentPage);
-    }, [currentPage]);
 
     //table
     const tbhead = [
@@ -44,17 +33,12 @@ export default function CustomerManagementPage() {
         }));
 
 
-    // handle page change
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
     return (
         <>
             <Group>
                 <Main>
                     <Box Class="search">
-                        <Inputbox Title="Search" Type="search" />
+                        <Inputbox Title="Search" Type="search" Value={search} OnChange={(e) => setSearch(e.target.value)} />
                         <Inputbox Title="Filter" Type="text" />
                     </Box>
                     <Box Title="CUSTOMERS" BoxCol>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useStateContext } from "../../../Contexts/ContextProvider";
 import axiosClient from "../../../axiosClient";
 
-export default function useModifyData(fetchData) {
+export default function useModifyData() {
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -77,7 +77,6 @@ export default function useModifyData(fetchData) {
       await axiosClient.delete(`/delete-reservation/${selectedReservation.id}`);
       alert("Reservation deleted successfully!");
       setSelectedReservation(null);
-      fetchData();
     }catch(error){
       alert("Failed to delete reservation. Please try again.");
     }

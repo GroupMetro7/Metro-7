@@ -13,31 +13,6 @@ export default function CustomerManagementPage() {
   const { exportCSV, exportedStocklogs, dateRange, setDateRange } = useExportCSV();
 
   const { logs, handlePageChange, currentPage, totalPages, setSearchItem } = useStockLogs();
-  //table
-  // const tb = {
-  //   head: ["ITEM NAME", "SKU", "ACTION", "QUANTITY", "VALUE", "DATE", "USER", "REMARKS"],
-  //   rows: logs.map((log) => [
-  //     log.item_name || "N/A",
-  //     log.sku_number,
-  //     log.type,
-  //     log.quantity,
-  //     log.type === "out" ? `-₱${(log.value).toFixed(2)}` : `+₱${(log.value).toFixed(2)}`,
-  //     DateTimeFormat(log.created_at),
-  //     log.user_name || "N/A",
-  //     log.remarks || "N/A"
-  //   ])
-  // };
-
-  // const exportAsFile = exportedStocklogs.map((ex) => [
-  //   ex.item_name || "N/A",
-  //   ex.sku_number,
-  //   ex.type,
-  //   ex.quantity,
-  //   ex.value,
-  //   DateTimeFormat(ex.created_at),
-  //   ex.user_name || "N/A",
-  //   ex.remarks || "N/A"
-  // ]);
 
   const activityLogsReport = {
 display: {

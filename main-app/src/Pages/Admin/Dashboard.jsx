@@ -14,20 +14,20 @@ export default function DashboardPage() {
         // For Dashboard Data
         const { SalesReportData, SalesReportOptions } = SalesReport(useFetchDashboardData())
         const { TopCategoryData, TopCategoryOptions } = TopCategory(useFetchDashboardData())
-        const { 
-            dailyOrdersData, 
-            dailyOrdersOptions, 
-            dailyRevenueData, 
-            dailyRevenueOptions 
+        const {
+            dailyOrdersData,
+            dailyOrdersOptions,
+            dailyRevenueData,
+            dailyRevenueOptions
         } = DailyOrdersGraphs(useFetchDashboardData())
 
         // For KPIs
-        const { 
-            monthlyRevenuee, 
-            monthlyStockExpense, 
-            stockValue, 
-            totalOrders, 
-            dailyOrders 
+        const {
+            monthlyRevenuee,
+            monthlyStockExpense,
+            stockValue,
+            totalOrders,
+            dailyOrders
         } = UseKpi()
 
         // For Order List
@@ -41,15 +41,15 @@ export default function DashboardPage() {
             fetchOrder
         } = useFetchOrders()
 
-        const { 
-            formData, 
-            setFormData, 
-            handleUpdateOrder, 
+        const {
+            formData,
+            setFormData,
+            handleUpdateOrder,
             isLoading,
-            error, 
-            success 
+            error,
+            success
         } = useModifyOrderList(selectedOrder, fetchOrder)
-        
+
         // For Handling OCR via GCash
         const handleReceiptUpload = useOCRReceipt({ setFormData })
 
@@ -117,12 +117,12 @@ export default function DashboardPage() {
                 { Title: `Total Price`, Value: `₱${Number(selectedOrder?.amount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
                 { Title: `Discount`, Value: `₱${Number(selectedOrder?.discount || 0).toFixed(2)}`, OutCol: true, OutWhite: true },
                 { Title: `Down Payment Price`, Value: `₱${Number(formData?.downpayment || 0).toFixed(2)}`, Name: `downpayment`, OnChange: handleInputChange, OutCol: true, OutWhite: true },
-                { Title: `Reference Number`, Value: formData?.refNumber, Name: `refNumber`, OnChange: handleInputChange, OutCol: true, OutWhite: true }
+                { Title: `Reference Number`, Value: selectedOrder.reference_Number || formData?.refNumber, Name: `refNumber`, OnChange: handleInputChange, OutCol: true, OutWhite: true }
             ],
             fourth: [
                 { Input: true, Title: `Cash Payment`, Type: `number`, ID: `c-payment-in`, Name: `cashPayment`, Value: formData.cashPayment, OnChange: handleInputChange, InCol: true, InWhite: true },
                 { Input: true, Title: `Online Payment`, Type: `number`, ID: `o-payment-in`, Name: `onlinePayment`, Value: formData.onlinePayment, OnChange: handleInputChange, InCol: true, InWhite: true },
-                { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: formData.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,  
+                { Select: true, Title: `Status`, ID: `status-slt`, Name: `status`, Value: formData.status, OnChange: handleInputChange, SltCol: true, SltWhite: true,
                     Options: [
                         { label: `Pending`, value: `Pending` },
                         { label: `Completed`, value: `Completed` },
@@ -183,7 +183,7 @@ export default function DashboardPage() {
 
             {/* Modal to display tickets for the selected order */}
             <Modal Modal={`edit-modal`} onClose={() => setSelectedOrder(null)}>
-                {selectedOrder && 
+                {selectedOrder &&
                     <Form Title={`EDIT ORDER`} FormThreelayers OnSubmit={handleUpdateOrder}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}

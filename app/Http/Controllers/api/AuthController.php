@@ -18,15 +18,38 @@ use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 class AuthController extends Controller
 {
-  public function index()
+  public function index(Request $request)
     {
       $employees = User::whereIn('role', ['employee', 'admin'])->paginate(10);
+      //search functionality
+      if ($request->has('search')) {
+          $search = $request->search;
+          $employees = User::whereIn('role', ['employee', 'admin'])
+              ->where(function($query) use ($search) {
+                  $query->where('firstname', 'LIKE', "%{$search}%")
+                        ->orWhere('lastname', 'LIKE', "%{$search}%")
+                        ->orWhere('email', 'LIKE', "%{$search}%");
+              })
+              ->paginate(10);
+      }
       return response()->json($employees);
     }
 
     public function index_customer()
     {
       $employees = User::where('role', 'customer')->paginate(10);
+
+      // Search functionality
+      if (request()->has('search')) {
+          $search = request()->search;
+          $employees = User::where('role', 'customer')
+              ->where(function($query) use ($search) {
+                  $query->where('firstname', 'LIKE', "%{$search}%")
+                        ->orWhere('lastname', 'LIKE', "%{$search}%")
+                        ->orWhere('email', 'LIKE', "%{$search}%");
+              })
+              ->paginate(10);
+      }
       return response()->json($employees);
     }
 

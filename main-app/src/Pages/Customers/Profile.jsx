@@ -1,23 +1,64 @@
 import React, { useState } from "react";
 import "../../Assets/CSS/Pages/Customers/Profile.sass";
-import { Main, Section, Box, Button, Table, Outputfetch, Modal, Form, Group, Inputbox, SubmitButton, InsertFileButton } from "../../Exporter/Component_Exporter";
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useOCRReceipt, useUpdateOrders } from "../../Exporter/Hooks_Exporter"
+import {
+  Main,
+  Section,
+  Box,
+  Button,
+  Table,
+  Outputfetch,
+  Modal,
+  Form,
+  Group,
+  Inputbox,
+  SubmitButton,
+  InsertFileButton,
+  Pagination,
+} from "../../Exporter/Component_Exporter";
+import {
+  useStateContext,
+  usePageTitle,
+  useBodyAddClass,
+  useScreenWidth,
+  useOCRReceipt,
+  useUpdateOrders,
+} from "../../Exporter/Hooks_Exporter";
 import useFetchUserRes from "../../hooks/customer/reservation/fetchUserRes";
 import useModifyData from "../../hooks/customer/profile/modifyData";
 import { GCashQR } from "../../Exporter/Public_Exporter";
 
 export default function ProfilePage() {
+  // Page title and body class
+  const {
+    reservations,
+    preOrders,
+    reservationsPagination,
+    preOrdersPagination,
+  } = useFetchUserRes();
 
-    // Page title and body class
-    const { reservations, preOrders, fetchData } = useFetchUserRes();
-    const { user, formData, handleInputChange, isLoading, handleUpdateUser, selectedOrder, editData, selectedReservation, viewOrder, deleteReservation, setFormData, handleUpdateOrder, error, success } = useModifyData(fetchData);
-    usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
-    useBodyAddClass("Profile-Customer-PAGE");
+  const {
+    user,
+    formData,
+    handleInputChange,
+    isLoading,
+    handleUpdateUser,
+    selectedOrder,
+    editData,
+    selectedReservation,
+    viewOrder,
+    deleteReservation,
+    setFormData,
+    handleUpdateOrder,
+    error,
+    success,
+  } = useModifyData();
 
+  usePageTitle(`Metro 7 ${user.firstname ? `| ${user.firstname}` : ""}`);
+  useBodyAddClass("Profile-Customer-PAGE");
 
-    const screenwidth = useScreenWidth();
+  const screenwidth = useScreenWidth();
 
-  const handleReceiptUpload = useOCRReceipt({ setFormData })
+  const handleReceiptUpload = useOCRReceipt({ setFormData });
 
   // Table data
   const tbhead = ["ID", "TABLE TYPE", "DATE", "TIME", "STATUS"];
@@ -94,7 +135,7 @@ export default function ProfilePage() {
     <>
       <Main>
         <Section Title="My Profile" ID="myprofile">
-          {screenwidth > 766 ?
+          {screenwidth > 766 ? (
             <Box Class="profile">
               <article>
                 <h2>
@@ -106,7 +147,7 @@ export default function ProfilePage() {
               </article>
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
             </Box>
-          :
+          ) : (
             <Box Class="profile" BoxWrap>
               <img />
               <Button Title="EDIT PROFILE" OpenModal="editprofile-modal" />
@@ -119,13 +160,18 @@ export default function ProfilePage() {
                 <h4>{user?.loyalty}</h4>
               </article>
             </Box>
-          }
+          )}
           <Box Title="Order History" Class="orderhistory" BoxCol>
             <Table
               Title="OHistory"
               HeadRows={tbheadOrder}
               DataRows={tbrowsOrder}
               ViewBtn
+            />
+                        <Pagination
+              currentPage={preOrdersPagination.currentPage}
+              totalPages={preOrdersPagination.totalPages}
+              onPageChange={preOrdersPagination.handlePageChange}
             />
           </Box>
           <Box Title="Reservations" Class="orderhistory" BoxCol>
@@ -135,12 +181,20 @@ export default function ProfilePage() {
               DataRows={tbrows}
               CancelBtn
             />
+                        <Pagination
+              currentPage={reservationsPagination.currentPage}
+              totalPages={reservationsPagination.totalPages}
+              onPageChange={reservationsPagination.handlePageChange}
+            />
           </Box>
         </Section>
       </Main>
       <Modal Modal="editprofile-modal">
         <Form Title="Edit Profile" FormTwolayers OnSubmit={handleUpdateUser}>
-          <Group Class="inputside" {...(screenwidth > 766 ? { Wrap: true } : { Col: true })} >
+          <Group
+            Class="inputside"
+            {...(screenwidth > 766 ? { Wrap: true } : { Col: true })}
+          >
             {Inputboxes.map((Input, Index) => (
               <Inputbox
                 Key={Index}
@@ -155,7 +209,7 @@ export default function ProfilePage() {
               />
             ))}
           </Group>
-          {screenwidth > 766 ?
+          {screenwidth > 766 ? (
             <Group Class="buttonside">
               <Button Title="CANCEL" CloseModal BtnWhite />
               <SubmitButton
@@ -165,7 +219,7 @@ export default function ProfilePage() {
                 BtnWhite
               />
             </Group>
-          :
+          ) : (
             <Group Class="buttonside" Col>
               <SubmitButton
                 Title={isLoading ? `SUBMITTING...` : `SUBMIT`}
@@ -175,16 +229,29 @@ export default function ProfilePage() {
               />
               <Button Title="CANCEL" CloseModal BtnWhite />
             </Group>
-          }
+          )}
         </Form>
       </Modal>
       <Modal Modal="OHistory-view-modal">
-        {selectedOrder &&
+        {selectedOrder && (
           <Form Title="VIEW ORDER" FormThreelayers OnSubmit={handleUpdateOrder}>
-                                    {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
-                                    success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
+            {(error && (
+              <Group Class={`signalside`}>
+                <p class={`error`}>{error}</p>
+              </Group>
+            )) ||
+              (success && (
+                <Group Class={`signalside`}>
+                  <p class={`success`}>{success}</p>
+                </Group>
+              ))}
             <Group Class="outputfetch" Wrap>
-              <Outputfetch Title="Order No." Value={selectedOrder.order_number} OutCol OutWhite />
+              <Outputfetch
+                Title="Order No."
+                Value={selectedOrder.order_number}
+                OutCol
+                OutWhite
+              />
               <Outputfetch
                 Title="Order Date"
                 Value={`${new Date().getFullYear()}-${(
@@ -224,8 +291,16 @@ export default function ProfilePage() {
                 <div Key={index}>
                   <Outputfetch Value={ticket.product_name} OutWhite />
                   <Outputfetch Value={`x${ticket.quantity}`} OutWhite />
-                  <Outputfetch Value={`₱${Number(ticket.unit_price).toFixed(2)}`} OutWhite />
-                  <Outputfetch Value={`₱${(Number(ticket.quantity) * Number(ticket.unit_price)).toFixed(2)}`} OutWhite />
+                  <Outputfetch
+                    Value={`₱${Number(ticket.unit_price).toFixed(2)}`}
+                    OutWhite
+                  />
+                  <Outputfetch
+                    Value={`₱${(
+                      Number(ticket.quantity) * Number(ticket.unit_price)
+                    ).toFixed(2)}`}
+                    OutWhite
+                  />
                 </div>
               ))}
             </Group>
@@ -265,29 +340,35 @@ export default function ProfilePage() {
                 OutWhite
               />
             </Group>
-                        <Group Class={`qrside`} Col>
-                            <Outputfetch Title={`QR Code`} OutWhite />
-                            <Group>
-                                <img src={ GCashQR } />
-                                <Group Col>
-                                    <p>
-                                        Please pay a 50% DOWNPAYMENT. Orders without a payment
-                                        receipt will remain pending. Failure to pay on time will
-                                        result in cancellation.
-                                    </p>
-                                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
-                                </Group>
-                            </Group>
-                        </Group>
+            <Group Class={`qrside`} Col>
+              <Outputfetch Title={`QR Code`} OutWhite />
+              <Group>
+                <img src={GCashQR} />
+                <Group Col>
+                  <p>
+                    Please pay a 50% DOWNPAYMENT. Orders without a payment
+                    receipt will remain pending. Failure to pay on time will
+                    result in cancellation.
+                  </p>
+                  <InsertFileButton
+                    Title={`UPLOAD GCASH RECEIPT`}
+                    BtnWhite
+                    Accept={`image/*`}
+                    Name={`image`}
+                    OnChange={handleReceiptUpload}
+                  />
+                </Group>
+              </Group>
+            </Group>
             <Group Class="buttonside">
               <Button Title="CLOSE" CloseModal BtnWhite />
               <SubmitButton Title="SAVE" BtnWhite />
             </Group>
           </Form>
-        }
+        )}
       </Modal>
       <Modal Modal="Reservations-edit-modal">
-        {selectedReservation &&
+        {selectedReservation && (
           <Form Title="EDIT RESERVATION" FormThreelayers OnSubmit="">
             <Group
               Class="inputside"
@@ -340,21 +421,32 @@ export default function ProfilePage() {
               />
             </Group>
           </Form>
-        }
+        )}
       </Modal>
       <Modal Modal="Reservations-cancel-modal">
-        {selectedReservation &&
-          <Form Title="CANCEL RESERVATION" FormTwolayers OnSubmit={deleteReservation} >
+        {selectedReservation && (
+          <Form
+            Title="CANCEL RESERVATION"
+            FormTwolayers
+            OnSubmit={deleteReservation}
+          >
             <Group Class="outputfetch" Wrap>
               <Outputfetch
                 Title="Date"
-                Value={new Date(
-                  selectedReservation.date
-                ).toLocaleDateString() + " | " + selectedReservation.time}
+                Value={
+                  new Date(selectedReservation.date).toLocaleDateString() +
+                  " | " +
+                  selectedReservation.time
+                }
                 OutCol
                 OutWhite
               />
-              <Outputfetch Title="Type" Value={selectedReservation.reservation_type} OutCol OutWhite />
+              <Outputfetch
+                Title="Type"
+                Value={selectedReservation.reservation_type}
+                OutCol
+                OutWhite
+              />
             </Group>
             <Group Class="buttonside">
               <Button Title="BACK" CloseModal BtnWhite />
@@ -366,7 +458,7 @@ export default function ProfilePage() {
               />
             </Group>
           </Form>
-        }
+        )}
       </Modal>
     </>
   );

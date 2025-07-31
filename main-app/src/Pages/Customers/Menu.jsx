@@ -37,7 +37,7 @@ export default function MenuPage() {
             error,
             success,
             freeItemsRemaining
-        } = useCreateOrders({ AuthenticatedMode: !!user.id })
+        } = useCreateOrders({ AuthenticatedMode: !!user?.id })
 
         // For Handling OCR via GCash
         const handleReceiptUpload = useOCRReceipt({ setFormData })

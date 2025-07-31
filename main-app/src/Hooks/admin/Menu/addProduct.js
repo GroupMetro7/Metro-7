@@ -160,7 +160,7 @@ const handleAddProduct = async (e) => {
       product_name: product.product_name,
       description: product.description,
       price: product.price,
-      image_url: product.image_url || null,
+      image: product.image_url || null,
       category_id: product.category_id,
       ingredients: product.ingredients || [],
     });
