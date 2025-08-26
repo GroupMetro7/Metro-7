@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axiosClient';
-import '../../../Assets/CSS/forCalendar/calendar_styling.css';
+import '../../../Assets/CSS/Components/calendar_styling.css';
 import { Button } from '../../../Exporter/Component_Exporter';
 
 const ReservationCalendar = ({ selectedDate, onDateSelect, minDate }) => {

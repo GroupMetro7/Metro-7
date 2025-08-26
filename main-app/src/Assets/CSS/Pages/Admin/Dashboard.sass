@@ -11,50 +11,21 @@ body.Dashboard-Admin-PAGE
                 > h1
                     align-self: start !important
 
-                > .upper
+                .kpis
 
-                    > .kpis
-                        width: unset !important
-                        flex: 1 !important
+                    > .kpi
 
-                        > .kpi
+                        &:nth-child(1)
+                            background-color: #461220
 
-                            &:nth-child(1)
-                                background-color: #461220
+                        &:nth-child(2)
+                            background-color: #B53535
 
-                            &:nth-child(2)
-                                background-color: #B53535
+                        &:nth-child(3)
+                            background-color: #761430
 
-                            &:nth-child(3)
-                                background-color: #761430
-
-                            &:nth-child(1), &:nth-child(2), &:nth-child(3)
-                                color: v.$color-white !important
-
-                    > .datetime
-                        max-width: 392px !important
-                        justify-content: center !important
-                        align-items: center !important
-                        text-align: center !important
-                        text-transform: uppercase !important
-
-                        > h3
-                            text-align: center !important
-                
-                > .charts
-
-                    > .salesstatus
-
-                        > canvas
-                            width: 100% !important
-                            height: 100% !important
-
-                    > .topcategory
-                        max-width: 392px !important
-
-                        > canvas
-                            width: 100% !important
-                            height: 100% !important
+                        &:nth-child(1), &:nth-child(2), &:nth-child(3)
+                            color: v.$color-white !important
 
     .modal
 
@@ -73,7 +44,7 @@ body.Dashboard-Admin-PAGE
 
                             > label
                                 flex: 1 !important
-   
+
                     > div#ocr.group.outputfetch
                         width: 628px !important
 
@@ -94,3 +65,152 @@ body.Dashboard-Admin-PAGE
                                     color: v.$color-white !important
                                     text-align: justify !important
                                     text-transform: uppercase !important
+
+@media only screen and (min-width: 1267px) 
+
+    body.Dashboard-Admin-PAGE 
+
+        main
+        
+            > div
+        
+                .salesrevenue
+
+                    > .upper
+
+                        > .kpis
+                            flex: 1 !important
+
+                        > .datetime
+                            max-width: 392px !important
+                            justify-content: center !important
+                            align-items: center !important
+                            text-align: center !important
+                            text-transform: uppercase !important
+
+                            > h3
+                                text-align: center !important
+                    
+                    > .charts
+
+                        > .salesstatus
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+                        > .topcategory
+                            max-width: 392px !important
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+
+
+@media only screen and (min-width: 1024px) and (max-width: 1266px) 
+
+    body.Dashboard-Admin-PAGE 
+
+        main
+        
+            > div
+        
+                .salesrevenue
+
+                    > .upper
+
+                        > .kpis
+                            min-width: 620px !important
+                            flex: 1 !important
+
+                        > .datetime
+                            max-width: 392px !important
+                            justify-content: center !important
+                            align-items: center !important
+                            text-align: center !important
+                            text-transform: uppercase !important
+
+                            > h3
+                                text-align: center !important
+                    
+                    > .charts
+
+                        > .salesstatus
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+                        > .topcategory
+                            max-width: 392px !important
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+@media only screen and (min-width: 767px) and (max-width: 1023px) 
+
+    body.Dashboard-Admin-PAGE 
+
+        main
+        
+            > div
+    
+                .salesrevenue
+
+                    > .datetime
+                        justify-content: center !important
+                        align-items: center !important
+                        text-align: center !important
+                        text-transform: uppercase !important
+
+                    > .kpis
+                        min-width: 620px !important
+                        flex: 1 !important
+
+                    > .charts
+
+                        > .salesstatus
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+                        > .topcategory
+
+                            > canvas
+                                width: 100% !important
+                                height: 100% !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Dashboard-Admin-PAGE 
+
+        main
+        
+            > div
+    
+                .salesrevenue
+
+                    > .datetime
+                        justify-content: center !important
+                        align-items: center !important
+                        text-align: center !important
+                        text-transform: uppercase !important
+
+                    > .kpis
+                        display: grid !important
+                        grid-template-columns: repeat(auto-fit, minmax( 172px, 1fr)) !important
+
+                    > .salesstatus
+
+                        > canvas
+                            width: 100% !important
+                            height: 100% !important
+
+                    > .topcategory
+
+                        > canvas
+                            width: 100% !important
+                            height: 100% !important

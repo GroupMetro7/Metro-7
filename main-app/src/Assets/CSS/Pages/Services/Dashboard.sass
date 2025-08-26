@@ -4,11 +4,9 @@ body.Dashboard-Service-PAGE
 
     main
     
-        > div.row
+        > div
 
             .menu
-                width: unset !important
-                flex-grow: 1 !important
 
                 > h1
                     align-self: flex-start !important
@@ -23,7 +21,7 @@ body.Dashboard-Service-PAGE
 
                     > .filter
                         display: grid !important
-                        grid-template-columns: repeat(auto-fit, minmax( 200px, 1fr)) !important
+                        grid-template-columns: repeat(auto-fit, minmax( 195px, 1fr)) !important
 
                         > label
                             width: unset !important
@@ -110,7 +108,7 @@ body.Dashboard-Service-PAGE
                             > label:nth-child(1)
                                 width: 100% !important
 
-@media only screen and (min-width: 767px) and (max-width: 1023px) 
+@media only screen and (min-width: 1267px) 
 
     body.Dashboard-Service-PAGE
 
@@ -119,5 +117,43 @@ body.Dashboard-Service-PAGE
             > div.row
 
                 .menu
-                    width: 300px !important
+                    width: unset !important
+                    flex-grow: 1 !important
 
+@media only screen and (min-width: 767px) and (max-width: 1266px) 
+
+    body.Dashboard-Service-PAGE
+
+        main
+        
+            > div.row
+
+                .menu
+                    width: unset !important
+                    flex-grow: 1 !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Dashboard-Service-PAGE
+
+        main
+        
+            > div
+
+                .menu
+
+                    > div.title:has( h1 ):has( .right )
+
+                        > .left
+                            width: unset !important
+
+                    > div.group
+
+                        > .opts
+                            width: 100% !important
+                            display: grid !important
+                            grid-template-columns: repeat(auto-fit, minmax( 114.3px, 1fr)) !important
+
+                            > .btnradio
+                                width: unset !important
+                                height: v.$elem-h-size-secondary !important

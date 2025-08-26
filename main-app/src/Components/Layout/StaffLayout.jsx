@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { SideBar, Group, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
+import { Header, SideBar, Group, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
 import { Navigate, Outlet } from 'react-router-dom';
-import axiosClient from '../../axiosClient';
-import { useStateContext } from '../../Contexts/ContextProvider';
-
+import axiosClient from '../../axiosClient'
+import { useStateContext, useScreenWidth } from '../../Exporter/Hooks_Exporter'
 
 export default function StaffLayout() {
-    const { user, setUser, setToken } = useStateContext();
-    const [loading, setLoading] = useState(true);
+    const { user, setUser, setToken } = useStateContext()
+    const [loading, setLoading] = useState(true)
+
+    const screenwidth = useScreenWidth()
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -48,9 +49,20 @@ export default function StaffLayout() {
     }
 
     return (
+        <>
+        { screenwidth > 766 ? 
         <Group>
             <SideBar ServiceMode={user.firstname} Logout={ onLogout }/>
+            <Group>
+                <Outlet />
+            </Group>
+        </Group> 
+        :
+        <>
+            <Header ServiceMode={user.firstname} Logout={onLogout} />
             <Outlet />
-        </Group>
-    );
+        </>
+        }
+        </>
+    )
 }

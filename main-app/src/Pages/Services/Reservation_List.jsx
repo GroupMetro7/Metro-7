@@ -31,27 +31,42 @@ export default function ReservationList() {
     const screenwidth = useScreenWidth()
 
         // Hooks for Tables
-        const TBRes = {
-            head: {
-                resId: `NO.`,
-                name: `CUSTOMER`,
-                reservationsType: `RES. TYPE`,
-                date: `DATE`,
-                time: `TIME`,
-                partySize: `PARTY SIZE`,
-                status: `STATUS`,
-            },
-            rows: reservations.map((res) => ({
-                resId: res.id,
-                name: `${res.user.firstname} ${res.user.lastname}`,
-                reservationsType: res.reservation_type,
-                date: useDateFormat(new Date(res.date)),
-                time: res.time,
-                partySize: res.party_size,
-                status: res.status,
-                edit: () => updateReservation(res),
-            })),
-        }
+        const TBRes = 
+            screenwidth > 766 ? {
+                head: {
+                    resId: `NO.`,
+                    name: `CUSTOMER`,
+                    reservationsType: `RES. TYPE`,
+                    date: `DATE`,
+                    time: `TIME`,
+                    partySize: `PARTY SIZE`,
+                    status: `STATUS`,
+                },
+                rows: reservations.map((res) => ({
+                    resId: res.id,
+                    name: `${res.user.firstname} ${res.user.lastname}`,
+                    reservationsType: res.reservation_type,
+                    date: useDateFormat(new Date(res.date)),
+                    time: res.time,
+                    partySize: res.party_size,
+                    status: res.status,
+                    edit: () => updateReservation(res),
+                })),
+            }
+            :
+            {
+                head: {
+                    resId: `NO.`,
+                    name: `CUSTOMER`,
+                    date: `DATE`,
+                },
+                rows: reservations.map((res) => ({
+                    resId: res.id,
+                    name: `${res.user.firstname} ${res.user.lastname}`,
+                    date: useDateFormat(new Date(res.date)),
+                    edit: () => updateReservation(res),
+                })),
+            }
 
         // Hooks for OutputFetch for Retrieving & Modifying
         const InputOutputfetches = [
@@ -70,20 +85,19 @@ export default function ReservationList() {
 
     return (
         <>
-            <Group>
-                <Main>
-                    <Box Class={`search`}>
-            <Inputbox Title="Search" OnChange={(e)=> setFilter(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
-                    </Box>
-                    <Box Title={`RESERVATION`} BoxCol>
-                        <Table HeadRows={TBRes.head} DataRows={TBRes.rows} EditBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                    </Box>
-                </Main>
-            </Group>
+            <Main>
+                <Box Class={`search`}>
+                    <Inputbox Title="Search" OnChange={(e)=> setFilter(e.target.value)} Type="search" Placeholder="Search for type, value or sku_number"/>
+                </Box>
+                <Box Title={`RESERVATION`} BoxCol>
+                    <Table HeadRows={TBRes.head} DataRows={TBRes.rows} EditBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </Box>
+            </Main>
+
             <Modal Modal={`edit-modal`}>
                 {selectedReservation && (
-                    <Form Title={`Reservation`} FormThreelayers OnSubmit={updateReservationStatus}>
+                    <Form Title={`Reservation`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={updateReservationStatus}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                         <Group Class={`outputfetch`} Wrap>
@@ -108,10 +122,17 @@ export default function ReservationList() {
                                     />
                             )}
                         </Group>
-                        <Group Class={`buttonside`}>
-                            <Button Title={`CLOSE`} CloseModal BtnWhite />
-                            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
-                        </Group>
+                        { screenwidth > 766 ?
+                            <Group Class={`buttonside`}>
+                                <Button Title={`CLOSE`} CloseModal BtnWhite />
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                            </Group>
+                            :
+                            <Group Class={`buttonside`} Col>
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                                <Button Title={`CLOSE`} CloseModal BtnWhite />
+                            </Group>
+                        }
                     </Form>
                 )}
             </Modal>

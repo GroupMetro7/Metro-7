@@ -11,6 +11,22 @@ body.Management-PAGE
                 > label
                     width: 100% !important
 
+            .kpis
+
+                > .kpi
+
+                    &:nth-child(1)
+                        background-color: #461220
+
+                    &:nth-child(3)
+                        background-color: #B53535
+
+                    &:nth-child(4)
+                        background-color: #761430
+
+                    &:nth-child(1), &:nth-child(3), &:nth-child(4)
+                        color: v.$color-white !important
+
     .modal
 
         > .modal-dialog
@@ -49,3 +65,47 @@ body.Management-PAGE
                     //                 color: v.$color-white !important
                     //                 text-align: justify !important
                     //                 text-transform: uppercase !important
+
+// @media only screen and (min-width: 1267px) 
+
+//     body.Management-PAGE 
+
+//         main
+        
+//             > div
+
+//                 .kpis
+
+@media only screen and (min-width: 1024px) and (max-width: 1266px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    min-width: 620px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1023px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    min-width: 620px !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    display: grid !important
+                    grid-template-columns: repeat(auto-fit, minmax( 172px, 1fr)) !important

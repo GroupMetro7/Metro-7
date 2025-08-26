@@ -42,29 +42,44 @@ export default function StaffOrderList() {
     const screenwidth = useScreenWidth()
 
         // Hooks for Tables
-        const TBOrders = {
-            head: {
-                orderId: `NO.`,
-                name: `CUSTOMER`,
-                date: `DATE`,
-                amount: `AMOUNT`,
-                discount: `DISCOUNT`,
-                balance: `BALANCE`,
-                option: `OPTION`,
-                status: `STATUS`
-            },
-            rows: orders.map((order) => ({
-                orderId: order.order_number,
-                name: order.name,
-                date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
-                amount: order.amount,
-                discount: order.discount,
-                balance: order.unpaid_balance <= 0 ? `Paid` : order.unpaid_balance,
-                option: order.option,
-                status: order.status,
-                edit: () => setSelectedOrder(order)
-            })),
-        }
+        const TBOrders =
+            screenwidth > 766 ? {
+                head: {
+                    orderId: `NO.`,
+                    name: `CUSTOMER`,
+                    date: `DATE`,
+                    amount: `AMOUNT`,
+                    discount: `DISCOUNT`,
+                    balance: `BALANCE`,
+                    option: `OPTION`,
+                    status: `STATUS`
+                },
+                rows: orders.map((order) => ({
+                    orderId: order.order_number,
+                    name: order.name,
+                    date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
+                    amount: order.amount,
+                    discount: order.discount,
+                    balance: order.unpaid_balance <= 0 ? `Paid` : order.unpaid_balance,
+                    option: order.option,
+                    status: order.status,
+                    edit: () => setSelectedOrder(order)
+                })),
+            }
+            :
+            {
+                head: {
+                    orderId: `NO.`,
+                    name: `CUSTOMER`,
+                    date: `DATE`,
+                },
+                rows: orders.map((order) => ({
+                    orderId: order.order_number,
+                    name: order.name,
+                    date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
+                    edit: () => setSelectedOrder(order)
+                })),
+            }
 
         // Hooks for OutputFetch for Retrieving & Modifying
         const InputOutputfetches = {
@@ -108,22 +123,20 @@ export default function StaffOrderList() {
 
     return (
         <>
-            <Group>
-                <Main>
-                    <Box Class={`search`}>
-                        <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
-                    </Box>
-                    <Box Title={`ORDER`} ID={`ordertable`} BoxCol>
-                        <Table HeadRows={TBOrders.head} DataRows={TBOrders.rows} EditBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                    </Box>
-                </Main>
-            </Group>
+            <Main>
+                <Box Class={`search`}>
+                    <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
+                </Box>
+                <Box Title={`ORDER`} ID={`ordertable`} BoxCol>
+                    <Table HeadRows={TBOrders.head} DataRows={TBOrders.rows} EditBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </Box>
+            </Main>
 
             {/* Modal to display tickets for the selected order */}
             <Modal Modal={`edit-modal`} onClose={() => setSelectedOrder(null)}>
                 {selectedOrder &&
-                    <Form Title={`EDIT ORDER`} FormThreelayers OnSubmit={handleSubmit}>
+                    <Form Title={`EDIT ORDER`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleSubmit}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                         <Group Class={`outputside`} Wrap>
@@ -162,7 +175,7 @@ export default function StaffOrderList() {
                                 />
                             ))}
                         </Group>
-                        <Group Class={`inputside`}>
+                        <Group Class={`inputside`} Wrap>
                             {InputOutputfetches.fourth.map((Input, Index) =>
                                 Input.Select &&
                                 <Selectionbox
@@ -191,24 +204,33 @@ export default function StaffOrderList() {
                                 />
                             )}
                         </Group>
-                        <Group Class={`qrside`} Col>
+                        <Group Class={`outputside qrside`} Col>
                             <Outputfetch Title={`QR Code`} OutWhite />
-                            <Group>
+                            <Group {...(screenwidth < 767 && { Col: true })}>
                                 <img src={ GCashQR } />
                                 <Group Col>
                                     <p>
-                                        Please pay a 50% DOWNPAYMENT. Orders without a payment
-                                        receipt will remain pending. Failure to pay on time will
-                                        result in cancellation.
+                                        Please pay a 50% DOWNPAYMENT. Orders without a payment receipt will
+                                        remain pending. Failure to pay on time will result in cancellation.
                                     </p>
-                                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
+                                    {screenwidth > 766 && (
+                                        <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                    )}
                                 </Group>
                             </Group>
                         </Group>
-                        <Group Class={`buttonside`}>
-                            <Button Title={`CLOSE`} CloseModal BtnWhite />
-                            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
-                        </Group>
+                        {screenwidth > 766 ?
+                            <Group Class={`buttonside`}>
+                                <Button Title={`CLOSE`} CloseModal BtnWhite />
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                            </Group>
+                            :
+                            <Group Class={`buttonside`} Col>
+                                <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                                <Button Title={`CLOSE`} CloseModal BtnWhite />
+                            </Group>
+                        }
                     </Form>
                 }
             </Modal>

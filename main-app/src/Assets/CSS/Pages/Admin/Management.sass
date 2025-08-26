@@ -11,6 +11,13 @@ body.Management-PAGE
                 > label
                     width: 100% !important
 
+            .salesrevenue
+
+                > .title
+
+                    > .left
+                        display: none !important
+
             .kpis
 
                 > .kpi
@@ -91,7 +98,97 @@ body.Management-PAGE
                                     text-transform: uppercase !important
 
                                 > button
-                                    width: unset !important
+                                    width: 38px !important
 
                                     > img
                                         width: 27px !important
+
+// @media only screen and (min-width: 1267px) 
+
+//     body.Management-PAGE 
+
+//         main
+        
+//             > div
+
+//                 .kpis
+
+@media only screen and (min-width: 1024px) and (max-width: 1266px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    min-width: 620px !important
+
+@media only screen and (min-width: 767px) and (max-width: 1023px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    min-width: 620px !important
+
+        .modal
+
+            > .modal-dialog
+
+                > div.form
+
+                    > form
+
+                        > .inputside
+
+                            > .ingredients
+
+                                > div.group
+                                    justify-content: space-between !important
+                                    align-items: center !important
+
+                                    > h4
+                                        font-size: 15px !important
+                                        color: v.$input-white !important
+                                        font-style: italic !important
+                                        font-weight: 400 !important
+                                        text-transform: capitalize !important
+
+@media only screen and (max-width: 766px) 
+
+    body.Management-PAGE 
+
+        main
+        
+            > div
+
+                .kpis
+                    display: grid !important
+                    grid-template-columns: repeat(auto-fit, minmax( 172px, 1fr)) !important
+
+        .modal
+
+            > .modal-dialog
+
+                > div.form
+
+                    > form
+
+                        > .inputside
+
+                            > .ingredients
+
+                                > div.group
+                                    justify-content: space-between !important
+                                    align-items: center !important
+
+                                    > h4
+                                        font-size: 15px !important
+                                        color: v.$input-white !important
+                                        font-style: italic !important
+                                        font-weight: 400 !important
+                                        text-transform: capitalize !important

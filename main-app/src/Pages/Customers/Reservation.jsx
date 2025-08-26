@@ -44,7 +44,7 @@ export default function ReservationPage() {
     ]
 
     return (
- <Main>
+        <Main>
             <Section Class={`reservation`}>
                 <Form Title={`RESERVATION`} {...(screenwidth > 766 && { FormTwolayers: true })} OnSubmit={handleCreateReservation} >
                     {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||

@@ -1,17 +1,15 @@
 import React from 'react'
-import '../../Assets/CSS/Pages/Admin/Management.sass';
-import { Title, Body_addclass, Group, Main, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../Exporter/Component_Exporter'
-import useFetchData from "../../hooks/admin/inv/fetchData";
-import useAddCategory from "../../hooks/add";
-import useModifyItem from "../../hooks/admin/inv/modifyItem";
-import useFetchOrder from "../../hooks/Universal/fetchProducts";
-import UseKpi from '../../hooks/Universal/Kpi';
-import useExportCSV from '../../hooks/Universal/fileExporter';
+import '../../Assets/CSS/Pages/Admin/Management.sass'
+import { Main, Group, Box, Inputbox, Table, Button, Modal, Form, SubmitButton, Pagination, Outputfetch, Selectionbox, KPI } from '../../Exporter/Component_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useExportCSV, useAddCategory, useFetchOrder, useKpi, useFetchInvData, useModifyItem } from '../../Exporter/Hooks_Exporter'
 
-export default function Test() {
-    // this file is subject for optimization
-    Title("Inventory Management");
-    Body_addclass("Management-PAGE");
+export default function InventoryManagementPage() {
+    // Basic Hooks
+    const { user } = useStateContext()
+    usePageTitle(`Metro 7 | Inventory Management`)
+    useBodyAddClass(`Management-PAGE`)
+
+    const screenwidth = useScreenWidth()
 
     // State variables
     const {
@@ -23,9 +21,9 @@ export default function Test() {
         fetchProducts,
         setFilterStock,
         handlePageChange
-    } = useFetchData();
+    } = useFetchInvData()
 
-    const { stockValue, UnavailableItems, LowStockItems, AvailableItems, getInventoryKPI } = UseKpi()
+    const { stockValue, UnavailableItems, LowStockItems, AvailableItems, getInventoryKPI } = useKpi()
 
     const {
         formData,
@@ -36,50 +34,51 @@ export default function Test() {
         deleteItem,
         addProduct,
         modifyProduct
-    } = useModifyItem(fetchProducts, getInventoryKPI);
+    } = useModifyItem(fetchProducts, getInventoryKPI)
 
     const {
         editCategory,
-    } = useAddCategory(fetchCategories);
+    } = useAddCategory(fetchCategories)
 
+    const { categories } = useFetchOrder()
 
-
-
-    const { categories } = useFetchOrder();
-
-    const { exportedInventory, exportCSV } = useExportCSV();
-
+    const { exportedInventory, exportCSV } = useExportCSV()
 
     const getCategoryName = (id) => {
-        const cat = categories.find((c) => c.id === id);
-        return cat ? cat.name : "Unknown";
-    };
+        const cat = categories.find((c) => c.id === id)
+        return cat ? cat.name : "Unknown"
+    }
 
     // Handle form input changes dynamically
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
+    }
 
     // Table headers and rows
     const tbinventorylist = {
         display: {
-            head: [ "SKU NO.", "ITEM NAME", "SOLD BY", "CATEGORY", "STOCK", "UNIT COST", "STOCK VALUE", "STATUS" ],
+            head: {
+                sku_no: "NO.", 
+                name: "NAME", 
+                category: "CATEGORY", 
+                stock: "STOCK", 
+                unitcost: "UNIT COST", 
+                stockvalue: "STOCK VALUE", 
+                status: "STATUS",
+                soldby: "SOLD BY", 
+            },
             rows: products.map((product) => ({
-                SKU: product.SKU_NUMBER,
-                COMPOSITE_NAME: product.COMPOSITE_NAME,
-                SOLDBY: product.SOLD_BY,
-                CATEGORY: getCategoryName(product.category_id),
-                STOCK: product.STOCK.toFixed(2),
-                COSTPERUNIT: product.COST_PER_UNIT.toFixed(2),
-                STOCKVALUE: product.STOCK_VALUE.toFixed(2),
-                STATUS: product.STATUS,
-                // lastUpdated: new Date(product.updated_at).toLocaleString(),
+                sku_no: product.SKU_NUMBER,
+                name: product.COMPOSITE_NAME,
+                category: getCategoryName(product.category_id),
+                stock: product.STOCK.toFixed(2),
+                unitcost: product.COST_PER_UNIT.toFixed(2),
+                stockvalue: product.STOCK_VALUE.toFixed(2),
+                status: product.STATUS,
+                soldby: product.SOLD_BY,
                 edit: () => editProduct(product),
-                delete: () =>
-                    deleteItem(product.id),
+                delete: () => deleteItem(product.id),
             }))
         },
         export: {
@@ -104,30 +103,29 @@ export default function Test() {
 
     return (
         <>
-            <Group>
-                <Main>
-                    <Box Class="search">
-                        <Inputbox Title="Search" OnChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for Item or Filter status" />
-                        <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
-                    </Box>
+            <Main>
+                <Box Class="search">
+                    <Inputbox Title="Search" OnChange={(e) => setSearchItem(e.target.value)} Type="search" Placeholder="Search for Item or Filter status" />
+                    <Selectionbox Title="Filter"  Type="text" OnChange={(e) => setFilterStock(e.target.value)} Options={[{label: 'Lowest', value: 'asc'}, {label: 'Highest', value: 'desc'}]}  />
+                </Box>
                 <Group Class="kpis">
                     {kpis.map((kpi, index) => (
                         <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
                     ))}
                 </Group>
-                    <Box Title="INVENTORY" UpperRight={
-                        <>
-                            <Button Title="+" OpenModal="add-modal" />
-                            <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
-                        </>
-                    } BoxCol >
-                        <Table HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                    </Box>
-                </Main>
-            </Group>
+                <Box Title="INVENTORY" UpperRight={
+                    <>
+                        <Button Title="+" OpenModal="add-modal" />
+                        <Button Title="EXPORT AS FILE" Onclick={() => exportCSV(tbinventorylist.export.head, tbinventorylist.export.rows, "inventory.csv")} />
+                    </>
+                } BoxCol >
+                    <Table HeadRows={tbinventorylist.display.head} DataRows={tbinventorylist.display.rows} EditBtn DeleteBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </Box>
+            </Main>
+
             <Modal Modal="add-modal">
-                <Form Title="ADD ITEM" FormThreelayers OnSubmit={addProduct}>
+                <Form Title="ADD ITEM" {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={addProduct}>
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
@@ -143,14 +141,21 @@ export default function Test() {
                         <Outputfetch Title="Unit cost" Type="number" Name="COST_PER_UNIT" Value={formData.STOCK_VALUE / formData.STOCK || "0.00"} OutCol OutWhite />
                         <Inputbox Title="Stock Value" Type="number" Name="STOCK_VALUE" Value={formData.STOCK_VALUE} InCol InWhite OnChange={handleInputChange} />
                     </Group>
-                    <Group Class="buttonside">
-                        <Button Title="CANCEL" CloseModal BtnWhite />
-                        <SubmitButton Title="SUBMIT" BtnWhite />
-                    </Group>
+                    {screenwidth > 766 ?
+                        <Group Class={`buttonside`}>
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                            <SubmitButton Title={`SUBMIT`} ID={`submit-btn`} BtnWhite />
+                        </Group>
+                        :
+                        <Group Class={`buttonside`} Col>
+                            <SubmitButton Title={`SUBMIT`} ID={`submit-btn`} BtnWhite />
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        </Group>
+                    }
                 </Form>
             </Modal>
             <Modal Modal="edit-modal">
-                <Form Title="EDIT ITEM" FormThreelayers OnSubmit={modifyProduct}>
+                <Form Title="EDIT ITEM" {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={modifyProduct}>
                     { error && <Group Class="signalside"><p class="error">{ error }</p></Group> ||
                     success && <Group Class="signalside"><p class="success">{ success }</p></Group> }
                     <Group Class="inputside" Wrap>
@@ -166,13 +171,19 @@ export default function Test() {
                         <Inputbox Title="Unit Cost" Type="number" Name="COST_PER_UNIT" Value={formData.COST_PER_UNIT} InCol InWhite OnChange={handleInputChange} />
                         <Inputbox Title="Remarks" Type="text" Name="remarks" Value={formData.remarks} InCol InWhite OnChange={handleInputChange} />
                     </Group>
-                    <Group Class="buttonside">
-                        <Button Title="CANCEL" CloseModal BtnWhite />
-                        <SubmitButton Title="SUBMIT" BtnWhite />
-                    </Group>
+                    {screenwidth > 766 ?
+                        <Group Class={`buttonside`}>
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                            <SubmitButton Title={`SUBMIT`} ID={`submit-btn`} BtnWhite />
+                        </Group>
+                        :
+                        <Group Class={`buttonside`} Col>
+                            <SubmitButton Title={`SUBMIT`} ID={`submit-btn`} BtnWhite />
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        </Group>
+                    }
                 </Form>
             </Modal>
-
         </>
-    );
+    )
 }

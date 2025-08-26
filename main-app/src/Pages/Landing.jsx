@@ -51,7 +51,7 @@ export default function LandingPage() {
                             <Group Class={`details`} Col>
                                 <h4>Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila</h4>
                                 <h4>+63 9952332528</h4>
-                                <h4>businessemail@email.com</h4>
+                                {/* <h4>businessemail@email.com</h4> */}
                             </Group>
                             <Group Class={`map`}>
                                 <GMap Link={`https://tinyurl.com/m7-gmap-001`} />
@@ -68,7 +68,7 @@ export default function LandingPage() {
                             <Group Class={`details`} Col>
                                 <h3>Metrowalk Commercial Complex Meralco Ave., Pasig, Metro Manila</h3>
                                 <h3>+63 9952332528</h3>
-                                <h3>businessemail@email.com</h3>
+                                {/* <h3>businessemail@email.com</h3> */}
                             </Group>
                         </Group>
                     </>

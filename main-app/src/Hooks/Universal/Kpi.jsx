@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
 
-export default function UseKpi() {
+export default function useKpi() {
   const [monthlyRevenuee, setMonthlyRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [stockValue, setStockValue] = useState(0);

@@ -78,10 +78,28 @@ header
 
             > nav
                 flex-direction: column !important
+                overflow: auto !important
+                scrollbar-width: none !important
+                gap: v.$elem-sa-size-m !important
+                padding-block: v.$elem-sa-size-m !important
 
                 > a
+                    position: relative !important
                     font-weight: 700 !important
                     text-transform: uppercase !important
                     text-decoration: none !important
-                    padding: v.$elem-sa-size-s v.$elem-sa-size-xl !important
+                    padding: 0 v.$elem-sa-size-xl !important
+
+                    &:has( div > img )
+                        gap: v.$elem-sa-size-s !important
+                        align-items: center !important
+
+                        > div
+                            position: relative !important
+                            background-color: v.$color-secondary !important
+                            padding: 10px !important
+                            border-radius: 100% !important
+
+                            > img 
+                                width: 20px !important
 

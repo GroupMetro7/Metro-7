@@ -20,9 +20,8 @@ import SalesPage from './Pages/Admin/Sales'
 import StaffOrderList from './Pages/Services/Order_List'
 import InventoryManagementPage from './Pages/Admin/Inventory_Management'
 import MenuPage from './Pages/Customers/Menu'
-import Test from './Pages/Admin/test'
 import NotFound from './Pages/404not_found'
-import OrderHistoryPage from './Pages/Admin/Order_History'
+import OrderHistoryPage from './Pages/Services/Order_History'
 import ActivityLogsPage from './Pages/Admin/Activity_Logs'
 import DemandForecastPage from './Pages/Admin/Demand_Forecast'
 import ReservationListPage from './Pages/Services/Reservation_List'
@@ -33,13 +32,6 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <NotFound />
-  },
-
-  //tesing
-
-  {
-    path: 'test',
-    element: <Test />
   },
 
 	//Customers routing

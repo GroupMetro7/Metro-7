@@ -104,7 +104,7 @@ export default function StaffDashboard() {
 
     return (
         <>
-            <Group>
+            { screenwidth > 766 ? 
                 <Main Row>
                     <Section Title={`MENU ORDER`} ID={`menuorder`} Class={`menu`}>
                         <Group Col>
@@ -162,9 +162,41 @@ export default function StaffDashboard() {
                         )}
                     </Box>
                 </Main>
-            </Group>
+                :
+                <Main>
+                    <Section Title={`MENU ORDER`} ID={`menuorder`} Class={`menu`} UpperRight={
+                        <Button Title={checkedorders != 0 ? `CHECKOUT (₱${Number(totalPrice)?.toFixed(2)})` : `CHECKOUT` } ID={`checkout-btn`} OpenModal={`first-checkout-modal`} Disabled={!diningOpt} BtnWhite />
+                        }>
+                        <Group Col>
+                            <Group Class={`opts`}>
+                                <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} BtnWhite />
+                                <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} BtnWhite />
+                            </Group>
+                            <Box Class={`search`}>
+                                <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />
+                            </Box>
+                            <Group Class={`filter`}>
+                                {categories.map((cat) => (
+                                    <Radio
+                                        key={cat.id}
+                                        Title={cat.name}
+                                        Value={cat.id}
+                                        RadioName={`Category`}
+                                        Checked={selectedCategory === cat.id}
+                                        OnChange={() => setSelectedCategory(cat.id)}
+                                        BtnWhite
+                                    />
+                                ))}
+                            </Group>
+                            <Group Class={`items`} Wrap>
+                                <ItemMenu List={menulistdata} ServiceMode={user.id} AddItem={addItemToOrder} RemoveItem={removeItemToOrder} />
+                            </Group>
+                        </Group>
+                    </Section>
+                </Main>
+            }
             <Modal Modal={`first-checkout-modal`}>
-                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={handleSubmit}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleSubmit}>
                     <Group Class={`inputside`} Wrap>
                         {InputOutputfetches.Firstform.first.map((Input, Index) => (
                             <Inputbox
@@ -189,14 +221,21 @@ export default function StaffDashboard() {
                             />
                         ))}
                     </Group>
-                    <Group Class={`buttonside`}>
-                        <Button Title={`CANCEL`} CloseModal BtnWhite />
-                        <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`second-checkout-modal`} BtnWhite />
-                    </Group>
+                    { screenwidth > 766 ?
+                        <Group Class={`buttonside`}>
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                            <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`second-checkout-modal`} BtnWhite />
+                        </Group>
+                        :
+                        <Group Class={`buttonside`} Col>
+                            <Button Title={`CHECKOUT`} ID={`checkout-btn`} OpenModal={`second-checkout-modal`} BtnWhite />
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        </Group>
+                    }
                 </Form>
             </Modal>
             <Modal Modal={`second-checkout-modal`}>
-                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : { FormTwolayers: true })} OnSubmit={handleSubmit}>
+                <Form Title={`CHECKOUT`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleSubmit}>
                     {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                     success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                     <Group Class={`outputside`} Wrap>
@@ -236,10 +275,17 @@ export default function StaffDashboard() {
                             );
                         })}
                     </Group>
-                    <Group Class={`buttonside`}>
-                        <Button Title={`CANCEL`} CloseModal BtnWhite />
-                        <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
-                    </Group>
+                    { screenwidth > 766 ?
+                        <Group Class={`buttonside`}>
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                            <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                        </Group>
+                        :
+                        <Group Class={`buttonside`} Col>
+                            <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                            <Button Title={`CANCEL`} CloseModal BtnWhite />
+                        </Group>
+                    }
                 </Form>
             </Modal>
         </>

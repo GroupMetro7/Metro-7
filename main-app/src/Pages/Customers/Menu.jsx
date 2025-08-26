@@ -159,8 +159,8 @@ export default function MenuPage() {
                             }>
                             <Group Col>
                                 <Group Class={`opts`}>
-                                    <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} />
-                                    <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} />
+                                    <Radio Title={`DINE-IN`} ID={`dine-in-opts`} RadioName={`Options`} Value={`DINE-IN`} Checked={diningOpt === `DINE-IN`} OnChange={(e) => setDiningOpt(e.target.value)} BtnWhite />
+                                    <Radio Title={`TAKE-OUT`} ID={`take-out-opts`} RadioName={`Options`} Value={`TAKE-OUT`} Checked={diningOpt === `TAKE-OUT`} OnChange={(e) => setDiningOpt(e.target.value)} BtnWhite />
                                 </Group>
                                 <Box Class={`search`}>
                                     <Inputbox Title={`Search`} Type={`search`} ID={`search-in`} OnChange={(e) => setSearchItem(e.target.value)} />

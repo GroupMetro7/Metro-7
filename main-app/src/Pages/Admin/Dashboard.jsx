@@ -1,13 +1,13 @@
 import React from 'react'
 import '../../Assets/CSS/Pages/Admin/Dashboard.sass'
 import { Main, Group, Section, Box, Table, Modal, Form, Outputfetch, Button, SubmitButton, Pagination, Selectionbox, InsertFileButton, Inputbox, Graph, KPI } from '../../Exporter/Component_Exporter'
-import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt, TopCategory, SalesReport, useFetchOrders, UseKpi, useModifyOrderList, useFetchDashboardData, DailyOrdersGraphs } from '../../Exporter/Hooks_Exporter'
+import { useStateContext, usePageTitle, useBodyAddClass, useScreenWidth, useClockText, useDateFormat, useTimeFormat, useOCRReceipt, TopCategory, SalesReport, useFetchOrders, useKpi, useModifyOrderList, useFetchDashboardData, DailyOrdersGraphs } from '../../Exporter/Hooks_Exporter'
 
 export default function DashboardPage() {
     // Basic Hooks
     const { user } = useStateContext()
-    usePageTitle("Metro 7 | Admin Dashboard")
-    useBodyAddClass("Dashboard-Admin-PAGE")
+    usePageTitle(`Metro 7 | Admin Dashboard`)
+    useBodyAddClass(`Dashboard-Admin-PAGE`)
 
     // Fetching Hooks
 
@@ -28,7 +28,7 @@ export default function DashboardPage() {
             stockValue,
             totalOrders,
             dailyOrders
-        } = UseKpi()
+        } = useKpi()
 
         // For Order List
         const {
@@ -67,29 +67,44 @@ export default function DashboardPage() {
     const {time, date} = useClockText()
 
         // Hooks for Tables
-        const TBRecOrders = {
-            head: {
-                orderId: `NO.`,
-                name: `CUSTOMER`,
-                date: `DATE`,
-                amount: `AMOUNT`,
-                discount: `DISCOUNT`,
-                balance: `BALANCE`,
-                option: `OPTION`,
-                status: `STATUS`
-            },
-            rows: orders.map((order) => ({
-                orderId: order.order_number,
-                name: order.name,
-                date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
-                amount: order.amount,
-                discount: order.discount,
-                balance: order.unpaid_balance <= 0 ? `Paid` : order.unpaid_balance,
-                option: order.option,
-                status: order.status,
-                edit: () => {setSelectedOrder(order)}
-            })),
-        }
+        const TBRecOrders = 
+            screenwidth > 766 ? {
+                head: {
+                    orderId: `NO.`,
+                    name: `CUSTOMER`,
+                    date: `DATE`,
+                    amount: `AMOUNT`,
+                    discount: `DISCOUNT`,
+                    balance: `BALANCE`,
+                    option: `OPTION`,
+                    status: `STATUS`
+                },
+                rows: orders.map((order) => ({
+                    orderId: order.order_number,
+                    name: order.name,
+                    date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
+                    amount: order.amount,
+                    discount: order.discount,
+                    balance: order.unpaid_balance <= 0 ? `Paid` : order.unpaid_balance,
+                    option: order.option,
+                    status: order.status,
+                    edit: () => setSelectedOrder(order)
+                })),
+            }
+            :
+            {
+                head: {
+                    orderId: `NO.`,
+                    name: `CUSTOMER`,
+                    date: `DATE`,
+                },
+                rows: orders.map((order) => ({
+                    orderId: order.order_number,
+                    name: order.name,
+                    date: `${useDateFormat(new Date(order.created_at))} ${useTimeFormat(new Date(order.created_at))}`,
+                    edit: () => setSelectedOrder(order)
+                })),
+            }
 
         // Hooks for OutputFetch for Retrieving & Modifying
         const InputOutputfetches = {
@@ -132,59 +147,117 @@ export default function DashboardPage() {
         }
 
         const kpis = [
-            { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)}/Month` },
-            { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)}/Month` },
+            { Title: `TOTAL REVENUE`, Integer: `₱${Number(monthlyRevenuee || 0).toFixed(2)} / Month` },
+            { Title: `STOCK EXPENSES`, Integer: `₱${Number(monthlyStockExpense || 0).toFixed(2)} / Month` },
             { Title: `STOCK VALUE`, Integer: `₱${Number(stockValue || 0).toFixed(2)}` },
             { Title: `TOTAL SOLD`, Integer: `${totalOrders}` }
         ]
 
     return (
         <>
-            <Group>
-                <Main>
-                    <Section Title={`Sales Revenue`} Class={`salesrevenue`}>
-                        <Group Class={`upper`}>
-                            <Group Class={`kpis`}>
-                                {kpis.map((kpi, index) => (
-                                    <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
-                                ))}
-                            </Group>
-                            <Box Class={`datetime`}>
-                                <h3>
-                                    {date}
-                                    <br />
-                                    {time}
-                                </h3>
-                            </Box>
+        { screenwidth > 1023 ? 
+            <Main>
+                <Section Title={`Sales Revenue`} Class={`salesrevenue`}>
+                    <Group Class={`upper`}>
+                        <Group Class={`kpis`}>
+                            {kpis.map((kpi, index) => (
+                                <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                            ))}
                         </Group>
-                        <Group Class={`charts`}>
-                            <Box Title={`Sales Status`} Class={`salesstatus`} BoxCol>
-                                <Graph BarGraph Data={SalesReportData} Options={SalesReportOptions} />
-                            </Box>
-                            <Box Title={`Most Sold Products`} Class={`topcategory`} BoxCol>
-                                <Graph PieGraph Data={TopCategoryData} Options={TopCategoryOptions} />
-                            </Box>
-                        </Group>
-                        <Group Class={`charts`}>
-                            <Box Title={`Daily Revenue`} Class={`salesstatus`} BoxCol>
-                                <Graph BarGraph Data={dailyRevenueData} Options={dailyRevenueOptions} />
-                            </Box>
-                            <Box Title={`Daily Order`} Class={`salesstatus`} BoxCol>
-                                <Graph BarGraph Data={dailyOrdersData} Options={dailyOrdersOptions} />
-                            </Box>
-                        </Group>
-                    </Section>
-                    <Box Title={`RECENT ORDER`} BoxCol>
-                        <Table HeadRows={TBRecOrders.head} DataRows={TBRecOrders.rows} EditBtn />
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
+                        <Box Class={`datetime`}>
+                            <h3>{date} <br /> {time}</h3>
+                        </Box>
+                    </Group>
+                    <Group Class={`charts`}>
+                        <Box Title={`Sales Status`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={SalesReportData} Options={SalesReportOptions} />
+                        </Box>
+                        <Box Title={`Most Sold Products`} Class={`topcategory`} BoxCol>
+                            <Graph PieGraph Data={TopCategoryData} Options={TopCategoryOptions} />
+                        </Box>
+                    </Group>
+                    <Group Class={`charts`}>
+                        <Box Title={`Daily Revenue`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={dailyRevenueData} Options={dailyRevenueOptions} />
+                        </Box>
+                        <Box Title={`Daily Order`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={dailyOrdersData} Options={dailyOrdersOptions} />
+                        </Box>
+                    </Group>
+                </Section>
+                <Box Title={`RECENT ORDER`} BoxCol>
+                    <Table HeadRows={TBRecOrders.head} DataRows={TBRecOrders.rows} EditBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
+                </Box>
+            </Main>
+            :
+            screenwidth > 766 ?
+            <Main>
+                <Section Title={`Sales Revenue`} Class={`salesrevenue`}>
+                    <Box Class={`datetime`}>
+                        <h3>{date} <br /> {time}</h3>
                     </Box>
-                </Main>
-            </Group>
-
+                    <Group Class={`kpis`}>
+                        {kpis.map((kpi, index) => (
+                            <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                        ))}
+                    </Group>
+                    <Group Class={`charts`}>
+                        <Box Title={`Sales Status`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={SalesReportData} Options={SalesReportOptions} />
+                        </Box>
+                        <Box Title={`Most Sold Products`} Class={`topcategory`} BoxCol>
+                            <Graph PieGraph Data={TopCategoryData} Options={TopCategoryOptions} />
+                        </Box>
+                    </Group>
+                    <Group Class={`charts`}>
+                        <Box Title={`Daily Revenue`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={dailyRevenueData} Options={dailyRevenueOptions} />
+                        </Box>
+                        <Box Title={`Daily Order`} Class={`salesstatus`} BoxCol>
+                            <Graph BarGraph Data={dailyOrdersData} Options={dailyOrdersOptions} />
+                        </Box>
+                    </Group>
+                </Section>
+                <Box Title={`RECENT ORDER`} BoxCol>
+                    <Table HeadRows={TBRecOrders.head} DataRows={TBRecOrders.rows} EditBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
+                </Box>
+            </Main>
+            :
+            <Main>
+                <Section Title={`Sales Revenue`} Class={`salesrevenue`}>
+                    <Box Class={`datetime`}>
+                        <h3>{date} <br /> {time}</h3>
+                    </Box>
+                    <Group Class={`kpis`}>
+                        {kpis.map((kpi, index) => (
+                            <KPI key={index} Title={kpi.Title} Integer={kpi.Integer} />
+                        ))}
+                    </Group>
+                    <Box Title={`Sales Status`} Class={`salesstatus`} BoxCol>
+                        <Graph BarGraph Data={SalesReportData} Options={SalesReportOptions} />
+                    </Box>
+                    <Box Title={`Most Sold Products`} Class={`topcategory`} BoxCol>
+                        <Graph PieGraph Data={TopCategoryData} Options={TopCategoryOptions} />
+                    </Box>
+                    <Box Title={`Daily Revenue`} Class={`salesstatus`} BoxCol>
+                        <Graph BarGraph Data={dailyRevenueData} Options={dailyRevenueOptions} />
+                    </Box>
+                    <Box Title={`Daily Order`} Class={`salesstatus`} BoxCol>
+                        <Graph BarGraph Data={dailyOrdersData} Options={dailyOrdersOptions} />
+                    </Box>
+                </Section>
+                <Box Title={`RECENT ORDER`} BoxCol>
+                    <Table HeadRows={TBRecOrders.head} DataRows={TBRecOrders.rows} EditBtn />
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </Box>
+            </Main>
+        }
             {/* Modal to display tickets for the selected order */}
             <Modal Modal={`edit-modal`} onClose={() => setSelectedOrder(null)}>
                 {selectedOrder &&
-                    <Form Title={`EDIT ORDER`} FormThreelayers OnSubmit={handleUpdateOrder}>
+                    <Form Title={`EDIT ORDER`} {...(screenwidth > 1023 ? { FormThreelayers: true } : screenwidth > 766 ? { FormTwolayers: true } : { Col: true })} OnSubmit={handleUpdateOrder}>
                         {error && <Group Class={`signalside`}><p class={`error`}>{error}</p></Group> ||
                         success && <Group Class={`signalside`}><p class={`success`}>{success}</p></Group>}
                         <Group Class={`outputside`} Wrap>
@@ -262,14 +335,24 @@ export default function DashboardPage() {
                                         receipt will remain pending. Failure to pay on time will
                                         result in cancellation.
                                     </p>
-                                    <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload} />
+                                    {screenwidth > 766 && (
+                                        <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                    )}
                                 </Group>
                             </Group>
                         </Group>
-                        <Group Class={`buttonside`}>
-                            <Button Title={`CLOSE`} CloseModal BtnWhite />
-                            <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
-                        </Group>
+                        { screenwidth > 766 ?
+                            <Group Class={`buttonside`}>
+                                <Button Title={`CANCEL`} CloseModal BtnWhite />
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `CHECKOUT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                            </Group>
+                            :
+                            <Group Class={`buttonside`} Col>
+                                <InsertFileButton Title={`UPLOAD GCASH RECEIPT`} BtnWhite Accept={`image/*`} Name={`image`} OnChange={handleReceiptUpload}/>
+                                <SubmitButton Title={isLoading ? `SUBMITTING...` : `SUBMIT`} ID={`submit-btn`} Disabled={isLoading} BtnWhite />
+                                <Button Title={`CLOSE`} CloseModal BtnWhite />
+                            </Group>
+                        }
                     </Form>
                 }
             </Modal>

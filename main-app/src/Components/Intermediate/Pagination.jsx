@@ -1,8 +1,11 @@
 import React from 'react'
 import '../../Assets/CSS/Components/Pagination.sass'
 import { Button } from '../../Exporter/Component_Exporter'
+import { useScreenWidth } from '../../Exporter/Hooks_Exporter'
 
 export default function Pagination ({ currentPage, totalPages, onPageChange }) {
+    const screenwidth = useScreenWidth()
+
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             onPageChange(page);
@@ -11,7 +14,7 @@ export default function Pagination ({ currentPage, totalPages, onPageChange }) {
 
     const renderPageNumbers = () => {
         const pages = [];
-        const maxVisiblePages = 5;
+        const maxVisiblePages = screenwidth > 766 ? 5 : 3
 
         if (totalPages <= maxVisiblePages) {
             // Show all pages if total is 5 or less
@@ -33,7 +36,7 @@ export default function Pagination ({ currentPage, totalPages, onPageChange }) {
             // Adjust if we're near the beginning
             if (currentPage <= 3) {
                 startPage = 1;
-                endPage = 5;
+                endPage = screenwidth > 766 ? 5 : 3
             }
 
             // Adjust if we're near the end

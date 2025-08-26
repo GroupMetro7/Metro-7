@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet } from "react-router-dom";
-import { Group, SideBar, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
-import { useStateContext } from '../../Contexts/ContextProvider';
-import axiosClient from '../../axiosClient';
+import React, { useEffect, useState } from 'react'
+import { Header, SideBar, Group, Main, LoadingScreen } from '../../Exporter/Component_Exporter'
+import { Navigate, Outlet } from 'react-router-dom';
+import axiosClient from '../../axiosClient'
+import { useStateContext, useScreenWidth } from '../../Exporter/Hooks_Exporter'
 
 export default function AdminLayout() {
-    const { user, setUser, setToken } = useStateContext();
-    const [loading, setLoading] = useState(true);
+    const { user, setUser, setToken } = useStateContext()
+    const [loading, setLoading] = useState(true)
+
+    const screenwidth = useScreenWidth()
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -47,9 +49,20 @@ export default function AdminLayout() {
     };
 
     return (
-        <Group>
-            <SideBar AdminMode={user.firstname} Logout={onLogout}/>
-            <Outlet />
-        </Group>
+        <>
+        { screenwidth > 766 ?
+            <Group>
+                <SideBar AdminMode={user.firstname} Logout={onLogout}/>
+                <Group>
+                    <Outlet />
+                </Group>
+            </Group>
+            :
+            <>
+                <Header AdminMode={user.firstname} Logout={onLogout} />
+                <Outlet />
+            </>
+        }
+        </>
     );
 }

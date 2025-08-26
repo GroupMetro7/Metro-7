@@ -37,7 +37,7 @@ export default function ItemMenu({ Class, List, AuthenticatedMode, ServiceMode, 
                                             ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-rm-btn`}
                                             Onclick={() => RemoveItem(Menu.id)}
                                         />
-                                        <h3>x{currentQuantity}</h3>
+                                        <h3>x{Menu.quantity}</h3>
                                         <Button
                                             Title={`>`}
                                             ID={`${Menu.product_name.toLowerCase().replace(/\s+/g, `-`)}-add-btn`}
